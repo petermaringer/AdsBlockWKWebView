@@ -1053,7 +1053,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   
   private func askRestore() {
     let alert = UIAlertController(title: "Alert", message: "Restore last session?\n\nThe last session contains \(restoreIndexLast+1) pages.", preferredStyle: .alert)
-    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
+    alert.addAction(UIAlertAction(title: "OK1", style: .default, handler: { (action: UIAlertAction!) in
       self.showAlert(message: "Ok logic here")
     }))
     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
