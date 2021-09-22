@@ -37,6 +37,54 @@ extension UIColor {
 }
 
 
+class WebServer {
+  static let instance = WebServer()
+  let server = GCDWebServer()
+  var base: String {
+    return "http://localhost:\(self.server.port)"
+  }
+  func start() throws {
+    guard !self.server.isRunning else {
+      return
+    }
+    try self.server.start(
+      options: [GCDWebServerOption_Port: 6571, GCDWebServerOption_BindToLocalhost: true, GCDWebServerOption_AutomaticallySuspendInBackground: true]
+    )
+  }
+  // Convenience method to register a dynamic handler. Will be mounted at $base/$module/$resource
+  func registerHandlerForMethod(_ method: String, module: String, resource: String, handler: @escaping (_ request: GCDWebServerRequest?) -> GCDWebServerResponse?) {
+    // Prevent serving content if the requested host isn't a whitelisted local host.
+    let wrappedHandler = {(request: GCDWebServerRequest?) -> GCDWebServerResponse? in
+      guard let request = request, request.url.isLocal else {
+        return GCDWebServerResponse(statusCode: 403)
+      }
+      return handler(request)
+    }
+    server.addHandler(forMethod: method, path: "/\(module)/\(resource)", request: GCDWebServerRequest.self, processBlock: wrappedHandler)
+  }
+}
+
+
+class SessionRestoreHandler {
+  static func register(_ webServer: WebServer) {
+    // Register the handler that accepts /errors/restore?history=... requests.
+    webServer.registerHandlerForMethod("GET", module: "errors", resource: "restore") { _ in
+      guard let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore", ofType: "html"), let sessionRestoreString = try? String(contentsOfFile: sessionRestorePath) else {
+        return GCDWebServerResponse(statusCode: 404)
+      }
+      return GCDWebServerDataResponse(html: sessionRestoreString)
+    }
+    // Register the handler that accepts /errors/error.html?url=... requests.
+    webServer.registerHandlerForMethod("GET", module: "errors", resource: "error.html") { request in
+      guard let url = request?.url.originalURLFromErrorURL else {
+        return GCDWebServerResponse(statusCode: 404)
+      }
+      return GCDWebServerDataResponse(redirect: url, permanent: false)
+    }
+  }
+}
+
+
 class WebViewHistory: WKBackForwardList {
   /* Solution 1: return nil, discarding what is in backList & forwardList 
   override var backItem: WKBackForwardListItem? {
@@ -1573,4 +1621,3 @@ webview3.evaluateJavaScript("document.getElementById('a').innerHTML = 'Loading l
     
 
 }
-
