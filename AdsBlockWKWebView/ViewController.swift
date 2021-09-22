@@ -37,7 +37,7 @@ extension UIColor {
 }
 
 
-import GCDWebServer
+import GCDWebServers
 class WebServer {
   static let instance = WebServer()
   let server = GCDWebServer()
