@@ -56,9 +56,9 @@ class WebServer {
   func registerHandlerForMethod(_ method: String, module: String, resource: String, handler: @escaping (_ request: GCDWebServerRequest?) -> GCDWebServerResponse?) {
     // Prevent serving content if the requested host isn't a whitelisted local host.
     let wrappedHandler = {(request: GCDWebServerRequest?) -> GCDWebServerResponse? in
-      guard let request = request, request.url.isLocal else {
-        return GCDWebServerResponse(statusCode: 403)
-      }
+      //guard let request = request, request.url.isLocal else {
+        //return GCDWebServerResponse(statusCode: 403)
+      //}
       return handler(request)
     }
     server.addHandler(forMethod: method, path: "/\(module)/\(resource)", request: GCDWebServerRequest.self, processBlock: wrappedHandler)
@@ -77,9 +77,9 @@ class SessionRestoreHandler {
     }
     // Register the handler that accepts /errors/error.html?url=... requests.
     webServer.registerHandlerForMethod("GET", module: "errors", resource: "error.html") { request in
-      guard let url = request?.url.originalURLFromErrorURL else {
-        return GCDWebServerResponse(statusCode: 404)
-      }
+      //guard let url = request?.url.originalURLFromErrorURL else {
+        //return GCDWebServerResponse(statusCode: 404)
+      //}
       return GCDWebServerDataResponse(redirect: url, permanent: false)
     }
   }
