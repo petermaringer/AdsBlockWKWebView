@@ -76,12 +76,12 @@ class SessionRestoreHandler {
       return GCDWebServerDataResponse(html: sessionRestoreString)
     }
     // Register the handler that accepts /errors/error.html?url=... requests.
-    webServer.registerHandlerForMethod("GET", module: "errors", resource: "error.html") { request in
+    //webServer.registerHandlerForMethod("GET", module: "errors", resource: "error.html") { request in
       //guard let url = request?.url.originalURLFromErrorURL else {
         //return GCDWebServerResponse(statusCode: 404)
       //}
-      return GCDWebServerDataResponse(redirect: url, permanent: false)
-    }
+      //return GCDWebServerDataResponse(redirect: url, permanent: false)
+    //}
   }
 }
 
