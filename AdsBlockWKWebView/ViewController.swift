@@ -950,7 +950,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         
         
         if (UserDefaults.standard.object(forKey: "urls") != nil) {
-        restoreUrls = UserDefaults.standard.stringArray(forKey: "urls") ?? [String]()
+        //restoreUrls = UserDefaults.standard.stringArray(forKey: "urls") ?? [String]()
         }
         
         if restoreUrls[restoreIndex] != "https://www.google.com/" {
