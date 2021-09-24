@@ -1416,8 +1416,10 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         //return GCDWebServerDataResponse(html:"<html><body><p>Hello Worldo</p></body></html>")
         guard let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore", ofType: "html"), let sessionRestoreString = try? String(contentsOfFile: sessionRestorePath) else {
           return GCDWebServerResponse(statusCode: 404)
+          webserv = "R404"
         }
         return GCDWebServerDataResponse(html: sessionRestoreString)
+        webserv = "RDONE"
       })
       
       webServer.start(withPort: 6571, bonjourName: "GCD Web Server")
