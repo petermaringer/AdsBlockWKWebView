@@ -37,6 +37,7 @@ extension UIColor {
 }
 
 
+import Foundation
 import GCDWebServer
 var webserv = "hii"
 class WebServer {
