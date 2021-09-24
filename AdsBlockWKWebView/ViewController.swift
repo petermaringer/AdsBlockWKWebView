@@ -1412,7 +1412,12 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       restoreIndex += 1
       
       //try WebServer.start(options: [GCDWebServerOption_Port: 6571, GCDWebServerOption_BindToLocalhost: true, GCDWebServerOption_AutomaticallySuspendInBackground: true])
-      try WebServer.start()
+      //try WebServer.start()
+      let webServer = GCDWebServer()
+      webServer.addDefaultHandler(forMethod: "GET", request: GCDWebServerRequest.self, processBlock: {request in
+        return GCDWebServerDataResponse(html:"<html><body><p>Hello Worldo</p></body></html>")
+      })
+      webServer.start(withPort: 6571, bonjourName: "GCD Web Server")
       
       //if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?history={'currentPage': -1, 'history': ['https://orf.at', 'https://derstandard.at']}") {
       if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?history=") {
