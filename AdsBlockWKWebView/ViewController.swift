@@ -1422,7 +1422,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         //let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore", ofType: "html")
     //let sessionFileHandler = FileHandle.init(forReadingAtPath: sessionRestorePath!)
     //return GCDWebServerDataResponse(data: (sessionFileHandler?.readDataToEndOfFile())!, contentType: "text/html")
-        return GCDWebServerDataResponse(html:"<html><body><p>Hello Worldo</p></body></html>")
+        return GCDWebServerDataResponse(html:"<html><body><p>Hello Worldo</p><script>history.pushState({}, '', 'http://localhost:6571/orf.at');</script></body></html>")
         //return GCDWebServerDataResponse(html: sessionRestoreString!)
         //if let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore.html", ofType: nil), let sessionRestoreString = try? String(contentsOfFile: sessionRestorePath, encoding: String.Encoding.utf8) {
         //self.lb.text = self.lb.text! + " RDONE:\(sessionRestoreString)"
