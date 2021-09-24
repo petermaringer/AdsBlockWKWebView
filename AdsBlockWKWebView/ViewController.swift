@@ -1406,7 +1406,13 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     
     if restoreIndex == restoreIndexLast {
       restoreIndex += 1
-      webview.go(to: webview.backForwardList.item(at: restorePosition * -1)!)
+      
+      if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?history={'currentPage': -1, 'history': ['https://orf.at', 'https://derstandard.at']}
+      ") {
+        self.webview.load(URLRequest(url: restoreUrl))
+      }
+      
+      //webview.go(to: webview.backForwardList.item(at: restorePosition * -1)!)
       webview3.removeFromSuperview()
       
       //var myBackList = [WKBackForwardListItem]()
