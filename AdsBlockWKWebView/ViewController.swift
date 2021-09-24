@@ -1419,7 +1419,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       let webServer = GCDWebServer()
       webServer.addDefaultHandler(forMethod: "GET", request: GCDWebServerRequest.self, processBlock: {request in
         //return GCDWebServerDataResponse(html:"<html><body><p>Hello Worldo</p></body></html>")
-        return GCDWebServerDataResponse(html: sessionRestoreString)
+        return GCDWebServerDataResponse(html: sessionRestoreString!)
         //guard let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore", ofType: "html"), let sessionRestoreString = try? String(contentsOfFile: sessionRestorePath) else {
           //self.lb.text = self.lb.text! + "R404"
           //self.adjustLabel()
