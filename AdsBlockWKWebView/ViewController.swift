@@ -38,6 +38,7 @@ extension UIColor {
 
 
 import GCDWebServer
+var webserv = "hii"
 class WebServer {
   static let instance = WebServer()
   let server = GCDWebServer()
@@ -51,8 +52,7 @@ class WebServer {
     try self.server.start(
       options: [GCDWebServerOption_Port: 6571, GCDWebServerOption_BindToLocalhost: true, GCDWebServerOption_AutomaticallySuspendInBackground: true]
     )
-    lb.text = lb.text! + " Hii\(self.server.port)"
-    adjustLabel()
+    webserv = "hoo\(self.server.port)"
   }
   // Convenience method to register a dynamic handler. Will be mounted at $base/$module/$resource
   func registerHandlerForMethod(_ method: String, module: String, resource: String, handler: @escaping (_ request: GCDWebServerRequest?) -> GCDWebServerResponse?) {
@@ -1409,7 +1409,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     if restoreIndex == restoreIndexLast {
       restoreIndex += 1
       
-      lb.text = lb.text! + "\(WebServer.instance.base)/errors/restore?history={'currentPage': -1, 'history': ['https://orf.at', 'https://derstandard.at']}"
+      lb.text = lb.text! + "\(webserv) \(WebServer.instance.base)/errors/restore?history={'currentPage': -1, 'history': ['https://orf.at', 'https://derstandard.at']}"
       adjustLabel()
       if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?history={'currentPage': -1, 'history': ['https://orf.at', 'https://derstandard.at']}") {
         self.webview.load(URLRequest(url: restoreUrl))
