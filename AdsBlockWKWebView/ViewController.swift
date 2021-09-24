@@ -1411,10 +1411,19 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     if restoreIndex == restoreIndexLast {
       restoreIndex += 1
       
-      let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore2.html", ofType: nil)
-      let sessionRestoreString = try? String(contentsOfFile: sessionRestorePath!, encoding: String.Encoding.utf8)
-      //lb.text = lb.text! + " RDONE:\(sessionRestoreString!)"
-      //adjustLabel()
+      //let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore2.html", ofType: nil)
+      //let sessionRestoreString = try? String(contentsOfFile: sessionRestorePath!, encoding: String.Encoding.utf8)
+      if let filepath = Bundle.main.path(forResource: "SessionRestore2", ofType: "html") {
+        do {
+          let contents = try String(contentsOfFile: filepath)
+          self.lb.text = self.lb.text! + " RDO"
+        } catch {
+          self.lb.text = self.lb.text! + " RNOC"
+        }
+      } else {
+        self.lb.text = self.lb.text! + " RNOF"
+      }
+      adjustLabel()
       
       let webServer = GCDWebServer()
       webServer.addDefaultHandler(forMethod: "GET", request: GCDWebServerRequest.self, processBlock: {request in
