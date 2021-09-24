@@ -1413,7 +1413,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       
       //let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore2.html", ofType: nil)
       //let sessionRestoreString = try? String(contentsOfFile: sessionRestorePath!, encoding: String.Encoding.utf8)
-      if let filepath = Bundle.main.url(forResource: "SessionRestore2", withExtension: "html") {
+      if let filepath = Bundle.main.url(forResource: "SessionRestore", withExtension: "html") {
         do {
           let contents = try String(contentsOf: filepath)
           self.lb.text = self.lb.text! + " RDO"
