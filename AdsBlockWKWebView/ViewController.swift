@@ -1413,17 +1413,18 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       
       //let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore2.html", ofType: nil)
       //let sessionRestoreString = try? String(contentsOfFile: sessionRestorePath!, encoding: String.Encoding.utf8)
-      if let filepath = Bundle.main.url(forResource: "SessionRestore", withExtension: "html") {
-        do {
-          let contents = try String(contentsOf: filepath)
-          self.lb.text = self.lb.text! + " RDO"
-        } catch {
-          self.lb.text = self.lb.text! + " RNOC"
-        }
-      } else {
-        self.lb.text = self.lb.text! + " RNOF"
-      }
-      adjustLabel()
+      
+      //if let filepath = Bundle.main.url(forResource: "SessionRestore", withExtension: "html") {
+        //do {
+          //let contents = try String(contentsOf: filepath)
+          //self.lb.text = self.lb.text! + " RDO"
+        //} catch {
+          //self.lb.text = self.lb.text! + " RNOC"
+        //}
+      //} else {
+        //self.lb.text = self.lb.text! + " RNOF"
+      //}
+      //adjustLabel()
       
       let webServer = GCDWebServer()
       webServer.addDefaultHandler(forMethod: "GET", request: GCDWebServerRequest.self, processBlock: {request in
@@ -1431,20 +1432,21 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         //let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore", ofType: "html")
     //let sessionFileHandler = FileHandle.init(forReadingAtPath: sessionRestorePath!)
     //return GCDWebServerDataResponse(data: (sessionFileHandler?.readDataToEndOfFile())!, contentType: "text/html")
-        return GCDWebServerDataResponse(html:"<html><body><p>Hello Worldo</p><script>history.pushState({}, '', 'http://localhost:6571/orf.at');</script></body></html>")
+        //return GCDWebServerDataResponse(html:"<html><body><p>Hello Worldi</p><script>history.pushState({}, '', 'http://localhost:6571/orf.at');</script></body></html>")
+        
         //return GCDWebServerDataResponse(html: sessionRestoreString!)
         //if let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore.html", ofType: nil), let sessionRestoreString = try? String(contentsOfFile: sessionRestorePath, encoding: String.Encoding.utf8) {
         //self.lb.text = self.lb.text! + " RDONE:\(sessionRestoreString)"
         //self.adjustLabel()
         //return GCDWebServerDataResponse(html: sessionRestoreString)
-        //guard let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore.html", ofType: nil), let sessionRestoreString = try? String(contentsOfFile: sessionRestorePath) else {
-          //self.lb.text = self.lb.text! + "R404"
-          //self.adjustLabel()
-          //return GCDWebServerResponse(statusCode: 404)
-        //}
-        //self.lb.text = self.lb.text! + "RDONE"
-        //self.adjustLabel()
-        //return GCDWebServerDataResponse(html: sessionRestoreString)
+        guard let sessionRestorePath = Bundle.main.url(forResource: "SessionRestore", withExtension: "html"), let sessionRestoreString = try? String(contentsOf: sessionRestorePath) else {
+          self.lb.text = self.lb.text! + "R404"
+          self.adjustLabel()
+          return GCDWebServerResponse(statusCode: 404)
+        }
+        self.lb.text = self.lb.text! + "RDONE"
+        self.adjustLabel()
+        return GCDWebServerDataResponse(html: sessionRestoreString)
       })
       
       webServer.start(withPort: 6571, bonjourName: "GCD Web Server")
