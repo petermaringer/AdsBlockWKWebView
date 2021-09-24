@@ -51,6 +51,8 @@ class WebServer {
     try self.server.start(
       options: [GCDWebServerOption_Port: 6571, GCDWebServerOption_BindToLocalhost: true, GCDWebServerOption_AutomaticallySuspendInBackground: true]
     )
+    lb.text = lb.text! + " Hii\(self.server.port)"
+    adjustLabel()
   }
   // Convenience method to register a dynamic handler. Will be mounted at $base/$module/$resource
   func registerHandlerForMethod(_ method: String, module: String, resource: String, handler: @escaping (_ request: GCDWebServerRequest?) -> GCDWebServerResponse?) {
