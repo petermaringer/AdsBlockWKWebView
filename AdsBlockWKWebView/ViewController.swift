@@ -46,6 +46,7 @@ class WebServer {
     return "http://localhost:\(self.server.port)"
   }
   func start() throws {
+    webserv = "haa\(self.server.port)"
     guard !self.server.isRunning else {
       return
     }
@@ -1409,6 +1410,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     if restoreIndex == restoreIndexLast {
       restoreIndex += 1
       
+      WebServer.server.start()
       lb.text = lb.text! + "\(webserv) \(WebServer.instance.base)/errors/restore?history={'currentPage': -1, 'history': ['https://orf.at', 'https://derstandard.at']}"
       adjustLabel()
       if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?history={'currentPage': -1, 'history': ['https://orf.at', 'https://derstandard.at']}") {
