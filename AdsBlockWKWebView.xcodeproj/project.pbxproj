@@ -12,7 +12,7 @@
 		5ED4D2C81F47AF2E0019CC83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5ED4D2C71F47AF2E0019CC83 /* Assets.xcassets */; };
 		5ED4D2CB1F47AF2E0019CC83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5ED4D2C91F47AF2E0019CC83 /* LaunchScreen.storyboard */; };
 		5ED4D2D51F47C8030019CC83 /* adaway.json in Resources */ = {isa = PBXBuildFile; fileRef = 5ED4D2D41F47C7BB0019CC83 /* adaway.json */; };
-		5ED4D2D71F47C8030019CC83 /* SessionRestore.html in Resources */ = {isa = PBXBuildFile; fileRef = 5ED4D2D41F47C7BB0019CC83 /* SessionRestore.html */; };
+		5ED4D2D71F47C8030019CC83 /* SessionRestore.html in Resources */ = {isa = PBXBuildFile; fileRef = 5ED4D2D61F47C7BB0019CC83 /* SessionRestore.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
