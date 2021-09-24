@@ -1421,8 +1421,8 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         //return GCDWebServerDataResponse(html:"<html><body><p>Hello Worldo</p></body></html>")
         //return GCDWebServerDataResponse(html: sessionRestoreString!)
         if let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore.html", ofType: nil), let sessionRestoreString = try? String(contentsOfFile: sessionRestorePath, encoding: String.Encoding.utf8) {
-        lb.text = lb.text! + " RDONE:\(sessionRestoreString)"
-        adjustLabel()
+        self.lb.text = self.lb.text! + " RDONE:\(sessionRestoreString)"
+        self.adjustLabel()
         return GCDWebServerDataResponse(html: sessionRestoreString)
         //guard let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore", ofType: "html"), let sessionRestoreString = try? String(contentsOfFile: sessionRestorePath) else {
           //self.lb.text = self.lb.text! + "R404"
