@@ -47,14 +47,14 @@ class WebServer {
     return "http://localhost:\(self.server.port)"
   }
   func start() throws {
-    webserv = "haa\(self.server.port)"
+    webserv += "haa\(self.server.port)"
     guard !self.server.isRunning else {
       return
     }
     try self.server.start(
       options: [GCDWebServerOption_Port: 6571, GCDWebServerOption_BindToLocalhost: true, GCDWebServerOption_AutomaticallySuspendInBackground: true]
     )
-    webserv = "hoo\(self.server.port)"
+    webserv += "hoo\(self.server.port)"
   }
   // Convenience method to register a dynamic handler. Will be mounted at $base/$module/$resource
   func registerHandlerForMethod(_ method: String, module: String, resource: String, handler: @escaping (_ request: GCDWebServerRequest?) -> GCDWebServerResponse?) {
@@ -1470,7 +1470,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         self.webview.load(URLRequest(url: restoreUrl))
         self.lb.text = lb.text! + " \(restoreUrl.absoluteString)"
       }
-      lb.text = lb.text! + " \(webserv) \(restoreUrlPart)"
+      lb.text = lb.text! + " \(webserv)"
       adjustLabel()
       
       //webview.go(to: webview.backForwardList.item(at: restorePosition * -1)!)
