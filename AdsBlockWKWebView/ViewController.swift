@@ -39,7 +39,7 @@ extension UIColor {
 
 import Foundation
 import GCDWebServer
-var webserv = "hii"
+var webserv = "hi1"
 class WebServer {
   static let instance = WebServer()
   let server = GCDWebServer()
@@ -47,31 +47,35 @@ class WebServer {
     return "http://localhost:\(self.server.port)"
   }
   func start() throws {
-    webserv += "haa\(self.server.port)"
+    webserv += " hi2\(self.server.port)"
     guard !self.server.isRunning else {
       return
     }
     try self.server.start(
       options: [GCDWebServerOption_Port: 6571, GCDWebServerOption_BindToLocalhost: true, GCDWebServerOption_AutomaticallySuspendInBackground: true]
     )
-    webserv += "hoo\(self.server.port)"
+    webserv += " hi3\(self.server.port)"
   }
   // Convenience method to register a dynamic handler. Will be mounted at $base/$module/$resource
   func registerHandlerForMethod(_ method: String, module: String, resource: String, handler: @escaping (_ request: GCDWebServerRequest?) -> GCDWebServerResponse?) {
+    webserv += " hi4"
     // Prevent serving content if the requested host isn't a whitelisted local host.
     let wrappedHandler = {(request: GCDWebServerRequest?) -> GCDWebServerResponse? in
       //guard let request = request, request.url.isLocal else {
         //return GCDWebServerResponse(statusCode: 403)
       //}
+      webserv += " hi5"
       return handler(request)
     }
     server.addHandler(forMethod: method, path: "/\(module)/\(resource)", request: GCDWebServerRequest.self, processBlock: wrappedHandler)
   }
+  webserv += " hi6"
 }
 
 
 class SessionRestoreHandler {
   static func register(_ webServer: WebServer) {
+    webserv += " hi7"
     // Register the handler that accepts /errors/restore?history=... requests.
     webServer.registerHandlerForMethod("GET", module: "errors", resource: "restore") { _ in
       guard let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore", ofType: "html"), let sessionRestoreString = try? String(contentsOfFile: sessionRestorePath) else {
