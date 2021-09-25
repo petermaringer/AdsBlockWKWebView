@@ -64,7 +64,7 @@ class WebServer {
       //guard let request = request, request.url.isLocal else {
         //return GCDWebServerResponse(statusCode: 403)
       //}
-      //webserv += " hi5"
+      webserv += " hi5"
       return handler(request)
     }
     server.addHandler(forMethod: method, path: "/\(module)/\(resource)", request: GCDWebServerRequest.self, processBlock: wrappedHandler)
