@@ -69,13 +69,13 @@ class WebServer {
     }
     server.addHandler(forMethod: method, path: "/\(module)/\(resource)", request: GCDWebServerRequest.self, processBlock: wrappedHandler)
   }
-  webserv += " hi6"
+  //webserv += " hi6"
 }
 
 
 class SessionRestoreHandler {
   static func register(_ webServer: WebServer) {
-    //webserv += " hi7"
+    webserv += " hi7"
     // Register the handler that accepts /errors/restore?history=... requests.
     webServer.registerHandlerForMethod("GET", module: "errors", resource: "restore") { _ in
       guard let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore", ofType: "html"), let sessionRestoreString = try? String(contentsOfFile: sessionRestorePath) else {
