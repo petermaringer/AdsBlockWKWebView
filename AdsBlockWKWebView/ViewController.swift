@@ -58,24 +58,24 @@ class WebServer {
   }
   // Convenience method to register a dynamic handler. Will be mounted at $base/$module/$resource
   func registerHandlerForMethod(_ method: String, module: String, resource: String, handler: @escaping (_ request: GCDWebServerRequest?) -> GCDWebServerResponse?) {
-    webserv += " hi4"
+    //webserv += " hi4"
     // Prevent serving content if the requested host isn't a whitelisted local host.
     let wrappedHandler = {(request: GCDWebServerRequest?) -> GCDWebServerResponse? in
       //guard let request = request, request.url.isLocal else {
         //return GCDWebServerResponse(statusCode: 403)
       //}
-      webserv += " hi5"
+      //webserv += " hi5"
       return handler(request)
     }
     server.addHandler(forMethod: method, path: "/\(module)/\(resource)", request: GCDWebServerRequest.self, processBlock: wrappedHandler)
   }
-  webserv += " hi6"
+  //webserv += " hi6"
 }
 
 
 class SessionRestoreHandler {
   static func register(_ webServer: WebServer) {
-    webserv += " hi7"
+    //webserv += " hi7"
     // Register the handler that accepts /errors/restore?history=... requests.
     webServer.registerHandlerForMethod("GET", module: "errors", resource: "restore") { _ in
       guard let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore", ofType: "html"), let sessionRestoreString = try? String(contentsOfFile: sessionRestorePath) else {
