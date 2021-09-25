@@ -1464,7 +1464,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       }
       */
       var restoreUrlPart = "/errors/restore?history={'currentPage': -1, 'history': ['https://orf.at', 'https://derstandard.at']}"
-      restoreUrlPart = restoreUrlPart.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+      restoreUrlPart = restoreUrlPart!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
       if let restoreUrl = URL(string: "\(WebServer.instance.base)\(restoreUrlPart)") {
         self.webview.load(URLRequest(url: restoreUrl))
         self.lb.text = lb.text! + " \(restoreUrl.absoluteString)"
