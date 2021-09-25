@@ -1449,6 +1449,8 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         return GCDWebServerDataResponse(html: sessionRestoreString)
       })
       
+      webServer.addGETHandlerForBasePath("/", directoryPath: Bundle.main.path(forResource: "/", ofType: nil), indexFilename: "adaway.json", cacheAge: 0, allowRangeRequests: true)
+      
       //webServer.start(withPort: 6571, bonjourName: "GCD Web Server")
       try? webServer.start(options: [GCDWebServerOption_Port: 6571, GCDWebServerOption_BindToLocalhost: true, GCDWebServerOption_AutomaticallySuspendInBackground: true])
       
