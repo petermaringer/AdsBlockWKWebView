@@ -19,9 +19,8 @@ fileprivate let ruleId2 = "MyRuleID 002"
 //let player = AVPlayer(url: videoURL!)
 //let playerViewController = AVPlayerViewController()
 //let player = AVPlayer(url: URL(string: "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_adv_example_hevc/master.m3u8")!)
-//let player = AVPlayer(url: URL(string: "http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.m3u")!)
-
-let player = AVPlayer(url: URL(string: "https://r2---sn-h0jeln7e.googlevideo.com/videoplayback?expire=1632621187&ei=I35PYfDZLZWJ8gOY35OICg&ip=80.110.182.119&id=o-ACYJKXtm4qQHuZ3JTU4AMQFMElIaD8PNdFoC80VnUhW_&itag=18&source=youtube&requiressl=yes&mh=Iq&mm=31%2C29&mn=sn-h0jeln7e%2Csn-h0jeenek&ms=au%2Crdu&mv=m&mvi=2&pl=17&initcwndbps=1712500&vprv=1&mime=video%2Fmp4&ns=qXGV_I5IdC23kBZjbPC5YxUG&gir=yes&clen=13117990&ratebypass=yes&dur=207.493&lmt=1412136460549408&mt=1632599348&fvip=2&fexp=24001373%2C24007246&beids=9466587&c=MWEB&n=wCDMbSmGT-XZsg&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cvprv%2Cmime%2Cns%2Cgir%2Cclen%2Cratebypass%2Cdur%2Clmt&sig=AOq0QJ8wRQIgKGpdNNjZyh7_k9N9rvT63j3M9CDFrvHkHR3Nv4IzW5YCIQD-eFGUQOXdX6USM0eazmnUj6ytPOlIXY1PP9MBNastbw%3D%3D&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRgIhAIWy32t07OIVY2aK32zhErZ-UD6l9AmP1F1b26XPE3GZAiEAlpDApyDfqksLD31QypHfG95dDo4VvYRp_LlRVAjD-_w%3D&cpn=0C65R3fWElaiiVfF&cver=2.20210924.00.00&ptk=youtube_none&pltype=contentugcvchttps://r2---sn-h0jeln7e.googlevideo.com/videoplayback?expire=1632621187&ei=I35PYfDZLZWJ8gOY35OICg&ip=80.110.182.119&id=o-ACYJKXtm4qQHuZ3JTU4AMQFMElIaD8PNdFoC80VnUhW_&itag=18&source=youtube&requiressl=yes&mh=Iq&mm=31%2C29&mn=sn-h0jeln7e%2Csn-h0jeenek&ms=au%2Crdu&mv=m&mvi=2&pl=17&initcwndbps=1712500&vprv=1&mime=video%2Fmp4&ns=qXGV_I5IdC23kBZjbPC5YxUG&gir=yes&clen=13117990&ratebypass=yes&dur=207.493&lmt=1412136460549408&mt=1632599348&fvip=2&fexp=24001373%2C24007246&beids=9466587&c=MWEB&n=wCDMbSmGT-XZsg&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cvprv%2Cmime%2Cns%2Cgir%2Cclen%2Cratebypass%2Cdur%2Clmt&sig=AOq0QJ8wRQIgKGpdNNjZyh7_k9N9rvT63j3M9CDFrvHkHR3Nv4IzW5YCIQD-eFGUQOXdX6USM0eazmnUj6ytPOlIXY1PP9MBNastbw%3D%3D&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRgIhAIWy32t07OIVY2aK32zhErZ-UD6l9AmP1F1b26XPE3GZAiEAlpDApyDfqksLD31QypHfG95dDo4VvYRp_LlRVAjD-_w%3D&cpn=0C65R3fWElaiiVfF&cver=2.20210924.00.00&ptk=youtube_none&pltype=contentugc")!)
+let player = AVPlayer(url: URL(string: "http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.m3u")!)
+//let player = AVPlayer(url: URL(string: "")!)
 
 
 extension UIColor {
@@ -49,14 +48,14 @@ class WebServer {
     return "http://localhost:\(self.server.port)"
   }
   func start() throws {
-    webserv += " hi2\(self.server.port)"
+    webserv += " hi2:\(self.server.port)"
     guard !self.server.isRunning else {
       return
     }
     try self.server.start(
       options: [GCDWebServerOption_Port: 6571, GCDWebServerOption_BindToLocalhost: true, GCDWebServerOption_AutomaticallySuspendInBackground: true]
     )
-    webserv += " hi3\(self.server.port)"
+    webserv += " hi3:\(self.server.port)"
   }
   // Convenience method to register a dynamic handler. Will be mounted at $base/$module/$resource
   func registerHandlerForMethod(_ method: String, module: String, resource: String, handler: @escaping (_ request: GCDWebServerRequest?) -> GCDWebServerResponse?) {
@@ -77,7 +76,7 @@ class WebServer {
 
 class SessionRestoreHandler {
   static func register(_ webServer: WebServer) {
-    webserv += " hi7"
+    webserv += " hi6"
     // Register the handler that accepts /errors/restore?history=... requests.
     webServer.registerHandlerForMethod("GET", module: "errors", resource: "restore") { _ in
       guard let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore", ofType: "html"), let sessionRestoreString = try? String(contentsOfFile: sessionRestorePath) else {
@@ -1470,6 +1469,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       }
       */
       try? WebServer.instance.start()
+      try? SessionRestoreHandler.register()
       var restoreUrlPart = "/errors/restore?history={'currentPage': -1, 'history': ['https://orf.at', 'https://derstandard.at']}"
       restoreUrlPart = restoreUrlPart.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
       if let restoreUrl = URL(string: "\(WebServer.instance.base)\(restoreUrlPart)") {
