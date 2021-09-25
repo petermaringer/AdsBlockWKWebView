@@ -1463,12 +1463,14 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         adjustLabel()
       }
       */
-      
-      if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?history={'currentPage': -1, 'history': ['https://orf.at', 'https://derstandard.at']}") {
+      var restoreUrlPart = "/errors/restore?history={'currentPage': -1, 'history': ['https://orf.at', 'https://derstandard.at']}"
+      restoreUrlPart = restoreUrlPart.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+      if let restoreUrl = URL(string: "\(WebServer.instance.base)\(restoreUrlPart)") {
         self.webview.load(URLRequest(url: restoreUrl))
-        lb.text = lb.text! + " \(webserv) \(restoreUrl.absoluteString)"
-        adjustLabel()
+        self.lb.text = lb.text! + " \(restoreUrl.absoluteString)"
       }
+      lb.text = lb.text! + " \(webserv) \(restoreUrlPart)"
+      adjustLabel()
       
       //webview.go(to: webview.backForwardList.item(at: restorePosition * -1)!)
       webview3.removeFromSuperview()
