@@ -69,7 +69,7 @@ class WebServer {
     }
     server.addHandler(forMethod: method, path: "/\(module)/\(resource)", request: GCDWebServerRequest.self, processBlock: wrappedHandler)
   }
-  //webserv += " hi6"
+  webserv += " hi6"
 }
 
 
