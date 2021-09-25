@@ -1466,6 +1466,8 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       
       if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?history={'currentPage': -1, 'history': ['https://orf.at', 'https://derstandard.at']}") {
         self.webview.load(URLRequest(url: restoreUrl))
+        lb.text = lb.text! + " \(webserv) \(restoreUrl.absoluteString)"
+        adjustLabel()
       }
       
       //webview.go(to: webview.backForwardList.item(at: restorePosition * -1)!)
