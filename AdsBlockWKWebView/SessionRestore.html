@@ -4,6 +4,7 @@
     <meta name="referrer" content="never">
 </head>
 <body>
+    <div id="div">Hello Worldi ;-)</div>
     <script>
         /**
         * This file is responsible for restoring session history.
@@ -24,7 +25,9 @@
             var index = document.location.href.search("history");
             // Pull the session out of the history query argument.
             // The session is a JSON-stringified array of all URLs to restore for this tab, plus the last active index.
+            div.innerHTML += ' ho1';
             var sessionRestoreComponents = JSON.parse(unescape(document.location.href.substring(index + "history=".length)));
+            div.innerHTML += ' ho2';
             var urlList = sessionRestoreComponents['history'];
             var currentPage = sessionRestoreComponents['currentPage'];
             // First, replace the session restore page (this page) with the first URL to be restored.
@@ -43,6 +46,5 @@
             }, 0);
         })();
     </script>
-    Hello Worldi ;-)
 </body>
 </html>
