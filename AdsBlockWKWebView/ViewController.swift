@@ -1411,6 +1411,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     if restoreIndex == restoreIndexLast {
       restoreIndex += 1
       
+      /*
       //let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore2.html", ofType: nil)
       //let sessionRestoreString = try? String(contentsOfFile: sessionRestorePath!, encoding: String.Encoding.utf8)
       
@@ -1460,6 +1461,11 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         self.webview.load(URLRequest(url: restoreUrl))
         lb.text = lb.text! + " \(webserv) \(restoreUrl.absoluteString)"
         adjustLabel()
+      }
+      */
+      
+      if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?history={'currentPage': -1, 'history': ['https://orf.at', 'https://derstandard.at']}") {
+        self.webview.load(URLRequest(url: restoreUrl))
       }
       
       //webview.go(to: webview.backForwardList.item(at: restorePosition * -1)!)
