@@ -1065,7 +1065,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
     
     if message.body as? String == "reload" {
-      webview.reload()
+      //webview.reload()
       lb.text = lb.text! + " reloadED"
     }
     
