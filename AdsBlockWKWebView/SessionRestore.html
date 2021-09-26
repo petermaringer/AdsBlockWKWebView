@@ -25,7 +25,7 @@
     setTimeout(function () {
       webkit.messageHandlers.iosListener.postMessage('reload');
       div.innerHTML = 'Hello World ;-) Error';
-      webkit.messageHandlers.sessionRestoreMessageHandler.postMessage({ type: "reload" });
+      //webkit.messageHandlers.sessionRestoreMessageHandler.postMessage({ type: "reload" });
       div.innerHTML = 'Hello World ;-)';
     }, 0);
   })();
