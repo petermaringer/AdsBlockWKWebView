@@ -23,8 +23,9 @@
     }
     history.go(currentPage);
     setTimeout(function () {
+      div.innerHTML = 'Hello World1 ;-)';
       webkit.messageHandlers.sessionRestoreMessageHandler.postMessage({ type: "reload" });
-      div.innerHTML += 'Hello World ;-)';
+      div.innerHTML = 'Hello World2 ;-)';
     }, 0);
   })();
   </script>
