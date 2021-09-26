@@ -82,8 +82,8 @@ class SessionRestoreHandler {
     }
     webServer.registerHandlerForMethod("GET", module: "errors", resource: "error.html") { request in
       
-      if let range = request?.url.absoluteString.firstIndex(of: "=") {
-        let phone = request?.url.absoluteString[range...]
+      if let range = request?.url.absoluteString.range(of: "=") {
+        let phone = request?.url.absoluteString[range.upperBound...]
       
       //if let range = request?.url.absoluteString.range(of: "=") {
         //let phone = request?.url.absoluteString.substring(from: range.upperBound)
