@@ -86,7 +86,7 @@ class SessionRestoreHandler {
       
       if let range = request?.url.absoluteString.range(of: "=") {
         let phone = request?.url.absoluteString.substring(from: range.upperBound)
-        webserv += " hi7:\(phone)"
+        webserv += " hi7:\(phone!)"
       }
       
       //guard let url = request?.url.originalURLFromErrorURL else {
@@ -1058,7 +1058,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   
   func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
     
-    if message.body == "reload" {
+    if message.body as? String == "reload" {
       webview.reload()
     }
     
@@ -1476,8 +1476,9 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         adjustLabel()
       }
       */
+      
       try? WebServer.instance.start()
-      try? SessionRestoreHandler.register(WebServer.instance)
+      SessionRestoreHandler.register(WebServer.instance)
       var restoreUrlPart = "/errors/restore?history={\"currentPage\": -1, \"history\": [\"https://orf.at\", \"https://derstandard.at\"]}"
       restoreUrlPart = restoreUrlPart.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
       if let restoreUrl = URL(string: "\(WebServer.instance.base)\(restoreUrlPart)") {
