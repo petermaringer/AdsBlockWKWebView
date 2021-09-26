@@ -79,9 +79,10 @@ class SessionRestoreHandler {
       guard let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore", ofType: "html"), let sessionRestoreString = try? String(contentsOfFile: sessionRestorePath) else {
         return GCDWebServerResponse(statusCode: 404)
       }
+      webserv += " hi6a"
       return GCDWebServerDataResponse(html: sessionRestoreString)
     }
-    // Register the handler that accepts /errors/error.html?url=... requests.
+    
     webServer.registerHandlerForMethod("GET", module: "errors", resource: "error.html") { request in
       webserv += " hi7"
       if let range = request?.url.absoluteString.range(of: "=") {
@@ -89,9 +90,10 @@ class SessionRestoreHandler {
         webserv += " hi8:\(phone!)"
       }
       webserv += " hi9"
+      return GCDWebServerDataResponse(html: "hi")
       
       //guard let url = request?.url.originalURLFromErrorURL else {
-        return GCDWebServerResponse(statusCode: 404)
+        //return GCDWebServerResponse(statusCode: 404)
       //}
       //return GCDWebServerDataResponse(redirect: url, permanent: false)
     }
