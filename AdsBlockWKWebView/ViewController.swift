@@ -81,16 +81,12 @@ class SessionRestoreHandler {
       return GCDWebServerDataResponse(html: sessionRestoreString)
     }
     webServer.registerHandlerForMethod("GET", module: "errors", resource: "error.html") { request in
-      
       if let range = request?.url.absoluteString.range(of: "=") {
-        let phone = request?.url.absoluteString[range.upperBound...]
-      
-      //if let range = request?.url.absoluteString.range(of: "=") {
-        //let phone = request?.url.absoluteString.substring(from: range.upperBound)
-        
+        let phone = request?.url.absoluteString[range.upperBound...].removingPercentEncoding
         return GCDWebServerDataResponse(html: "hi:\(phone!)")
       }
-      return GCDWebServerDataResponse(html: "hi:error")
+      //return GCDWebServerDataResponse(html: "hi:error")
+      return GCDWebServerResponse(statusCode: 404)
       
       //guard let url = request?.url.originalURLFromErrorURL else {
         //return GCDWebServerResponse(statusCode: 404)
@@ -1483,7 +1479,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       
       try? WebServer.instance.start()
       SessionRestoreHandler.register(WebServer.instance)
-      var restoreUrlPart = "/errors/restore?history={\"currentPage\": -1, \"history\": [\"https://orf.at\", \"https://derstandard.at\"]}"
+      var restoreUrlPart = "/errors/restore?history={\"currentPage\": -1, \"history\": [\"https://orf.at/test?test=test\", \"https://derstandard.at\"]}"
       restoreUrlPart = restoreUrlPart.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
       if let restoreUrl = URL(string: "\(WebServer.instance.base)\(restoreUrlPart)") {
         self.webview.load(URLRequest(url: restoreUrl))
