@@ -65,8 +65,8 @@ class WebServer {
         //return GCDWebServerResponse(statusCode: 403)
       //}
       
-      if request?.url.absoluteString.hasPrefix("http://localhost:6571") == true {
-        return GCDWebServerDataResponse(html: "hi:local")
+      if request?.url.absoluteString.hasPrefix("http://localhost:6571") == false {
+        return GCDWebServerDataResponse(html: "hi:nonlocal")
       }
       
       webserv += " hi5"
