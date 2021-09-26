@@ -23,9 +23,10 @@
     }
     history.go(currentPage);
     setTimeout(function () {
-      div.innerHTML = 'Hello World1 ;-)';
+      webkit.messageHandlers.iosListener.postMessage('reload');
+      div.innerHTML = 'Hello World ;-) Error';
       webkit.messageHandlers.sessionRestoreMessageHandler.postMessage({ type: "reload" });
-      div.innerHTML = 'Hello World2 ;-)';
+      div.innerHTML = 'Hello World ;-)';
     }, 0);
   })();
   </script>
