@@ -83,7 +83,8 @@ class SessionRestoreHandler {
     webServer.registerHandlerForMethod("GET", module: "errors", resource: "error.html") { request in
       if let range = request?.url.absoluteString.range(of: "=") {
         let phone = request?.url.absoluteString[range.upperBound...].removingPercentEncoding
-        return GCDWebServerDataResponse(html: "hi:\(phone!)")
+        //return GCDWebServerDataResponse(html: "hi:\(phone!)")
+        return GCDWebServerDataResponse(redirect: URL(string: phone!), permanent: false)
       }
       //return GCDWebServerDataResponse(html: "hi:error")
       return GCDWebServerResponse(statusCode: 404)
