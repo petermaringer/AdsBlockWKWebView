@@ -48,16 +48,15 @@ class WebServer {
     return "http://localhost:\(self.server.port)"
   }
   func start() throws {
-    webserv += " hi2:\(self.server.port)"
+    webserv = "hi2:\(self.server.port)"
     guard !self.server.isRunning else {
       return
     }
     try self.server.start(
       options: [GCDWebServerOption_Port: 6571, GCDWebServerOption_BindToLocalhost: true, GCDWebServerOption_AutomaticallySuspendInBackground: true]
     )
-    webserv += " hi3:\(self.server.port)"
+    webserv = "hi3:\(self.server.port)"
   }
-  // Convenience method to register a dynamic handler. Will be mounted at $base/$module/$resource
   func registerHandlerForMethod(_ method: String, module: String, resource: String, handler: @escaping (_ request: GCDWebServerRequest?) -> GCDWebServerResponse?) {
     webserv += " hi4"
     // Prevent serving content if the requested host isn't a whitelisted local host.
@@ -70,14 +69,12 @@ class WebServer {
     }
     server.addHandler(forMethod: method, path: "/\(module)/\(resource)", request: GCDWebServerRequest.self, processBlock: wrappedHandler)
   }
-  //webserv += " hi6"
 }
 
 
 class SessionRestoreHandler {
   static func register(_ webServer: WebServer) {
     webserv += " hi6"
-    // Register the handler that accepts /errors/restore?history=... requests.
     webServer.registerHandlerForMethod("GET", module: "errors", resource: "restore") { _ in
       guard let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore", ofType: "html"), let sessionRestoreString = try? String(contentsOfFile: sessionRestorePath) else {
         return GCDWebServerResponse(statusCode: 404)
@@ -85,12 +82,18 @@ class SessionRestoreHandler {
       return GCDWebServerDataResponse(html: sessionRestoreString)
     }
     // Register the handler that accepts /errors/error.html?url=... requests.
-    //webServer.registerHandlerForMethod("GET", module: "errors", resource: "error.html") { request in
+    webServer.registerHandlerForMethod("GET", module: "errors", resource: "error.html") { request in
+      
+      if let range = request?.url.absoluteString.range(of: "=") {
+        let phone = request?.url.absoluteString.substring(from: range.upperBound)
+        webserv += " hi7:\(phone)"
+      }
+      
       //guard let url = request?.url.originalURLFromErrorURL else {
-        //return GCDWebServerResponse(statusCode: 404)
+        return GCDWebServerResponse(statusCode: 404)
       //}
       //return GCDWebServerDataResponse(redirect: url, permanent: false)
-    //}
+    }
   }
 }
 
@@ -1054,6 +1057,11 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   
   
   func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+    
+    if message.body == "reload" {
+      webview.reload()
+    }
+    
     lb.text = lb.text! + " m:\(message.body)"
     adjustLabel()
   }
