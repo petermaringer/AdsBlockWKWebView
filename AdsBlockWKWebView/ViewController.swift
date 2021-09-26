@@ -88,7 +88,7 @@ class SessionRestoreHandler {
     }
     webServer.registerHandlerForMethod("GET", module: "errors", resource: "error.html") { request in
       if let range = request?.url.absoluteString.range(of: "=") {
-        let phone = request?.url.absoluteString[range.upperBound...].removingPercentEncoding
+        let phone = request?.url.absoluteString[range.upperBound...].removingPercentEncoding.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         //return GCDWebServerDataResponse(html: "hi:\(phone!)")
         return GCDWebServerDataResponse(redirect: URL(string: phone!)!, permanent: false)
       }
@@ -1486,13 +1486,13 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       
       try? WebServer.instance.start()
       SessionRestoreHandler.register(WebServer.instance)
-      var restoreUrlPart = "/errors/restore?history={\"currentPage\": -1, \"history\": [\"https://orf.at/test?test=test\", \"https://derstandard.at\"]}"
+      var restoreUrlPart = "/errors/restore?history={\"currentPage\": -1, \"history\": [\"https://www.aktienfahrplan.com\", \"https://orf.at\", \"https://www.google.com/search?q=opensea&source=hp\"]}"
       restoreUrlPart = restoreUrlPart.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
       if let restoreUrl = URL(string: "\(WebServer.instance.base)\(restoreUrlPart)") {
         self.webview.load(URLRequest(url: restoreUrl))
         self.lb.text = lb.text! + " \(restoreUrl.absoluteString)"
       }
-      lb.text = lb.text! + " \(webserv)"
+      lb.text = lb.text! + " \(webserv) \(restoreUrlPart)"
       adjustLabel()
       
       //webview.go(to: webview.backForwardList.item(at: restorePosition * -1)!)
