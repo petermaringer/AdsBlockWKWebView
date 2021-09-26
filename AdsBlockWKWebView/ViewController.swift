@@ -66,10 +66,11 @@ class WebServer {
       //}
       
       if request?.url.absoluteString.hasPrefix("http://localhost:6571") == false {
-        return GCDWebServerDataResponse(html: "hi:nonlocal")
+        return GCDWebServerResponse(statusCode: 403)
+        //return GCDWebServerDataResponse(html: "hi:nonlocal")
       }
+      //webserv += " hi5"
       
-      webserv += " hi5"
       return handler(request)
     }
     server.addHandler(forMethod: method, path: "/\(module)/\(resource)", request: GCDWebServerRequest.self, processBlock: wrappedHandler)
