@@ -74,23 +74,22 @@ class WebServer {
 
 class SessionRestoreHandler {
   static func register(_ webServer: WebServer) {
-    //webserv += " hi6"
     webServer.registerHandlerForMethod("GET", module: "errors", resource: "restore") { _ in
       guard let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore", ofType: "html"), let sessionRestoreString = try? String(contentsOfFile: sessionRestorePath) else {
         return GCDWebServerResponse(statusCode: 404)
       }
-      //webserv += " hi6a"
       return GCDWebServerDataResponse(html: sessionRestoreString)
     }
-    
     webServer.registerHandlerForMethod("GET", module: "errors", resource: "error.html") { request in
-      //webserv += " hi7"
-      if let range = request?.url.absoluteString.range(of: "=") {
-        let phone = request?.url.absoluteString.substring(from: range.upperBound)
-        //webserv += " hi8:\(phone!)"
-        return GCDWebServerDataResponse(html: "hi:\(phone)")
+      
+      if let range = request?.url.absoluteString.firstIndex(of: "=") {
+        let phone = request?.url.absoluteString[range...]
+      
+      //if let range = request?.url.absoluteString.range(of: "=") {
+        //let phone = request?.url.absoluteString.substring(from: range.upperBound)
+        
+        return GCDWebServerDataResponse(html: "hi:\(phone!)")
       }
-      //webserv += " hi9"
       return GCDWebServerDataResponse(html: "hi:error")
       
       //guard let url = request?.url.originalURLFromErrorURL else {
