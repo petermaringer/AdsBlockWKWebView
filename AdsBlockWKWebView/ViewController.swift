@@ -83,11 +83,12 @@ class SessionRestoreHandler {
     }
     // Register the handler that accepts /errors/error.html?url=... requests.
     webServer.registerHandlerForMethod("GET", module: "errors", resource: "error.html") { request in
-      
+      webserv += " hi7"
       if let range = request?.url.absoluteString.range(of: "=") {
         let phone = request?.url.absoluteString.substring(from: range.upperBound)
-        webserv += " hi7:\(phone!)"
+        webserv += " hi8:\(phone!)"
       }
+      webserv += " hi9"
       
       //guard let url = request?.url.originalURLFromErrorURL else {
         return GCDWebServerResponse(statusCode: 404)
@@ -1060,6 +1061,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     
     if message.body as? String == "reload" {
       webview.reload()
+      lb.text = lb.text! + " reloadED"
     }
     
     lb.text = lb.text! + " m:\(message.body)"
