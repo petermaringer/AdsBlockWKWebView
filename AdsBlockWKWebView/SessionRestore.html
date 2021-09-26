@@ -22,11 +22,6 @@
       history.pushState({}, '', getRestoreURL(urlList[i]));
     }
     history.go(currentPage);
-    
-    // Finally, reload the page to trigger the error redirection, which will load the actual URL.
-    // For some reason (maybe a WebKit bug?), document.location still points to SessionRestore.html at this point,
-    // so wait until the next tick when the location points to the correct index and URL.
-    
     setTimeout(function () {
       webkit.messageHandlers.sessionRestoreMessageHandler.postMessage({ type: "reload" });
       div.innerHTML += 'Hello World ;-)';
