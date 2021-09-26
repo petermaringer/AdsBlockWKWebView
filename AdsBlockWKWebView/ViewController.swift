@@ -64,6 +64,11 @@ class WebServer {
       //guard let request = request, request.url.isLocal else {
         //return GCDWebServerResponse(statusCode: 403)
       //}
+      
+      if request.url.absoluteString.hasPrefix("http://localhost:6571") {
+        return GCDWebServerDataResponse(html: "hi:local")
+      }
+      
       webserv += " hi5"
       return handler(request)
     }
@@ -1480,7 +1485,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       
       try? WebServer.instance.start()
       SessionRestoreHandler.register(WebServer.instance)
-      var restoreUrlPart = "/errors/restore?history={\"currentPage\": -1, \"history\": [\"https://orf.at/test?test=test it\", \"https://derstandard.at\"]}"
+      var restoreUrlPart = "/errors/restore?history={\"currentPage\": -1, \"history\": [\"https://orf.at/test?test=test\", \"https://derstandard.at\"]}"
       restoreUrlPart = restoreUrlPart.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
       if let restoreUrl = URL(string: "\(WebServer.instance.base)\(restoreUrlPart)") {
         self.webview.load(URLRequest(url: restoreUrl))
