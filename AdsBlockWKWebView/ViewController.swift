@@ -1480,7 +1480,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       
       try? WebServer.instance.start()
       SessionRestoreHandler.register(WebServer.instance)
-      var restoreUrlPart = "/errors/restore?history={\"currentPage\": -1, \"history\": [\"https://orf.at/test?test=test\", \"https://derstandard.at\"]}"
+      var restoreUrlPart = "/errors/restore?history={\"currentPage\": -1, \"history\": [\"https://orf.at/test?test=test it\", \"https://derstandard.at\"]}"
       restoreUrlPart = restoreUrlPart.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
       if let restoreUrl = URL(string: "\(WebServer.instance.base)\(restoreUrlPart)") {
         self.webview.load(URLRequest(url: restoreUrl))
