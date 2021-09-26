@@ -24,9 +24,11 @@
     history.go(currentPage);
     setTimeout(function () {
       webkit.messageHandlers.iosListener.postMessage('reload');
-      div.innerHTML = 'Hello World ;-) Error';
+      
+      //div.innerHTML = 'Hello World ;-) Error';
       //webkit.messageHandlers.sessionRestoreMessageHandler.postMessage({ type: "reload" });
-      div.innerHTML = 'Hello World ;-)';
+      
+      div.innerHTML = 'Hello World ;-) ' + document.location.href;
     }, 0);
   })();
   </script>
