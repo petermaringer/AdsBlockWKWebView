@@ -1424,7 +1424,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     bflist = bflist + " \(currentIndexButLast)"
     //showAlert(message: "\(bflist)")
     
-    var urlsJson = "{\"currentPage\": \(currentIndexButLast), \"history\": ["
+    var urlsJson = "{\"currentPage\": \(currentIndexButLast * -1), \"history\": ["
     urls.forEach { url in
       urlsJson += "\"" + url + "\", "
     }
@@ -1503,7 +1503,8 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         self.webview.load(URLRequest(url: restoreUrl))
         self.lb.text = lb.text! + " \(restoreUrl.absoluteString)"
       }
-      lb.text = lb.text! + " \(webserv) \(restoreUrlPart)"
+      //lb.text = lb.text! + " \(webserv) \(restoreUrlPart)"
+      lb.text = lb.text! + " \(webserv)"
       adjustLabel()
       
       //webview.go(to: webview.backForwardList.item(at: restorePosition * -1)!)
