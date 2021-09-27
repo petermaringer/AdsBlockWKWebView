@@ -1111,8 +1111,15 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   }
   
   @objc private func enterBackground() {
+    
+    lb.text = lb.text! + " Scroll1:\(webview.scrollView.contentOffset.y)"
+    if webview.scrollView.contentOffset.y < 0 {
+      webview.scrollView.setContentOffset(CGPoint(x: webview.scrollView.contentOffset.x, y: 0), animated: true)
+    }
+    lb.text = lb.text! + " Scroll2:\(webview.scrollView.contentOffset.y)"
+    
     avPVC.player = nil
-    lb.text = lb.text! + " eBg Scroll:\(webview.scrollView.contentOffset.y)"
+    lb.text = lb.text! + " eBg"
     adjustLabel()
   }
   
