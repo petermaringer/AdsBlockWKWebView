@@ -1432,6 +1432,8 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     urlsJson += "]}"
     UserDefaults.standard.set(urlsJson, forKey: "urlsJson")
     webserv += " \(urlsJson)"
+    lb.text = lb.text! + " urlsJ:\(urlsJson)"
+    adjustLabel()
     
     //if restoreIndex == 25 {
     //restoreIndexLast = 25
