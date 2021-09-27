@@ -1428,7 +1428,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     urls.forEach { url in
       urlsJson += "\"" + url + "\", "
     }
-    urlsJson = urlsJson.dropLast(2)
+    urlsJson.removeLast(2)
     urlsJson += "]}"
     UserDefaults.standard.set(urlsJson, forKey: "urlsJson")
     webserv += " \(urlsJson)"
