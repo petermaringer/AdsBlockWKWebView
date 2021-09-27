@@ -1424,6 +1424,15 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     bflist = bflist + " \(currentIndexButLast)"
     //showAlert(message: "\(bflist)")
     
+    var urlsJson = "{\"currentPage\": \(currentIndexButLast), \"history\": ["
+    urls.forEach { url in
+      urlsJson += "\"" + url + "\", "
+    }
+    urlsJson = urlsJson.dropLast(2)
+    urlsJson += "]}"
+    UserDefaults.standard.set(urlsJson, forKey: "urlsJson")
+    webserv += " \(urlsJson)"
+    
     //if restoreIndex == 25 {
     //restoreIndexLast = 25
     //}
