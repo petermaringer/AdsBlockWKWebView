@@ -41,6 +41,7 @@ extension UIColor {
 import Foundation
 import GCDWebServer
 var webserv = "hi1"
+var restoreUrlsJson: String!
 class WebServer {
   static let instance = WebServer()
   let server = GCDWebServer()
@@ -985,6 +986,9 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         
         try? WebServer.instance.start()
         SessionRestoreHandler.register(WebServer.instance)
+        if (UserDefaults.standard.object(forKey: "urlsJson") != nil) {
+        restoreUrlsJson = UserDefaults.standard.string(forKey: "urlsJson").addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        }
         
         if restoreIndexLast > 0 {
           DispatchQueue.main.async {
@@ -1135,7 +1139,13 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   private func askRestore() {
     let alert = UIAlertController(title: "Alert", message: "Restore last session?\n\nThe last session contains \(restoreIndexLast+1) pages.", preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
-      self.showAlert(message: "Ok logic here")
+      
+      if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?hisrory=\(restoreUrlsJson)") {
+        self.showAlert(message: "\(restoreUrl.absoluteString)")
+        self.webview.load(URLRequest(url: restoreUrl))
+      }
+      
+      //self.showAlert(message: "Ok logic here")
     }))
     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
     self.present(alert, animated: true, completion: nil)
@@ -1504,12 +1514,12 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       
       //try? WebServer.instance.start()
       //SessionRestoreHandler.register(WebServer.instance)
-      var restoreUrlPart = "/errors/restore?history={\"currentPage\": -1, \"history\": [\"https://www.aktienfahrplan.com\", \"https://orf.at\", \"https://www.google.com/search?q=opensea&source=hp\"]}"
-      restoreUrlPart = restoreUrlPart.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-      if let restoreUrl = URL(string: "\(WebServer.instance.base)\(restoreUrlPart)") {
-        self.webview.load(URLRequest(url: restoreUrl))
-        self.lb.text = lb.text! + " \(restoreUrl.absoluteString)"
-      }
+      //var restoreUrlPart = "/errors/restore?history={\"currentPage\": -1, \"history\": [\"https://www.aktienfahrplan.com\", \"https://orf.at\", \"https://www.google.com/search?q=opensea&source=hp\"]}"
+      //restoreUrlPart = restoreUrlPart.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+      //if let restoreUrl = URL(string: "\(WebServer.instance.base)\(restoreUrlPart)") {
+        //self.webview.load(URLRequest(url: restoreUrl))
+        //self.lb.text = lb.text! + " \(restoreUrl.absoluteString)"
+      //}
       //lb.text = lb.text! + " \(webserv) \(restoreUrlPart)"
       lb.text = lb.text! + " \(webserv)"
       adjustLabel()
