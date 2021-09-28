@@ -987,7 +987,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         try? WebServer.instance.start()
         SessionRestoreHandler.register(WebServer.instance)
         if (UserDefaults.standard.object(forKey: "urlsJson") != nil) {
-        restoreUrlsJson = UserDefaults.standard.string(forKey: "urlsJson").addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        restoreUrlsJson = UserDefaults.standard.string(forKey: "urlsJson")!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         }
         
         if restoreIndexLast > 0 {
@@ -1140,7 +1140,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     let alert = UIAlertController(title: "Alert", message: "Restore last session?\n\nThe last session contains \(restoreIndexLast+1) pages.", preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
       
-      if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?hisrory=\(restoreUrlsJson)") {
+      if let restoreUrl = URL(string: "\(WebServer.instance.base!)/errors/restore?hisrory=\(restoreUrlsJson)") {
         self.showAlert(message: "\(restoreUrl.absoluteString)")
         self.webview.load(URLRequest(url: restoreUrl))
       }
