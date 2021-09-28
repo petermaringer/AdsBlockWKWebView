@@ -983,6 +983,9 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         
         restoreIndexLast = restoreUrls.count - 1
         
+        try? WebServer.instance.start()
+        SessionRestoreHandler.register(WebServer.instance)
+        
         if restoreIndexLast > 0 {
           DispatchQueue.main.async {
             self.askRestore()
@@ -1112,11 +1115,9 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   
   @objc private func enterBackground() {
     
-    lb.text = lb.text! + " Scroll1:\(webview.scrollView.contentOffset.y)"
     if webview.scrollView.contentOffset.y < 0 {
       webview.scrollView.setContentOffset(CGPoint(x: webview.scrollView.contentOffset.x, y: 0), animated: true)
     }
-    lb.text = lb.text! + " Scroll2:\(webview.scrollView.contentOffset.y)"
     
     avPVC.player = nil
     lb.text = lb.text! + " eBg"
@@ -1501,8 +1502,8 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       }
       */
       
-      try? WebServer.instance.start()
-      SessionRestoreHandler.register(WebServer.instance)
+      //try? WebServer.instance.start()
+      //SessionRestoreHandler.register(WebServer.instance)
       var restoreUrlPart = "/errors/restore?history={\"currentPage\": -1, \"history\": [\"https://www.aktienfahrplan.com\", \"https://orf.at\", \"https://www.google.com/search?q=opensea&source=hp\"]}"
       restoreUrlPart = restoreUrlPart.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
       if let restoreUrl = URL(string: "\(WebServer.instance.base)\(restoreUrlPart)") {
