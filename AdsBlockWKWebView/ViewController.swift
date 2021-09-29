@@ -58,6 +58,13 @@ class WebServer {
     )
     webserv = "hi3:\(self.server.port)"
   }
+  
+  func registerDefaultHandler() {
+    server.addDefaultHandler(forMethod: "GET", request: GCDWebServerRequest.self, processBlock: { request in
+      return GCDWebServerDataResponse(html: "hi:default")
+    }
+  }
+  
   func registerHandlerForMethod(_ method: String, module: String, resource: String, handler: @escaping (_ request: GCDWebServerRequest?) -> GCDWebServerResponse?) {
     webserv += " hi4"
     // Prevent serving content if the requested host isn't a whitelisted local host.
@@ -985,6 +992,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         restoreIndexLast = restoreUrls.count - 1
         
         try? WebServer.instance.start()
+        WebServer.instance.registerDefaultHandler()
         SessionRestoreHandler.register(WebServer.instance)
         if (UserDefaults.standard.object(forKey: "urlsJson") != nil) {
         restoreUrlsJson = UserDefaults.standard.string(forKey: "urlsJson")!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
@@ -1396,9 +1404,8 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   }
   
   func webView(_ webview: WKWebView, didFinish navigation: WKNavigation!) {
-    
     if webview.url!.absoluteString.hasPrefix("http://localhost:6571/errors/error.html") == false {
-    urlField.text = webview.url!.absoluteString
+      urlField.text = webview.url!.absoluteString
     }
     //showAlert(message: defaultUserAgent)
     
