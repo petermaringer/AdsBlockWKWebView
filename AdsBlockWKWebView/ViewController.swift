@@ -1396,7 +1396,10 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   }
   
   func webView(_ webview: WKWebView, didFinish navigation: WKNavigation!) {
+    
+    if webview.url!.absoluteString.hasPrefix("http://localhost:6571/errors/error.html") == false {
     urlField.text = webview.url!.absoluteString
+    }
     //showAlert(message: defaultUserAgent)
     
     lb.text = lb.text! + " w:dF"
