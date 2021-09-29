@@ -62,7 +62,7 @@ class WebServer {
   func registerDefaultHandler() {
     server.addDefaultHandler(forMethod: "GET", request: GCDWebServerRequest.self, processBlock: { request in
       return GCDWebServerDataResponse(html: "hi:default")
-    }
+    })
   }
   
   func registerHandlerForMethod(_ method: String, module: String, resource: String, handler: @escaping (_ request: GCDWebServerRequest?) -> GCDWebServerResponse?) {
