@@ -1004,7 +1004,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
           }
         }
         
-    webview.load(URLRequest(url: URL(string: restoreUrls[restoreIndex])!))
+    //webview.load(URLRequest(url: URL(string: restoreUrls[restoreIndex])!))
     
     var bflist = "LASTbflist:"
     for (index, url) in restoreUrls.enumerated() {
@@ -1546,7 +1546,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     }
     if restoreIndex < restoreIndexLast {
       restoreIndex += 1
-      webview.load(URLRequest(url: URL(string: restoreUrls[restoreIndex])!))
+      //webview.load(URLRequest(url: URL(string: restoreUrls[restoreIndex])!))
       
       //let restoreUrlsList = "LASTbflist: " + restoreUrls.joined(separator:" ")
       //webview3.loadHTMLString("<body style='background-color:transparent;'><h1>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br>\(restoreUrlsList)</body>", baseURL: nil)
