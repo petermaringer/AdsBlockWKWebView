@@ -980,7 +980,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         }
         
         if restoreUrls[restoreIndex] != "https://www.google.com/" {
-          restoreUrls.insert("https://www.google.com/", at: 0)
+          restoreUrls.insert("https://www.google.at/", at: 0)
         }
         
         UserDefaults.standard.set(restoreUrls, forKey: "urlsBackup")
@@ -1055,7 +1055,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     
     
         //url = URL(string: "https://www.google.com/")
-        url = "https://www.google.com/"
+        url = "https://www.google.de/"
         
         if #available(iOS 11, *) {
             let group = DispatchGroup()
