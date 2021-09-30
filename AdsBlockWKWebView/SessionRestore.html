@@ -25,9 +25,7 @@
     setTimeout(function () {
       div.innerHTML = '';
       window.location.reload();
-      webkit.messageHandlers.iosListener.postMessage('reload');
-      //div.innerHTML = document.location.href;
-      //window.location.reload();
+      webkit.messageHandlers.iosListener.postMessage('restore');
     }, 0);
   })();
   </script>
