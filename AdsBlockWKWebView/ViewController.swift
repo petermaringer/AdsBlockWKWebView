@@ -1081,6 +1081,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     
     if message.body as? String == "reload" {
       //webview.reload()
+      webview3.removeFromSuperview()
       lb.text = lb.text! + " reloadED"
     }
     
