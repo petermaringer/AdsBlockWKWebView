@@ -23,10 +23,11 @@
     }
     history.go(currentPage);
     setTimeout(function () {
-      webkit.messageHandlers.iosListener.postMessage('reload');
       div.innerHTML = '';
-      //div.innerHTML = 'Hello World ;-) ' + document.location.href;
       window.location.reload();
+      webkit.messageHandlers.iosListener.postMessage('reload');
+      //div.innerHTML = document.location.href;
+      //window.location.reload();
     }, 0);
   })();
   </script>
