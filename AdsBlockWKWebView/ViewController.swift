@@ -1078,11 +1078,9 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   
   
   func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-    
-    if message.body as? String == "reload" {
-      //webview.reload()
+    if message.body as? String == "restore" {
       webview3.removeFromSuperview()
-      lb.text = lb.text! + " reloadED"
+      lb.text = lb.text! + " restoreD"
     }
     
     lb.text = lb.text! + " m:\(message.body)"
@@ -1148,13 +1146,10 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   private func askRestore() {
     let alert = UIAlertController(title: "Alert", message: "Restore last session?\n\nThe last session contains \(restoreIndexLast+1) pages.", preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
-      
       if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)") {
-        self.showAlert(message: "\(restoreUrl.absoluteString)")
         self.webview.load(URLRequest(url: restoreUrl))
+        //self.showAlert(message: "\(restoreUrl.absoluteString)")
       }
-      
-      //self.showAlert(message: "Ok logic here")
     }))
     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
     self.present(alert, animated: true, completion: nil)
@@ -1163,6 +1158,8 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
+    lb.text = lb.text! + " wDa"
+    adjustLabel()
     UIApplication.shared.isIdleTimerDisabled = false
   }
   
