@@ -1000,7 +1000,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         }
         let restoreUrlsJsonData = Data(restoreUrlsJson.utf8)
         if let restoreUrlsJsonSE = try? JSONSerialization.jsonObject(with: restoreUrlsJsonData, options: []) as? [String: Any] {
-        if let names = restoreUrlsJsonSE["history"]! as? [String] {
+        if let names = restoreUrlsJsonSE["history"] as?? [String] {
             restoreIndexLast = names.count - 1 + 10
         }
     }
