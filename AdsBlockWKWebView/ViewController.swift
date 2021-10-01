@@ -999,12 +999,12 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         restoreUrlsJson = UserDefaults.standard.string(forKey: "urlsJson")
         }
         let restoreUrlsJsonData = Data(restoreUrlsJson.utf8)
-        if let restoreUrlsJsonSE = try JSONSerialization.jsonObject(with: restoreUrlsJsonData, options: []) as? [String: Any] {
+        if let restoreUrlsJsonSE = try? JSONSerialization.jsonObject(with: restoreUrlsJsonData, options: []) as? [String: Any] {
         if let names = restoreUrlsJsonSE["history"] as? [String] {
             restoreIndexLast = names.count - 1 + 10
         }
     }
-        restoreUrlsJson!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        restoreUrlsJson = restoreUrlsJson!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         
         if restoreIndexLast > 0 {
           DispatchQueue.main.async {
