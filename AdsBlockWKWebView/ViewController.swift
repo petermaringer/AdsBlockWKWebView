@@ -980,7 +980,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         }
         
         if restoreUrls[restoreIndex] != "https://www.google.com/" {
-          restoreUrls.insert("https://www.google.at/", at: 0)
+          restoreUrls.insert("https://www.google.com/", at: 0)
         }
         
         UserDefaults.standard.set(restoreUrls, forKey: "urlsBackup")
@@ -1063,7 +1063,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     
     
         //url = URL(string: "https://www.google.com/")
-        url = "https://www.google.de/"
+        url = "https://www.google.com/"
         
         if #available(iOS 11, *) {
             let group = DispatchGroup()
@@ -1159,7 +1159,11 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         //self.showAlert(message: "\(restoreUrl.absoluteString)")
       }
     }))
-    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+    //alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+      self.webview.load(URLRequest(url: URL(string: "https://www.google.com/")!))
+      webview3.removeFromSuperview()
+    }))
     self.present(alert, animated: true, completion: nil)
   }
   
