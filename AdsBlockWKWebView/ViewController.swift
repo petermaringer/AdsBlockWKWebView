@@ -38,7 +38,7 @@ extension UIColor {
 }
 
 
-import Foundation
+//import Foundation
 import GCDWebServer
 var webserv = "hi1"
 var restoreUrlsJson: String!
