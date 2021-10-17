@@ -1052,7 +1052,6 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     NotificationCenter.default.addObserver(self, selector: #selector(enterBackground), name: .UIApplicationDidEnterBackground, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(enterForeground), name: .UIApplicationWillEnterForeground, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(resignActive), name: .UIApplicationWillResignActive, object: nil)
-    
     let commandCenter = MPRemoteCommandCenter.shared()
     commandCenter.togglePlayPauseCommand.addTarget { [unowned self] event in
       if self.avPVC.player!.rate == 0.0 {
@@ -1153,6 +1152,9 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   }
   
   @objc private func resignActive() {
+    if webview.scrollView.contentOffset.y < 0 {
+      webview.scrollView.setContentOffset(CGPoint(x: webview.scrollView.contentOffset.x, y: 0), animated: false)
+    }
     lb.text = lb.text! + " rAc"
     adjustLabel()
   }
