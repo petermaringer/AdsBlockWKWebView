@@ -1150,6 +1150,12 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     adjustLabel()
   }
   
+  override func applicationWillResignActive() {
+    super.applicationWillResignActive()
+    lb.text = lb.text! + " wRA"
+    adjustLabel()
+  }
+  
   
   private func askRestore() {
     let alert = UIAlertController(title: "Alert", message: "Restore last session?\n\nThe last session contains \(restoreIndexLast+1) pages.", preferredStyle: .alert)
