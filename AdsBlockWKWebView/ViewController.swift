@@ -97,7 +97,7 @@ class SessionRestoreHandler {
     webServer.registerHandlerForMethod("GET", module: "errors", resource: "error.html") { request in
       if let range = request?.url.absoluteString.range(of: "=") {
         //let phone = request?.url.absoluteString[range.upperBound...].removingPercentEncoding!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-        let phone = String(request?.url.absoluteString[range.upperBound...])!
+        let phone = String(request?.url.absoluteString[range.upperBound...]?)
         //return GCDWebServerDataResponse(html: "hi:\(phone!)")
         return GCDWebServerDataResponse(redirect: URL(string: phone!)!, permanent: false)
       }
