@@ -1004,7 +1004,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
             restoreIndexLast = names.count - 1 + 10
         }
     }
-        restoreUrlsJson = restoreUrlsJson!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        //restoreUrlsJson = restoreUrlsJson!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         
         if restoreIndexLast > 0 {
           DispatchQueue.main.async {
