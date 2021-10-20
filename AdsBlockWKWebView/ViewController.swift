@@ -98,8 +98,6 @@ class SessionRestoreHandler {
       if let range = request?.url.absoluteString.range(of: "=") {
         //let phone = request?.url.absoluteString[range.upperBound...].removingPercentEncoding!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         let phone = request?.url.absoluteString[range.upperBound...].removingPercentEncoding!
-        //let phone1 = request?.url.absoluteString[range.upperBound...]
-        //let phone = String(phone1!)
         //return GCDWebServerDataResponse(html: "hi:\(phone!)")
         return GCDWebServerDataResponse(redirect: URL(string: phone!)!, permanent: false)
       }
@@ -1163,7 +1161,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
       if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)") {
         self.webview.load(URLRequest(url: restoreUrl))
-        self.showAlert(message: "\(restoreUrl.absoluteString)")
+        //self.showAlert(message: "\(restoreUrl.absoluteString)")
       }
     }))
     //alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
