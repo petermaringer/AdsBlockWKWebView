@@ -1134,11 +1134,6 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   }
   
   @objc private func enterBackground() {
-    
-    if webview.scrollView.contentOffset.y < 0 {
-      webview.scrollView.setContentOffset(CGPoint(x: webview.scrollView.contentOffset.x, y: 0), animated: true)
-    }
-    
     avPVC.player = nil
     lb.text = lb.text! + " eBg"
     adjustLabel()
@@ -1153,7 +1148,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   
   @objc private func resignActive() {
     if webview.scrollView.contentOffset.y < 0 {
-      webview.scrollView.setContentOffset(CGPoint(x: webview.scrollView.contentOffset.x, y: 0), animated: false)
+      webview.scrollView.setContentOffset(CGPoint(x: webview.scrollView.contentOffset.x, y: 0), animated: true)
     }
     lb.text = lb.text! + " rAc"
     adjustLabel()
@@ -1165,7 +1160,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
       if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)") {
         self.webview.load(URLRequest(url: restoreUrl))
-        //self.showAlert(message: "\(restoreUrl.absoluteString)")
+        self.showAlert(message: "\(restoreUrl.absoluteString)")
       }
     }))
     //alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
