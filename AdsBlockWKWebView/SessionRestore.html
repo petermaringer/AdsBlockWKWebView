@@ -11,7 +11,6 @@
       if (url.indexOf(document.location.origin + '/errors/error.html') === 0) {
         return url;
       }
-      div.innerHTML += ' ' + url;
       return '/errors/error.html?url=' + escape(url);
     }
     var index = document.location.href.search('history');
@@ -24,7 +23,7 @@
     }
     history.go(currentPage);
     setTimeout(function () {
-      //div.innerHTML = '';
+      div.innerHTML = '';
       window.location.reload();
       webkit.messageHandlers.iosListener.postMessage('restore');
     }, 0);
