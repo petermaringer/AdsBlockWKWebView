@@ -2,6 +2,10 @@
 
 
 
+{"trigger":{"url-filter":"app\\.mycountrytalks\\.org","load-type":["third-party"]},"action":{"type":"block"}},
+
+{"trigger":{"url-filter":"spcmp\\.r53\\.derstandard\\.at","load-type":["third-party"]},"action":{"type":"block"}},
+
 {"trigger":{"url-filter":"c\\.deployads\\.com","load-type":["third-party"]},"action":{"type":"block"}},
 
 {"trigger":{"url-filter":"ads\\.myhothobby\\.com","load-type":["third-party"]},"action":{"type":"block"}},
