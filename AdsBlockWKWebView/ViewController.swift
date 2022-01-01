@@ -496,8 +496,8 @@ player.play()*/
   
   func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
     let cell = tableView.cellForRow(at: indexPath)
-    cell?.contentView.backgroundColor = .appBgLightColor
-    //cell?.backgroundColor = .gray
+    //cell?.contentView.backgroundColor = .appBgLightColor
+    cell?.backgroundColor = .gray
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
