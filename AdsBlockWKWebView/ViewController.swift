@@ -868,7 +868,7 @@ player.play()*/
         webview.navigationDelegate = self
         webview.uiDelegate = self
         webview.allowsBackForwardNavigationGestures = true
-        webview.allowsLinkPreview = false
+        webview.allowsLinkPreview = true
         webview.clipsToBounds = false
         webview.scrollView.clipsToBounds = false
         
