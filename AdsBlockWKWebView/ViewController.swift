@@ -1173,7 +1173,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     //alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
       self.webview.load(URLRequest(url: URL(string: "https://www.google.com/")!))
-      self.webview3.removeFromSuperview()
+      //self.webview3.removeFromSuperview()
     }))
     self.present(alert, animated: true, completion: nil)
   }
