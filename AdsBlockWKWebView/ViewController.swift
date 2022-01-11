@@ -1008,7 +1008,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         let restoreUrlsJsonData = Data(restoreUrlsJson.utf8)
         if let restoreUrlsJsonSE = try? JSONSerialization.jsonObject(with: restoreUrlsJsonData, options: []) as? [String: Any] {
         if let names = restoreUrlsJsonSE?["history"] as? [String] {
-            restoreIndexLast = names.count - 1 + 10
+            restoreIndexLast = names.count - 1
         }
     }
         restoreUrlsJson = restoreUrlsJson!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
@@ -1044,7 +1044,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     
     webview3 = WebView(frame: CGRect.zero, history: WebViewHistory())
     //webview3.loadHTMLString("<body style='background-color:transparent;'><h1>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br>\(bflist)</body>", baseURL: nil)
-    webview3.loadHTMLString("<body style='background-color:transparent;color:white;'><h1 id='a' style='position:fixed;top:50px;background-color:white;color:black;'>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br><div id='b' onclick='copy()'>\(bflist)</div><script>function copy() { var range = document.createRange(); range.selectNode(document.getElementById('b')); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); window.getSelection().removeAllRanges(); }</script></body>", baseURL: nil)
+    webview3.loadHTMLString("<body style='background-color:transparent;color:white;'><h1 id='a' style='position:fixed;top:50px;background-color:white;color:black;'>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br><div id='b' onclick='copy()'>\(bflist)<br><br>\(origArray)</div><script>function copy() { var range = document.createRange(); range.selectNode(document.getElementById('b')); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); window.getSelection().removeAllRanges(); }</script></body>", baseURL: nil)
     webview3.isOpaque = false
     //webview3.backgroundColor = .orange
     //webview3.scrollView.backgroundColor = .orange
@@ -1556,7 +1556,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       adjustLabel()
       
       //webview.go(to: webview.backForwardList.item(at: restorePosition * -1)!)
-      webview3.removeFromSuperview()
+      //##webview3.removeFromSuperview()
       
       //var myBackList = [WKBackForwardListItem]()
       //myBackList.append(webview.backForwardList.item(at: 0)!)
