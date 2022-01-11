@@ -506,6 +506,10 @@ player.play()*/
     //cell?.backgroundColor = .clear
   }
   
+  func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+    return true
+  }
+  
   func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
     let mover = array.remove(at: sourceIndexPath.row)
     array.insert(mover, at: destinationIndexPath.row)
