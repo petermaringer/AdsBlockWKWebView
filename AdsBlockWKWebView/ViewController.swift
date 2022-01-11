@@ -1095,7 +1095,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   
   func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
     if message.body as? String == "restore" {
-      webview3.removeFromSuperview()
+      //webview3.removeFromSuperview()
       lb.text = lb.text! + " restoreD"
     }
     
