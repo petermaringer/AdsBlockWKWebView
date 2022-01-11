@@ -506,6 +506,11 @@ player.play()*/
     //cell?.backgroundColor = .clear
   }
   
+  func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+    let mover = array.remove(at: sourceIndexPath.row)
+    array.insert(mover, at: destinationIndexPath.row)
+  }
+  
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     //urlField.endEditing(true)
     if array[indexPath.row] != "&showall" {
