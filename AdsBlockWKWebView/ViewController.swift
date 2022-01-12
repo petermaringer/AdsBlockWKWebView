@@ -586,7 +586,7 @@ player.play()*/
     }
     webview.go(to: webview.backForwardList.item(at: goBackBy * -1)!)
     
-    showAlert(message: "E:\(url)")
+    //showAlert(message: "E:\(url)")
     //lb.text! += " E"
     //adjustLabel()
   }
@@ -972,7 +972,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
         tableView.dataSource = self
         tableView.delegate = self
-        //tableView.isEditing = true
+        tableView.isEditing = true
         //tableView.backgroundColor = .lightGray
         tableView.backgroundColor = .viewBgLightColor
         tableView.rowHeight = 30
