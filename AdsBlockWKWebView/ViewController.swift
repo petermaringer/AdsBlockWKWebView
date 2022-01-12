@@ -438,6 +438,7 @@ player.play()*/
             array = origArray
           }
           if !(array.isEmpty) {
+            tableView.isEditing = false
             tableView.reloadData()
             tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
             if !(tableView.isDescendant(of: view)) {
@@ -523,8 +524,10 @@ player.play()*/
   }
   
   func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-    let mover = array.remove(at: sourceIndexPath.row)
-    array.insert(mover, at: destinationIndexPath.row)
+    let mover = origArray.remove(at: sourceIndexPath.row)
+    origArray.insert(mover, at: destinationIndexPath.row)
+    //UserDefaults.standard.set(origArray, forKey: "origArray")
+    array = origArray
     tableView.isEditing = false
   }
   
