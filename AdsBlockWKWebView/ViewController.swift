@@ -513,6 +513,7 @@ player.play()*/
   func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
     let mover = array.remove(at: sourceIndexPath.row)
     array.insert(mover, at: destinationIndexPath.row)
+    tableView.isEditing = false
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -576,7 +577,8 @@ player.play()*/
   }
   
   @objc func editButtonClicked(url: String) {
-    urlField.endEditing(true)
+    //urlField.endEditing(true)
+    tableView.isEditing = true
     
     var goBackBy = 2
     if goBackBy > webview.backForwardList.backList.count {
