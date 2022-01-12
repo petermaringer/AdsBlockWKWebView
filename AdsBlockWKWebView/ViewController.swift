@@ -214,6 +214,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var tableView: UITableView!
   var origArray: Array<String> = ["https://www.google.com/"]
   var array: Array<String> = []
+  var editIndex: Int = -1
   
   var url: String!
   var currentUserAgent: String = "default"
@@ -506,8 +507,19 @@ player.play()*/
     //cell?.backgroundColor = .clear
   }
   
+  func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+    return .none
+  }
+  
+  func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+    return false
+  }
+  
   func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-    return true
+    if indexPath.row == editIndex {
+      return true
+    }
+    return false
   }
   
   func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
@@ -578,6 +590,7 @@ player.play()*/
   
   @objc func editButtonClicked(url: String) {
     //urlField.endEditing(true)
+    editIndex = origArray.firstIndex(of: url)
     tableView.reloadData()
     tableView.isEditing = true
     
