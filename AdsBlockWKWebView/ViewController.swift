@@ -578,6 +578,7 @@ player.play()*/
   
   @objc func editButtonClicked(url: String) {
     //urlField.endEditing(true)
+    tableView.reloadData()
     tableView.isEditing = true
     
     var goBackBy = 2
