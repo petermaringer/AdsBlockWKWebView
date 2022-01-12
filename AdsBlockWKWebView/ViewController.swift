@@ -590,7 +590,7 @@ player.play()*/
   
   @objc func editButtonClicked(url: String) {
     //urlField.endEditing(true)
-    editIndex = origArray.firstIndex(of: url)
+    editIndex = origArray.firstIndex(of: url)!
     tableView.reloadData()
     tableView.isEditing = true
     
