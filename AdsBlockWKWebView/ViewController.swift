@@ -214,7 +214,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var tableView: UITableView!
   var origArray: Array<String> = ["https://www.google.com/"]
   var array: Array<String> = []
-  var editIndex: Int = -1
+  var moveIndex: Int = -1
   
   var url: String!
   var currentUserAgent: String = "default"
@@ -517,18 +517,30 @@ player.play()*/
   }
   
   func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-    if indexPath.row == editIndex {
+    if indexPath.row == moveIndex {
       return true
     }
     return false
   }
   
   func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-    let mover = origArray.remove(at: sourceIndexPath.row)
-    origArray.insert(mover, at: destinationIndexPath.row)
+    
+    let oldIndex = origArray.firstIndex(of: array[destinationIndexPath.row])!
+    
+    let mover = array.remove(at: sourceIndexPath.row)
+    array.insert(mover, at: destinationIndexPath.row)
+    
+    var testArray = origArray.filter{$0 != mover}
+    //if destinationIndexPath.row <= sourceIndexPath.row {
+      testArray.insert(mover, at: oldIndex)
+    //}
+    
     //UserDefaults.standard.set(origArray, forKey: "origArray")
-    array = origArray
+    
     tableView.isEditing = false
+    
+    showAlert(message: "oI:\(oldIndex) tA:\(testArray)")
+    
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -593,7 +605,7 @@ player.play()*/
   
   @objc func editButtonClicked(url: String) {
     //urlField.endEditing(true)
-    editIndex = origArray.firstIndex(of: url)!
+    moveIndex = array.firstIndex(of: url)!
     tableView.reloadData()
     tableView.isEditing = true
     
