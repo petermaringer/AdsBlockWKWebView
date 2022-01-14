@@ -531,15 +531,13 @@ player.play()*/
     array.insert(mover, at: destinationIndexPath.row)
     
     var testArray = origArray.filter{$0 != mover}
-    //if destinationIndexPath.row <= sourceIndexPath.row {
-      testArray.insert(mover, at: oldIndex)
-    //}
+    testArray.insert(mover, at: oldIndex)
     
     //UserDefaults.standard.set(origArray, forKey: "origArray")
     
     tableView.isEditing = false
     
-    showAlert(message: "oI:\(oldIndex) tA:\(testArray)")
+    showAlert(message: "oI:\(oldIndex)/\(testArray.count) tA:\(testArray)")
     
   }
   
@@ -1085,7 +1083,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     
     webview3 = WebView(frame: CGRect.zero, history: WebViewHistory())
     //webview3.loadHTMLString("<body style='background-color:transparent;'><h1>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br>\(bflist)</body>", baseURL: nil)
-    webview3.loadHTMLString("<body style='background-color:transparent;color:white;'><h1 id='a' style='position:fixed;top:50px;background-color:white;color:black;'>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br><div id='b' onclick='copy()'>\(bflist)<br><br>\(origArray)</div><script>function copy() { var range = document.createRange(); range.selectNode(document.getElementById('b')); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); window.getSelection().removeAllRanges(); }</script></body>", baseURL: nil)
+    webview3.loadHTMLString("<body style='background-color:transparent;color:white;'><h1 id='a' style='position:fixed;top:50px;background-color:white;color:black;'>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br><div id='b' onclick='copy()'>\(bflist)<br><br>AddressBar (\(origArray.count)): \(origArray)</div><script>function copy() { var range = document.createRange(); range.selectNode(document.getElementById('b')); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); window.getSelection().removeAllRanges(); }</script></body>", baseURL: nil)
     webview3.isOpaque = false
     //webview3.backgroundColor = .orange
     //webview3.scrollView.backgroundColor = .orange
