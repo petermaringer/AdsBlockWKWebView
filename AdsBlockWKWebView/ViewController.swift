@@ -214,7 +214,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var tableView: UITableView!
   var origArray: Array<String> = ["https://www.google.com/"]
   var array: Array<String> = []
-  var moveIndex: Int = -1
+  var moverIndex: Int = -1
   
   var url: String!
   var currentUserAgent: String = "default"
@@ -517,28 +517,21 @@ player.play()*/
   }
   
   func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-    if indexPath.row == moveIndex {
+    if indexPath.row == moverIndex {
       return true
     }
     return false
   }
   
   func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-    
-    let oldIndex = origArray.firstIndex(of: array[destinationIndexPath.row])!
-    
+    let moveToIndex = origArray.firstIndex(of: array[destinationIndexPath.row])!
     let mover = array.remove(at: sourceIndexPath.row)
     array.insert(mover, at: destinationIndexPath.row)
-    
-    var testArray = origArray.filter{$0 != mover}
-    testArray.insert(mover, at: oldIndex)
-    
+    origArray = origArray.filter{$0 != mover}
+    origArray.insert(mover, at: moveToIndex)
     //UserDefaults.standard.set(origArray, forKey: "origArray")
-    
     tableView.isEditing = false
-    
-    showAlert(message: "oI:\(oldIndex)/\(testArray.count) tA:\(testArray)")
-    
+    showAlert(message: "mTI:\(moveToIndex)/\(origArray.count - 1) oA:\(origArray)")
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -603,7 +596,7 @@ player.play()*/
   
   @objc func editButtonClicked(url: String) {
     //urlField.endEditing(true)
-    moveIndex = array.firstIndex(of: url)!
+    moverIndex = array.firstIndex(of: url)!
     tableView.reloadData()
     tableView.isEditing = true
     
@@ -1078,12 +1071,12 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     webview2.allowsBackForwardNavigationGestures = true
     //view.addSubview(webview2)
     webview2.frame = CGRect(x: 0, y: 84, width: webview.frame.size.width, height: 200)
-    webview2.load(URLRequest(url: URL(string: "https://orf.at")!))
-    //webview2.loadHTMLString("<strong>So long and thanks for all the fish!</strong><br><a href='https://orf.at'>hoho</a>", baseURL: nil)
+    //webview2.load(URLRequest(url: URL(string: "https://orf.at")!))
+    webview2.loadHTMLString("<strong>So long and thanks for all the fish!</strong><br><a href='https://orf.at'>hoho</a>", baseURL: nil)
     
     webview3 = WebView(frame: CGRect.zero, history: WebViewHistory())
     //webview3.loadHTMLString("<body style='background-color:transparent;'><h1>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br>\(bflist)</body>", baseURL: nil)
-    webview3.loadHTMLString("<body style='background-color:transparent;color:white;'><h1 id='a' style='position:fixed;top:50px;background-color:white;color:black;'>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br><div id='b' onclick='copy()'>\(bflist)<br><br>AddressBar (\(origArray.count)): \(origArray)</div><script>function copy() { var range = document.createRange(); range.selectNode(document.getElementById('b')); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); window.getSelection().removeAllRanges(); }</script></body>", baseURL: nil)
+    webview3.loadHTMLString("<body style='background-color:transparent;color:white;'><h1 id='a' style='position:fixed;top:50px;background-color:white;color:black;'>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br><div id='b' onclick='copy()'>\(bflist)<br><br>AddressBar: \(origArray.count)<br>\(origArray)</div><script>function copy() { var range = document.createRange(); range.selectNode(document.getElementById('b')); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); window.getSelection().removeAllRanges(); }</script></body>", baseURL: nil)
     webview3.isOpaque = false
     //webview3.backgroundColor = .orange
     //webview3.scrollView.backgroundColor = .orange
