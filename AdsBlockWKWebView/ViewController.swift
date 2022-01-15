@@ -17,7 +17,7 @@ fileprivate let ruleId2 = "MyRuleID 002"
 
 ////////// USERPREFS //////////
 let tableMaxLinesPref: Int = 8
-let tableMoveTopPref: Bool = true
+let tableMoveTopPref: Bool = false
 ////////// USERPREFS //////////
 
 
@@ -1058,7 +1058,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         
     //webview.load(URLRequest(url: URL(string: restoreUrls[restoreIndex])!))
     
-    var bflist = "LASTbflist:"
+    var bflist = "01.01.1970 00:00 LASTbflist:"
     for (index, url) in restoreUrls.enumerated() {
       //self.webview.load(URLRequest(url: url))
       //DispatchQueue.main.async {
@@ -1081,7 +1081,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     
     webview3 = WebView(frame: CGRect.zero, history: WebViewHistory())
     //webview3.loadHTMLString("<body style='background-color:transparent;'><h1>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br>\(bflist)</body>", baseURL: nil)
-    webview3.loadHTMLString("<body style='background-color:transparent;color:white;'><h1 id='a' style='position:fixed;top:50px;background-color:white;color:black;'>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br><div id='b' onclick='copy()'>\(bflist)<br><br>AddressBar: \(origArray.count)<br>\(origArray)</div><script>function copy() { var range = document.createRange(); range.selectNode(document.getElementById('b')); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); window.getSelection().removeAllRanges(); }</script></body>", baseURL: nil)
+    webview3.loadHTMLString("<body style='background-color:transparent;color:white;'><h1 id='a' style='position:fixed;top:50px;background-color:white;color:black;'>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br><div id='b' onclick='copy()'>\(bflist)<br><br>AddressBar: \(origArray.count)<br><br>\(origArray)</div><script>function copy() { var range = document.createRange(); range.selectNode(document.getElementById('b')); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); window.getSelection().removeAllRanges(); }</script></body>", baseURL: nil)
     webview3.isOpaque = false
     //webview3.backgroundColor = .orange
     //webview3.scrollView.backgroundColor = .orange
