@@ -15,6 +15,12 @@ fileprivate let ruleId1 = "MyRuleID 001"
 fileprivate let ruleId2 = "MyRuleID 002"
 
 
+////////// USERPREFS //////////
+let tableMaxLinesPref: Int = 8
+let tableMoveTopPref: Bool = true
+////////// USERPREFS //////////
+
+
 //let videoURL = URL(string: "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_adv_example_hevc/master.m3u8")
 //let player = AVPlayer(url: videoURL!)
 //let playerViewController = AVPlayerViewController()
@@ -492,7 +498,7 @@ player.play()*/
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    tableView.frame.size.height = CGFloat(min(array.count * 30, 185))
+    tableView.frame.size.height = CGFloat(min(array.count * 30, tableMaxLinesPref * 30 + 5))
     return array.count
   }
   
@@ -529,29 +535,28 @@ player.play()*/
     array.insert(mover, at: destinationIndexPath.row)
     origArray = origArray.filter{$0 != mover}
     origArray.insert(mover, at: moveToIndex)
-    //UserDefaults.standard.set(origArray, forKey: "origArray")
+    UserDefaults.standard.set(origArray, forKey: "origArray")
     tableView.isEditing = false
-    showAlert(message: "mTI:\(moveToIndex)/\(origArray.count - 1) oA:\(origArray)")
+    //showAlert(message: "mTI:\(moveToIndex)/\(origArray.count - 1) oA:\(origArray)")
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    //urlField.endEditing(true)
     if array[indexPath.row] != "&showall" {
       urlField.endEditing(true)
       url = array[indexPath.row]
       startLoading()
     }
     urlField.text = "\(array[indexPath.row])"
-    origArray = origArray.filter{$0 != urlField.text!}
-    origArray.insert(urlField.text!, at: 0)
-    UserDefaults.standard.set(origArray, forKey: "origArray")
+    if tableMoveTopPref == true {
+      origArray = origArray.filter{$0 != urlField.text!}
+      origArray.insert(urlField.text!, at: 0)
+      UserDefaults.standard.set(origArray, forKey: "origArray")
+    }
     if array[indexPath.row] == "&showall" {
       array = origArray
       tableView.reloadData()
       tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
     }
-    //url = urlField.text!
-    //startLoading()
   }
   
   func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
