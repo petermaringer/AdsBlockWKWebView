@@ -16,8 +16,8 @@ fileprivate let ruleId2 = "MyRuleID 002"
 
 
 ////////// USERPREFS //////////
-let tableMaxLinesPref: Int = 8
-let tableMoveTopPref: Bool = false
+let tableMaxLinesPref: Int = 8 //6
+let tableMoveTopPref: Bool = false //true
 ////////// USERPREFS //////////
 
 
@@ -262,7 +262,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
         textField.frame.size.width -= 85
         button.frame.origin.x -= 85
         view.addSubview(button)
-        textField.selectAll(nil)
+        textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
+        //textField.selectAll(nil)
       default:
         break
     }
@@ -1023,7 +1024,8 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         restoreUrls = UserDefaults.standard.stringArray(forKey: "urls") ?? [String]()
         }
         
-        if restoreUrls[restoreIndex] != "https://www.google.com/" {
+        //if restoreUrls[restoreIndex] != "https://www.google.com/" {
+        if !(restoreUrls[restoreIndex].hasSuffix("www.google.com/")) {
           restoreUrls.insert("https://www.google.com/", at: 0)
         }
         
