@@ -262,7 +262,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
         textField.frame.size.width -= 85
         button.frame.origin.x -= 85
         view.addSubview(button)
-        textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
+        //textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
         //textField.selectAll(nil)
       default:
         break
@@ -704,15 +704,17 @@ player.play()*/
           //textField.text = "https://" + textField.text!
         //}
         if !(textField.text!.isEmpty) {
+          
+          if textField.text!.hasPrefix("+") {
+          textField.text!.removeFirst()
           origArray = origArray.filter{$0 != textField.text!}
           origArray.insert(textField.text!, at: 0)
           UserDefaults.standard.set(origArray, forKey: "origArray")
-          //url = URL(string: textField.text!)
+          }
+          
           url = textField.text!
           startLoading()
         }
-        //lb.text = lb.text! + " " + textField.text!
-        //adjustLabel()
       default:
         break
     }
@@ -1024,8 +1026,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         restoreUrls = UserDefaults.standard.stringArray(forKey: "urls") ?? [String]()
         }
         
-        //if restoreUrls[restoreIndex] != "https://www.google.com/" {
-        if !(restoreUrls[restoreIndex].hasSuffix("www.google.com/")) {
+        if !(restoreUrls[restoreIndex].hasSuffix("//www.google.com/")) {
           restoreUrls.insert("https://www.google.com/", at: 0)
         }
         
