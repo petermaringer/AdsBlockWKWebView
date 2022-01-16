@@ -24,7 +24,7 @@ let tableMoveTopPref: Bool = false //true
 ////////// USERPREFS //////////
 
 
-func initPool() {
+func initPool() -> WKProcessPool {
 let processPool1: WKProcessPool
 if let pool: WKProcessPool = getData(key: "pool") {
   processPool1 = pool
