@@ -1092,7 +1092,12 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         
     //webview.load(URLRequest(url: URL(string: restoreUrls[restoreIndex])!))
     
-    var bflist = "01.01.1970 00:00 LASTbflist:"
+    let currentDateTime = Date()
+    let formatter = DateFormatter()
+    formatter.dateFormat = "dd.MM.yyyy HH:mm"
+    let now = formatter.string(from: currentDateTime)
+    
+    var bflist = "\(now) LASTbflist:"
     for (index, url) in restoreUrls.enumerated() {
       //self.webview.load(URLRequest(url: url))
       //DispatchQueue.main.async {
@@ -1113,7 +1118,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     //view.addSubview(webview2)
     
     webview3 = WebView(frame: CGRect.zero, history: WebViewHistory())
-    webview3.loadHTMLString("<body style='background-color:transparent;color:white;'><h1 id='a' style='position:fixed;top:50px;background-color:white;color:black;'>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br><div id='b' onclick='copy()'>\(bflist)<br><br>AddressBar: \(origArray.count)<br><br>\(origArray)</div><script>function copy() { var range = document.createRange(); range.selectNode(document.getElementById('b')); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); window.getSelection().removeAllRanges(); }</script></body>", baseURL: nil)
+    webview3.loadHTMLString("<body style='background-color:transparent;color:white;'><h1 id='a' style='position:fixed;top:50px;background-color:white;color:black;'>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br><div id='b' style='top:80px;' onclick='copy()'>\(bflist)<br><br>AddressBar: \(origArray.count)<br><br>\(origArray)</div><script>function copy() { var range = document.createRange(); range.selectNode(document.getElementById('b')); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); window.getSelection().removeAllRanges(); }</script></body>", baseURL: nil)
     webview3.isOpaque = false
     //webview3.backgroundColor = .orange
     //webview3.scrollView.backgroundColor = .orange
@@ -1497,6 +1502,11 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   func webView(_ webview: WKWebView, didFinish navigation: WKNavigation!) {
     if webview.url!.absoluteString.hasPrefix("http://localhost:6571/errors/error.html") == false {
       urlField.text = webview.url!.absoluteString
+      
+      if webview.hasOnlySecureContent {
+        urlField.textColor = .green
+      }
+      
     }
     //showAlert(message: defaultUserAgent)
     
