@@ -29,11 +29,12 @@ func initPool() -> WKProcessPool {
 let processPool1: WKProcessPool
 if let pool: WKProcessPool = getData(key: "pool") {
   processPool1 = pool
-  iwashere = "yeah"
+  iwashere += "yes2"
 }
 else {
   processPool1 = WKProcessPool()
   setData(processPool1, key: "pool")
+  iwashere += "no"
 }
 return processPool1
 }
@@ -46,7 +47,7 @@ func setData(_ value: Any, key: String) {
 func getData<T>(key: String) -> T? {
 if let val = UserDefaults.standard.value(forKey: key) as? Data,
   let obj = NSKeyedUnarchiver.unarchiveObject(with: val) as? T {
-    iwashere = "yes"
+    iwashere += " yes1"
     return obj
   }
   return nil
@@ -1031,7 +1032,6 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
         tableView.dataSource = self
         tableView.delegate = self
-        //tableView.isEditing = true
         //tableView.backgroundColor = .lightGray
         tableView.backgroundColor = .viewBgLightColor
         tableView.rowHeight = 30
@@ -1108,13 +1108,11 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     webview2 = WebView(frame: CGRect.zero, history: WebViewHistory())
     //webview2.navigationDelegate = self
     webview2.allowsBackForwardNavigationGestures = true
-    //view.addSubview(webview2)
     webview2.frame = CGRect(x: 0, y: 84, width: webview.frame.size.width, height: 200)
-    //webview2.load(URLRequest(url: URL(string: "https://orf.at")!))
     webview2.loadHTMLString("<b>So long and thanks for all the fish!</b><br><a href='https://www.google.com/'>hoho</a>", baseURL: nil)
+    //view.addSubview(webview2)
     
     webview3 = WebView(frame: CGRect.zero, history: WebViewHistory())
-    //webview3.loadHTMLString("<body style='background-color:transparent;'><h1>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br>\(bflist)</body>", baseURL: nil)
     webview3.loadHTMLString("<body style='background-color:transparent;color:white;'><h1 id='a' style='position:fixed;top:50px;background-color:white;color:black;'>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br><div id='b' onclick='copy()'>\(bflist)<br><br>AddressBar: \(origArray.count)<br><br>\(origArray)</div><script>function copy() { var range = document.createRange(); range.selectNode(document.getElementById('b')); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); window.getSelection().removeAllRanges(); }</script></body>", baseURL: nil)
     webview3.isOpaque = false
     //webview3.backgroundColor = .orange
@@ -1238,13 +1236,11 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)") {
         self.webview.load(URLRequest(url: restoreUrl))
         
-        //let pool2: WKProcessPool = getData(key: "pool")
         self.showAlert(message: "\(iwashere)")
         
         //self.showAlert(message: "\(restoreUrl.absoluteString)")
       }
     }))
-    //alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
       self.webview.load(URLRequest(url: URL(string: "https://www.google.com/")!))
       //self.webview3.removeFromSuperview()
