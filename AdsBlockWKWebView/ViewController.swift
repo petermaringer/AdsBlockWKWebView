@@ -1105,7 +1105,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     webview2 = WebView(frame: CGRect.zero, history: WebViewHistory())
     //webview2.navigationDelegate = self
     webview2.allowsBackForwardNavigationGestures = true
-    view.addSubview(webview2)
+    //view.addSubview(webview2)
     webview2.frame = CGRect(x: 0, y: 84, width: webview.frame.size.width, height: 200)
     //webview2.load(URLRequest(url: URL(string: "https://orf.at")!))
     webview2.loadHTMLString("<b>So long and thanks for all the fish!</b><br><a href='https://www.google.com/'>hoho</a>", baseURL: nil)
@@ -1138,7 +1138,6 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     }
     
     
-        //url = URL(string: "https://www.google.com/")
         url = "https://www.google.com/"
         
         if #available(iOS 11, *) {
@@ -1235,6 +1234,10 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
       if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)") {
         self.webview.load(URLRequest(url: restoreUrl))
+        
+        let pool2: WKProcessPool = getData(key: "pool")
+        self.showAlert(message: "\(pool2)")
+        
         //self.showAlert(message: "\(restoreUrl.absoluteString)")
       }
     }))
