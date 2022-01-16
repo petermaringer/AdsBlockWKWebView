@@ -24,16 +24,16 @@ let tableMoveTopPref: Bool = false //true
 ////////// USERPREFS //////////
 
 
-let processPool: WKProcessPool!
-initPool()
+let processPool: WKProcessPool = initPool()
 func initPool() {
 if let pool: WKProcessPool = self.getData(key: "pool") {
-  processPool = pool
+  processPool1 = pool
 }
 else {
-  processPool = WKProcessPool()
-  self.setData(processPool, key: "pool")
+  processPool1 = WKProcessPool()
+  self.setData(processPool1, key: "pool")
 }
+return processPool1
 }
 
 func setData(_ value: Any, key: String) {
