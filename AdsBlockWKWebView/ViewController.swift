@@ -74,10 +74,8 @@ extension UIColor {
   static let devBgColor: UIColor = .orange
   static let fieldBgColor: UIColor = .white
   static let buttonFgColor: UIColor = .white
-  
   static let errorFgColor: UIColor = .red
   static let successFgColor: UIColor = UIColor(r: 0, g: 102, b: 0, a: 255)
-  
 }
 
 
@@ -504,6 +502,7 @@ player.play()*/
   
   //alertToUseIOS11()
   //var origArray: Array<String> = ["https://google.com","https://orf.at","https://derstandard.at","https://welt.de","https://willhaben.at","https://www.aktienfahrplan.com/plugins/rippletools/ripplenode.cgi"]
+  //arrayString = array.joined(separator:" ")
   //array.insert(item, at: 0)
   //array = array.sorted(by: >)
   //array = array.reversed()
@@ -1124,7 +1123,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     //view.addSubview(webview2)
     
     webview3 = WebView(frame: CGRect.zero, history: WebViewHistory())
-    webview3.loadHTMLString("<body style='background-color:transparent;color:white;'><h1 id='a' style='position:fixed;top:30px;background-color:white;color:black;'>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br><div id='b' style='position:relative;top:70px;' onclick='copy()'>\(bflist)<br><br>AddressBar: \(origArray.count)<br><br>\(origArray)<br><br>" + origArray.joined(separator:" ") + "</div><script>function copy() { var range = document.createRange(); range.selectNode(document.getElementById('b')); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); window.getSelection().removeAllRanges(); }</script></body>", baseURL: nil)
+    webview3.loadHTMLString("<body style='background-color:transparent;color:white;'><h1 id='a' style='position:relative;top:30px;background-color:white;color:black;'>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br><div id='b' style='position:relative;top:70px;' onclick='copy()'>\(bflist)<br><br>AddressBar: \(origArray.count)<br><br>\(origArray)</div><script>function copy() { var range = document.createRange(); range.selectNode(document.getElementById('b')); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); window.getSelection().removeAllRanges(); }</script></body>", baseURL: nil)
     webview3.isOpaque = false
     //webview3.backgroundColor = .orange
     //webview3.scrollView.backgroundColor = .orange
@@ -1468,7 +1467,6 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     }
     
     if let mimeType = navigationResponse.response.mimeType {
-      //do some thing with the MIME type
       
       if mimeType == "application/application/pdf" {
         if let data = try? Data(contentsOf: navigationResponse.response.url!) {
@@ -1477,6 +1475,12 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
           decisionHandler(.cancel)
           return
         }
+      }
+      
+      if mimeType == "application/pdf" {
+        lb.isHidden = false
+      } else {
+        lb.isHidden = true
       }
       
       lb.text = lb.text! + " mT:\(mimeType)"
