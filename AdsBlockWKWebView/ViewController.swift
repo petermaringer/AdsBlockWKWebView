@@ -24,7 +24,9 @@ let tableMoveTopPref: Bool = false //true
 ////////// USERPREFS //////////
 
 
-let processPool: WKProcessPool
+let processPool: WKProcessPool!
+initPool()
+func initPool() {
 if let pool: WKProcessPool = self.getData(key: "pool") {
   processPool = pool
 }
@@ -32,6 +34,8 @@ else {
   processPool = WKProcessPool()
   self.setData(processPool, key: "pool")
 }
+}
+
 func setData(_ value: Any, key: String) {
   let archivedPool = NSKeyedArchiver.archivedData(withRootObject: value)
   UserDefaults.standard.set(archivedPool, forKey: key)
