@@ -1105,10 +1105,10 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     webview2 = WebView(frame: CGRect.zero, history: WebViewHistory())
     //webview2.navigationDelegate = self
     webview2.allowsBackForwardNavigationGestures = true
-    //view.addSubview(webview2)
+    view.addSubview(webview2)
     webview2.frame = CGRect(x: 0, y: 84, width: webview.frame.size.width, height: 200)
     //webview2.load(URLRequest(url: URL(string: "https://orf.at")!))
-    webview2.loadHTMLString("<strong>So long and thanks for all the fish!</strong><br><a href='https://orf.at'>hoho</a>", baseURL: nil)
+    webview2.loadHTMLString("<b>So long and thanks for all the fish!</b><br><a href='https://www.google.com/'>hoho</a>", baseURL: nil)
     
     webview3 = WebView(frame: CGRect.zero, history: WebViewHistory())
     //webview3.loadHTMLString("<body style='background-color:transparent;'><h1>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br>\(bflist)</body>", baseURL: nil)
