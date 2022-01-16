@@ -16,9 +16,33 @@ fileprivate let ruleId2 = "MyRuleID 002"
 
 
 ////////// USERPREFS //////////
-let tableMaxLinesPref: Int = 8 //6
+let tableMaxLinesPref: Int = 6 //6
 let tableMoveTopPref: Bool = false //true
+//StartseiteStattGoogle
+//AlleSeitenHinzuStatt+
+//IdleTimerEinAus
 ////////// USERPREFS //////////
+
+
+let processPool: WKProcessPool
+if let pool: WKProcessPool = self.getData(key: "pool") {
+  processPool = pool
+}
+else {
+  processPool = WKProcessPool()
+  self.setData(processPool, key: "pool")
+}
+func setData(_ value: Any, key: String) {
+  let archivedPool = NSKeyedArchiver.archivedData(withRootObject: value)
+  UserDefaults.standard.set(archivedPool, forKey: key)
+}
+func getData<T>(key: String) -> T? {
+if let val = UserDefaults.standard.value(forKey: key) as? Data,
+  let obj = NSKeyedUnarchiver.unarchiveObject(with: val) as? T {
+    return obj
+  }
+  return nil
+}
 
 
 //let videoURL = URL(string: "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_adv_example_hevc/master.m3u8")
@@ -704,14 +728,12 @@ player.play()*/
           //textField.text = "https://" + textField.text!
         //}
         if !(textField.text!.isEmpty) {
-          
           if textField.text!.hasPrefix("+") {
-          textField.text!.removeFirst()
-          origArray = origArray.filter{$0 != textField.text!}
-          origArray.insert(textField.text!, at: 0)
-          UserDefaults.standard.set(origArray, forKey: "origArray")
+            textField.text!.removeFirst()
+            origArray = origArray.filter{$0 != textField.text!}
+            origArray.insert(textField.text!, at: 0)
+            UserDefaults.standard.set(origArray, forKey: "origArray")
           }
-          
           url = textField.text!
           startLoading()
         }
@@ -895,6 +917,7 @@ player.play()*/
         
         webviewConfig = WKWebViewConfiguration()
         webviewConfig.preferences = webviewPrefs
+        webviewConfig.processPool = processPool
         webviewConfig.allowsInlineMediaPlayback = true
         webviewConfig.mediaTypesRequiringUserActionForPlayback = []
         //webviewConfig.mediaTypesRequiringUserActionForPlayback = .all
