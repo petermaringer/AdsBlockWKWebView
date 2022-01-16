@@ -1507,8 +1507,10 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       if webview.hasOnlySecureContent {
         urlField.textColor = .green
       }
-      let mediaType = webview.mediaType
-      showAlert(message: mediaType)
+      if #available(iOS 14, *) {
+        let mediaType = webview.mediaType
+        showAlert(message: mediaType!)
+      }
       
     }
     //showAlert(message: defaultUserAgent)
