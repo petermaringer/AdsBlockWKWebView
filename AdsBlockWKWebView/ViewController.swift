@@ -24,10 +24,12 @@ let tableMoveTopPref: Bool = false //true
 ////////// USERPREFS //////////
 
 
+var iwashere = "hi"
 func initPool() -> WKProcessPool {
 let processPool1: WKProcessPool
 if let pool: WKProcessPool = getData(key: "pool") {
   processPool1 = pool
+  iwashere = "yeah"
 }
 else {
   processPool1 = WKProcessPool()
@@ -44,6 +46,7 @@ func setData(_ value: Any, key: String) {
 func getData<T>(key: String) -> T? {
 if let val = UserDefaults.standard.value(forKey: key) as? Data,
   let obj = NSKeyedUnarchiver.unarchiveObject(with: val) as? T {
+    iwashere = "yes"
     return obj
   }
   return nil
@@ -1235,8 +1238,8 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)") {
         self.webview.load(URLRequest(url: restoreUrl))
         
-        let pool2: WKProcessPool = getData(key: "pool")
-        self.showAlert(message: "\(pool2)")
+        //let pool2: WKProcessPool = getData(key: "pool")
+        self.showAlert(message: "\(iwashere)")
         
         //self.showAlert(message: "\(restoreUrl.absoluteString)")
       }
