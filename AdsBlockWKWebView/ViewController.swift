@@ -74,6 +74,9 @@ extension UIColor {
   static let devBgColor: UIColor = .orange
   static let fieldBgColor: UIColor = .white
   static let buttonFgColor: UIColor = .white
+  
+  static let successFgColor: UIColor = UIColor(r: 0, g: 102, b: 0, a: 255)
+  
 }
 
 
@@ -979,6 +982,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         urlField = UITextField(frame: CGRect.zero)
         urlField.placeholder = "Type your Address"
         urlField.font = UIFont.systemFont(ofSize: 15)
+        urlField.textColor = .appBgColor
         urlField.tintColor = .appBgColor
         urlField.backgroundColor = .fieldBgColor
         //urlField.borderStyle = UITextField.BorderStyle.roundedRect
@@ -1119,7 +1123,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     //view.addSubview(webview2)
     
     webview3 = WebView(frame: CGRect.zero, history: WebViewHistory())
-    webview3.loadHTMLString("<body style='background-color:transparent;color:white;'><h1 id='a' style='position:fixed;top:50px;background-color:white;color:black;'>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br><div id='b' style='position:relative;top:80px;' onclick='copy()'>\(bflist)<br><br>AddressBar: \(origArray.count)<br><br>\(origArray)</div><script>function copy() { var range = document.createRange(); range.selectNode(document.getElementById('b')); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); window.getSelection().removeAllRanges(); }</script></body>", baseURL: nil)
+    webview3.loadHTMLString("<body style='background-color:transparent;color:white;'><h1 id='a' style='position:fixed;top:30px;background-color:white;color:black;'>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br><div id='b' style='position:relative;top:70px;' onclick='copy()'>\(bflist)<br><br>AddressBar: \(origArray.count)<br><br>\(origArray)</div><script>function copy() { var range = document.createRange(); range.selectNode(document.getElementById('b')); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); window.getSelection().removeAllRanges(); }</script></body>", baseURL: nil)
     webview3.isOpaque = false
     //webview3.backgroundColor = .orange
     //webview3.scrollView.backgroundColor = .orange
@@ -1241,9 +1245,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
       if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)") {
         self.webview.load(URLRequest(url: restoreUrl))
-        
-        self.showAlert(message: "\(iwashere)")
-        
+        //self.showAlert(message: "\(iwashere)")
         //self.showAlert(message: "\(restoreUrl.absoluteString)")
       }
     }))
@@ -1476,10 +1478,10 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         }
       }
       
-      lb.text = lb.text! + " \(mimeType)"
+      lb.text = lb.text! + " mT:\(mimeType)"
       adjustLabel()
     } else {
-      lb.text = lb.text! + " noMime"
+      lb.text = lb.text! + " mT:noMime"
       adjustLabel()
     }
     decisionHandler(.allow)
@@ -1505,12 +1507,12 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       urlField.text = webview.url!.absoluteString
       
       if webview.hasOnlySecureContent {
-        urlField.textColor = .green
+        urlField.textColor = .successFgColor
       }
-      if #available(iOS 14, *) {
+      /*if #available(iOS 14, *) {
         let mediaType = webview.mediaType
         showAlert(message: "mT:\(mediaType)!")
-      }
+      }*/
       
     }
     //showAlert(message: defaultUserAgent)
@@ -1565,8 +1567,8 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     urlsJson.removeLast(2)
     urlsJson += "]}"
     UserDefaults.standard.set(urlsJson, forKey: "urlsJson")
-    lb.text = lb.text! + " urlsJ:\(urlsJson)"
-    adjustLabel()
+    //lb.text = lb.text! + " urlsJ:\(urlsJson)"
+    //adjustLabel()
     
     //if restoreIndex == 25 {
     //restoreIndexLast = 25
