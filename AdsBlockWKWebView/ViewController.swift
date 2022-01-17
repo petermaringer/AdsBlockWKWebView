@@ -240,6 +240,18 @@ class WebView2: WKWebView {
 */
 
 
+extension ViewController: WKDownloadDelegate {
+  @available(iOS 15, *)
+  func download(_ download: WKDownload, decideDestinationUsing response: URLResponse, suggestedFilename: String, completionHandler: @escaping (URL?) -> Void) {
+    let temporaryDir = NSTemporaryDirectory()
+    let fileName = temporaryDir + "/" + suggestedFilename
+    let url = URL(fileURLWithPath: fileName)
+    fileDestinationURL = url
+    completionHandler(url)
+  }
+}
+
+
 class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler, WKDownloadDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
   
   var webview: WKWebView!
