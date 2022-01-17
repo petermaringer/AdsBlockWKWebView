@@ -18,6 +18,7 @@ fileprivate let ruleId2 = "MyRuleID 002"
 ////////// USERPREFS //////////
 let tableMaxLinesPref: Int = 6 //6
 let tableMoveTopPref: Bool = false //true
+let webviewSearchUrlPref: String = "https://duckduckgo.com/?q=" //https://www.google.com/search?q=
 //StartseiteStattGoogle
 //AlleSeitenHinzuStatt+
 //IdleTimerEinAus
@@ -74,7 +75,8 @@ extension UIColor {
   static let devBgColor: UIColor = .orange
   static let fieldBgColor: UIColor = .white
   static let buttonFgColor: UIColor = .white
-  static let errorFgColor: UIColor = .red
+  //static let errorFgColor: UIColor = .red
+  static let errorFgColor: UIColor = UIColor(r: 115, g: 55, b: 60, a: 255)
   static let successFgColor: UIColor = UIColor(r: 0, g: 102, b: 0, a: 255)
 }
 
@@ -244,23 +246,12 @@ class WebView2: WKWebView {
 extension ViewController: WKDownloadDelegate {
   func download(_ download: WKDownload, decideDestinationUsing response: URLResponse, suggestedFilename: String, completionHandler: @escaping (URL?) -> Void) {
     //let temporaryDir = NSTemporaryDirectory()
-    /*let documentsDir: String = {
-      let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-      return urls[0].absoluteString
-    }()
-    let fileName = documentsDir + "/" + suggestedFilename
-    //let fileName = "\(documentsDir)/" + suggestedFilename
-    let url = URL(fileURLWithPath: fileName)
-    showAlert(message: "\(url)")
-    completionHandler(url)*/
-    
     if let documentsDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
       let fileName = documentsDir + "/" + suggestedFilename
       let url = URL(fileURLWithPath: fileName)
       showAlert(message: "\(url)")
       completionHandler(url)
     }
-    
   }
 }
 
@@ -1496,6 +1487,8 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     }
     
     if let mimeType = navigationResponse.response.mimeType {
+      lb.text = lb.text! + " mT:\(mimeType)"
+      adjustLabel()
       
       if mimeType == "application/application/pdf" {
         if let data = try? Data(contentsOf: navigationResponse.response.url!) {
@@ -1516,8 +1509,6 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         lb.isHidden = true
       }
       
-      lb.text = lb.text! + " mT:\(mimeType)"
-      adjustLabel()
     } else {
       lb.text = lb.text! + " mT:noMime"
       adjustLabel()
@@ -1531,7 +1522,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     switch err.code {
       case -999: break
       case 101, -1003:
-        url = "https://www.google.com/search?q=\(url!)"
+        url = "\(webviewSearchUrlPref)\(url!)"
         startLoading()
       default:
         showAlert(message: "Error: \(err.code) \(err.localizedDescription)")
