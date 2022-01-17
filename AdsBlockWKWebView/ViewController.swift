@@ -244,11 +244,12 @@ class WebView2: WKWebView {
 extension ViewController: WKDownloadDelegate {
   func download(_ download: WKDownload, decideDestinationUsing response: URLResponse, suggestedFilename: String, completionHandler: @escaping (URL?) -> Void) {
     //let temporaryDir = NSTemporaryDirectory()
-    lazy var documentsDir: URL = {
+    let documentsDir: URL = {
       let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
       return urls[0]
     }()
-    let fileName = documentsDir + "/" + suggestedFilename
+    //let fileName = documentsDir + "/" + suggestedFilename
+    let fileName = "\(documentsDir)/" + suggestedFilename
     let url = URL(fileURLWithPath: fileName)
     showAlert(message: "\(url)")
     completionHandler(url)
