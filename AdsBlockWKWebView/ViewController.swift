@@ -246,7 +246,7 @@ extension ViewController: WKDownloadDelegate {
     //let temporaryDir = NSTemporaryDirectory()
     let documentsDir: String = {
       let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-      return urls[0]
+      return urls[0].absoluteString
     }()
     let fileName = documentsDir + "/" + suggestedFilename
     //let fileName = "\(documentsDir)/" + suggestedFilename
