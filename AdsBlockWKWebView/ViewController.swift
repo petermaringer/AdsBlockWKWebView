@@ -240,13 +240,19 @@ class WebView2: WKWebView {
 */
 
 
+@available(iOS 15, *)
 extension ViewController: WKDownloadDelegate {
-  @available(iOS 15, *)
+  //@available(iOS 15, *)
   func download(_ download: WKDownload, decideDestinationUsing response: URLResponse, suggestedFilename: String, completionHandler: @escaping (URL?) -> Void) {
     let temporaryDir = NSTemporaryDirectory()
     let fileName = temporaryDir + "/" + suggestedFilename
     let url = URL(fileURLWithPath: fileName)
     //fileDestinationURL = url
+    lazy var documentsUrl: URL = {
+      let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+      return urls[0]
+    }()
+    showAlert(message: "wkD:\(url):\(documentsUrl)")
     completionHandler(url)
   }
 }
@@ -1497,7 +1503,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         lb.isHidden = false
         if #available(iOS 15, *) {
           decisionHandler(.download)
-          return
+          //return
         }
       } else {
         lb.isHidden = true
