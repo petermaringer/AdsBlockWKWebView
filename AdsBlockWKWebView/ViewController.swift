@@ -531,6 +531,7 @@ player.play()*/
     let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath as IndexPath)
     cell.backgroundColor = .clear
     cell.textLabel!.font = UIFont.systemFont(ofSize: 15)
+    cell.textLabel!.textColor = .appBgColor
     cell.textLabel!.text = "\(array[indexPath.row])"
     return cell
   }
@@ -737,9 +738,6 @@ player.play()*/
     switch textField {
       case urlField:
         textField.endEditing(true)
-        //if !(textField.text!.hasPrefix("https://") || textField.text!.hasPrefix("http://") || textField.text!.isEmpty) {
-          //textField.text = "https://" + textField.text!
-        //}
         if !(textField.text!.isEmpty) {
           if textField.text!.hasPrefix("+") {
             textField.text!.removeFirst()
@@ -1355,6 +1353,12 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   }
   
   
+  @available(iOS 14.5, *)
+  func webView(_ webview: WKWebView, navigationResponse: WKNavigationResponse, didBecome download: WKDownload) {
+    download.delegate = self
+  }
+  
+  
   func webView(_ webview: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
     if let urlStr = navigationAction.request.url?.absoluteString {
       //Full path self.webview.url
@@ -1396,9 +1400,9 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       var unilinkStop = false
       unilinkUrls.forEach { item in
         if navigationAction.request.url!.absoluteString.lowercased().hasPrefix(item.lowercased()) {
-          if !webview.url!.absoluteString.lowercased().hasPrefix(item.lowercased()) {
+          //if !webview.url!.absoluteString.lowercased().hasPrefix(item.lowercased()) {
             unilinkStop = true
-          }
+          //}
         }
       }
       if unilinkStop == true {
@@ -1479,6 +1483,10 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       
       if mimeType == "application/pdf" {
         lb.isHidden = false
+        if #available(iOS 14.5, *) {
+          decisionHandler(.download)
+          return
+        }
       } else {
         lb.isHidden = true
       }
@@ -1503,7 +1511,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       default:
         showAlert(message: "Error: \(err.code) \(err.localizedDescription)")
     }
-    lb.text = lb.text! + " err: \(err.code)"
+    lb.text = lb.text! + " err:\(err.code)"
     adjustLabel()
   }
   
