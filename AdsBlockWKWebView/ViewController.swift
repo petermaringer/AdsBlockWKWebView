@@ -1503,7 +1503,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         lb.isHidden = false
         if #available(iOS 15, *) {
           decisionHandler(.download)
-          //return
+          return
         }
       } else {
         lb.isHidden = true
