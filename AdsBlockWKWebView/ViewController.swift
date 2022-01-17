@@ -240,7 +240,7 @@ class WebView2: WKWebView {
 */
 
 
-class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler, WKDownloadDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
   
   var webview: WKWebView!
   
