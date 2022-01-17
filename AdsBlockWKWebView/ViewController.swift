@@ -246,13 +246,13 @@ extension ViewController: WKDownloadDelegate {
     let temporaryDir = NSTemporaryDirectory()
     let fileName = temporaryDir + "/" + suggestedFilename
     let url = URL(fileURLWithPath: fileName)
-    fileDestinationURL = url
+    //fileDestinationURL = url
     completionHandler(url)
   }
 }
 
 
-class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler, WKDownloadDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
   
   var webview: WKWebView!
   
