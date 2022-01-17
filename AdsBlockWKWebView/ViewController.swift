@@ -76,7 +76,7 @@ extension UIColor {
   static let fieldBgColor: UIColor = .white
   static let buttonFgColor: UIColor = .white
   //static let errorFgColor: UIColor = .red
-  static let errorFgColor: UIColor = UIColor(r: 115, g: 55, b: 60, a: 255)
+  static let errorFgColor: UIColor = UIColor(r: 150, g: 55, b: 60, a: 255)
   static let successFgColor: UIColor = UIColor(r: 0, g: 102, b: 0, a: 255)
 }
 
@@ -249,7 +249,9 @@ extension ViewController: WKDownloadDelegate {
     if let documentsDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
       let fileName = documentsDir + "/" + suggestedFilename
       let url = URL(fileURLWithPath: fileName)
-      showAlert(message: "\(url)")
+      lb.text = lb.text! + " wkD:\(url)"
+      adjustLabel()
+      //showAlert(message: "\(url)")
       completionHandler(url)
     }
   }
@@ -1359,9 +1361,16 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         urlobj = URL(string: "http://" + url)
       }
       lb.text! += " \(matchedNumber)"
-      lb.text! += "|\(urlobj!.absoluteString)"
-      adjustLabel()
+      //lb.text! += "|\(urlobj!.absoluteString)"
+      //adjustLabel()
     }
+    
+    if !url.contains(".") {
+      urlobj = URL(string: webviewSearchUrlPref + url)
+    }
+    lb.text! += "|\(urlobj!.absoluteString)"
+    adjustLabel()
+    
     navTypeBackForward = false
     
     let request = URLRequest(url: urlobj!)
