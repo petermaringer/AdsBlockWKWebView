@@ -77,7 +77,7 @@ extension UIColor {
   static let fieldBgColor: UIColor = .white
   static let buttonFgColor: UIColor = .white
   //static let errorFgColor: UIColor = .red
-  static let errorFgColor: UIColor = UIColor(r: 170, g: 55, b: 60, a: 255)
+  static let errorFgColor: UIColor = UIColor(r: 180, g: 55, b: 60, a: 255)
   static let successFgColor: UIColor = UIColor(r: 0, g: 102, b: 0, a: 255)
 }
 
@@ -281,6 +281,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var defaultUserAgent: String = "default"
   let desktopUserAgent: String = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.1 Safari/605.1.15"
   var navTypeBackForward: Bool = false
+  var navTypeDownload: Bool = false
   
   var restoreIndex: Int = 0
   var restoreIndexLast: Int = 0
@@ -763,6 +764,10 @@ player.play()*/
             origArray = origArray.filter{$0 != textField.text!}
             origArray.insert(textField.text!, at: 0)
             UserDefaults.standard.set(origArray, forKey: "origArray")
+          }
+          if textField.text!.hasPrefix(">") {
+            textField.text!.removeFirst()
+            navTypeDownload = true
           }
           url = textField.text!
           startLoading()
@@ -1509,18 +1514,19 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         }
       }
       
-      if mimeType == "application/pdf" {
-        lb.isHidden = false
+      if navTypeDownload == true {
+        navTypeDownload = false
+        if mimeType == "application/pdf" {
+          lb.isHidden = false
+        } else {
+          lb.isHidden = true
+        }
         if #available(iOS 15, *) {
-          
           //webview.stopLoading()
           //webview.load(URLRequest(url: navigationResponse.response.url!))
-          
           decisionHandler(.download)
           return
         }
-      } else {
-        lb.isHidden = true
       }
       
     } else {
