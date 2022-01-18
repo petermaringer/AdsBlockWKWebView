@@ -1366,9 +1366,9 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       //adjustLabel()
     }
     
-    if !url.contains(".") {
-      urlobj = URL(string: webviewSearchUrlPref + url)
-    }
+    //if !url.contains(".") {
+      //urlobj = URL(string: webviewSearchUrlPref + url)
+    //}
     lb.text! += "|\(urlobj!.absoluteString)"
     adjustLabel()
     
@@ -1513,8 +1513,8 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         lb.isHidden = false
         if #available(iOS 15, *) {
           
-          webview.stopLoading()
-          webview.load(URLRequest(url: navigationResponse.response.url!))
+          //webview.stopLoading()
+          //webview.load(URLRequest(url: navigationResponse.response.url!))
           
           decisionHandler(.download)
           return
