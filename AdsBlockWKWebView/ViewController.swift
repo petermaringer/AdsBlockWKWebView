@@ -77,7 +77,7 @@ extension UIColor {
   static let fieldBgColor: UIColor = .white
   static let buttonFgColor: UIColor = .white
   //static let errorFgColor: UIColor = .red
-  static let errorFgColor: UIColor = UIColor(r: 180, g: 55, b: 60, a: 255)
+  static let errorFgColor: UIColor = UIColor(r: 190, g: 55, b: 60, a: 255)
   static let successFgColor: UIColor = UIColor(r: 0, g: 102, b: 0, a: 255)
 }
 
@@ -256,6 +256,15 @@ extension ViewController: WKDownloadDelegate {
       completionHandler(url)
     }
   }
+  
+  func download(_ download: WKDownload, didFailWithError error: Error, resumeData: Data?) {
+    showAlert(message: "Download failed \(error)")
+  }
+  
+  func downloadDidFinish(_ download: WKDownload) {
+    showAlert(message: "Download finished")
+  }
+  
 }
 
 
@@ -1522,7 +1531,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
           lb.isHidden = true
         }
         if #available(iOS 15, *) {
-          //webview.stopLoading()
+          webview.stopLoading()
           //webview.load(URLRequest(url: navigationResponse.response.url!))
           decisionHandler(.download)
           return
