@@ -16,15 +16,10 @@ fileprivate let ruleId2 = "MyRuleID 002"
 
 
 ////////// USERPREFS //////////
-var tableMaxLinesPref: Int = 6 //6
-tableMaxLinesPref = 6
-
-var tableMoveTopPref: Bool = true //true
-tableMoveTopPref = false
-
+let tableMaxLinesPref: Int = 6 //6
+let tableMoveTopPref: Bool = false //true
 let webviewSearchUrlPref: String = "https://www.google.com/search?q="
 //let webviewSearchUrlPref: String = "https://duckduckgo.com/?q="
-
 //StartseiteStattGoogle
 //AlleSeitenHinzuStatt+
 //IdleTimerEinAus
@@ -82,7 +77,7 @@ extension UIColor {
   static let fieldBgColor: UIColor = .white
   static let buttonFgColor: UIColor = .white
   //static let errorFgColor: UIColor = .red
-  static let errorFgColor: UIColor = UIColor(r: 150, g: 55, b: 60, a: 255)
+  static let errorFgColor: UIColor = UIColor(r: 170, g: 55, b: 60, a: 255)
   static let successFgColor: UIColor = UIColor(r: 0, g: 102, b: 0, a: 255)
 }
 
@@ -1517,6 +1512,10 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       if mimeType == "application/pdf" {
         lb.isHidden = false
         if #available(iOS 15, *) {
+          
+          webview.stopLoading()
+          webview.load(URLRequest(url: navigationResponse.response.url!))
+          
           decisionHandler(.download)
           return
         }
