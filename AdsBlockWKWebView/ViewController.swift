@@ -1531,7 +1531,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
           lb.isHidden = true
         }
         if #available(iOS 15, *) {
-          webview.stopLoading()
+          //webview.stopLoading()
           //webview.load(URLRequest(url: navigationResponse.response.url!))
           decisionHandler(.download)
           return
