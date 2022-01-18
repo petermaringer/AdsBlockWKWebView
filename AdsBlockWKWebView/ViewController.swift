@@ -16,9 +16,15 @@ fileprivate let ruleId2 = "MyRuleID 002"
 
 
 ////////// USERPREFS //////////
-let tableMaxLinesPref: Int = 6 //6
-let tableMoveTopPref: Bool = false //true
-let webviewSearchUrlPref: String = "https://duckduckgo.com/?q=" //https://www.google.com/search?q=
+var tableMaxLinesPref: Int = 6 //6
+tableMaxLinesPref = 6
+
+var tableMoveTopPref: Bool = true //true
+tableMoveTopPref = false
+
+let webviewSearchUrlPref: String = "https://www.google.com/search?q="
+//let webviewSearchUrlPref: String = "https://duckduckgo.com/?q="
+
 //StartseiteStattGoogle
 //AlleSeitenHinzuStatt+
 //IdleTimerEinAus
