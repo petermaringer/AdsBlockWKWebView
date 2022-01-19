@@ -1382,7 +1382,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     }
     
     if urlobj!.absoluteString.hasPrefix("http://") {
-    if !(urlobj!.absoluteString.contains(".") || urlobj!.absoluteString.filter({ $0 == ":" }).count >= 2 {
+    if !(urlobj!.absoluteString.contains(".") || urlobj!.absoluteString.filter({ $0 == ":" }).count >= 2) {
     //if !url.contains(".") {
       urlobj = URL(string: webviewSearchUrlPref + url)
     }
