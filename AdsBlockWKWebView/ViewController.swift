@@ -1523,26 +1523,32 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         }
       }
       
+      
+      if mimeType == "application/pdf" {
+        lb.isHidden = false
+      } else {
+        lb.isHidden = true
+      }
+      
+      if navTypeDownload == false {
+        decisionHandler(.allow)
+      }
       if navTypeDownload == true {
         navTypeDownload = false
-        if mimeType == "application/pdf" {
-          lb.isHidden = false
-        } else {
-          lb.isHidden = true
-        }
         if #available(iOS 15, *) {
           //webview.stopLoading()
           //webview.load(URLRequest(url: navigationResponse.response.url!))
           decisionHandler(.download)
-          return
+          //return
         }
       }
       
     } else {
       lb.text = lb.text! + " mT:noMime"
       adjustLabel()
+      decisionHandler(.allow)
     }
-    decisionHandler(.allow)
+    //decisionHandler(.allow)
   }
   
   
