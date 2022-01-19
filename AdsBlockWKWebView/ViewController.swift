@@ -1385,7 +1385,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       }
       lb.text! += " \(matchedNumber)"
       lb.text! += "|\(urlobj!.absoluteString)"
-      lb.text! += url.filter({$0 == ":"}).count as String
+      lb.text! += String(url.filter({$0 == ":"}).count)
       adjustLabel()
     }
     navTypeBackForward = false
