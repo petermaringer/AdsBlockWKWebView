@@ -1381,9 +1381,12 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       //adjustLabel()
     }
     
+    if urlobj!.absoluteString.hasPrefix("http://") {
+    if !(urlobj!.absoluteString.contains(".") || urlobj!.absoluteString.filter({ $0 == ":" }).count >= 2 {
     //if !url.contains(".") {
-      //urlobj = URL(string: webviewSearchUrlPref + url)
-    //}
+      urlobj = URL(string: webviewSearchUrlPref + url)
+    }
+    }
     lb.text! += "|\(urlobj!.absoluteString)"
     adjustLabel()
     
