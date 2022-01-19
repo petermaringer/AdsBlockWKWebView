@@ -258,7 +258,13 @@ extension ViewController: WKDownloadDelegate {
   }
   
   func download(_ download: WKDownload, didFailWithError error: Error, resumeData: Data?) {
-    showAlert(message: "Download failed \(error)")
+    let err = error as NSError
+    
+    showAlert(message: "Error: \(err.code) \(err.localizedDescription)")
+    lb.text! += " err:\(err.code)"
+    adjustLabel()
+    
+    //showAlert(message: "Download failed \(error)")
   }
   
   func downloadDidFinish(_ download: WKDownload) {
@@ -1359,6 +1365,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   //"err: \((error as NSError).code)"
   //if let err = error as NSError {}
   //private func encodeUrl() {}
+  //if !(url.hasPrefix("https://") || url.hasPrefix("http://")) {}
   
   
   private func startLoading() {
@@ -1367,36 +1374,21 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     url = url.addingPercentEncoding(withAllowedCharacters: allowed)
     //showAlert(message: url)
     var urlobj = URL(string: url)
-    
-    /*if !(url.hasPrefix("https://") || url.hasPrefix("http://")) {
-      urlobj = URL(string: "http://" + url)
-    }*/
     if let regularExpression = try? NSRegularExpression(pattern: "^.{1,10}://") {
       let matchedNumber = regularExpression.numberOfMatches(in: url, options: [], range: NSRange(location: 0, length: url.count))
       if matchedNumber == 0 {
         urlobj = URL(string: "http://" + url)
-        
-        if !(url.contains(".") || url.hasPrefix("localhost")) {
+        //if !(url.contains(".") || url.hasPrefix("localhost")) {
+        if !url.contains(".") {
           urlobj = URL(string: webviewSearchUrlPref + url)
         }
-        
       }
       lb.text! += " \(matchedNumber)"
-      //lb.text! += "|\(urlobj!.absoluteString)"
-      //adjustLabel()
+      lb.text! += "|\(urlobj!.absoluteString)"
+      lb.text! += url.filter({$0 == ":"}).count
+      adjustLabel()
     }
-    
-    /*if urlobj!.absoluteString.hasPrefix("http://") {
-    if !(urlobj!.absoluteString.contains(".") || urlobj!.absoluteString.filter({ $0 == ":" }).count >= 2) {
-    //if !url.contains(".") {
-      urlobj = URL(string: webviewSearchUrlPref + url)
-    }
-    }*/
-    lb.text! += "|\(urlobj!.absoluteString)"
-    adjustLabel()
-    
     navTypeBackForward = false
-    
     let request = URLRequest(url: urlobj!)
     webview.load(request)
   }
