@@ -1375,18 +1375,23 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       let matchedNumber = regularExpression.numberOfMatches(in: url, options: [], range: NSRange(location: 0, length: url.count))
       if matchedNumber == 0 {
         urlobj = URL(string: "http://" + url)
+        
+        if !(url.contains(".") || url.hasPrefix("localhost")) {
+          urlobj = URL(string: webviewSearchUrlPref + url)
+        }
+        
       }
       lb.text! += " \(matchedNumber)"
       //lb.text! += "|\(urlobj!.absoluteString)"
       //adjustLabel()
     }
     
-    if urlobj!.absoluteString.hasPrefix("http://") {
+    /*if urlobj!.absoluteString.hasPrefix("http://") {
     if !(urlobj!.absoluteString.contains(".") || urlobj!.absoluteString.filter({ $0 == ":" }).count >= 2) {
     //if !url.contains(".") {
       urlobj = URL(string: webviewSearchUrlPref + url)
     }
-    }
+    }*/
     lb.text! += "|\(urlobj!.absoluteString)"
     adjustLabel()
     
