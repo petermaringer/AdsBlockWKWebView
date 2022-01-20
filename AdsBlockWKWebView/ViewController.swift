@@ -1004,11 +1004,11 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         lb.isHidden = true
         view.addSubview(lb)
         
-        //let observation = 
-        lb.observe(\UILabel.text, options: [.new, .old]) { lb, change in
+        lb.addObserver(self, forKeyPath: "text", options: [.old, .new], context: nil)
+        //let observation = lb.observe(\UILabel.text, options: [.new, .old]) { lb, change in
           //print("\(change.newValue as? String ?? "" )")
-          self.lbcounter += 1
-        }
+          //self.lbcounter += 1
+        //}
         
         topNavBgView = UIView(frame: CGRect.zero)
         //topNavBgView.backgroundColor = UIColor.viewBgColor.withAlphaComponent(0.85)
@@ -1228,6 +1228,10 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   
   override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
     if let key = change?[NSKeyValueChangeKey.newKey] {
+      
+      if keyPath == "text" {
+        lbcounter += 1
+      }
       
       if keyPath == "URL" {
         webview.evaluateJavaScript("var el = document.querySelector('input[type=file]'); if (el !== null) { window.webkit.messageHandlers.iosListener.postMessage('iF' + el.getAttribute('accept')); el.removeAttribute('accept'); el.removeAttribute('capture'); el.removeAttribute('onclick'); el.click(); }", completionHandler: nil)
