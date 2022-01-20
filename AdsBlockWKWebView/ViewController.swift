@@ -1004,9 +1004,10 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         lb.isHidden = true
         view.addSubview(lb)
         
-        let observation = lb.observe(\UILabel.text, options: [.new, .old]) { lb, change in
+        //let observation = 
+        lb.observe(\UILabel.text, options: [.new, .old]) { lb, change in
           //print("\(change.newValue as? String ?? "" )")
-          lbcounter += 1
+          self.lbcounter += 1
         }
         
         topNavBgView = UIView(frame: CGRect.zero)
