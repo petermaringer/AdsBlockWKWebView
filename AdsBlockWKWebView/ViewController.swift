@@ -77,7 +77,7 @@ extension UIColor {
   static let fieldBgColor: UIColor = .white
   static let buttonFgColor: UIColor = .white
   //static let errorFgColor: UIColor = .red
-  static let errorFgColor: UIColor = UIColor(r: 190, g: 55, b: 60, a: 255)
+  static let errorFgColor: UIColor = UIColor(r: 200, g: 55, b: 60, a: 255)
   static let successFgColor: UIColor = UIColor(r: 0, g: 102, b: 0, a: 255)
 }
 
@@ -260,7 +260,7 @@ extension ViewController: WKDownloadDelegate {
   func download(_ download: WKDownload, didFailWithError error: Error, resumeData: Data?) {
     let err = error as NSError
     
-    showAlert(message: "Error: \(err.code) \(err.localizedDescription)")
+    showAlert(message: "\(lbcounter) Error: \(err.code) \(err.localizedDescription)")
     lb.text! += " err:\(err.code)"
     adjustLabel()
     
@@ -285,6 +285,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var urlField: UITextField!
   var button: UIButton!
   var lb: UILabel!
+  var lbcounter: Int = 0
   
   var tableView: UITableView!
   var origArray: Array<String> = ["https://www.google.com/"]
@@ -1003,6 +1004,11 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         lb.isHidden = true
         view.addSubview(lb)
         
+        let observation = lb.observe(\UILabel.text, options: [.new, .old]) { lb, change in
+          //print("\(change.newValue as? String ?? "" )")
+          lbcounter += 1
+        }
+        
         topNavBgView = UIView(frame: CGRect.zero)
         //topNavBgView.backgroundColor = UIColor.viewBgColor.withAlphaComponent(0.85)
         topNavBgView.backgroundColor = .viewBgColor
@@ -1366,6 +1372,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   //if let err = error as NSError {}
   //private func encodeUrl() {}
   //if !(url.hasPrefix("https://") || url.hasPrefix("http://")) {}
+  //String(url.filter({$0 == ":"}).count)
   
   
   private func startLoading() {
@@ -1378,18 +1385,16 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       let matchedNumber = regularExpression.numberOfMatches(in: url, options: [], range: NSRange(location: 0, length: url.count))
       if matchedNumber == 0 {
         urlobj = URL(string: "http://" + url)
-        //if !(url.contains(".") || url.hasPrefix("localhost")) {
         if !url.contains(".") {
           urlobj = URL(string: webviewSearchUrlPref + url)
         }
       }
       lb.text! += " \(matchedNumber)"
       lb.text! += "|\(urlobj!.absoluteString)"
-      lb.text! += String(url.filter({$0 == ":"}).count)
       adjustLabel()
     }
     navTypeBackForward = false
-    let request = URLRequest(url: urlobj!)
+    let request = URLRequest(url: urlobj!, timeoutInterval: 10.0)
     webview.load(request)
   }
   
