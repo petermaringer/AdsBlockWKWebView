@@ -360,27 +360,27 @@ player.play()*/
     }*/
     
     
-    lb.text = lb.text! + " \(UIApplication.shared.windows.count)"
-    adjustLabel()
+    lb.text! += " \(UIApplication.shared.windows.count)"
+    //adjustLabel()
     
     //func findAVPlayerViewController(controller: UIViewController) -> AVPlayerViewController? {
     func findAVPlayerViewController(controller: UIViewController) {
   if controller is AVPlayerViewController {
-    lb.text = lb.text! + " a2"
-    adjustLabel()
+    lb.text! += " a2"
+    //adjustLabel()
     //return controller as? AVPlayerViewController
   } else {
-    //lb.text = lb.text! + " a3"
+    //lb.text! += " a3"
     //adjustLabel()
     for subcontroller in controller.childViewControllers {
-      lb.text = lb.text! + " a4 \(subcontroller)"
-      adjustLabel()
+      lb.text! += " a4 \(subcontroller)"
+      //adjustLabel()
       //if subcontroller is AVPlayerViewController {
       //return subcontroller as? AVPlayerViewController
       //}
       
       //if let result = findAVPlayerViewController(controller: subcontroller) {
-        //lb.text = lb.text! + " a5"
+        //lb.text! += " a5"
         //adjustLabel()
         //return result
       //}
@@ -392,30 +392,30 @@ player.play()*/
     if UIApplication.shared.windows.count > 99 {
     //if let rootController = UIApplication.shared.keyWindow?.rootViewController {
     if let rootController = UIApplication.shared.windows[4].rootViewController {
-    //lb.text = lb.text! + " a1 \((UIApplication.shared.keyWindow?.rootViewController)!)"
-    lb.text = lb.text! + " a1 \((UIApplication.shared.windows[4].rootViewController)!)"
-    adjustLabel()
+    //lb.text! += " a1 \((UIApplication.shared.keyWindow?.rootViewController)!)"
+    lb.text! += " a1 \((UIApplication.shared.windows[4].rootViewController)!)"
+    //adjustLabel()
     findAVPlayerViewController(controller: rootController)
     //if let avPlayerViewController = findAVPlayerViewController(controller: rootController) {
-      //lb.text = lb.text! + " aX \(avPlayerViewController.player!)"
+      //lb.text! += " aX \(avPlayerViewController.player!)"
       //adjustLabel()
     //}
   }
   }
   
   //if UIApplication.shared.windows.count > 4 {
-  //lb.text = lb.text! + " a1 \((UIApplication.shared.windows[4].rootViewController)!)"
+  //lb.text! += " a1 \((UIApplication.shared.windows[4].rootViewController)!)"
   //adjustLabel()
   //}
   
   if let targetSC = UIApplication.shared.windows[2].rootViewController!.childViewControllers.first(where: { $0 is AVPlayerViewController }) as? AVPlayerViewController {
   avPVC = targetSC
-  lb.text = lb.text! + " VC:\(avPVC!)"
-  //lb.text = lb.text! + " VCP:\(avPVC!.player)"
+  lb.text! += " VC:\(avPVC!)"
+  //lb.text! += " VCP:\(avPVC!.player)"
   if avPVC.player != nil {
-  lb.text = lb.text! + " VCP:\(avPVC!.player!)"
+  lb.text! += " VCP:\(avPVC!.player!)"
   }
-  adjustLabel()
+  //adjustLabel()
   }
   
   avPVC.player = player
@@ -430,8 +430,8 @@ player.play()*/
     func findViewWithAVPlayerLayer(view: UIView) -> UIView? {
     //if view.layer is AVPlayerLayer {
     if view.layer.isKind(of:AVPlayerLayer.self) {
-        lb.text = lb.text! + " a1"
-        adjustLabel()
+        lb.text! += " a1"
+        //adjustLabel()
         return view
     }
     
@@ -448,8 +448,8 @@ player.play()*/
         viewlist = viewlist + " a3:\(v.layer)"
         }
         if let found = findViewWithAVPlayerLayer(view: v) {
-            lb.text = lb.text! + " a4"
-            adjustLabel()
+            lb.text! += " a4"
+            //adjustLabel()
             return found
         }
     }
@@ -457,15 +457,15 @@ player.play()*/
 }
     
     if let viewWithAVPlayerLayer = findViewWithAVPlayerLayer(view: self.view) {
-      lb.text = lb.text! + " aX"
-      adjustLabel()
+      lb.text! += " aX"
+      //adjustLabel()
     }
     showAlert(message: viewlist)*/
     
     
     let deviceToken = delegate.sesscat
-    lb.text = lb.text! + " \(deviceToken)"
-    adjustLabel()
+    lb.text! += " \(deviceToken)"
+    //adjustLabel()
     
     let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
     
@@ -735,7 +735,7 @@ player.play()*/
     //showAlert(message: "D:\(url)")
     //lb.text! += " D"
     lb.text! += " \(defaultUserAgent) \(server)"
-    adjustLabel()
+    //adjustLabel()
   }
   
   func textFieldShouldClear(_ textField: UITextField) -> Bool {
@@ -826,8 +826,8 @@ player.play()*/
     insetB = self.view.safeAreaInsets.bottom
     insetL = self.view.safeAreaInsets.left
     insetR = self.view.safeAreaInsets.right
-    lb.text = lb.text! + " dc"
-    adjustLabel()
+    lb.text! += " dc"
+    //adjustLabel()
   }
   
   
@@ -941,7 +941,7 @@ player.play()*/
       
       lastDeviceOrientation = deviceOrientation
       lb.text! += " \(insetT) \(insetB) \(insetL) \(insetR) \(deviceOrientation)"
-      adjustLabel()
+      //adjustLabel()
     }
   }
   
@@ -1217,11 +1217,11 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
     if message.body as? String == "restore" {
       //webview3.removeFromSuperview()
-      lb.text = lb.text! + " restoreD"
+      lb.text! += " restoreD"
     }
     
-    lb.text = lb.text! + " m:\(message.body)"
-    adjustLabel()
+    lb.text! += " m:\(message.body)"
+    //adjustLabel()
   }
   
   override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -1234,7 +1234,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       if keyPath == "URL" {
         webview.evaluateJavaScript("var el = document.querySelector('input[type=file]'); if (el !== null) { window.webkit.messageHandlers.iosListener.postMessage('iF' + el.getAttribute('accept')); el.removeAttribute('accept'); el.removeAttribute('capture'); el.removeAttribute('onclick'); el.click(); }", completionHandler: nil)
         lb.text! += " oV:" + String(String(describing: key).prefix(15))
-        adjustLabel()
+        //adjustLabel()
       }
       
       if keyPath == "estimatedProgress" {
@@ -1245,7 +1245,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
           }
         }
         lb.text! += " oV:" + String(String(describing: key).prefix(5))
-        adjustLabel()
+        //adjustLabel()
       }
       
     }
@@ -1256,9 +1256,9 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       ////
       //UIApplication.shared.windows[2].isHidden = true
       ////
-      //lb.text = lb.text! + " fNW\(UIApplication.shared.windows.count) \(UIApplication.shared.windows[0].isHidden) \(UIApplication.shared.windows[1].isHidden) \(UIApplication.shared.windows[2].isHidden) \(UIApplication.shared.windows[3].isHidden)"
-      lb.text = lb.text! + " fNW\(UIApplication.shared.windows.count)\(UIApplication.shared.windows[2].isHidden) \(navUrl!)"
-      adjustLabel()
+      //lb.text! += " fNW\(UIApplication.shared.windows.count) \(UIApplication.shared.windows[0].isHidden) \(UIApplication.shared.windows[1].isHidden) \(UIApplication.shared.windows[2].isHidden) \(UIApplication.shared.windows[3].isHidden)"
+      lb.text! += " fNW\(UIApplication.shared.windows.count)\(UIApplication.shared.windows[2].isHidden) \(navUrl!)"
+      //adjustLabel()
       //showAlert(message: "navUrl: \(navUrl!)")
       //navUrlArray.removeAll()
       //UIApplication.shared.windows[0].makeKeyAndVisible()
@@ -1267,23 +1267,23 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   
   @objc private func enterBackground() {
     avPVC.player = nil
-    lb.text = lb.text! + " eBg"
-    adjustLabel()
+    lb.text! += " eBg"
+    //adjustLabel()
   }
   
   @objc private func enterForeground() {
     UIApplication.shared.isIdleTimerDisabled = true
     avPVC.player = player
-    lb.text = lb.text! + " eFg"
-    adjustLabel()
+    lb.text! += " eFg"
+    //adjustLabel()
   }
   
   @objc private func resignActive() {
     if webview.scrollView.contentOffset.y < 0 {
       webview.scrollView.setContentOffset(CGPoint(x: webview.scrollView.contentOffset.x, y: 0), animated: true)
     }
-    lb.text = lb.text! + " rAc"
-    adjustLabel()
+    lb.text! += " rAc"
+    //adjustLabel()
   }
   
   
@@ -1306,8 +1306,8 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    lb.text = lb.text! + " wDa"
-    adjustLabel()
+    lb.text! += " wDa"
+    //adjustLabel()
     UIApplication.shared.isIdleTimerDisabled = false
   }
   
@@ -1363,7 +1363,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   //var oldurl = url.replacingOccurrences(of: " ", with: "+")
   //String(describing: err.code)
   //if let err = error as? URLError {
-  //lb.text = lb.text! + "err: \(err._code)"
+  //lb.text! += "err: \(err._code)"
   //switch err.code {
   //case .cancelled:
   //case .cannotFindHost:
@@ -1437,7 +1437,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     }
     if navigationAction.navigationType == .other && navTypeBackForward == true {
       lb.text! += " STOP"
-      adjustLabel()
+      //adjustLabel()
       //sleep(2)
       decisionHandler(.cancel)
       return
@@ -1457,7 +1457,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       if unilinkStop == true {
         webview.load(navigationAction.request)
         lb.text! += " uni:\(navigationAction.request.url!.absoluteString)"
-        adjustLabel()
+        //adjustLabel()
         decisionHandler(.cancel)
         return
       }
@@ -1473,7 +1473,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     if desktopStop == true {
       webview.customUserAgent = desktopUserAgent
       lb.text! += " desk:\(navigationAction.request.url!.absoluteString)"
-      adjustLabel()
+      //adjustLabel()
       decisionHandler(.allow)
       return
     }
@@ -1496,7 +1496,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       webview.load(URLRequest(url: newUrl!))
       //webview.load(newUrl)
       lb.text! += " itms-appss:\(navigationAction.request.url!.absoluteString)"
-      adjustLabel()
+      //adjustLabel()
       }
       //webview.customUserAgent = nil
       //UIApplication.shared.open(navigationAction.request.url!, options: [:], completionHandler: nil)
@@ -1520,7 +1520,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     }
     
     if let mimeType = navigationResponse.response.mimeType {
-      lb.text = lb.text! + " mT:\(mimeType)"
+      lb.text! += " mT:\(mimeType)"
       //adjustLabel()
       
       if mimeType == "application/application/pdf" {
@@ -1554,8 +1554,8 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       }
       
     } else {
-      lb.text = lb.text! + " mT:noMime"
-      adjustLabel()
+      lb.text! += " mT:noMime"
+      //adjustLabel()
       decisionHandler(.allow)
     }
     //decisionHandler(.allow)
@@ -1579,7 +1579,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       default:
         showAlert(message: "Error: \(err.code) \(err.localizedDescription)")
     }
-    lb.text = lb.text! + " err:\(err.code)"
+    lb.text! += " err:\(err.code)"
     //adjustLabel()
   }
   
@@ -1600,8 +1600,8 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     }
     //showAlert(message: defaultUserAgent)
     
-    lb.text = lb.text! + " w:dF"
-    adjustLabel()
+    lb.text! += " w:dF"
+    //adjustLabel()
     //webview.evaluateJavaScript("var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width, initial-scale=1.0, minimum-scale=0, maximum-scale=10.0, user-scalable=yes'); document.getElementsByTagName('head')[0].appendChild(meta);", completionHandler: nil)
     //webview.evaluateJavaScript("var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=device-width, initial-scale=1.0, minimum-scale=0.1, maximum-scale=15.0, user-scalable=yes'); }", completionHandler: nil)
     
@@ -1650,7 +1650,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     urlsJson.removeLast(2)
     urlsJson += "]}"
     UserDefaults.standard.set(urlsJson, forKey: "urlsJson")
-    //lb.text = lb.text! + " urlsJ:\(urlsJson)"
+    //lb.text! += " urlsJ:\(urlsJson)"
     //adjustLabel()
     
     //if restoreIndex == 25 {
@@ -1667,12 +1667,12 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       //if let filepath = Bundle.main.url(forResource: "SessionRestore", withExtension: "html") {
         //do {
           //let contents = try String(contentsOf: filepath)
-          //self.lb.text = self.lb.text! + " RDO"
+          //self.lb.text! += " RDO"
         //} catch {
-          //self.lb.text = self.lb.text! + " RNOC"
+          //self.lb.text! += " RNOC"
         //}
       //} else {
-        //self.lb.text = self.lb.text! + " RNOF"
+        //self.lb.text! += " RNOF"
       //}
       //adjustLabel()
       
@@ -1686,16 +1686,16 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         
         //return GCDWebServerDataResponse(html: sessionRestoreString!)
         //if let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore.html", ofType: nil), let sessionRestoreString = try? String(contentsOfFile: sessionRestorePath, encoding: String.Encoding.utf8) {
-        //self.lb.text = self.lb.text! + " RDONE:\(sessionRestoreString)"
+        //self.lb.text! += " RDONE:\(sessionRestoreString)"
         //self.adjustLabel()
         //return GCDWebServerDataResponse(html: sessionRestoreString)
         guard let sessionRestorePath = Bundle.main.url(forResource: "SessionRestore", withExtension: "html"), let sessionRestoreString = try? String(contentsOf: sessionRestorePath) else {
-          self.lb.text = self.lb.text! + "R404"
-          self.adjustLabel()
+          self.lb.text! += "R404"
+          //self.adjustLabel()
           return GCDWebServerResponse(statusCode: 404)
         }
-        self.lb.text = self.lb.text! + "RDONE"
-        self.adjustLabel()
+        self.lb.text! += "RDONE"
+        //self.adjustLabel()
         return GCDWebServerDataResponse(html: sessionRestoreString)
       })
       
@@ -1708,8 +1708,8 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       //if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?history={'currentPage': -1, 'history': ['https://orf.at', 'https://derstandard.at']}") {
       if let restoreUrl = URL(string: "\(webServer.serverURL!)") {
         self.webview.load(URLRequest(url: restoreUrl))
-        lb.text = lb.text! + " \(webserv) \(restoreUrl.absoluteString)"
-        adjustLabel()
+        lb.text! += " \(webserv) \(restoreUrl.absoluteString)"
+        //adjustLabel()
       }
       */
       
@@ -1719,11 +1719,11 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       //restoreUrlPart = restoreUrlPart.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
       //if let restoreUrl = URL(string: "\(WebServer.instance.base)\(restoreUrlPart)") {
         //self.webview.load(URLRequest(url: restoreUrl))
-        //self.lb.text = lb.text! + " \(restoreUrl.absoluteString)"
+        //self.lb.text! += " \(restoreUrl.absoluteString)"
       //}
-      //lb.text = lb.text! + " \(webserv) \(restoreUrlPart)"
-      lb.text = lb.text! + " \(webserv)"
-      adjustLabel()
+      //lb.text! += " \(webserv) \(restoreUrlPart)"
+      lb.text! += " \(webserv)"
+      //adjustLabel()
       
       //webview.go(to: webview.backForwardList.item(at: restorePosition * -1)!)
       //##webview3.removeFromSuperview()
@@ -1760,8 +1760,8 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   }
   
   private func endLoading() {
-    lb.text = lb.text! + " end"
-    adjustLabel()
+    lb.text! += " end"
+    //adjustLabel()
   }
   
   
@@ -1828,7 +1828,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       ruleId2FileDateLast = UserDefaults.standard.object(forKey: "ruleId2FileDateLast") as? Date
     }
     self?.lb.text = (self?.lb.text)! + " \(ruleId2FileDate) \(ruleId2FileDateLast!)"
-    self?.adjustLabel()
+    //self?.adjustLabel()
     if ruleId2FileDate > ruleId2FileDateLast! {
       //if #available(iOS 11.0, *) {
       //webview.configuration.userContentController.removeAllContentRuleLists()
@@ -1845,7 +1845,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       //}
       UserDefaults.standard.set(ruleId2FileDate, forKey: "ruleId2FileDateLast")
       self?.lb.text = (self?.lb.text)! + " UPD"
-      self?.adjustLabel()
+      //self?.adjustLabel()
       self?.setupContentBlockFromFile(completion)
       return
       //}
@@ -1919,8 +1919,8 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     //Just for invalidating target="_blank"
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
         
-        lb.text = lb.text! + " cwv"
-        adjustLabel()
+        lb.text! += " cwv"
+        //adjustLabel()
         
         guard let url = navigationAction.request.url else {
             return nil
