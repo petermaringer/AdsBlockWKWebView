@@ -250,8 +250,8 @@ extension ViewController: WKDownloadDelegate {
     if let documentsDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
       let fileName = documentsDir + "/" + suggestedFilename
       let url = URL(fileURLWithPath: fileName)
-      lb.text = lb.text! + " wkD:\(url)"
-      adjustLabel()
+      lb.text! += " wkD:\(url)"
+      //adjustLabel()
       //showAlert(message: "\(url)")
       completionHandler(url)
     }
@@ -262,7 +262,7 @@ extension ViewController: WKDownloadDelegate {
     
     showAlert(message: "\(lbcounter) Error: \(err.code) \(err.localizedDescription)")
     lb.text! += " STOP err:\(err.code)"
-    adjustLabel()
+    //adjustLabel()
     
     //showAlert(message: "Download failed \(error)")
   }
@@ -749,7 +749,7 @@ player.play()*/
         }
         navUrlArray = []
         lb.text = "log:"
-        adjustLabel()
+        //adjustLabel()
       default:
         break
     }
@@ -1394,7 +1394,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       }
       lb.text! += " \(matchedNumber)"
       lb.text! += "|\(urlobj!.absoluteString)"
-      adjustLabel()
+      //adjustLabel()
     }
     navTypeBackForward = false
     let request = URLRequest(url: urlobj!, timeoutInterval: 10.0)
@@ -1426,7 +1426,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     
     
     lb.text! += " NT(\(navigationAction.navigationType.rawValue))"
-    adjustLabel()
+    //adjustLabel()
     if navigationAction.navigationType != .other {
       navTypeBackForward = false
     }
@@ -1521,7 +1521,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     
     if let mimeType = navigationResponse.response.mimeType {
       lb.text = lb.text! + " mT:\(mimeType)"
-      adjustLabel()
+      //adjustLabel()
       
       if mimeType == "application/application/pdf" {
         if let data = try? Data(contentsOf: navigationResponse.response.url!) {
@@ -1580,7 +1580,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         showAlert(message: "Error: \(err.code) \(err.localizedDescription)")
     }
     lb.text = lb.text! + " err:\(err.code)"
-    adjustLabel()
+    //adjustLabel()
   }
   
   func webView(_ webview: WKWebView, didFinish navigation: WKNavigation!) {
