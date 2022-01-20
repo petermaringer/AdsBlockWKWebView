@@ -261,7 +261,7 @@ extension ViewController: WKDownloadDelegate {
     let err = error as NSError
     
     showAlert(message: "\(lbcounter) Error: \(err.code) \(err.localizedDescription)")
-    lb.text! += " err:\(err.code)"
+    lb.text! += " STOP err:\(err.code)"
     adjustLabel()
     
     //showAlert(message: "Download failed \(error)")
@@ -803,6 +803,8 @@ player.play()*/
   
   private func adjustLabel() {
     
+    lbcounter += 1
+    
     let attributedString = NSMutableAttributedString(string: lb.text!)
     if let regularExpression = try? NSRegularExpression(pattern: "STOP") {
       let matchedResults = regularExpression.matches(in: lb.text!, options: [], range: NSRange(location: 0, length: attributedString.length))
@@ -1005,10 +1007,6 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         view.addSubview(lb)
         
         lb.addObserver(self, forKeyPath: "text", options: [.old, .new], context: nil)
-        //let observation = lb.observe(\UILabel.text, options: [.new, .old]) { lb, change in
-          //print("\(change.newValue as? String ?? "" )")
-          //self.lbcounter += 1
-        //}
         
         topNavBgView = UIView(frame: CGRect.zero)
         //topNavBgView.backgroundColor = UIColor.viewBgColor.withAlphaComponent(0.85)
@@ -1230,7 +1228,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     if let key = change?[NSKeyValueChangeKey.newKey] {
       
       if keyPath == "text" {
-        lbcounter += 1
+        adjustLabel()
       }
       
       if keyPath == "URL" {
