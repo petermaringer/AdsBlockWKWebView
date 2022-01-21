@@ -1403,6 +1403,11 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   
   
   @available(iOS 15, *)
+  func webView(_ webview: WKWebView, navigationAction: WKNavigationAction, didBecome download: WKDownload) {
+    download.delegate = self
+  }
+  
+  @available(iOS 15, *)
   func webView(_ webview: WKWebView, navigationResponse: WKNavigationResponse, didBecome download: WKDownload) {
     download.delegate = self
   }
@@ -1509,6 +1514,15 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       decisionHandler(.cancel)
       return
     }
+    
+    if #available(iOS 15, *) {
+      if navigationAction.shouldPerformDownload {
+        showFrameLoadError = false
+        decisionHandler(.download)
+        return
+      }
+    }
+    
     decisionHandler(.allow)
   }
   
@@ -1532,33 +1546,26 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         }
       }
       
-      
       if mimeType == "application/pdf" {
         lb.isHidden = false
       } else {
         lb.isHidden = true
       }
       
-      if navTypeDownload == false {
-        decisionHandler(.allow)
-      }
-      if navTypeDownload == true {
+      if navTypeDownload == true || navigationResponse.canShowMIMEType == false {
         navTypeDownload = false
-        showFrameLoadError = false
         if #available(iOS 15, *) {
-          //webview.stopLoading()
-          //webview.load(URLRequest(url: navigationResponse.response.url!))
+          showFrameLoadError = false
           decisionHandler(.download)
-          //return
+          return
         }
       }
       
     } else {
       lb.text! += " mT:noMime"
       //adjustLabel()
-      decisionHandler(.allow)
     }
-    //decisionHandler(.allow)
+    decisionHandler(.allow)
   }
   
   
