@@ -1517,10 +1517,20 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     
     if #available(iOS 15, *) {
       if navigationAction.shouldPerformDownload {
-        showFrameLoadError = false
+        //showFrameLoadError = false
+        lb.text! += " nAsPD"
         decisionHandler(.download)
         return
       }
+      
+      if navTypeDownload == true {
+        navTypeDownload = false
+        //showFrameLoadError = false
+        lb.text! += " nTD"
+        decisionHandler(.download)
+        return
+      }
+      
     }
     
     decisionHandler(.allow)
@@ -1552,10 +1562,12 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         lb.isHidden = true
       }
       
-      if navTypeDownload == true || navigationResponse.canShowMIMEType == false {
-        navTypeDownload = false
+      if navigationResponse.canShowMIMEType == false {
+      //if navTypeDownload == true || navigationResponse.canShowMIMEType == false {
+        //navTypeDownload = false
         if #available(iOS 15, *) {
-          showFrameLoadError = false
+          //showFrameLoadError = false
+          lb.text! += " nRcSMT"
           decisionHandler(.download)
           return
         }
