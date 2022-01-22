@@ -1517,20 +1517,18 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     
     if #available(iOS 15, *) {
       if navigationAction.shouldPerformDownload {
-        //showFrameLoadError = false
         lb.text! += " nAsPD"
         decisionHandler(.download)
         return
       }
-      
-      if navTypeDownload == true {
-        navTypeDownload = false
-        //showFrameLoadError = false
+    }
+    if navTypeDownload {
+      navTypeDownload = false
+      if #available(iOS 15, *) {
         lb.text! += " nTD"
         decisionHandler(.download)
         return
       }
-      
     }
     
     decisionHandler(.allow)
@@ -1562,21 +1560,21 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         lb.isHidden = true
       }
       
-      if navigationResponse.canShowMIMEType == false {
-      //if navTypeDownload == true || navigationResponse.canShowMIMEType == false {
-        //navTypeDownload = false
-        if #available(iOS 15, *) {
-          //showFrameLoadError = false
-          lb.text! += " nRcSMT"
-          decisionHandler(.download)
-          return
-        }
-      }
-      
     } else {
       lb.text! += " mT:noMime"
       //adjustLabel()
     }
+    
+    showFrameLoadError = true
+    if !navigationResponse.canShowMIMEType {
+      if #available(iOS 15, *) {
+        showFrameLoadError = false
+        lb.text! += " nRcSMT"
+        decisionHandler(.download)
+        return
+      }
+    }
+    
     decisionHandler(.allow)
   }
   
@@ -1590,7 +1588,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         startLoading()
       case 102:
         if showFrameLoadError == false {
-          showFrameLoadError = true
+          //showFrameLoadError = true
           break
         } else {
           fallthrough
