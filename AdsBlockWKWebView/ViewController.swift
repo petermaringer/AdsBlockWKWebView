@@ -786,6 +786,14 @@ player.play()*/
             textField.text!.removeFirst()
             navTypeDownload = true
           }
+          
+          //
+          if textField.text!.hasPrefix("javascript:") {
+            textField.text! = "hey"
+            break
+          }
+          //
+          
           url = textField.text!
           startLoading()
         }
