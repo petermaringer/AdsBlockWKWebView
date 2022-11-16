@@ -789,8 +789,8 @@ player.play()*/
           
           //
           if textField.text!.hasPrefix("javascript:") {
-            webview.evaluateJavaScript(textField.text!.dropFirst(11), completionHandler: nil)
-            textField.text!.dropFirst(11)
+            webview.evaluateJavaScript(String(textField.text!.dropFirst(11)), completionHandler: nil)
+            //textField.text!.dropFirst(11)
             //textField.text! = "hey"
             break
           }
