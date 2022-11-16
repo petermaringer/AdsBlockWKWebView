@@ -619,8 +619,14 @@ player.play()*/
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     if array[indexPath.row] != "&showall" {
       urlField.endEditing(true)
-      url = array[indexPath.row]
-      startLoading()
+      
+      if array[indexPath.row].hasPrefix("javascript:") {
+        webview.evaluateJavaScript(String(array[indexPath.row].dropFirst(11)), completionHandler: nil)
+      } else {
+        url = array[indexPath.row]
+        startLoading()
+      }
+      
     }
     urlField.text = "\(array[indexPath.row])"
     if tableMoveTopPref == true {
@@ -787,17 +793,16 @@ player.play()*/
             navTypeDownload = true
           }
           
-          //
           if textField.text!.hasPrefix("javascript:") {
             webview.evaluateJavaScript(String(textField.text!.dropFirst(11)), completionHandler: nil)
-            //textField.text!.dropFirst(11)
-            //textField.text! = "hey"
-            break
+            //break
+          } else {
+            url = textField.text!
+            startLoading()
           }
-          //
           
-          url = textField.text!
-          startLoading()
+          //url = textField.text!
+          //startLoading()
         }
       default:
         break
