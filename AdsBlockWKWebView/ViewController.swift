@@ -1460,7 +1460,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       //adjustLabel()
       
       DispatchQueue.main.asyncAfter(deadline: .now() + 2.3) {
-        self.navTypeBackForward = false
+        //self.navTypeBackForward = false
         self.webview.load(navigationAction.request)
       }
       
