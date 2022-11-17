@@ -1452,7 +1452,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     }
     if navigationAction.navigationType == .backForward {
       ////
-      //navTypeBackForward = true
+      navTypeBackForward = true
       ////
     }
     if navigationAction.navigationType == .other && navTypeBackForward == true {
