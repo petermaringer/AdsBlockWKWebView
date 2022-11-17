@@ -1452,17 +1452,17 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     }
     if navigationAction.navigationType == .backForward {
       ////
-      navTypeBackForward = true
+      //navTypeBackForward = true
       ////
     }
     if navigationAction.navigationType == .other && navTypeBackForward == true {
       lb.text! += " STOP"
       //adjustLabel()
       
-      DispatchQueue.main.asyncAfter(deadline: .now() + 2.3) {
-        self.navTypeBackForward = false
-        self.webview.load(navigationAction.request)
-      }
+      //DispatchQueue.main.asyncAfter(deadline: .now() + 2.3) {
+        //self.navTypeBackForward = false
+        //self.webview.load(navigationAction.request)
+      //}
       
       //sleep(2)
       decisionHandler(.cancel)
