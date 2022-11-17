@@ -1576,9 +1576,9 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       }
       
       if mimeType == "application/pdf" {
-        lb.isHidden = false
+        //lb.isHidden = false
       } else {
-        lb.isHidden = true
+        //lb.isHidden = true
       }
       
     } else {
