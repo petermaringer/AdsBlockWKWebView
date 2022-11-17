@@ -1459,7 +1459,8 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       lb.text! += " STOP"
       //adjustLabel()
       
-      DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 2.3) {
+        navTypeBackForward = false
         webview.load(navigationAction.request)
       }
       
