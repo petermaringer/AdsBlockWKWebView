@@ -1458,6 +1458,11 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     if navigationAction.navigationType == .other && navTypeBackForward == true {
       lb.text! += " STOP"
       //adjustLabel()
+      
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+        webview.load(navigationAction.request)
+      }
+      
       //sleep(2)
       decisionHandler(.cancel)
       return
