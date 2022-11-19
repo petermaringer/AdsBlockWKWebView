@@ -3,6 +3,6 @@ use_frameworks!
 
 pod "GCDWebServer", "~> 3.0"
 
-target 'AdsBlockWKWebView' do
-  pod "GCDWebServer", "~> 3.0"
-end
+#target 'AdsBlockWKWebView' do
+#  pod "GCDWebServer", "~> 3.0"
+#end
