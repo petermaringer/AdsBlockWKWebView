@@ -11,6 +11,8 @@ import AVKit
 import MediaPlayer
 import Security
 
+import OpenSSL-iOS
+
 fileprivate let ruleId1 = "MyRuleID 001"
 fileprivate let ruleId2 = "MyRuleID 002"
 
@@ -700,8 +702,6 @@ player.play()*/
   
   @objc func devButtonClicked(url: String) {
     urlField.endEditing(true)
-    
-    import OpenSSL-iOS
     
     if lb.isHidden == true {
       lb.isHidden = false
