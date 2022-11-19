@@ -701,6 +701,8 @@ player.play()*/
   @objc func devButtonClicked(url: String) {
     urlField.endEditing(true)
     
+    import OpenSSL-iOS
+    
     if lb.isHidden == true {
       lb.isHidden = false
       webview.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
