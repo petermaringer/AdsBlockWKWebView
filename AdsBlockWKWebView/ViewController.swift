@@ -810,7 +810,7 @@ player.play()*/
 
     return p12Data
 }
-let testp12 = pkcs12(fromPem: "", withPrivateKey: "")
+let testp12 = try pkcs12(fromPem: "", withPrivateKey: "")
     
     
     if lb.isHidden == true {
