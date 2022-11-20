@@ -704,7 +704,7 @@ player.play()*/
     urlField.endEditing(true)
     
     
-    static func pkcs12(fromPem pemCertificate: String,
+    func pkcs12(fromPem pemCertificate: String,
                    withPrivateKey pemPrivateKey: String,
                    p12Password: String = "",
                    certificateAuthorityFileURL: URL? = nil) throws -> NSData {
@@ -810,6 +810,8 @@ player.play()*/
 
     return p12Data
 }
+let testp12 = pkcs12(fromPem: "", withPrivateKey: "")
+    
     
     if lb.isHidden == true {
       lb.isHidden = false
