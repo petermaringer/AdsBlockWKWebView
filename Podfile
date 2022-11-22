@@ -8,8 +8,8 @@ target 'AdsBlockWKWebView' do
   pod 'GCDWebServer', '~> 3.0'
   #pod 'OpenSSL-iOS', '~> 1.0'
   #pod 'openssl-apple-platform', '1.0.2r'
-  #pod 'OpenSSL-Universal/Framework'
-  pod 'OpenSSL-Apple'
+  pod 'OpenSSL-Universal/Framework'
+  #pod 'OpenSSL-Apple'
 end
 
 post_install do |installer|
