@@ -11,7 +11,8 @@ import AVKit
 import MediaPlayer
 import Security
 
-import OpenSSL
+//import OpenSSL
+import openssl
 
 fileprivate let ruleId1 = "MyRuleID 001"
 fileprivate let ruleId2 = "MyRuleID 002"
