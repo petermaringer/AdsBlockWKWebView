@@ -750,8 +750,8 @@ player.play()*/
     fclose(p12File)
     fileHandle.closeFile()
 }
-    let testp12 = createP12("", "")
-    #let testp12 = try? pkcs12(fromPem: "", withPrivateKey: "")
+    let testp12 = createP12(pemCertificate: "", pemPrivateKey: "")
+    //let testp12 = try? pkcs12(fromPem: "", withPrivateKey: "")
     
     
     if lb.isHidden == true {
