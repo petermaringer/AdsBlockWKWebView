@@ -723,6 +723,7 @@ player.play()*/
     // Check if private key matches certificate
     guard X509_check_private_key(certificate, privateKey) == 1 else {
         NSLog("Private key does not match certificate")
+        lb.text! += " Private key does not match certificate"
         return
     }
     // Set OpenSSL parameters
@@ -733,24 +734,29 @@ player.play()*/
     let name = UnsafeMutablePointer(mutating: ("SSL Certificate" as NSString).utf8String)
     guard let p12 = PKCS12_create(passPhrase, name, privateKey, certificate, nil, 0, 0, 0, 0, 0) else {
         NSLog("Cannot create P12 keystore:")
+        lb.text! += " Cannot create P12 keystore:"
         ERR_print_errors_fp(stderr)
         return
     }
     // Save P12 keystore
     let fileManager = FileManager.default
     let tempDirectory = NSTemporaryDirectory() as NSString
+    lb.text! += " [\(tempDirectory)]"
+    /*
     let path = tempDirectory.appendingPathComponent("ssl.p12")
     fileManager.createFile(atPath: path, contents: nil, attributes: nil)
     guard let fileHandle = FileHandle(forWritingAtPath: path) else {
         NSLog("Cannot open file handle: \(path)")
+        lb.text! += ""
         return
     }
     let p12File = fdopen(fileHandle.fileDescriptor, "w")
     i2d_PKCS12_fp(p12File, p12)
     fclose(p12File)
     fileHandle.closeFile()
+    */
 }
-    let testp12 = createP12(pemCertificate: "", pemPrivateKey: "")
+    createP12(pemCertificate: "", pemPrivateKey: "")
     //let testp12 = try? pkcs12(fromPem: "", withPrivateKey: "")
     
     
