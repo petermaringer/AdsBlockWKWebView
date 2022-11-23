@@ -1511,12 +1511,12 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   }
   
   
-  @available(iOS 15, *)
+  @available(iOS 14.5, *)
   func webView(_ webview: WKWebView, navigationAction: WKNavigationAction, didBecome download: WKDownload) {
     download.delegate = self
   }
   
-  @available(iOS 15, *)
+  @available(iOS 14.5, *)
   func webView(_ webview: WKWebView, navigationResponse: WKNavigationResponse, didBecome download: WKDownload) {
     download.delegate = self
   }
