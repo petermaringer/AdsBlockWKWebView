@@ -720,7 +720,8 @@ player.play()*/
         .replacingOccurrences(of: "-----END CERTIFICATE-----", with: "")
         .replacingOccurrences(of: "\n", with: "")
         .trimmingCharacters(in: .whitespacesAndNewlines)
-
+    
+    lb.text! += "i was here1"
     guard let derCertificate = NSData(base64Encoded: modifiedCert, options: [])
     else {
         throw X509Error.cannotReadPEMCertificate
@@ -818,7 +819,8 @@ player.play()*/
 }
 
 enum X509Error: Error {
-    case cannotReadPEMCertificate
+    case cannotReadPEMCertificate:
+      lb.text! += "cannotReadPEMCert"
     case privateKeyDoesNotMatchCertificate
     case cannotCreateP12Keystore
     case cannotOpenFileHandles
