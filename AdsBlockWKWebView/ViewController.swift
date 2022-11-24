@@ -748,7 +748,7 @@ player.play()*/
     let fileManager = FileManager.default
     let tempDirectory = NSTemporaryDirectory() as NSString
     lb.text! += " [\(tempDirectory)]"
-    //*
+    //
     let path = tempDirectory.appendingPathComponent("ssl.p12")
     fileManager.createFile(atPath: path, contents: nil, attributes: nil)
     guard let fileHandle = FileHandle(forWritingAtPath: path) else {
@@ -760,7 +760,7 @@ player.play()*/
     i2d_PKCS12_fp(p12File, p12)
     fclose(p12File)
     fileHandle.closeFile()
-    //*
+    //
 }
 */
     let pemCer = """
