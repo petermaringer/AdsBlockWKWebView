@@ -818,7 +818,7 @@ player.play()*/
     return p12Data
 }
 
-enum X509Error: Error {
+switch X509Error: Error {
     case cannotReadPEMCertificate:
       lb.text! += "cannotReadPEMCert"
     case privateKeyDoesNotMatchCertificate
