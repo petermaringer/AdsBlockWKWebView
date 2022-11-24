@@ -724,6 +724,7 @@ player.play()*/
     lb.text! += "i was here1"
     guard let derCertificate = NSData(base64Encoded: modifiedCert, options: [])
     else {
+        lb.text! += " cannotReadPEMCert"
         throw X509Error.cannotReadPEMCertificate
     }
 
@@ -734,7 +735,8 @@ player.play()*/
     let certificateLength = CFDataGetLength(derCertificate)
     let certificateData = UnsafeMutablePointer<UnsafePointer<UInt8>?>.allocate(capacity: 1)
     certificateData.pointee = certificatePointer
-
+    
+    lb.text! += " i was here2"
     // Read DER certificate
     let certificate = d2i_X509(nil, certificateData, certificateLength)
 
@@ -818,9 +820,8 @@ player.play()*/
     return p12Data
 }
 
-switch X509Error: Error {
-    case cannotReadPEMCertificate:
-      lb.text! += "cannotReadPEMCert"
+enum X509Error: Error {
+    case cannotReadPEMCertificate
     case privateKeyDoesNotMatchCertificate
     case cannotCreateP12Keystore
     case cannotOpenFileHandles
