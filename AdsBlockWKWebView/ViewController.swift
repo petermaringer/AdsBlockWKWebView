@@ -721,10 +721,10 @@ player.play()*/
         .replacingOccurrences(of: "\n", with: "")
         .trimmingCharacters(in: .whitespacesAndNewlines)
     
-    lb.text! += "i was here1"
+    lb.text! += " washere1"
     guard let derCertificate = NSData(base64Encoded: modifiedCert, options: [])
     else {
-        lb.text! += " cannotReadPEMCert"
+        lb.text! += " error1"
         throw X509Error.cannotReadPEMCertificate
     }
 
@@ -736,7 +736,7 @@ player.play()*/
     let certificateData = UnsafeMutablePointer<UnsafePointer<UInt8>?>.allocate(capacity: 1)
     certificateData.pointee = certificatePointer
     
-    lb.text! += " i was here2"
+    lb.text! += " washere2"
     // Read DER certificate
     let certificate = d2i_X509(nil, certificateData, certificateLength)
 
@@ -750,9 +750,11 @@ player.play()*/
 
             // Check if private key matches certificate
             guard X509_check_private_key(certificate, privateKey) == 1 else {
+                lb.text! += " error2"
                 throw X509Error.privateKeyDoesNotMatchCertificate
             }
-
+            
+            lb.text! += " washere3"
             // Set OpenSSL parameters
             OpenSSL_add_all_algorithms()
             ERR_load_CRYPTO_strings()
@@ -770,7 +772,8 @@ player.play()*/
                 // Add certificate to the stack
                 sk_X509_push(certsStack, rootCA)
             }
-
+            
+            lb.text! += " washere4"
             // Create P12 keystore
             let passPhrase = UnsafeMutablePointer(mutating: (p12Password as NSString).utf8String)
             let name = UnsafeMutablePointer(mutating: ("SSL Certificate" as NSString).utf8String)
@@ -785,10 +788,12 @@ player.play()*/
                                           0,
                                           PKCS12_DEFAULT_ITER,
                                           0) else {
+                lb.text! += " error3"
                 ERR_print_errors_fp(stderr)
                 throw X509Error.cannotCreateP12Keystore
             }
-
+            
+            lb.text! += " washere5"
             // Save P12 keystore
             let fileManager = FileManager.default
             let path = fileManager
@@ -798,6 +803,7 @@ player.play()*/
             fileManager.createFile(atPath: path, contents: nil, attributes: nil)
             guard let fileHandle = FileHandle(forWritingAtPath: path) else {
                 NSLog("Cannot open file handle: \(path)")
+                lb.text! += " error4"
                 throw X509Error.cannotOpenFileHandles
             }
             let p12File = fdopen(fileHandle.fileDescriptor, "w")
@@ -808,15 +814,18 @@ player.play()*/
 
             return path
         }
-
+        
+        lb.text! += " washere6"
     // Read P12 Data
     guard let p12Data = NSData(contentsOfFile: p12Path) else {
+        lb.text! += " error5"
         throw X509Error.cannotReadP12Certificate
     }
 
     // Remove temporary file
     try? FileManager.default.removeItem(atPath: p12Path)
-
+    
+    lb.text! += " washere7"
     return p12Data
 }
 
