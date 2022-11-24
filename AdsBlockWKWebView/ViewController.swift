@@ -710,6 +710,7 @@ player.play()*/
     OpenSSL_add_all_algorithms()
     
     //https://github.com/digitalbazaar/forge
+    /*
     func createP12(pemCertificate: String, pemPrivateKey: String) {
     // Read certificate
     let buffer = BIO_new(BIO_s_mem())
@@ -747,7 +748,7 @@ player.play()*/
     let fileManager = FileManager.default
     let tempDirectory = NSTemporaryDirectory() as NSString
     lb.text! += " [\(tempDirectory)]"
-    /*
+    //*
     let path = tempDirectory.appendingPathComponent("ssl.p12")
     fileManager.createFile(atPath: path, contents: nil, attributes: nil)
     guard let fileHandle = FileHandle(forWritingAtPath: path) else {
@@ -759,8 +760,9 @@ player.play()*/
     i2d_PKCS12_fp(p12File, p12)
     fclose(p12File)
     fileHandle.closeFile()
-    */
+    //*
 }
+*/
     let pemCer = """
     -----BEGIN CERTIFICATE-----
     MIIFuTCCBKGgAwIBAgIIMFFOpS/qwVYwDQYJKoZIhvcNAQELBQAwgZYxCzAJBgNV BAYTAlVTMRMwEQYDVQQKDApBcHBsZSBJbmMuMSwwKgYDVQQLDCNBcHBsZSBXb3Js ZHdpZGUgRGV2ZWxvcGVyIFJlbGF0aW9uczFEMEIGA1UEAww7QXBwbGUgV29ybGR3 aWRlIERldmVsb3BlciBSZWxhdGlvbnMgQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkw HhcNMTkxMjI5MDc0OTI0WhcNMjAxMjI4MDc0OTI0WjCBlzEaMBgGCgmSJomT8ixk AQEMCk5HOUtFM0UzUTMxOzA5BgNVBAMMMkFwcGxlIERpc3RyaWJ1dGlvbjogV29s ZmdhbmcgV2Vpbm1hbm4gKE5HOUtFM0UzUTMpMRMwEQYDVQQLDApORzlLRTNFM1Ez MRowGAYDVQQKDBFXb2xmZ2FuZyBXZWlubWFubjELMAkGA1UEBhMCVVMwggEiMA0G CSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC+2sQaeZ4isAqrVar25mpTqMelBi24 yVkcIvsS40TGsZMrVH9TBpXyQUbGWDczPC+F8S8nOmANfCKVai4tjDkGozgHMP5X mI5t2PzUdrOSdGtsgeMd49ZLxQs21TeggaIKyyoTpt6qsw4ZENhXTYhIJCB+FZkq SpC6lCjz51embIrMDkEkMRWH07/280SQgcCbv71MjRocIViQmzXvVL50MGRn0tAR Wb2guwbZm1pKG84K7LzMS6mGJiDBvLlGMQ+M4MC75O4b1VJK1xcNRZKKiELUgCRq IHi5lNbIX9oRfz46GMVTl4lVXHDeIlzE1byP7nqx/DmXyaM1KsnKaJuHAgMBAAGj ggIGMIICAjAMBgNVHRMBAf8EAjAAMB8GA1UdIwQYMBaAFIgnFwmpthhgi+zruvZH WcVSVKO3MD8GCCsGAQUFBwEBBDMwMTAvBggrBgEFBQcwAYYjaHR0cDovL29jc3Au YXBwbGUuY29tL29jc3AwMy13d2RyMjAwggEdBgNVHSAEggEUMIIBEDCCAQwGCSqG SIb3Y2QFATCB/jCBwwYIKwYBBQUHAgIwgbYMgbNSZWxpYW5jZSBvbiB0aGlzIGNl cnRpZmljYXRlIGJ5IGFueSBwYXJ0eSBhc3N1bWVzIGFjY2VwdGFuY2Ugb2YgdGhl IHRoZW4gYXBwbGljYWJsZSBzdGFuZGFyZCB0ZXJtcyBhbmQgY29uZGl0aW9ucyBv ZiB1c2UsIGNlcnRpZmljYXRlIHBvbGljeSBhbmQgY2VydGlmaWNhdGlvbiBwcmFj dGljZSBzdGF0ZW1lbnRzLjA2BggrBgEFBQcCARYqaHR0cDovL3d3dy5hcHBsZS5j b20vY2VydGlmaWNhdGVhdXRob3JpdHkvMBYGA1UdJQEB/wQMMAoGCCsGAQUFBwMD MB0GA1UdDgQWBBSx6aMfH8xT/Vf08v+g+EM1qQ1/eDAOBgNVHQ8BAf8EBAMCB4Aw EwYKKoZIhvdjZAYBBwEB/wQCBQAwEwYKKoZIhvdjZAYBBAEB/wQCBQAwDQYJKoZI hvcNAQELBQADggEBAEsnWcMN4U7c3segZztTnE85m281bG4XWlZD2e3ujgLvS1RQ 9BEHyYxxekNrcGuuiaJCBA2i5dSQc0fbARuH3iOkLKEI+VcNaScTO0UGmDe/6EL2 q475eo5Db6vAeKfdAW+Y1Qm6pOFYzsDyNQclwU4B0588r+9qVDBrhAuHc1WmYTTJ r6Sx/6ysiBRjxIck6DPklxruaUEJMv5J7NY79Njg6tNd56wtUGv2c7CS9dGzBR75 ltngeSTtpkKehY4NDiXmCGIsc7nVWnPCEp02yUf0uEub7jXT4vZ2vf+miwpHKokN oAr67XWD1TP45UOOmo3UYmb1N5UGPl4h8J/6N78=
