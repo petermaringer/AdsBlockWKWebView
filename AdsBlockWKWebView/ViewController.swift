@@ -792,7 +792,7 @@ player.play()*/
     -----END RSA PRIVATE KEY-----
     """
     if let rsa = RSA_generate_key(1024, UInt(RSA_F4), nil, nil) {
-      lb.text! += " RSA's bits is: \(BN_num_bits(rsa.pointee.n))"
+      lb.text! += " RSA's bits is: \(BN_num_bits(rsa.pointee.n)) \(rsa)"
     }
     //createP12(pemCertificate: pemCer, pemPrivateKey: pemKey)
     //let testp12 = try? pkcs12(fromPem: "", withPrivateKey: "")
