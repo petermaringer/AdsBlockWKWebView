@@ -826,7 +826,7 @@ enum X509Error: Error {
     //}
     
     let testp12 = try? pkcs12(fromPem: pemCer, withPrivateKey: pemKey)
-    lb.text! += " p12Data:\(testp12)"
+    lb.text! += " p12Data:\(testp12?)"
     
     
     if lb.isHidden == true {
