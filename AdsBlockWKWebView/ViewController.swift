@@ -705,6 +705,10 @@ player.play()*/
     urlField.endEditing(true)
     
     
+    SSL_library_init()
+    SSL_load_error_strings()
+    OpenSSL_add_all_algorithms()
+    
     //https://github.com/digitalbazaar/forge
     func createP12(pemCertificate: String, pemPrivateKey: String) {
     // Read certificate
@@ -791,9 +795,9 @@ player.play()*/
     qGMM/6W4OzLSYGh4dodgbuMgn+eL9dw+WUAwjBH888ldDNRHPiId
     -----END RSA PRIVATE KEY-----
     """
-    if let rsa = RSA_generate_key(1024, UInt(RSA_F4), nil, nil) {
-      lb.text! += " RSA's bits is: \(BN_num_bits(rsa.pointee.n)) \(rsa)"
-    }
+    //if let rsa = RSA_generate_key(1024, UInt(RSA_F4), nil, nil) {
+      //lb.text! += " RSA's bits is: \(BN_num_bits(rsa.pointee.n)) \(rsa)"
+    //}
     //createP12(pemCertificate: pemCer, pemPrivateKey: pemKey)
     //let testp12 = try? pkcs12(fromPem: "", withPrivateKey: "")
     
