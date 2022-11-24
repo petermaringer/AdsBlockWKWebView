@@ -710,7 +710,7 @@ player.play()*/
     SSL_load_error_strings()
     OpenSSL_add_all_algorithms()
     
-    static func pkcs12(fromPem pemCertificate: String,
+    func pkcs12(fromPem pemCertificate: String,
                    withPrivateKey pemPrivateKey: String,
                    p12Password: String = "",
                    certificateAuthorityFileURL: URL? = nil) throws -> NSData {
@@ -818,9 +818,11 @@ player.play()*/
 }
 
 enum X509Error: Error {
+    case cannotReadPEMCertificate
     case privateKeyDoesNotMatchCertificate
     case cannotCreateP12Keystore
     case cannotOpenFileHandles
+    case cannotReadP12Certificate
 }
     
     /*
