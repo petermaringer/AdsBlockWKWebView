@@ -706,9 +706,9 @@ player.play()*/
     
     
     //https://github.com/digitalbazaar/forge
-    SSL_library_init()
-    SSL_load_error_strings()
-    OpenSSL_add_all_algorithms()
+    //SSL_library_init()
+    //SSL_load_error_strings()
+    //OpenSSL_add_all_algorithms()
     
     func pkcs12(fromPem pemCertificate: String,
                    withPrivateKey pemPrivateKey: String,
@@ -916,7 +916,7 @@ enum X509Error: Error {
       //lb.text! += " RSA's bits is: \(BN_num_bits(rsa.pointee.n)) \(rsa)"
     //}
     //createP12(pemCertificate: pemCer, pemPrivateKey: pemKey)
-    //let testp12 = try? pkcs12(fromPem: "", withPrivateKey: "")
+    let testp12 = try? pkcs12(fromPem: "", withPrivateKey: "")
     
     
     if lb.isHidden == true {
