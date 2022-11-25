@@ -780,10 +780,15 @@ player.play()*/
             }
             // Save P12 keystore
             let fileManager = FileManager.default
+            
+            let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0].appendingPathComponent("ssl.p12")
+            
+            /*
             let path = fileManager
                 .temporaryDirectory
                 .appendingPathComponent(UUID().uuidString)
                 .path
+            */
             //.appendingPathComponent("ssl.p12")
             fileManager.createFile(atPath: path, contents: nil, attributes: nil)
             guard let fileHandle = FileHandle(forWritingAtPath: path) else {
