@@ -810,7 +810,7 @@ player.play()*/
         throw X509Error.cannotReadP12Certificate
     }
     // Remove temporary file
-    try? FileManager.default.removeItem(atPath: p12Path)
+    //try? FileManager.default.removeItem(atPath: p12Path)
     lb.text! += " p12Path:\(p12Path)"
     return p12Data
 }
