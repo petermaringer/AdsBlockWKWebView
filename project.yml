@@ -1,0 +1,25 @@
+name: AdsBlockWKWebView
+options:
+  #postGenCommand: pod install
+targets:
+  AdsBlockWKWebView:
+    type: application
+    platform: iOS
+    deploymentTarget: "10.0"
+    dependencies:
+      #- target: MagickLibrary
+    sources:
+      - path: AdsBlockWKWebView
+    settings:
+      base:
+        #INFOPLIST_FILE: AdsBlockWKWebView/Info.plist
+        CODE_SIGN_STYLE: Manual
+        DEVELOPMENT_TEAM: NG9KE3E3Q3
+        PROVISIONING_PROFILE_SPECIFIER: 2f778c7d-5d0d-4188-8716-c9f5c32c08c7
+        CODE_SIGN_IDENTITY: iPhone Distribution
+        DEBUG_INFORMATION_FORMAT: dwarf-with-dsym
+        TARGETED_DEVICE_FAMILY: 1,2
+        SWIFT_VERSION: 4.0
+        PRODUCT_BUNDLE_IDENTIFIER: at.co.weinmann.AdsBlockWKWebView
+        #ENABLE_BITCODE: 'NO'
+        #SWIFT_OBJC_BRIDGING_HEADER: MyProject/imageconverterios-Bridging-Header.h
