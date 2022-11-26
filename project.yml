@@ -27,5 +27,6 @@ targets:
         #ENABLE_BITCODE: 'NO'
         #SWIFT_OBJC_BRIDGING_HEADER: MyProject/imageconverterios-Bridging-Header.h
     scheme:
+      configVariants:
     #dependencies:
       #- package: Yams
