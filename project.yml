@@ -26,5 +26,6 @@ targets:
         #PRODUCT_BUNDLE_IDENTIFIER: at.co.weinmann.AdsBlockWKWebView
         #ENABLE_BITCODE: 'NO'
         #SWIFT_OBJC_BRIDGING_HEADER: MyProject/imageconverterios-Bridging-Header.h
+    scheme:
     #dependencies:
       #- package: Yams
