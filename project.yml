@@ -1,6 +1,6 @@
 name: AdsBlockWKWebView
-##options:
-  ##bundleIdPrefix: at.co.weinmann
+options:
+  bundleIdPrefix: at.co.weinmann
   #postGenCommand: pod install
 #packages:
 targets:
