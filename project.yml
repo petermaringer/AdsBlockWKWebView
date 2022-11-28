@@ -7,7 +7,7 @@ targets:
   AdsBlockWKWebView:
     type: application
     platform: iOS
-    ##deploymentTarget: '10.0'
+    deploymentTarget: '10.0'
     sources:
       - path: AdsBlockWKWebView
         excludes:
