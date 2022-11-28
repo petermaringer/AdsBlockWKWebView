@@ -15,7 +15,7 @@ targets:
           - Assets.xcassets/AppIconOld.appiconset/*
     settings:
       base:
-        ##CODE_SIGN_STYLE: Manual
+        CODE_SIGN_STYLE: Manual
         DEVELOPMENT_TEAM: NG9KE3E3Q3
         ##CODE_SIGN_IDENTITY: iPhone Distribution
         ##SWIFT_VERSION: '4.0'
