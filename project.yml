@@ -22,7 +22,7 @@ targets:
         #SWIFT_OBJC_BRIDGING_HEADER: B-Header.h
       configs:
         debug:
-          CODE_SIGN_IDENTITY: iPhone Developer
+          CODE_SIGN_IDENTITY: iPhone Distribution
         release:
           PROVISIONING_PROFILE_SPECIFIER: '2f778c7d-5d0d-4188-8716-c9f5c32c08c7'
     scheme:
