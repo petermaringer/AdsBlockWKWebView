@@ -12,7 +12,7 @@ targets:
       - path: AdsBlockWKWebView
         excludes:
           - adawayTEST.json
-          - Assets.xcassets/AppIconOld.appiconset
+          #- Assets.xcassets/AppIconOld.appiconset
     settings:
       base:
         DEVELOPMENT_TEAM: NG9KE3E3Q3
