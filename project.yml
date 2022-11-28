@@ -16,8 +16,8 @@ targets:
     settings:
       base:
         ##CODE_SIGN_STYLE: Manual
-        DEVELOPMENT_TEAM: NG9KE3E3Q3
-        ##PROVISIONING_PROFILE_SPECIFIER: 2f778c7d-5d0d-4188-8716-c9f5c32c08c7
+        ##DEVELOPMENT_TEAM: NG9KE3E3Q3
+        PROVISIONING_PROFILE_SPECIFIER: 2f778c7d-5d0d-4188-8716-c9f5c32c08c7
         ##CODE_SIGN_IDENTITY: iPhone Distribution
         ##SWIFT_VERSION: '4.0'
         #SWIFT_OBJC_BRIDGING_HEADER: Bridging-Header.h
