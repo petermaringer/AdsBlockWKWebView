@@ -2,7 +2,7 @@
 
 
 
-{"trigger":{"url-filter":"^[^:]+://+([^:/]+\.)?(adition\.com|ads\.pubmatic\.com|gum\.criteo\.com|adfarm1\.adition\.com|at-config\.sensic\.net)([:/]|$)","url-filter-is-case-sensitive":true,"load-type":["third-party"]},"action":{"type":"block"}},
+{"trigger":{"url-filter":"^[^:]+://+([^:/]+\.)?adition\.com[:/]","url-filter-is-case-sensitive":true,"load-type":["third-party"]},"action":{"type":"block"}},
 
 
 
