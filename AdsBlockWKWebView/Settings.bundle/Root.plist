@@ -62,14 +62,6 @@
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
-			<string></string>
-			<key>FooterText</key>
-			<string>This is a Footer Text (supported by Settings.app in iOS 4 or higher)2</string>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-			<key>Title</key>
 			<string>Theme configuration</string>
 		</dict>
 		<dict>

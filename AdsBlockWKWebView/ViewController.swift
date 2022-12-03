@@ -23,6 +23,7 @@ let tableMoveTopPref: Bool = false //true
 let webviewSearchUrlPref: String = "https://www.google.com/search?q="
 //let webviewSearchUrlPref: String = "https://duckduckgo.com/?q="
 //StartseiteStattGoogle
+let startPage = UserDefaults.standard.string(forKey: "startPage")
 //AlleSeitenHinzuStatt+
 //IdleTimerEinAus
 ////////// USERPREFS //////////
@@ -494,7 +495,7 @@ player.play()*/
     showAlert(message: "\(navlist) \(blitem) \(blcount1)/\(blcount2) \(appVersion!) \(text!)")
     */
     
-    showAlert(message: "\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)")
+    showAlert(message: "\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\(startPage)")
     
   }
   
