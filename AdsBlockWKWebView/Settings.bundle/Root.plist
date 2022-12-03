@@ -37,6 +37,8 @@
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
 			<string>App Startup</string>
+			<key>FooterText</key>
+			<string>This is a Footer Text (supported by Settings.app in iOS 4 or higher)</string>
 		</dict>
 		<dict>
 			<key>Type</key>
@@ -55,8 +57,14 @@
 			<string>None</string>
 			<key>AutocorrectionType</key>
 			<string>No</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string></string>
 			<key>FooterText</key>
-			<string>This is a Footer Text (supported by Settings.app in iOS 4 or higher)</string>
+			<string>This is a Footer Text (supported by Settings.app in iOS 4 or higher)2</string>
 		</dict>
 		<dict>
 			<key>Type</key>
