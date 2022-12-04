@@ -32,7 +32,7 @@ func loadUserPrefs() {
     webviewStartPagePref = UserDefaults.standard.string(forKey: "webviewStartPagePref")!
   }
   if (UserDefaults.standard.object(forKey: "goBackOnEditPref") != nil) {
-    goBackOnEditPref = UserDefaults.standard.integer(forKey: "goBackOnEditPref")!
+    goBackOnEditPref = UserDefaults.standard.integer(forKey: "goBackOnEditPref")
   }
 }
 ////////// USERPREFS //////////
