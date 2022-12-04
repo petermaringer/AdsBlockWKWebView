@@ -28,9 +28,10 @@ var webviewStartPagePref: String = "https://www.google1.com/"
 //IdleTimerEinAus
 func loadUserPrefs() {
   if (UserDefaults.standard.object(forKey: "startPage2") != nil) {
-    webviewStartPagePref = UserDefaults.standard.string(forKey: "startPage2")
+    webviewStartPagePref = UserDefaults.standard.string(forKey: "startPage2")!
   }
 }
+loadUserPrefs()
 ////////// USERPREFS //////////
 
 
