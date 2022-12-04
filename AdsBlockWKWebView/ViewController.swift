@@ -31,7 +31,6 @@ func loadUserPrefs() {
     webviewStartPagePref = UserDefaults.standard.string(forKey: "startPage2")!
   }
 }
-loadUserPrefs()
 ////////// USERPREFS //////////
 
 
@@ -1105,6 +1104,8 @@ enum X509Error: Error {
         super.viewDidLoad()
         
         UIApplication.shared.isIdleTimerDisabled = true
+        
+        loadUserPrefs()
         
         if (UserDefaults.standard.object(forKey: "origArray") != nil) {
           origArray = UserDefaults.standard.stringArray(forKey: "origArray") ?? [String]()
