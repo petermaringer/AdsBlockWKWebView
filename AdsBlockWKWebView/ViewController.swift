@@ -1429,6 +1429,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   
   @objc private func enterForeground() {
     UIApplication.shared.isIdleTimerDisabled = true
+    loadUserPrefs()
     avPVC.player = player
     lb.text! += " eFg"
     //adjustLabel()
