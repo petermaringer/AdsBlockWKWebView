@@ -46,7 +46,7 @@
 			<key>Title</key>
 			<string>Start Page</string>
 			<key>Key</key>
-			<string>startPage</string>
+			<string>startPage2</string>
 			<key>DefaultValue</key>
 			<string>https://google.com</string>
 			<key>IsSecure</key>
