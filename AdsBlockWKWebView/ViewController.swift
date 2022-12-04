@@ -23,12 +23,16 @@ let tableMoveTopPref: Bool = false //true
 let webviewSearchUrlPref: String = "https://www.google.com/search?q="
 //let webviewSearchUrlPref: String = "https://duckduckgo.com/?q="
 //StartseiteStattGoogle
-var webviewStartPagePref: String = "https://www.google1.com/"
+var webviewStartPagePref: String = "https://www.google.com/"
 //AlleSeitenHinzuStatt+
 //IdleTimerEinAus
+var goBackOnEditPref: Int = 2
 func loadUserPrefs() {
-  if (UserDefaults.standard.object(forKey: "startPage2") != nil) {
-    webviewStartPagePref = UserDefaults.standard.string(forKey: "startPage2")!
+  if (UserDefaults.standard.object(forKey: "webviewStartPagePref") != nil) {
+    webviewStartPagePref = UserDefaults.standard.string(forKey: "webviewStartPagePref")!
+  }
+  if (UserDefaults.standard.object(forKey: "goBackOnEditPref") != nil) {
+    goBackOnEditPref = UserDefaults.standard.integer(forKey: "goBackOnEditPref")!
   }
 }
 ////////// USERPREFS //////////
@@ -500,7 +504,7 @@ player.play()*/
     showAlert(message: "\(navlist) \(blitem) \(blcount1)/\(blcount2) \(appVersion!) \(text!)")
     */
     
-    showAlert(message: "\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\(webviewStartPagePref)")
+    showAlert(message: "\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\(webviewStartPagePref)\(goBackOnEditPref)")
     
   }
   
@@ -695,7 +699,7 @@ player.play()*/
     tableView.reloadData()
     tableView.isEditing = true
     
-    var goBackBy = 2
+    var goBackBy = goBackOnEditPref
     if goBackBy > webview.backForwardList.backList.count {
       goBackBy = webview.backForwardList.backList.count
     }
@@ -1105,7 +1109,7 @@ enum X509Error: Error {
         
         UIApplication.shared.isIdleTimerDisabled = true
         
-        loadUserPrefs()
+        //loadUserPrefs()
         
         if (UserDefaults.standard.object(forKey: "origArray") != nil) {
           origArray = UserDefaults.standard.stringArray(forKey: "origArray") ?? [String]()
