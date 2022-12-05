@@ -89,15 +89,19 @@
 			<string>2</string>
 			<key>Titles</key>
 			<array>
+				<string>0 Pages</string>
 				<string>2 Pages</string>
 				<string>4 Pages</string>
 				<string>6 Pages</string>
+				<string>8 Pages</string>
 			</array>
 			<key>Values</key>
 			<array>
+				<string>0</string>
 				<string>2</string>
 				<string>4</string>
 				<string>6</string>
+				<string>8</string>
 			</array>
 		</dict>
 	</array>

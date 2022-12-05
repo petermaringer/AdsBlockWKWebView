@@ -1109,7 +1109,7 @@ enum X509Error: Error {
         
         UIApplication.shared.isIdleTimerDisabled = true
         
-        //loadUserPrefs()
+        loadUserPrefs()
         
         if (UserDefaults.standard.object(forKey: "origArray") != nil) {
           origArray = UserDefaults.standard.stringArray(forKey: "origArray") ?? [String]()
