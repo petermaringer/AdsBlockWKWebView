@@ -20,7 +20,7 @@ fileprivate let ruleId2 = "MyRuleID 002"
 ////////// USERPREFS //////////
 let tableMaxLinesPref: Int = 6 //6
 let tableMoveTopPref: Bool = false //true
-let webviewSearchUrlPref: String = "https://www.google.com/search?q="
+var webviewSearchUrlPref: String = "https://www.google.com/search?q="
 //let webviewSearchUrlPref: String = "https://duckduckgo.com/?q="
 //StartseiteStattGoogle
 var webviewStartPagePref: String = "https://www.google.com/"
@@ -30,6 +30,9 @@ var goBackOnEditPref: Int = 2
 func loadUserPrefs() {
   if (UserDefaults.standard.object(forKey: "webviewStartPagePref") != nil) {
     webviewStartPagePref = UserDefaults.standard.string(forKey: "webviewStartPagePref")!
+  }
+  if (UserDefaults.standard.object(forKey: "webviewSearchUrlPref") != nil) {
+    webviewSearchUrlPref = UserDefaults.standard.string(forKey: "webviewSearchUrlPref")!
   }
   if (UserDefaults.standard.object(forKey: "goBackOnEditPref") != nil) {
     goBackOnEditPref = UserDefaults.standard.integer(forKey: "goBackOnEditPref")

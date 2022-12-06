@@ -30,6 +30,28 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 		</dict>
+
+		<dict>
+			<key>Type</key>
+			<string>PSRadioGroupSpecifier</string>
+			<key>Title</key>
+			<string>Search Engine</string>
+			<key>Key</key>
+			<string>webviewSearchUrlPref</string>
+			<key>DefaultValue</key>
+			<string>https://www.google.com/search?q=</string>
+			<key>Titles</key>
+			<array>
+				<string>Google</string>
+				<string>DuckDuckGo</string>
+			</array>
+			<key>Values</key>
+			<array>
+				<string>https://www.google.com/search?q=</string>
+				<string>https://duckduckgo.com/?q=</string>
+			</array>
+		</dict>
+
 		<dict>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
