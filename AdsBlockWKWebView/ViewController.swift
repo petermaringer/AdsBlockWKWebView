@@ -21,7 +21,6 @@ fileprivate let ruleId2 = "MyRuleID 002"
 let tableMaxLinesPref: Int = 6 //6
 let tableMoveTopPref: Bool = false //true
 var webviewSearchUrlPref: String = "https://www.google.com/search?q="
-//let webviewSearchUrlPref: String = "https://duckduckgo.com/?q="
 //StartseiteStattGoogle
 var webviewStartPagePref: String = "https://www.google.com/"
 //AlleSeitenHinzuStatt+
@@ -483,6 +482,7 @@ player.play()*/
     //adjustLabel()
     
     let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+    UserDefaults.standard.set(appVersion, forKey: "versionInfo")
     
     //let file = Bundle.main.path(forResource: "Info", ofType: "plist")!
     //let p = URL(fileURLWithPath: file)
