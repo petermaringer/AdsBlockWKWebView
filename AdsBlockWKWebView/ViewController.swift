@@ -1384,6 +1384,19 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     }
     
     if (message.body as! String).hasPrefix("vs") {
+      let downloadUrl = URL(string: (message.body as! String).dropFirst(2))!
+      let downloadTask = URLSession.shared.downloadTask(with: downloadUrl) {
+    urlOrNil, responseOrNil, errorOrNil in
+    guard let fileURL = urlOrNil else { return }
+    do {
+        let documentsURL = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        let savedURL = documentsURL.appendingPathComponent(fileURL.lastPathComponent)
+        try FileManager.default.moveItem(at: fileURL, to: savedURL)
+    } catch {
+        //print ("file error: \(error)")
+    }
+}
+downloadTask.resume()
       lb.text! += " VideoDownload"
     }
     
