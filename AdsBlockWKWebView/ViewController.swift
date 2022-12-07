@@ -1384,7 +1384,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     }
     
     if (message.body as! String).hasPrefix("vs") {
-      let downloadUrl = URL(string: (message.body as! String).dropFirst(2))!
+      let downloadUrl = URL(string: String((message.body as! String).dropFirst(2)))!
       let downloadTask = URLSession.shared.downloadTask(with: downloadUrl) {
     urlOrNil, responseOrNil, errorOrNil in
     guard let fileURL = urlOrNil else { return }
