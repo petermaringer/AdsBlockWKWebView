@@ -1392,7 +1392,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     do {
         let documentsURL = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
         let fileext = responseOrNil?.suggestedFilename
-        lb.text! += " \(fileext)"
+        self.lb.text! += " \(fileext!)"
         let savedURL = documentsURL.appendingPathComponent(fileURL.lastPathComponent)
         try FileManager.default.moveItem(at: fileURL, to: savedURL)
     } catch {
