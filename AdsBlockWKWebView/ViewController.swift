@@ -1384,6 +1384,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     }
     
     if (message.body as! String).hasPrefix("vs") {
+      /*
       let downloadUrl = URL(string: String((message.body as! String).dropFirst(2)))!
       let downloadTask = URLSession.shared.downloadTask(with: downloadUrl) {
     urlOrNil, responseOrNil, errorOrNil in
@@ -1397,6 +1398,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     }
 }
 downloadTask.resume()
+*/
       lb.text! += " VideoDownload"
     }
     
