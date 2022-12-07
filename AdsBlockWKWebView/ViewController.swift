@@ -1392,7 +1392,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     do {
         let documentsURL = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
         
-        let savedURL = documentsURL.appendingPathComponent((responseOrNil?.suggestedFilename)!)
+        let savedURL = documentsURL.appendingPathComponent("Video" + String(Int(arc4random_uniform(999999) + 1)) + "." + ((responseOrNil?.suggestedFilename)!.components(separatedBy: ".")).last )
         self.lb.text! += " \(savedURL)"
         
         //let savedURL = documentsURL.appendingPathComponent(fileURL.lastPathComponent)
