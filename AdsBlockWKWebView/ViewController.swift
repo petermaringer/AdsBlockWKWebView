@@ -1383,14 +1383,16 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       lb.text! += " restoreD"
     }
     
-    if (message.body as! String).hasPrefix("vs") {
-      /*
+    if (message.body as! String).hasPrefix("vs") && (message.body as! String).count > 2 {
+      
       let downloadUrl = URL(string: String((message.body as! String).dropFirst(2)))!
       let downloadTask = URLSession.shared.downloadTask(with: downloadUrl) {
     urlOrNil, responseOrNil, errorOrNil in
     guard let fileURL = urlOrNil else { return }
     do {
         let documentsURL = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        let fileext = responseOrNil?.suggestedFilename
+        lb.text! += " \(fileext)"
         let savedURL = documentsURL.appendingPathComponent(fileURL.lastPathComponent)
         try FileManager.default.moveItem(at: fileURL, to: savedURL)
     } catch {
@@ -1398,7 +1400,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     }
 }
 downloadTask.resume()
-*/
+
       lb.text! += " VideoDownload"
     }
     
