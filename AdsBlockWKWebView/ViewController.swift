@@ -1383,7 +1383,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       lb.text! += " restoreD"
     }
     
-    if (message.body as? String).hasPrefix("vs") {
+    if (message.body as! String).hasPrefix("vs") {
       lb.text! += " VideoDownload"
     }
     
