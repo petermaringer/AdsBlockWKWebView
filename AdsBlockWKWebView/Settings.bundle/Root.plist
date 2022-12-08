@@ -30,7 +30,6 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 		</dict>
-
 		<dict>
 			<key>Type</key>
 			<string>PSRadioGroupSpecifier</string>
@@ -51,7 +50,6 @@
 				<string>https://duckduckgo.com/?q=</string>
 			</array>
 		</dict>
-
 		<dict>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
@@ -125,6 +123,16 @@
 				<string>6</string>
 				<string>8</string>
 			</array>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Auto Video Download Mode</string>
+			<key>Key</key>
+			<string>autoVideoDownloadPref</string>
+			<key>DefaultValue</key>
+			<false/>
 		</dict>
 	</array>
 </dict>

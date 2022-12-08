@@ -26,6 +26,7 @@ var webviewStartPagePref: String = "https://www.google.com/"
 //AlleSeitenHinzuStatt+
 //IdleTimerEinAus
 var goBackOnEditPref: Int = 2
+var autoVideoDownloadPref: Bool = false
 func loadUserPrefs() {
   if (UserDefaults.standard.object(forKey: "webviewStartPagePref") != nil) {
     webviewStartPagePref = UserDefaults.standard.string(forKey: "webviewStartPagePref")!
@@ -35,6 +36,9 @@ func loadUserPrefs() {
   }
   if (UserDefaults.standard.object(forKey: "goBackOnEditPref") != nil) {
     goBackOnEditPref = UserDefaults.standard.integer(forKey: "goBackOnEditPref")
+  }
+  if (UserDefaults.standard.object(forKey: "autoVideoDownloadPref") != nil) {
+    autoVideoDownloadPref = UserDefaults.standard.bool(forKey: "autoVideoDownloadPref")
   }
 }
 ////////// USERPREFS //////////
@@ -1383,7 +1387,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       lb.text! += " restoreD"
     }
     
-    if (message.body as! String).hasPrefix("vs") && (message.body as! String).count > 2 {
+    if (message.body as! String).hasPrefix("vs") && (message.body as! String).count > 2 && autoVideoDownloadPref == true {
       
       let downloadUrl = URL(string: String((message.body as! String).dropFirst(2)))!
       let downloadTask = URLSession.shared.downloadTask(with: downloadUrl) {
