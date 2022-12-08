@@ -1401,6 +1401,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         
         //let savedURL = documentsURL.appendingPathComponent(fileURL.lastPathComponent)
         try FileManager.default.moveItem(at: fileURL, to: savedURL)
+        showAlert(message: "Download finished")
     } catch {
         //print ("file error: \(error)")
     }
