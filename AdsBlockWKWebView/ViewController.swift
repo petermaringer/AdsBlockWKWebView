@@ -1389,6 +1389,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     
     if (message.body as! String).hasPrefix("vs") && (message.body as! String).count > 2 && autoVideoDownloadPref == true {
       
+      showAlert(message: "Download started")
       let downloadUrl = URL(string: String((message.body as! String).dropFirst(2)))!
       let downloadTask = URLSession.shared.downloadTask(with: downloadUrl) {
     urlOrNil, responseOrNil, errorOrNil in
@@ -1401,7 +1402,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         
         //let savedURL = documentsURL.appendingPathComponent(fileURL.lastPathComponent)
         try FileManager.default.moveItem(at: fileURL, to: savedURL)
-        showAlert(message: "Download finished")
+        self.showAlert(message: "Download finished")
     } catch {
         //print ("file error: \(error)")
     }
