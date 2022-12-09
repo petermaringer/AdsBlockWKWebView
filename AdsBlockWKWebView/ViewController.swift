@@ -27,6 +27,7 @@ var webviewStartPagePref: String = "https://www.google.com/"
 //IdleTimerEinAus
 var goBackOnEditPref: Int = 2
 var autoVideoDownloadPref: Bool = false
+var messages: [String] = []
 func loadUserPrefs() {
   if (UserDefaults.standard.object(forKey: "webviewStartPagePref") != nil) {
     webviewStartPagePref = UserDefaults.standard.string(forKey: "webviewStartPagePref")!
@@ -966,6 +967,20 @@ enum X509Error: Error {
     self.present(alert, animated: true, completion: nil)
   }
   
+  private func showAlertNew(message: String? = nil) {
+    if let message = message {
+      messages.append(message)
+    }
+    guard self.messages.count > 0 else { return }
+    let message = self.messages.first
+    let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: "OK", style: .default){ (action) in
+      self.messages.removeFirst()
+      self.showAlertNew()
+    })
+    self.present(alert, animated: true)
+  }
+  
   private func adjustLabel() {
     
     lbcounter += 1
@@ -1389,7 +1404,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     
     if (message.body as! String).hasPrefix("vs") && (message.body as! String).count > 2 && autoVideoDownloadPref == true {
       
-      showAlert(message: "Download started")
+      showAlertNew(message: "Download started")
       let downloadUrl = URL(string: String((message.body as! String).dropFirst(2)))!
       let downloadTask = URLSession.shared.downloadTask(with: downloadUrl) {
     urlOrNil, responseOrNil, errorOrNil in
@@ -1403,7 +1418,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         //let savedURL = documentsURL.appendingPathComponent(fileURL.lastPathComponent)
         try FileManager.default.moveItem(at: fileURL, to: savedURL)
         DispatchQueue.main.async {
-          self.showAlert(message: "Download finished")
+          self.showAlertNew(message: "Download finished")
         }
     } catch {
         //print ("file error: \(error)")
