@@ -961,13 +961,13 @@ enum X509Error: Error {
     return true
   }
   
-  private func showAlert(message: String) {
+  private func showAlertOld(message: String) {
     let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
     self.present(alert, animated: true, completion: nil)
   }
   
-  private func showAlertNew(message: String? = nil) {
+  private func showAlert(message: String? = nil) {
     if let message = message {
       messages.append(message)
     }
@@ -976,7 +976,7 @@ enum X509Error: Error {
     let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "OK", style: .default){ (action) in
       messages.removeFirst()
-      self.showAlertNew()
+      self.showAlert()
     })
     self.present(alert, animated: true)
   }
@@ -1404,7 +1404,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     
     if (message.body as! String).hasPrefix("vs") && (message.body as! String).count > 2 && autoVideoDownloadPref == true {
       
-      showAlertNew(message: "Download started")
+      showAlert(message: "Download started")
       let downloadUrl = URL(string: String((message.body as! String).dropFirst(2)))!
       let downloadTask = URLSession.shared.downloadTask(with: downloadUrl) {
     urlOrNil, responseOrNil, errorOrNil in
@@ -1418,7 +1418,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         //let savedURL = documentsURL.appendingPathComponent(fileURL.lastPathComponent)
         try FileManager.default.moveItem(at: fileURL, to: savedURL)
         DispatchQueue.main.async {
-          self.showAlertNew(message: "Download finished")
+          self.showAlert(message: "Download finished")
         }
     } catch {
         //print ("file error: \(error)")
@@ -1426,7 +1426,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
 }
 downloadTask.resume()
       
-      showAlertNew(message: "What the fuck")
+      showAlert(message: "What the fuck")
       lb.text! += " VideoDownload"
     }
     
