@@ -971,11 +971,11 @@ enum X509Error: Error {
     if let message = message {
       messages.append(message)
     }
-    guard self.messages.count > 0 else { return }
-    let message = self.messages.first
+    guard messages.count > 0 else { return }
+    let message = messages.first
     let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "OK", style: .default){ (action) in
-      self.messages.removeFirst()
+      messages.removeFirst()
       self.showAlertNew()
     })
     self.present(alert, animated: true)
