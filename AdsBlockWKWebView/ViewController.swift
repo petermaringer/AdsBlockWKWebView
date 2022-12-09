@@ -1425,7 +1425,8 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     }
 }
 downloadTask.resume()
-
+      
+      showAlertNew(message: "What the fuck")
       lb.text! += " VideoDownload"
     }
     
