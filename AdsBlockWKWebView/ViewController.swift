@@ -978,7 +978,7 @@ enum X509Error: Error {
       messages.removeFirst()
       self.showAlert()
     })
-    self.present(alert, animated: true)
+    self.present(alert, animated: true) { UINotificationFeedbackGenerator().notificationOccurred(.success) }
   }
   
   private func adjustLabel() {
@@ -1426,7 +1426,6 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
 }
 downloadTask.resume()
       
-      showAlert(message: "What the fuck")
       lb.text! += " VideoDownload"
     }
     
