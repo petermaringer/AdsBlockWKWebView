@@ -729,7 +729,7 @@ player.play()*/
     
     func pkcs12(fromPem pemCertificate: String,
                    withPrivateKey pemPrivateKey: String,
-                   p12Password: String = "",
+                   p12Password: String = "Bitrise78wolfi",
                    certificateAuthorityFileURL: URL? = nil) throws -> NSData {
     // Create sec certificates from PEM string
     let modifiedCert = pemCertificate
