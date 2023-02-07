@@ -737,7 +737,9 @@ player.play()*/
         .replacingOccurrences(of: "-----END CERTIFICATE-----", with: "")
         .replacingOccurrences(of: "\n", with: "")
         .trimmingCharacters(in: .whitespacesAndNewlines)
-    guard let derCertificate = NSData(base64Encoded: modifiedCert, options: [])
+    //guard let derCertificate = NSData(base64Encoded: modifiedCert, options: [])
+    
+    guard let derCertificate = try! Data(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.cer"))!
     else {
         lb.text! += " cannotReadPEMCertificate"
         throw X509Error.cannotReadPEMCertificate
