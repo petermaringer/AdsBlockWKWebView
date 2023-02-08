@@ -848,11 +848,6 @@ enum X509Error: Error {
     
     let derCer = try! NSData(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.cer"))!
     let pemKey = try! String(data: Data(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.key")), encoding: .utf8)!
-    
-    if let rsa = RSA_generate_key(1024, UInt(RSA_F4), nil, nil) {
-      lb.text! += " RSA's bits is: \(BN_num_bits(rsa.pointee.n)) \(rsa)"
-    }
-    
     let testp12 = try? pkcs12(fromDer: derCer, withPrivateKey: pemKey)
     lb.text! += " p12Data:\(testp12!)"
     
