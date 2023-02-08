@@ -721,7 +721,6 @@ player.play()*/
   @objc func devButtonClicked(url: String) {
     urlField.endEditing(true)
     
-    
     //https://github.com/digitalbazaar/forge
     //SSL_library_init()
     //SSL_load_error_strings()
@@ -743,21 +742,16 @@ player.play()*/
         lb.text! += " cannotReadPEMCertificate"
         throw X509Error.cannotReadPEMCertificate
     }
+    //...
+    }
+    let pemCer = try! String(data: Data(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.pem")), encoding: .utf8)!
+    let testp12 = try? pkcs12(fromPem: pemCer, withPrivateKey: pemKey)
     */
     
     func pkcs12(fromDer derCertificate: NSData,
                    withPrivateKey pemPrivateKey: String,
                    p12Password: String = "Bitrise78wolfi",
                    certificateAuthorityFileURL: URL? = nil) throws -> NSData {
-    
-    /*
-    guard let derCertificate = try! NSData(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.cer"))
-    else {
-        lb.text! += " cannotReadPEMCertificate"
-        throw X509Error.cannotReadPEMCertificate
-    }
-    */
-    
     // Create strange pointer to read DER certificate with OpenSSL
     // Data must be a two-dimensional array containing the pointer to the DER certificate
     // as single element at position [0][0]
@@ -813,17 +807,13 @@ player.play()*/
             }
             // Save P12 keystore
             let fileManager = FileManager.default
-            
             let path = try! fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("ssl.p12").path
-            //NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0].path.appendingPathComponent("ssl.p12")
-            
             /*
             let path = fileManager
                 .temporaryDirectory
                 .appendingPathComponent(UUID().uuidString)
                 .path
             */
-            //.appendingPathComponent("ssl.p12")
             fileManager.createFile(atPath: path, contents: nil, attributes: nil)
             guard let fileHandle = FileHandle(forWritingAtPath: path) else {
                 NSLog("Cannot open FH: \(path)")
@@ -849,28 +839,22 @@ player.play()*/
 }
 
 enum X509Error: Error {
-    case cannotReadPEMCertificate
+    //case cannotReadPEMCertificate
     case privateKeyDoesNotMatchCertificate
     case cannotCreateP12Keystore
     case cannotOpenFileHandles
     case cannotReadP12Certificate
 }
     
-    //let pemCer = "-----BEGIN CERTIFICATE-----\nMIIF0TCCBLmgAwIBAgIQFeJZ6/eVGIjNhaIoKXIrzzANBgkqhkiG9w0BAQsFADB1\nMUQwQgYDVQQDDDtBcHBsZSBXb3JsZHdpZGUgRGV2ZWxvcGVyIFJlbGF0aW9ucyBD\nZXJ0aWZpY2F0aW9uIEF1dGhvcml0eTELMAkGA1UECwwCRzMxEzARBgNVBAoMCkFw\ncGxlIEluYy4xCzAJBgNVBAYTAlVTMB4XDTIyMDIyMzE4MDUzNVoXDTIzMDIyMzE4\nMDUzNFowgZcxGjAYBgoJkiaJk/IsZAEBDApORzlLRTNFM1EzMTswOQYDVQQDDDJB\ncHBsZSBEaXN0cmlidXRpb246IFdvbGZnYW5nIFdlaW5tYW5uIChORzlLRTNFM1Ez\nKTETMBEGA1UECwwKTkc5S0UzRTNRMzEaMBgGA1UECgwRV29sZmdhbmcgV2Vpbm1h\nbm4xCzAJBgNVBAYTAkFUMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA\nn6R4gfqUJBYm+DFzHTumnT9TicHHkvXEuSVE/fBsW6vAcp9u5WFO41YZH975zOl2\nRAwzpjDSB82m8cEtEB31D7DfSFCXss3+Lsz1mFfuNWRwBR0z+VRivOVtu3XKboT9\ntlLB7m8ZqLvCqS+NyEXa79RQM8M/2v3CKWgKf7xPBbXCBmw8ujHtBvT9fD8kTocr\n0+8VlitjAA6zkfQxYp7PUOt/oaOMcJekRXib2fkWSDbhlj2YL8vhGCuOVBlCaZg1\nmGzeDd2/oLZS2RhzumC4TZXJq0yEkQhKKfjEH8JMn4ckLWWPOYZNf8vI1wZhb8rw\n0ucTzos1L38QG+h+K7pzwwIDAQABo4ICODCCAjQwDAYDVR0TAQH/BAIwADAfBgNV\nHSMEGDAWgBQJ/sAVkPmvZAqSErkmKGMMl+ynsjBwBggrBgEFBQcBAQRkMGIwLQYI\nKwYBBQUHMAKGIWh0dHA6Ly9jZXJ0cy5hcHBsZS5jb20vd3dkcmczLmRlcjAxBggr\nBgEFBQcwAYYlaHR0cDovL29jc3AuYXBwbGUuY29tL29jc3AwMy13d2RyZzMwNTCC\nAR4GA1UdIASCARUwggERMIIBDQYJKoZIhvdjZAUBMIH/MIHDBggrBgEFBQcCAjCB\ntgyBs1JlbGlhbmNlIG9uIHRoaXMgY2VydGlmaWNhdGUgYnkgYW55IHBhcnR5IGFz\nc3VtZXMgYWNjZXB0YW5jZSBvZiB0aGUgdGhlbiBhcHBsaWNhYmxlIHN0YW5kYXJk\nIHRlcm1zIGFuZCBjb25kaXRpb25zIG9mIHVzZSwgY2VydGlmaWNhdGUgcG9saWN5\nIGFuZCBjZXJ0aWZpY2F0aW9uIHByYWN0aWNlIHN0YXRlbWVudHMuMDcGCCsGAQUF\nBwIBFitodHRwczovL3d3dy5hcHBsZS5jb20vY2VydGlmaWNhdGVhdXRob3JpdHkv\nMBYGA1UdJQEB/wQMMAoGCCsGAQUFBwMDMB0GA1UdDgQWBBRqHCrPScUShO3wkcRq\n1rEVlYHGkDAOBgNVHQ8BAf8EBAMCB4AwEwYKKoZIhvdjZAYBBwEB/wQCBQAwEwYK\nKoZIhvdjZAYBBAEB/wQCBQAwDQYJKoZIhvcNAQELBQADggEBALeEWFsjVUXocgR9\n/aMQjYiWF34Q+MJAcKO1AK6otFxtTDlwbixJAgEo2YZrRfJV2pAJwIPaBD8bH+GB\nSW4w0u9mXrRr0SSgqfru84bXeCf8YlGc6+TkEUCUwL/yksNVycOvoW/PDbLcTizw\nYBYIAoYpWkX+TJSKBPfIlAYbHHoQsCZKcXphAoPUzkT8wDx+D9yNN4AbqA/0c2AQ\nIOgaH0ubYFDXbyx8ZAAqyMaJtLQgw4duawnWV5pHaSXTHejCILNDucviCKHH+Jv7\n1WpCaadIKayWjZWZRSiyzDzj2leuUJBb4i/7PSQ4lSqE4aUWLP/wnLaXQcS6tg06\ndbMDxEY=\n-----END CERTIFICATE-----"
-    //let pemCer = try! String(data: Data(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.pem")), encoding: .utf8)!
-    
     let derCer = try! NSData(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.cer"))!
-    
-    //let pemKey = "-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAn6R4gfqUJBYm+DFzHTumnT9TicHHkvXEuSVE/fBsW6vAcp9u\n5WFO41YZH975zOl2RAwzpjDSB82m8cEtEB31D7DfSFCXss3+Lsz1mFfuNWRwBR0z\n+VRivOVtu3XKboT9tlLB7m8ZqLvCqS+NyEXa79RQM8M/2v3CKWgKf7xPBbXCBmw8\nujHtBvT9fD8kTocr0+8VlitjAA6zkfQxYp7PUOt/oaOMcJekRXib2fkWSDbhlj2Y\nL8vhGCuOVBlCaZg1mGzeDd2/oLZS2RhzumC4TZXJq0yEkQhKKfjEH8JMn4ckLWWP\nOYZNf8vI1wZhb8rw0ucTzos1L38QG+h+K7pzwwIDAQABAoIBADa/5UROd7fYkQzV\niLEh4AZVzYSVHKjd+NW2Xm7ooYDe6mVlIFcyhCebQ4qWof0QpCq6NIxuedmLQhHv\nOlEotP7onerjGOONmfra9++DWIKfK3vVhBmiQyqdVIDR6Nb2bTy2LSRkndwsaJo1\nYN6qdmeB3O+jqqakGI6yy8b7Ae7m2BNx4oIm9/kxilJGFMEqdRr7tOEySEwxgdE8\nH9y/GorMqoB7HuEkxt4X3cPbCuwVCnpcRt6qKb3sdCTXMfGI9F8PYsTZhwglc7i+\nQbJocHv0XpHt7MYBg2CYbdCv2CGTp5ZX3MVv8NGFjUBaCATOw0Ga9j1BXcuG5iPz\nFLFAqsECgYEA00dxgTvRniowwSq/PzHBkMRgc6wcr/sKvzr4GGSiPNXunDQb3j4Y\nxsUtttwlD6SqLUVr1gqPcosiAKxEJCoWlvsdQER4NVkZ03rRzr/BR/6ah8gmkrfg\nk1XRLt376feygL0+yFNUrD/lx6jsGq2mXyxZ2MefabC39YdzbNxdVqkCgYEAwW7/\n8xN57xgRa1aNWJ1lW5RmZ6IVJtmH6wOt80I/MEcPDUi+raXD+qwXAOw7pINiiE/U\ny/+Xi++agDNjsDaLKliQbU75baYwESJjUbvc3aW3qd+5wVP1Q4nk/isROwxKzpse\n3BHU+zafclQnNg0aOeX9uCGrSw1fKcOwVV9W9osCgYArUYGfKqGe2S2n3Vja3xu9\nz9WqwcYb+s/IR5HohnGRIZfLpQ91sKupzXHDBT4ACBXwNESY3Q9uP8KX+rn55Ds/\nd3sW2zL+VSdracospro9RaFvZ4UpHdRIwRajklX9MZECvkpqDlPVAUDef+7wxVvQ\nNaqyPLOdmuMMz1nGHyRwCQKBgEpy9oAQFvY3RT0S6wQYUFKXI3Lvp0R0pSOHHwRp\nkvh54Qkz3m/nRS7N3Wy1f58qElp0n2qEzUdGyShenxfLZnS98ZigtM/HDukJW0Cy\nFagZiD8RpOUL83IzOLe6y772VDSA77e0BU1LEMNoME9Va6qtIqIkE1Gnq+DfOJcj\nQs1RAoGBAJD7l0EP5KZWpxrd5WIM7gqBVVWxHk/V47eFYOMTqEb2M3vgymtks7o6\nFejsY6eTHNhjfToF2rfMcs1GGVOHd6Xt3g77Ngs3hJlr6kcBbTNJ2r9wReZFEpMk\n9NzcesOwPFJpNR2QX8dTgmWgMgyMSYVOAVUY72honkmY3VbesgHD\n-----END RSA PRIVATE KEY-----"
     let pemKey = try! String(data: Data(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.key")), encoding: .utf8)!
     
-    //if let rsa = RSA_generate_key(1024, UInt(RSA_F4), nil, nil) {
-      //lb.text! += " RSA's bits is: \(BN_num_bits(rsa.pointee.n)) \(rsa)"
-    //}
+    if let rsa = RSA_generate_key(1024, UInt(RSA_F4), nil, nil) {
+      lb.text! += " RSA's bits is: \(BN_num_bits(rsa.pointee.n)) \(rsa)"
+    }
     
-    //let testp12 = try? pkcs12(fromPem: pemCer, withPrivateKey: pemKey)
     let testp12 = try? pkcs12(fromDer: derCer, withPrivateKey: pemKey)
-    //lb.text! += " p12Data:\(testp12!)"
+    lb.text! += " p12Data:\(testp12!)"
     
     
     if lb.isHidden == true {
