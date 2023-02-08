@@ -722,9 +722,52 @@ player.play()*/
   @objc func devButtonClicked(url: String) {
     urlField.endEditing(true)
     
-    let algorithm = KeyAlgorithm.ec(signatureType: .sha256)
+    
+    func generateKeysAndStoreInKeychain(_ algorithm: KeyAlgorithm, keySize: Int, tagPrivate: String, tagPublic: String) -> (SecKey?, SecKey?) {
+      let publicKeyParameters: [String: Any] = [String(kSecAttrIsPermanent): true, String(kSecAttrAccessible): kSecAttrAccessibleAfterFirstUnlock, String(kSecAttrApplicationTag): tagPublic.data(using: .utf8)!]
+      var privateKeyParameters: [String: Any] = [String(kSecAttrIsPermanent): true, String(kSecAttrAccessible): kSecAttrAccessibleAfterFirstUnlock, String(kSecAttrApplicationTag): tagPrivate.data(using: .utf8)!]
+      //Define type of keys to be generated
+      var parameters: [String: Any] = [String(kSecAttrKeyType): algorithm.secKeyAttrType, String(kSecAttrKeySizeInBits): keySize, String(kSecReturnRef): true, String(kSecPublicKeyAttrs): publicKeyParameters, String(kSecPrivateKeyAttrs): privateKeyParameters]
+      
+      //Use Apple Security Framework to generate keys, save them to application keychain
+        var error: Unmanaged<CFError>?
+        let privateKey = SecKeyCreateRandomKey(parameters as CFDictionary, &error)
+        if privateKey == nil {
+            print("Error creating keys occured: \(error!.takeRetainedValue() as Error), keys weren't created")
+            return (nil, nil)
+        }
+
+        //Get generated public key
+        let query: [String: Any] = [
+            String(kSecClass): kSecClassKey,
+            String(kSecAttrKeyType): algorithm.secKeyAttrType,
+            String(kSecAttrApplicationTag): tagPublic.data(using: .utf8)!,
+            String(kSecReturnRef): true
+        ]
+
+        var publicKeyReturn: CFTypeRef?
+        let result = SecItemCopyMatching(query as CFDictionary, &publicKeyReturn)
+        if result != errSecSuccess {
+            print("Error getting publicKey fron keychain occured: \(result)")
+            return (privateKey, nil)
+        }
+        // swiftlint:disable:next force_cast
+        let publicKey = publicKeyReturn as! SecKey?
+        return (privateKey, publicKey)
+    }
+    
+    
+    let tagPrivate = "com.csr.private.rsa256"
+    let tagPublic = "com.csr.public.rsa256"
+    let keyAlgorithm = KeyAlgorithm.rsa(signatureType: .sha256)
+    let sizeOfKey = keyAlgorithm.availableKeySizes.last!
+    let (potentialPrivateKey, potentialPublicKey) = self.generateKeysAndStoreInKeychain(keyAlgorithm, keySize: sizeOfKey, tagPrivate: tagPrivate, tagPublic: tagPublic)
+    
+    
+    //let algorithm = KeyAlgorithm.rsa(signatureType: .sha256)
     //let csr = CertificateSigningRequest(commonName: String?, organizationName: String?, organizationUnitName: String?, countryName: String?, stateOrProvinceName: String?, localityName: String?, emailAddress: String?, description: String?, keyAlgorithm: algorithm)
-    let csr = CertificateSigningRequest(commonName: "Wolfgang Weinmann", countryName: "AT", emailAddress: "apps@weinmann.co.at", keyAlgorithm: algorithm)
+    let csr = CertificateSigningRequest(commonName: "Wolfgang Weinmann", countryName: "AT", emailAddress: "apps@weinmann.co.at", keyAlgorithm: keyAlgorithm)
+    //let builtCSR = csr.buildCSRAndReturnString(publicKeyBits, privateKey: privateKey)
     
     //https://github.com/digitalbazaar/forge
     //SSL_library_init()
