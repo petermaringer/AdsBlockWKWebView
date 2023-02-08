@@ -849,7 +849,7 @@ enum X509Error: Error {
     
     let derCer = try! NSData(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.cer"))!
     let pemKey = try! String(data: Data(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.key")), encoding: .utf8)!
-    try? pkcs12(fromDer: derCer, withPrivateKey: pemKey)
+    pkcs12(fromDer: derCer, withPrivateKey: pemKey)
     
     
     if lb.isHidden == true {
