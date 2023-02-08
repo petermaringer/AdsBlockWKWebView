@@ -761,7 +761,7 @@ player.play()*/
     let tagPublic = "com.csr.public.rsa256"
     let keyAlgorithm = KeyAlgorithm.rsa(signatureType: .sha256)
     let sizeOfKey = keyAlgorithm.availableKeySizes.last!
-    let (potentialPrivateKey, potentialPublicKey) = self.generateKeysAndStoreInKeychain(keyAlgorithm, keySize: sizeOfKey, tagPrivate: tagPrivate, tagPublic: tagPublic)
+    let (potentialPrivateKey, potentialPublicKey) = generateKeysAndStoreInKeychain(keyAlgorithm, keySize: sizeOfKey, tagPrivate: tagPrivate, tagPublic: tagPublic)
     
     
     //let algorithm = KeyAlgorithm.rsa(signatureType: .sha256)
