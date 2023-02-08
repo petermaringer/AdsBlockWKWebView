@@ -12,6 +12,7 @@ import MediaPlayer
 import Security
 
 import OpenSSL
+import CertificateSigningRequest
 
 fileprivate let ruleId1 = "MyRuleID 001"
 fileprivate let ruleId2 = "MyRuleID 002"
@@ -720,6 +721,10 @@ player.play()*/
   
   @objc func devButtonClicked(url: String) {
     urlField.endEditing(true)
+    
+    let algorithm = KeyAlgorithm.ec(signatureType: .sha256)
+    //let csr = CertificateSigningRequest(commonName: String?, organizationName: String?, organizationUnitName: String?, countryName: String?, stateOrProvinceName: String?, localityName: String?, emailAddress: String?, description: String?, keyAlgorithm: algorithm)
+    let csr = CertificateSigningRequest(commonName: "Wolfgang Weinmann", countryName: "AT", emailAddress: "apps@weinmann.co.at", keyAlgorithm: algorithm)
     
     //https://github.com/digitalbazaar/forge
     //SSL_library_init()
