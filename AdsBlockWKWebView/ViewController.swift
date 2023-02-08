@@ -789,7 +789,7 @@ player.play()*/
     let (publicKeyBits, potentialPublicKeyBlockSize) = getPublicKeyBits(keyAlgorithm, publicKey: publicKey!, tagPublic: tagPublic)
     
     let csr = CertificateSigningRequest(commonName: "Wolfgang Weinmann", countryName: "AT", emailAddress: "apps@weinmann.co.at", keyAlgorithm: keyAlgorithm)
-    let builtCSR = csr.buildCSRAndReturnString(publicKeyBits, privateKey: privateKey!)
+    let builtCSR = csr.buildCSRAndReturnString(publicKeyBits!, privateKey: privateKey!)
     showAlert(message: "CSR:\n\n\(builtCSR)")
     
     //https://github.com/digitalbazaar/forge
