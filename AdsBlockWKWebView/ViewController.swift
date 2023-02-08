@@ -725,9 +725,9 @@ player.play()*/
     
     func generateKeysAndStoreInKeychain(_ algorithm: KeyAlgorithm, keySize: Int, tagPrivate: String, tagPublic: String) -> (SecKey?, SecKey?) {
       let publicKeyParameters: [String: Any] = [String(kSecAttrIsPermanent): true, String(kSecAttrAccessible): kSecAttrAccessibleAfterFirstUnlock, String(kSecAttrApplicationTag): tagPublic.data(using: .utf8)!]
-      var privateKeyParameters: [String: Any] = [String(kSecAttrIsPermanent): true, String(kSecAttrAccessible): kSecAttrAccessibleAfterFirstUnlock, String(kSecAttrApplicationTag): tagPrivate.data(using: .utf8)!]
+      let privateKeyParameters: [String: Any] = [String(kSecAttrIsPermanent): true, String(kSecAttrAccessible): kSecAttrAccessibleAfterFirstUnlock, String(kSecAttrApplicationTag): tagPrivate.data(using: .utf8)!]
       //Define type of keys to be generated
-      var parameters: [String: Any] = [String(kSecAttrKeyType): algorithm.secKeyAttrType, String(kSecAttrKeySizeInBits): keySize, String(kSecReturnRef): true, String(kSecPublicKeyAttrs): publicKeyParameters, String(kSecPrivateKeyAttrs): privateKeyParameters]
+      let parameters: [String: Any] = [String(kSecAttrKeyType): algorithm.secKeyAttrType, String(kSecAttrKeySizeInBits): keySize, String(kSecReturnRef): true, String(kSecPublicKeyAttrs): publicKeyParameters, String(kSecPrivateKeyAttrs): privateKeyParameters]
       
       //Use Apple Security Framework to generate keys, save them to application keychain
         var error: Unmanaged<CFError>?
@@ -757,17 +757,40 @@ player.play()*/
     }
     
     
+    func getPublicKeyBits(_ algorithm: KeyAlgorithm, publicKey: SecKey, tagPublic: String) -> (Data?, Int?) {
+      
+      //Set block size
+      let keyBlockSize = SecKeyGetBlockSize(publicKey)
+        //Ask keychain to provide the publicKey in bits
+        let query: [String: Any] = [
+            String(kSecClass): kSecClassKey,
+            String(kSecAttrKeyType): algorithm.secKeyAttrType,
+            String(kSecAttrApplicationTag): tagPublic.data(using: .utf8)!,
+            String(kSecReturnData): true
+        ]
+
+        var tempPublicKeyBits: CFTypeRef?
+        var _ = SecItemCopyMatching(query as CFDictionary, &tempPublicKeyBits)
+
+        guard let keyBits = tempPublicKeyBits as? Data else {
+            return (nil, nil)
+        }
+
+        return (keyBits, keyBlockSize)
+    }
+    
+    
     let tagPrivate = "com.csr.private.rsa256"
     let tagPublic = "com.csr.public.rsa256"
     let keyAlgorithm = KeyAlgorithm.rsa(signatureType: .sha256)
     let sizeOfKey = keyAlgorithm.availableKeySizes.last!
-    let (potentialPrivateKey, potentialPublicKey) = generateKeysAndStoreInKeychain(keyAlgorithm, keySize: sizeOfKey, tagPrivate: tagPrivate, tagPublic: tagPublic)
+    let (privateKey, publicKey) = generateKeysAndStoreInKeychain(keyAlgorithm, keySize: sizeOfKey, tagPrivate: tagPrivate, tagPublic: tagPublic)
     
+    let (publicKeyBits, potentialPublicKeyBlockSize) = getPublicKeyBits(keyAlgorithm, publicKey: publicKey, tagPublic: tagPublic)
     
-    //let algorithm = KeyAlgorithm.rsa(signatureType: .sha256)
-    //let csr = CertificateSigningRequest(commonName: String?, organizationName: String?, organizationUnitName: String?, countryName: String?, stateOrProvinceName: String?, localityName: String?, emailAddress: String?, description: String?, keyAlgorithm: algorithm)
     let csr = CertificateSigningRequest(commonName: "Wolfgang Weinmann", countryName: "AT", emailAddress: "apps@weinmann.co.at", keyAlgorithm: keyAlgorithm)
-    //let builtCSR = csr.buildCSRAndReturnString(publicKeyBits, privateKey: privateKey)
+    let builtCSR = csr.buildCSRAndReturnString(publicKeyBits, privateKey: privateKey)
+    showAlert(message: "CSR:\n\n\(builtCSR)")
     
     //https://github.com/digitalbazaar/forge
     //SSL_library_init()
