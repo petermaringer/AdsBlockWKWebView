@@ -746,6 +746,7 @@ player.play()*/
     }
     let pemCer = try! String(data: Data(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.pem")), encoding: .utf8)!
     let testp12 = try? pkcs12(fromPem: pemCer, withPrivateKey: pemKey)
+    lb.text! += " p12Data:\(testp12!)"
     */
     
     func pkcs12(fromDer derCertificate: NSData,
@@ -848,8 +849,7 @@ enum X509Error: Error {
     
     let derCer = try! NSData(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.cer"))!
     let pemKey = try! String(data: Data(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.key")), encoding: .utf8)!
-    let testp12 = try? pkcs12(fromDer: derCer, withPrivateKey: pemKey)
-    lb.text! += " p12Data:\(testp12!)"
+    try? pkcs12(fromDer: derCer, withPrivateKey: pemKey)
     
     
     if lb.isHidden == true {
