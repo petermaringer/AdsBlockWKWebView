@@ -773,7 +773,7 @@ player.play()*/
         var _ = SecItemCopyMatching(query as CFDictionary, &tempPublicKeyBits)
 
         guard let keyBits = tempPublicKeyBits as? Data else {
-            return (nil, nil)
+            return nil
         }
 
         return keyBits
