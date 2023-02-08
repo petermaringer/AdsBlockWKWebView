@@ -7,6 +7,7 @@ target 'AdsBlockWKWebView' do
   use_frameworks!
   pod 'GCDWebServer', '~> 3.0'
   pod 'OpenSSL-Universal', '~> 1.1'
+  pod 'CertificateSigningRequest', '~> 1.27'
   #pod 'openssl-apple-platform', '1.0.2r'
 end
 
