@@ -733,7 +733,8 @@ player.play()*/
         var error: Unmanaged<CFError>?
         let privateKey = SecKeyCreateRandomKey(parameters as CFDictionary, &error)
         if privateKey == nil {
-            print("Error creating keys occured: \(error!.takeRetainedValue() as Error), keys weren't created")
+            //print("Error creating keys occured: \(error!.takeRetainedValue() as Error), keys weren't created")
+            lb.text! += " Error:genKeysFail1"
             return (nil, nil)
         }
 
@@ -748,7 +749,8 @@ player.play()*/
         var publicKeyReturn: CFTypeRef?
         let result = SecItemCopyMatching(query as CFDictionary, &publicKeyReturn)
         if result != errSecSuccess {
-            print("Error getting publicKey fron keychain occured: \(result)")
+            //print("Error getting publicKey from keychain occured: \(result)")
+            lb.text! += " Error:genKeysFail2"
             return (privateKey, nil)
         }
         // swiftlint:disable:next force_cast
@@ -773,6 +775,7 @@ player.play()*/
         var _ = SecItemCopyMatching(query as CFDictionary, &tempPublicKeyBits)
 
         guard let keyBits = tempPublicKeyBits as? Data else {
+            lb.text! += " Error:getBitsFail"
             return nil
         }
 
