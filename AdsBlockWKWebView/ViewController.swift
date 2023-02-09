@@ -804,7 +804,7 @@ player.play()*/
     finalPemData.append(data)
     let finalPemString = finalPemData.base64EncodedString(options: .lineLength64Characters)
     let clientPrivateKeyString = "-----BEGIN RSA PRIVATE KEY-----\r\n\(finalPemString)\r\n-----END RSA PRIVATE KEY-----\r\n"
-    try! clientPrivateKeyString.write(to: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("ssl.key"), atomically: true, encoding: .utf8)
+    //try! clientPrivateKeyString.write(to: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("ssl.key"), atomically: true, encoding: .utf8)
     showAlert(message: "KEY:\n\n\(clientPrivateKeyString)")
     
     
@@ -935,8 +935,8 @@ enum X509Error: Error {
     
     let derCer = try! NSData(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.cer"))!
     let pemKey = try! String(data: Data(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.key")), encoding: .utf8)!
-    //let p12Data = try? pkcs12(fromDer: derCer, withPrivateKey: pemKey)
-    //lb.text! += (" p12Data:\(p12Data!)").prefix(50) + "..."
+    let p12Data = try? pkcs12(fromDer: derCer, withPrivateKey: pemKey)
+    lb.text! += (" p12Data:\(p12Data!)").prefix(50) + "..."
     
     
     if lb.isHidden == true {
