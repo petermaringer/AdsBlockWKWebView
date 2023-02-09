@@ -788,7 +788,7 @@ player.play()*/
     let publicKeyBits = getPublicKeyBits(keyAlgorithm, publicKey: publicKey!, tagPublic: tagPublic)
     let csr = CertificateSigningRequest(commonName: "Wolfgang Weinmann", countryName: "AT", emailAddress: "apps@weinmann.co.at", keyAlgorithm: keyAlgorithm)
     let builtCSR = csr.buildCSRAndReturnString(publicKeyBits!, privateKey: privateKey!)
-    try! builtCSR!.write(to: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("ssl.certSigningRequest"), atomically: true, encoding: .utf8)
+    try! builtCSR!.write(to: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("ssl2023.certSigningRequest"), atomically: true, encoding: .utf8)
     showAlert(message: "CSR (\(sizeOfKey)):\n\n\(builtCSR!)")
     
     
@@ -804,7 +804,7 @@ player.play()*/
     finalPemData.append(data)
     let finalPemString = finalPemData.base64EncodedString(options: .lineLength64Characters)
     let clientPrivateKeyString = "-----BEGIN RSA PRIVATE KEY-----\r\n\(finalPemString)\r\n-----END RSA PRIVATE KEY-----\r\n"
-    //try! clientPrivateKeyString.write(to: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("ssl.key"), atomically: true, encoding: .utf8)
+    try! clientPrivateKeyString.write(to: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("ssl2023.key"), atomically: true, encoding: .utf8)
     showAlert(message: "KEY:\n\n\(clientPrivateKeyString)")
     
     
