@@ -783,8 +783,8 @@ player.play()*/
     }
     
     
-    let tagPrivate = "com.csr.private.rsa256"
-    let tagPublic = "com.csr.public.rsa256"
+    let tagPrivate = "at.co.weinmann.private.rsa256"
+    let tagPublic = "at.co.weinmann.public.rsa256"
     let keyAlgorithm = KeyAlgorithm.rsa(signatureType: .sha256)
     let sizeOfKey = keyAlgorithm.availableKeySizes.last!
     let (privateKey, publicKey) = generateKeysAndStoreInKeychain(keyAlgorithm, keySize: sizeOfKey, tagPrivate: tagPrivate, tagPublic: tagPublic)
