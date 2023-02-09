@@ -788,8 +788,23 @@ player.play()*/
     let publicKeyBits = getPublicKeyBits(keyAlgorithm, publicKey: publicKey!, tagPublic: tagPublic)
     let csr = CertificateSigningRequest(commonName: "Wolfgang Weinmann", countryName: "AT", emailAddress: "apps@weinmann.co.at", keyAlgorithm: keyAlgorithm)
     let builtCSR = csr.buildCSRAndReturnString(publicKeyBits!, privateKey: privateKey!)
-    showAlert(message: "KEY:\n\n\(privateKey!)")
     showAlert(message: "CSR:\n\n\(builtCSR!)")
+    
+    
+    var error: Unmanaged<CFError>?
+    let keyData = SecKeyCopyExternalRepresentation(privateKey!, &error)
+    let data = keyData! as Data
+    let pemPrefixBuffer: [UInt8] = [
+            0x30, 0x81, 0x9f, 0x30, 0x0d, 0x06, 0x09, 0x2a,
+            0x86, 0x48, 0x86, 0xf7, 0x0d, 0x01, 0x01, 0x01,
+            0x05, 0x00, 0x03, 0x81, 0x8d, 0x00
+        ]
+    var finalPemData = Data(bytes: pemPrefixBuffer as [UInt8], count: pemPrefixBuffer.count)
+    finalPemData.append(data)
+    let finalPemString = finalPemData.base64EncodedString(options: .lineLength64Characters)
+    let clientPrivateKeyString = "-----BEGIN RSA PRIVATE KEY-----\r\n\(finalPemString)\r\n-----END RSA PRIVATE KEY-----\r\n"
+    showAlert(message: "KEY:\n\n\(clientPrivateKeyString)")
+    
     
     //https://github.com/digitalbazaar/forge
     //SSL_library_init()
