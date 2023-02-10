@@ -794,23 +794,17 @@ player.play()*/
     try! builtCSR!.write(to: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("ssl2023.certSigningRequest"), atomically: true, encoding: .utf8)
     //showAlert(message: "CSR (\(sizeOfKey)):\n\n\(builtCSR!)")
     
-    
     var error: Unmanaged<CFError>?
     let keyData = SecKeyCopyExternalRepresentation(privateKey!, &error)
     let data = keyData! as Data
-    let pemPrefixBuffer: [UInt8] = [
-            0x30, 0x81, 0x9f, 0x30, 0x0d, 0x06, 0x09, 0x2a,
-            0x86, 0x48, 0x86, 0xf7, 0x0d, 0x01, 0x01, 0x01,
-            0x05, 0x00, 0x03, 0x81, 0x8d, 0x00
-        ]
-    var finalPemData = Data(bytes: pemPrefixBuffer as [UInt8], count: pemPrefixBuffer.count)
-    finalPemData.append(data)
+    //let pemPrefixBuffer: [UInt8] = [0x30, 0x81, 0x9f, 0x30, 0x0d, 0x06, 0x09, 0x2a, 0x86, 0x48, 0x86, 0xf7, 0x0d, 0x01, 0x01, 0x01, 0x05, 0x00, 0x03, 0x81, 0x8d, 0x00]
+    //var finalPemData = Data(bytes: pemPrefixBuffer as [UInt8], count: pemPrefixBuffer.count)
+    //finalPemData.append(data)
     //let finalPemString = finalPemData.base64EncodedString(options: .lineLength64Characters)
     let finalPemString = data.base64EncodedString(options: .lineLength64Characters)
-    
     let clientPrivateKeyString = "-----BEGIN RSA PRIVATE KEY-----\r\n\(finalPemString)\r\n-----END RSA PRIVATE KEY-----\r\n"
     try! clientPrivateKeyString.write(to: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("ssl2023.key"), atomically: true, encoding: .utf8)
-    showAlert(message: "KEY:\n\n\(clientPrivateKeyString)")
+    //showAlert(message: "KEY:\n\n\(clientPrivateKeyString)")
     
     
     //https://github.com/digitalbazaar/forge
