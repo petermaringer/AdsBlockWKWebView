@@ -792,7 +792,7 @@ player.play()*/
     let csr = CertificateSigningRequest(commonName: "Wolfgang Weinmann", countryName: "AT", emailAddress: "apps@weinmann.co.at", keyAlgorithm: keyAlgorithm)
     let builtCSR = csr.buildCSRAndReturnString(publicKeyBits!, privateKey: privateKey!)
     try! builtCSR!.write(to: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("ssl2023.certSigningRequest"), atomically: true, encoding: .utf8)
-    showAlert(message: "CSR (\(sizeOfKey)):\n\n\(builtCSR!)")
+    //showAlert(message: "CSR (\(sizeOfKey)):\n\n\(builtCSR!)")
     
     
     var error: Unmanaged<CFError>?
@@ -805,7 +805,9 @@ player.play()*/
         ]
     var finalPemData = Data(bytes: pemPrefixBuffer as [UInt8], count: pemPrefixBuffer.count)
     finalPemData.append(data)
-    let finalPemString = finalPemData.base64EncodedString(options: .lineLength64Characters)
+    //let finalPemString = finalPemData.base64EncodedString(options: .lineLength64Characters)
+    let finalPemString = data.base64EncodedString(options: .lineLength64Characters)
+    
     let clientPrivateKeyString = "-----BEGIN RSA PRIVATE KEY-----\r\n\(finalPemString)\r\n-----END RSA PRIVATE KEY-----\r\n"
     try! clientPrivateKeyString.write(to: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("ssl2023.key"), atomically: true, encoding: .utf8)
     showAlert(message: "KEY:\n\n\(clientPrivateKeyString)")
