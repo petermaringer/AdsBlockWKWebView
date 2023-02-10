@@ -723,7 +723,18 @@ player.play()*/
     urlField.endEditing(true)
     
     
+    private func deleteRSAKeyFromKeychain(tagName: String) {
+      let queryFilter: [String: AnyObject] = [String(kSecClass): kSecClassKey, String(kSecAttrKeyType): kSecAttrKeyTypeRSA, String(kSecAttrApplicationTag): tagName]
+      let status: OSStatus = SecItemDelete(queryFilter)
+      lb.text! += "private or public deletion result is: \(status.description)"
+    }
+    
+    
     func generateKeysAndStoreInKeychain(_ algorithm: KeyAlgorithm, keySize: Int, tagPrivate: String, tagPublic: String) -> (SecKey?, SecKey?) {
+      
+      deleteRSAKeyFromKeychain(tagPrivate)
+      deleteRSAKeyFromKeychain(tagPublic)
+      
       let publicKeyParameters: [String: Any] = [String(kSecAttrIsPermanent): true, String(kSecAttrAccessible): kSecAttrAccessibleAfterFirstUnlock, String(kSecAttrApplicationTag): tagPublic.data(using: .utf8)!]
       let privateKeyParameters: [String: Any] = [String(kSecAttrIsPermanent): true, String(kSecAttrAccessible): kSecAttrAccessibleAfterFirstUnlock, String(kSecAttrApplicationTag): tagPrivate.data(using: .utf8)!]
       //Define type of keys to be generated
