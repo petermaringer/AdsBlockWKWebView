@@ -962,10 +962,10 @@ enum X509Error: Error {
     //let derCer = try! NSData(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.cer"))!
     //let pemKey = try! String(data: Data(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.key")), encoding: .utf8)!
     
-    var derCer: NSData = nil
+    var derCer: NSData = NSData()
     let derCerUrl = URL.docDir.appendingPathComponent("ssl.cer")
     if derCerUrl.checkFileExist() {
-      derCer = try! NSData(contentsOf: derCerUrl)!
+      derCer = NSData(contentsOf: derCerUrl)!
     }
     var pemKey: String = ""
     let pemKeyUrl = URL.docDir.appendingPathComponent("ssl.key")
@@ -974,7 +974,7 @@ enum X509Error: Error {
     }
     
     lb.text! += (" derCer:\(derCer) pemKey:\(pemKey)")
-    if !pemKey.isEmpty && derCer != nil {
+    if !pemKey.isEmpty && derCer.length != 0 {
       let p12Data = try? pkcs12(fromDer: derCer, withPrivateKey: pemKey)
       lb.text! += (" p12Data:\(p12Data!)").prefix(50) + "..."
     }
