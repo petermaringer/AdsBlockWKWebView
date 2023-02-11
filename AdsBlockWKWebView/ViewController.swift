@@ -103,7 +103,7 @@ extension UIColor {
 
 
 extension URL {
-  static var docDirUrl: URL {
+  static var docDir: URL {
     return try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
   }
   func checkFileExist() -> Bool {
@@ -962,7 +962,7 @@ enum X509Error: Error {
     let derCer = try! NSData(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.cer"))!
     
     var pemKey: String = ""
-    let pemKeyUrl = docDirUrl.appendingPathComponent("ssl.key")
+    let pemKeyUrl = URL.docDir.appendingPathComponent("ssl.key")
     if pemKeyUrl.checkFileExist() {
       pemKey = try! String(data: Data(contentsOf: pemKeyUrl), encoding: .utf8)!
     }
