@@ -810,6 +810,7 @@ player.play()*/
     let data = keyData! as Data
     //let pemPrefixBuffer: [UInt8] = [0x30, 0x81, 0x9f, 0x30, 0x0d, 0x06, 0x09, 0x2a, 0x86, 0x48, 0x86, 0xf7, 0x0d, 0x01, 0x01, 0x01, 0x05, 0x00, 0x03, 0x81, 0x8d, 0x00]
     //var finalPemData = Data(bytes: pemPrefixBuffer as [UInt8], count: pemPrefixBuffer.count)
+    //var finalPemData = Data([0x30, 0x2A, 0x30, 0x05, 0x06, 0x03, 0x2B, 0x65, 0x6E, 0x03, 0x21, 0x00])
     //finalPemData.append(data)
     //let finalPemString = finalPemData.base64EncodedString(options: .lineLength64Characters)
     let finalPemString = data.base64EncodedString(options: .lineLength64Characters)
@@ -945,8 +946,10 @@ enum X509Error: Error {
     
     let derCer = try! NSData(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.cer"))!
     let pemKey = try! String(data: Data(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.key")), encoding: .utf8)!
-    let p12Data = try? pkcs12(fromDer: derCer, withPrivateKey: pemKey)
-    lb.text! += (" p12Data:\(p12Data!)").prefix(50) + "..."
+    if !(derCer.isEmpty || pemKey.isEmpty) {
+      let p12Data = try? pkcs12(fromDer: derCer, withPrivateKey: pemKey)
+      lb.text! += (" p12Data:\(p12Data!)").prefix(50) + "..."
+    }
     
     
     if lb.isHidden == true {
