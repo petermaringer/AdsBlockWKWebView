@@ -959,7 +959,7 @@ enum X509Error: Error {
     let derCer = try! NSData(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.cer"))!
     
     var pemKey: String
-    let pemKeyUrl = FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("ssl.key")
+    let pemKeyUrl = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("ssl.key")
     if pemKeyUrl.checkFileExist() {
       pemKey = try! String(data: Data(contentsOf: pemKeyUrl), encoding: .utf8)!
     }
