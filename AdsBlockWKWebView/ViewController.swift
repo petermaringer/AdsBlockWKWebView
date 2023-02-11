@@ -102,6 +102,18 @@ extension UIColor {
 }
 
 
+extension URL {
+  func checkFileExist() -> Bool {
+    let path = self.path
+    if (FileManager.default.fileExists(atPath: path)) {
+      return true
+    } else {
+      return false
+    }
+  }
+}
+
+
 //import Foundation
 import GCDWebServer
 var webserv = "hi1"
@@ -945,12 +957,18 @@ enum X509Error: Error {
 }
     
     let derCer = try! NSData(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.cer"))!
+    
+    var pemKey: String
+    let pemKeyUrl = FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("ssl.key")
+    if pemKeyUrl.checkFileExist() {
+      pemKey = try! String(data: Data(contentsOf: pemKeyUrl), encoding: .utf8)!
+    }
     //let pemKey = try! String(data: Data(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.key")), encoding: .utf8)!
-    //lb.text! += (" derCer:\(derCer) pemKey:\(pemKey)")
-    //if derCer == nil {
-      //let p12Data = try? pkcs12(fromDer: derCer, withPrivateKey: pemKey)
-      //lb.text! += (" p12Data:\(p12Data!)").prefix(50) + "..."
-    //}
+    lb.text! += (" derCer:\(derCer) pemKey:\(pemKey)")
+    if !pemKey.isEmpty {
+      let p12Data = try? pkcs12(fromDer: derCer, withPrivateKey: pemKey)
+      lb.text! += (" p12Data:\(p12Data!)").prefix(50) + "..."
+    }
     
     
     if lb.isHidden == true {
