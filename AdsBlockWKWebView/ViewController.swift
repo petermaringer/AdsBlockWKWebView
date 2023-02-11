@@ -959,16 +959,22 @@ enum X509Error: Error {
     case cannotReadP12Certificate
 }
     
-    let derCer = try! NSData(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.cer"))!
+    //let derCer = try! NSData(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.cer"))!
+    //let pemKey = try! String(data: Data(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.key")), encoding: .utf8)!
     
+    var derCer: NSData = nil
+    let derCerUrl = URL.docDir.appendingPathComponent("ssl.cer")
+    if derCerUrl.checkFileExist() {
+      derCer = try! NSData(contentsOf: derCerUrl)!
+    }
     var pemKey: String = ""
     let pemKeyUrl = URL.docDir.appendingPathComponent("ssl.key")
     if pemKeyUrl.checkFileExist() {
       pemKey = try! String(data: Data(contentsOf: pemKeyUrl), encoding: .utf8)!
     }
-    //let pemKey = try! String(data: Data(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.key")), encoding: .utf8)!
+    
     lb.text! += (" derCer:\(derCer) pemKey:\(pemKey)")
-    if !pemKey.isEmpty {
+    if !pemKey.isEmpty && derCer != nil {
       let p12Data = try? pkcs12(fromDer: derCer, withPrivateKey: pemKey)
       lb.text! += (" p12Data:\(p12Data!)").prefix(50) + "..."
     }
