@@ -319,7 +319,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   
   var urlField: UITextField!
   var button: UIButton!
-  var lb: UILabel!
+  var lb: UITextView!
+  //var lb: UILabel!
   var lbcounter: Int = 0
   
   var tableView: UITableView!
@@ -1306,7 +1307,9 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         
         counter += 1
         
-        lb = UILabel(frame: CGRect.zero)
+        lb = UITextView(frame: CGRect.zero)
+        lb.editable = false
+        //lb = UILabel(frame: CGRect.zero)
         lb.text = "log:"
         lb.textAlignment = .center
         lb.font = lb.font.withSize(12)
