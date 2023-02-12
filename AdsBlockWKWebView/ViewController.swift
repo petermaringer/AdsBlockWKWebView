@@ -1308,13 +1308,14 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         counter += 1
         
         lb = UITextView(frame: CGRect.zero)
-        lb.editable = false
+        lb.isEditable = false
+        lb.font = lb.font!.withSize(12)
         //lb = UILabel(frame: CGRect.zero)
         lb.text = "log:"
         lb.textAlignment = .center
-        lb.font = lb.font.withSize(12)
+        //lb.font = lb.font.withSize(12)
         lb.backgroundColor = .devBgColor
-        lb.numberOfLines = 0
+        //lb.numberOfLines = 0
         //lb.isUserInteractionEnabled = true
         lb.isHidden = true
         view.addSubview(lb)
