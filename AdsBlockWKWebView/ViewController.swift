@@ -836,15 +836,22 @@ player.play()*/
     //showAlert(message: "KEY:\n\n\(clientPrivateKeyString)")
     
     
-    let TEparameters: [NSString : AnyObject] = [
-			kSecClass : kSecClassKey,
-			kSecAttrKeyType : kSecAttrKeyTypeRSA,
-			kSecAttrApplicationTag : tagPrivate as AnyObject,
-			kSecReturnData : true as AnyObject
-		]
-		var TEdata: AnyObject?
-		let TEstatus = SecItemCopyMatching(TEparameters as CFDictionary, &TEdata)
-		let TEpemKeyAsData = TEdata as? Data
+    //let TEparameters: [NSString : AnyObject] = [kSecClass : kSecClassKey, kSecAttrKeyType : kSecAttrKeyTypeRSA, kSecAttrApplicationTag : tagPrivate as AnyObject, kSecReturnData : true as AnyObject]
+		//var TEdata: AnyObject?
+		//let TEstatus = SecItemCopyMatching(TEparameters as CFDictionary, &TEdata)
+		//let TEpemKeyAsData = TEdata as? Data
+		
+		let TEquery: [String: Any] = [
+            String(kSecClass): kSecClassKey,
+            String(kSecAttrKeyType): kSecAttrKeyTypeRSA,
+            String(kSecAttrApplicationTag): tagPrivate.data(using: .utf8)!,
+            String(kSecReturnData): true
+        ]
+        var TEdata: CFTypeRef?
+        var _ = SecItemCopyMatching(TEquery as CFDictionary, &TEdata)
+
+        let TEpemKeyAsData = TEdata as? Data
+		
 		let swKey = String(data: TEpemKeyAsData!, encoding: String.Encoding.utf8)
     
     
