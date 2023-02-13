@@ -824,16 +824,11 @@ player.play()*/
 		//var TEdata: AnyObject?
 		//let TEstatus = SecItemCopyMatching(TEparameters as CFDictionary, &TEdata)
 		//let TEpemKeyAsData = TEdata as? Data
-		let TEquery: [String: Any] = [
-            String(kSecClass): kSecClassKey,
-            String(kSecAttrKeyType): kSecAttrKeyTypeRSA,
-            String(kSecAttrApplicationTag): tagPrivate.data(using: .utf8)!,
-            String(kSecReturnData): true
-        ]
-        var TEdata: CFTypeRef?
-        var TEstatus = SecItemCopyMatching(TEquery as CFDictionary, &TEdata)
-        let TEpemKeyAsData = TEdata as? Data
-		let swKey = String(data: TEpemKeyAsData!, encoding: String.Encoding.utf8)
+		//let TEquery: [String: Any] = [String(kSecClass): kSecClassKey, String(kSecAttrKeyType): kSecAttrKeyTypeRSA, String(kSecAttrApplicationTag): tagPrivate.data(using: .utf8)!, String(kSecReturnData): true]
+        //var TEdata: CFTypeRef?
+        //var TEstatus = SecItemCopyMatching(TEquery as CFDictionary, &TEdata)
+        //let TEpemKeyAsData = TEdata as? Data
+        //let swKey = String(data: TEpemKeyAsData!, encoding: String.Encoding.utf8)
     
     
     let publicKeyBits = getPublicKeyBits(keyAlgorithm, publicKey: publicKey!, tagPublic: tagPublic)
@@ -857,7 +852,7 @@ player.play()*/
     
     
     //let swKey = try! SwKeyStore.getKey(tagPrivate)
-    showAlert(message: "swKey:\n\n\(swKey!)")
+    //showAlert(message: "swKey:\n\n\(swKey!)")
     
     
     //https://github.com/digitalbazaar/forge
