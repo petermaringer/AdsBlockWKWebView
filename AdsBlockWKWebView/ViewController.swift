@@ -795,10 +795,12 @@ player.play()*/
     var statusTE = SecItemCopyMatching(queryTE as CFDictionary, &dataTE)
     let derKeyAsDataTE = dataTE as? Data
     let privKeyPKCS1 = SwKeyConvert.PrivateKey.derToPKCS1PEM(derKeyAsDataTE!)
-    showAlert(message: "pkcs1Key:\n\n\(privKeyPKCS1)")
-    let privKeyPKCS8 = PKCS8.PublicKey.addHeader(derKeyAsDataTE!)
-    showAlert(message: "pkcs8Key:\n\n\(privKeyPKCS8)")
     try! privKeyPKCS1.write(to: URL.docDir.appendingPathComponent("sslpkcs1.key"), atomically: true, encoding: .utf8)
+    showAlert(message: "pkcs1Key:\n\n\(privKeyPKCS1)")
+    let privKeyPKCS8der = PKCS8.PublicKey.addHeader(derKeyAsDataTE!)
+    let privKeyPKCS8 = PEM.PublicKey.toPEM(privKeyPKCS8der)
+    try! privKeyPKCS8.write(to: URL.docDir.appendingPathComponent("sslpkcs8.key"), atomically: true, encoding: .utf8)
+    showAlert(message: "pkcs8Key:\n\n\(privKeyPKCS8)")
     
     
     let publicKeyBits = getPublicKeyBits(keyAlgorithm, publicKey: publicKey!, tagPublic: tagPublic)
