@@ -747,6 +747,7 @@ player.play()*/
     }
     
     
+    var pemPrivateKeyData: Data
     func generateKeysAndStoreInKeychain(_ algorithm: KeyAlgorithm, keySize: Int, tagPrivate: String, tagPublic: String) -> (SecKey?, SecKey?) {
       
       deleteRSAKeyFromKeychain(tagName: tagPrivate)
@@ -760,6 +761,7 @@ player.play()*/
       //Use Apple Security Framework to generate keys, save them to application keychain
         var error: Unmanaged<CFError>?
         let privateKey = SecKeyCreateRandomKey(parameters as CFDictionary, &error)
+        pemPrivateKeyData = privateKey as Data
         if privateKey == nil {
             //print("Error creating keys occured: \(error!.takeRetainedValue() as Error), keys weren't created")
             lb.text! += " Error:genKeysFail1"
