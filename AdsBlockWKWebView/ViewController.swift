@@ -747,7 +747,7 @@ player.play()*/
     }
     
     
-    var pemPrivateKeyData: Data
+    //var pemPrivateKeyData: Data
     func generateKeysAndStoreInKeychain(_ algorithm: KeyAlgorithm, keySize: Int, tagPrivate: String, tagPublic: String) -> (SecKey?, SecKey?) {
       
       deleteRSAKeyFromKeychain(tagName: tagPrivate)
@@ -761,7 +761,7 @@ player.play()*/
       //Use Apple Security Framework to generate keys, save them to application keychain
         var error: Unmanaged<CFError>?
         let privateKey = SecKeyCreateRandomKey(parameters as CFDictionary, &error)
-        pemPrivateKeyData = privateKey as Data
+        //pemPrivateKeyData = privateKey as Data
         if privateKey == nil {
             //print("Error creating keys occured: \(error!.takeRetainedValue() as Error), keys weren't created")
             lb.text! += " Error:genKeysFail1"
@@ -818,6 +818,24 @@ player.play()*/
     let keyAlgorithm = KeyAlgorithm.rsa(signatureType: .sha256)
     let sizeOfKey = keyAlgorithm.availableKeySizes.last!
     let (privateKey, publicKey) = generateKeysAndStoreInKeychain(keyAlgorithm, keySize: sizeOfKey, tagPrivate: tagPrivate, tagPublic: tagPublic)
+    
+    
+    //let TEparameters: [NSString : AnyObject] = [kSecClass : kSecClassKey, kSecAttrKeyType : kSecAttrKeyTypeRSA, kSecAttrApplicationTag : tagPrivate as AnyObject, kSecReturnData : true as AnyObject]
+		//var TEdata: AnyObject?
+		//let TEstatus = SecItemCopyMatching(TEparameters as CFDictionary, &TEdata)
+		//let TEpemKeyAsData = TEdata as? Data
+		let TEquery: [String: Any] = [
+            String(kSecClass): kSecClassKey,
+            String(kSecAttrKeyType): kSecAttrKeyTypeRSA,
+            String(kSecAttrApplicationTag): tagPrivate.data(using: .utf8)!,
+            String(kSecReturnData): true
+        ]
+        var TEdata: CFTypeRef?
+        var _ = SecItemCopyMatching(TEquery as CFDictionary, &TEdata)
+        let TEpemKeyAsData = TEdata as? Data
+		let swKey = String(data: TEpemKeyAsData!, encoding: String.Encoding.utf8)
+    
+    
     let publicKeyBits = getPublicKeyBits(keyAlgorithm, publicKey: publicKey!, tagPublic: tagPublic)
     let csr = CertificateSigningRequest(commonName: "Wolfgang Weinmann", countryName: "AT", emailAddress: "apps@weinmann.co.at", keyAlgorithm: keyAlgorithm)
     let builtCSR = csr.buildCSRAndReturnString(publicKeyBits!, privateKey: privateKey!)
@@ -838,27 +856,8 @@ player.play()*/
     //showAlert(message: "KEY:\n\n\(clientPrivateKeyString)")
     
     
-    //let TEparameters: [NSString : AnyObject] = [kSecClass : kSecClassKey, kSecAttrKeyType : kSecAttrKeyTypeRSA, kSecAttrApplicationTag : tagPrivate as AnyObject, kSecReturnData : true as AnyObject]
-		//var TEdata: AnyObject?
-		//let TEstatus = SecItemCopyMatching(TEparameters as CFDictionary, &TEdata)
-		//let TEpemKeyAsData = TEdata as? Data
-		
-		let TEquery: [String: Any] = [
-            String(kSecClass): kSecClassKey,
-            String(kSecAttrKeyType): kSecAttrKeyTypeRSA,
-            String(kSecAttrApplicationTag): tagPrivate.data(using: .utf8)!,
-            String(kSecReturnData): true
-        ]
-        var TEdata: CFTypeRef?
-        var _ = SecItemCopyMatching(TEquery as CFDictionary, &TEdata)
-
-        let TEpemKeyAsData = TEdata as? Data
-		
-		let swKey = String(data: TEpemKeyAsData!, encoding: String.Encoding.utf8)
-    
-    
     //let swKey = try! SwKeyStore.getKey(tagPrivate)
-    showAlert(message: "swKey:\n\n\(swKey)")
+    showAlert(message: "swKey:\n\n\(swKey!)")
     
     
     //https://github.com/digitalbazaar/forge
