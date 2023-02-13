@@ -743,31 +743,25 @@ player.play()*/
     func deleteRSAKeyFromKeychain(tagName: String) {
       let queryFilter: [String: Any] = [String(kSecClass): kSecClassKey, String(kSecAttrKeyType): kSecAttrKeyTypeRSA, String(kSecAttrApplicationTag): tagName]
       let status: OSStatus = SecItemDelete(queryFilter as CFDictionary)
-      lb.text! += "private or public deletion result is: \(status.description)"
+      lb.text! += " key deletion result:\(status.description)"
     }
     
     
-    //var pemPrivateKeyData: Data
     func generateKeysAndStoreInKeychain(_ algorithm: KeyAlgorithm, keySize: Int, tagPrivate: String, tagPublic: String) -> (SecKey?, SecKey?) {
-      
       deleteRSAKeyFromKeychain(tagName: tagPrivate)
       deleteRSAKeyFromKeychain(tagName: tagPublic)
-      
       let publicKeyParameters: [String: Any] = [String(kSecAttrIsPermanent): true, String(kSecAttrAccessible): kSecAttrAccessibleAfterFirstUnlock, String(kSecAttrApplicationTag): tagPublic.data(using: .utf8)!]
       let privateKeyParameters: [String: Any] = [String(kSecAttrIsPermanent): true, String(kSecAttrAccessible): kSecAttrAccessibleAfterFirstUnlock, String(kSecAttrApplicationTag): tagPrivate.data(using: .utf8)!]
-      //Define type of keys to be generated
       let parameters: [String: Any] = [String(kSecAttrKeyType): algorithm.secKeyAttrType, String(kSecAttrKeySizeInBits): keySize, String(kSecReturnRef): true, String(kSecPublicKeyAttrs): publicKeyParameters, String(kSecPrivateKeyAttrs): privateKeyParameters]
       
-      //Use Apple Security Framework to generate keys, save them to application keychain
         var error: Unmanaged<CFError>?
         let privateKey = SecKeyCreateRandomKey(parameters as CFDictionary, &error)
-        //pemPrivateKeyData = privateKey as Data
         if privateKey == nil {
             //print("Error creating keys occured: \(error!.takeRetainedValue() as Error), keys weren't created")
             lb.text! += " Error:genKeysFail1"
             return (nil, nil)
         }
-
+        
         //Get generated public key
         let query: [String: Any] = [
             String(kSecClass): kSecClassKey,
@@ -775,7 +769,6 @@ player.play()*/
             String(kSecAttrApplicationTag): tagPublic.data(using: .utf8)!,
             String(kSecReturnRef): true
         ]
-
         var publicKeyReturn: CFTypeRef?
         let result = SecItemCopyMatching(query as CFDictionary, &publicKeyReturn)
         if result != errSecSuccess {
@@ -783,7 +776,7 @@ player.play()*/
             lb.text! += " Error:genKeysFail2"
             return (privateKey, nil)
         }
-        // swiftlint:disable:next force_cast
+        
         let publicKey = publicKeyReturn as! SecKey?
         return (privateKey, publicKey)
     }
@@ -791,24 +784,18 @@ player.play()*/
     
     func getPublicKeyBits(_ algorithm: KeyAlgorithm, publicKey: SecKey, tagPublic: String) -> Data? {
       
-      //Set block size
-      //let keyBlockSize = SecKeyGetBlockSize(publicKey)
-        //Ask keychain to provide the publicKey in bits
         let query: [String: Any] = [
             String(kSecClass): kSecClassKey,
             String(kSecAttrKeyType): algorithm.secKeyAttrType,
             String(kSecAttrApplicationTag): tagPublic.data(using: .utf8)!,
             String(kSecReturnData): true
         ]
-
         var tempPublicKeyBits: CFTypeRef?
         var _ = SecItemCopyMatching(query as CFDictionary, &tempPublicKeyBits)
-
         guard let keyBits = tempPublicKeyBits as? Data else {
             lb.text! += " Error:getBitsFail"
             return nil
         }
-
         return keyBits
     }
     
@@ -824,11 +811,12 @@ player.play()*/
 		//var TEdata: AnyObject?
 		//let TEstatus = SecItemCopyMatching(TEparameters as CFDictionary, &TEdata)
 		//let TEpemKeyAsData = TEdata as? Data
-		//let TEquery: [String: Any] = [String(kSecClass): kSecClassKey, String(kSecAttrKeyType): kSecAttrKeyTypeRSA, String(kSecAttrApplicationTag): tagPrivate.data(using: .utf8)!, String(kSecReturnData): true]
-        //var TEdata: CFTypeRef?
-        //var TEstatus = SecItemCopyMatching(TEquery as CFDictionary, &TEdata)
-        //let TEpemKeyAsData = TEdata as? Data
-        //let swKey = String(data: TEpemKeyAsData!, encoding: String.Encoding.utf8)
+    let queryTE: [String: Any] = [String(kSecClass): kSecClassKey, String(kSecAttrKeyType): kSecAttrKeyTypeRSA, String(kSecAttrApplicationTag): tagPrivate.data(using: .utf8)!, String(kSecReturnData): true]
+    var dataTE: CFTypeRef?
+    var statusTE = SecItemCopyMatching(queryTE as CFDictionary, &dataTE)
+    //let TEpemKeyAsData = TEdata as? Data
+    //let swKey = String(data: TEpemKeyAsData!, encoding: String.Encoding.utf8)
+    //showAlert(message: "swKey:\n\n\(swKey!)")
     
     
     let publicKeyBits = getPublicKeyBits(keyAlgorithm, publicKey: publicKey!, tagPublic: tagPublic)
