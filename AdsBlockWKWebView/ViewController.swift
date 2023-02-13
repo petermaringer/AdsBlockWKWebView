@@ -801,7 +801,7 @@ player.play()*/
     var statusTE = SecItemCopyMatching(queryTE as CFDictionary, &dataTE)
     let pemKeyAsDataTE = dataTE as? Data
     let swKey = String(data: pemKeyAsDataTE!, encoding: .utf8)
-    showAlert(message: "swKey:\n\n\(swKey!)")
+    //showAlert(message: "swKey:\n\n\(swKey!)")
     
     
     let publicKeyBits = getPublicKeyBits(keyAlgorithm, publicKey: publicKey!, tagPublic: tagPublic)
