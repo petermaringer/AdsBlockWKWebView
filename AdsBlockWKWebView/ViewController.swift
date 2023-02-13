@@ -743,7 +743,7 @@ player.play()*/
     func deleteRSAKeyFromKeychain(tagName: String) {
       let queryFilter: [String: Any] = [String(kSecClass): kSecClassKey, String(kSecAttrKeyType): kSecAttrKeyTypeRSA, String(kSecAttrApplicationTag): tagName]
       let status: OSStatus = SecItemDelete(queryFilter as CFDictionary)
-      lb.text! += " key deletion result:\(status.description)"
+      lb.text! += " keyDelStatus:\(status.description)"
     }
     
     func generateKeysAndStoreInKeychain(_ algorithm: KeyAlgorithm, keySize: Int, tagPrivate: String, tagPublic: String) -> (SecKey?, SecKey?) {
@@ -755,7 +755,6 @@ player.play()*/
       var error: Unmanaged<CFError>?
       let privateKey = SecKeyCreateRandomKey(parameters as CFDictionary, &error)
       if privateKey == nil {
-        //error!.takeRetainedValue() as Error
         lb.text! += " Error:genKeysFail1"
         return (nil, nil)
       }
@@ -763,7 +762,6 @@ player.play()*/
       var publicKeyReturn: CFTypeRef?
       let result = SecItemCopyMatching(query as CFDictionary, &publicKeyReturn)
       if result != errSecSuccess {
-        //print("Error: \(result)")
         lb.text! += " Error:genKeysFail2"
         return (privateKey, nil)
       }
@@ -792,22 +790,24 @@ player.play()*/
     
     let queryTE: [String: Any] = [String(kSecClass): kSecClassKey, String(kSecAttrKeyType): kSecAttrKeyTypeRSA, String(kSecAttrApplicationTag): tagPrivate.data(using: .utf8)!, String(kSecReturnData): true]
     var dataTE: CFTypeRef?
-    var statusTE = SecItemCopyMatching(queryTE as CFDictionary, &dataTE)
+    var _ = SecItemCopyMatching(queryTE as CFDictionary, &dataTE)
     let derKeyAsDataTE = dataTE as? Data
     let privKeyPKCS1 = SwKeyConvert.PrivateKey.derToPKCS1PEM(derKeyAsDataTE!)
     try! privKeyPKCS1.write(to: URL.docDir.appendingPathComponent("sslpkcs1.key"), atomically: true, encoding: .utf8)
     showAlert(message: "pkcs1Key:\n\n\(privKeyPKCS1)")
+    /*
     let privKeyPKCS8der = PKCS8.PublicKey.addHeader(derKeyAsDataTE!)
-    var privKeyPKCS8str = PEM.PublicKey.toPEM(privKeyPKCS8der)
+    let privKeyPKCS8str = PEM.PublicKey.toPEM(privKeyPKCS8der)
     let privKeyPKCS8 = privKeyPKCS8str.replacingOccurrences(of: "PUBLIC", with: "RSA PRIVATE")
     try! privKeyPKCS8.write(to: URL.docDir.appendingPathComponent("sslpkcs8.key"), atomically: true, encoding: .utf8)
     showAlert(message: "pkcs8Key:\n\n\(privKeyPKCS8)")
+    */
     
     
     let publicKeyBits = getPublicKeyBits(keyAlgorithm, publicKey: publicKey!, tagPublic: tagPublic)
     let csr = CertificateSigningRequest(commonName: "Wolfgang Weinmann", countryName: "AT", emailAddress: "apps@weinmann.co.at", keyAlgorithm: keyAlgorithm)
     let builtCSR = csr.buildCSRAndReturnString(publicKeyBits!, privateKey: privateKey!)
-    try! builtCSR!.write(to: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("ssl2023.certSigningRequest"), atomically: true, encoding: .utf8)
+    try! builtCSR!.write(to: URL.docDir.appendingPathComponent("ssl2023.certSigningRequest"), atomically: true, encoding: .utf8)
     //showAlert(message: "CSR (\(sizeOfKey)):\n\n\(builtCSR!)")
     
     var error: Unmanaged<CFError>?
@@ -820,12 +820,8 @@ player.play()*/
     //let finalPemString = finalPemData.base64EncodedString(options: .lineLength64Characters)
     let finalPemString = data.base64EncodedString(options: .lineLength64Characters)
     let clientPrivateKeyString = "-----BEGIN RSA PRIVATE KEY-----\r\n\(finalPemString)\r\n-----END RSA PRIVATE KEY-----\r\n"
-    try! clientPrivateKeyString.write(to: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("ssl2023.key"), atomically: true, encoding: .utf8)
+    try! clientPrivateKeyString.write(to: URL.docDir.appendingPathComponent("ssl2023.key"), atomically: true, encoding: .utf8)
     //showAlert(message: "KEY:\n\n\(clientPrivateKeyString)")
-    
-    
-    //let swKey = try! SwKeyStore.getKey(tagPrivate)
-    //showAlert(message: "swKey:\n\n\(swKey!)")
     
     
     //https://github.com/digitalbazaar/forge
