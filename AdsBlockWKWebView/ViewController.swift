@@ -839,13 +839,13 @@ player.play()*/
     let TEparameters: [NSString : AnyObject] = [
 			kSecClass : kSecClassKey,
 			kSecAttrKeyType : kSecAttrKeyTypeRSA,
-			kSecAttrApplicationTag : keyTag as AnyObject,
+			kSecAttrApplicationTag : tagPrivate as AnyObject,
 			kSecReturnData : true as AnyObject
 		]
 		var TEdata: AnyObject?
-		let status = SecItemCopyMatching(TEparameters as CFDictionary, &TEdata)
+		let TEstatus = SecItemCopyMatching(TEparameters as CFDictionary, &TEdata)
 		let TEpemKeyAsData = TEdata as? Data
-		let swKey = String(data: TEpemKeyAsData, encoding: String.Encoding.utf8)
+		let swKey = String(data: TEpemKeyAsData!, encoding: String.Encoding.utf8)
     
     
     //let swKey = try! SwKeyStore.getKey(tagPrivate)
