@@ -793,11 +793,12 @@ player.play()*/
     let queryTE: [String: Any] = [String(kSecClass): kSecClassKey, String(kSecAttrKeyType): kSecAttrKeyTypeRSA, String(kSecAttrApplicationTag): tagPrivate.data(using: .utf8)!, String(kSecReturnData): true]
     var dataTE: CFTypeRef?
     var statusTE = SecItemCopyMatching(queryTE as CFDictionary, &dataTE)
-    let pemKeyAsDataTE = dataTE as? Data
-    let privKeyTE = SwKeyConvert.PrivateKey.derToPKCS1PEM(pemKeyAsDataTE!)
-    showAlert(message: "swKey:\n\n\(privKeyTE)")
-    let privKeyOffset = PKCS8.PrivateKey.getPKCS1DEROffset(pemKeyAsDataTE!)
-    showAlert(message: "offset:\n\n\(privKeyOffset)")
+    let derKeyAsDataTE = dataTE as? Data
+    let privKeyPKCS1 = SwKeyConvert.PrivateKey.derToPKCS1PEM(derKeyAsDataTE!)
+    showAlert(message: "pkcs1Key:\n\n\(privKeyPKCS1)")
+    let privKeyPKCS8 = PKCS8.PublicKey.addHeader(derKeyAsDataTE!)
+    showAlert(message: "pkcs8Key:\n\n\(privKeyPKCS8)")
+    try! privKeyPKCS1.write(to: URL.docDir.appendingPathComponent("sslpkcs1.key"), atomically: true, encoding: .utf8)
     
     
     let publicKeyBits = getPublicKeyBits(keyAlgorithm, publicKey: publicKey!, tagPublic: tagPublic)
