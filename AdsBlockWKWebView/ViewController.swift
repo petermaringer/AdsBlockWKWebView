@@ -796,7 +796,7 @@ player.play()*/
 		//var TEdata: AnyObject?
 		//let TEstatus = SecItemCopyMatching(TEparameters as CFDictionary, &TEdata)
 		//let TEpemKeyAsData = TEdata as? Data
-    let queryTE: [String: Any] = [String(kSecClass): kSecClassKey, String(kSecAttrKeyType): kSecAttrKeyTypeRSA, String(kSecAttrApplicationTag): tagPrivate.data(using: .utf8)!, String(kSecReturnRef): true]
+    let queryTE: [String: Any] = [String(kSecClass): kSecClassKey, String(kSecAttrKeyType): kSecAttrKeyTypeRSA, String(kSecAttrApplicationTag): tagPrivate.data(using: .utf8)!, String(kSecReturnData): true]
     var dataTE: CFTypeRef?
     var statusTE = SecItemCopyMatching(queryTE as CFDictionary, &dataTE)
     let pemKeyAsDataTE = dataTE as? Data
