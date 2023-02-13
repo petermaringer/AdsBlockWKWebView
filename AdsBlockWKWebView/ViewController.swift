@@ -909,17 +909,11 @@ player.play()*/
                 throw X509Error.cannotCreateP12Keystore
             }
             // Save P12 keystore
-            let fileManager = FileManager.default
-            let path = try! fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("ssl.p12").path
-            /*
-            let path = fileManager
-                .temporaryDirectory
-                .appendingPathComponent(UUID().uuidString)
-                .path
-            */
-            fileManager.createFile(atPath: path, contents: nil, attributes: nil)
+            let path = try! URL.docDir.appendingPathComponent("ssl.p12").path
+            //let path = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString).path
+            FileManager.default.createFile(atPath: path, contents: nil, attributes: nil)
             guard let fileHandle = FileHandle(forWritingAtPath: path) else {
-                NSLog("Cannot open FH: \(path)")
+                //NSLog("Cannot open FH: \(path)")
                 lb.text! += " cannotOpenFileHandles"
                 throw X509Error.cannotOpenFileHandles
             }
@@ -949,9 +943,6 @@ enum X509Error: Error {
     case cannotReadP12Certificate
 }
     
-    //let derCer = try! NSData(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.cer"))!
-    //let pemKey = try! String(data: Data(contentsOf: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ssl.key")), encoding: .utf8)!
-    
     var derCer: NSData = NSData()
     let derCerUrl = URL.docDir.appendingPathComponent("ssl.cer")
     if derCerUrl.checkFileExist() {
@@ -962,8 +953,7 @@ enum X509Error: Error {
     if pemKeyUrl.checkFileExist() {
       pemKey = try! String(data: Data(contentsOf: pemKeyUrl), encoding: .utf8)!
     }
-    
-    lb.text! += (" derCer:\(derCer) pemKey:\(pemKey)")
+    //lb.text! += (" derCer:\(derCer) pemKey:\(pemKey)")
     if !pemKey.isEmpty && derCer.length != 0 {
       let p12Data = try? pkcs12(fromDer: derCer, withPrivateKey: pemKey)
       lb.text! += (" p12Data:\(p12Data!)").prefix(50) + "..."
