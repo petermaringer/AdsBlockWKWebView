@@ -13,7 +13,7 @@ import Security
 
 import OpenSSL
 import CertificateSigningRequest
-//import SwCrypt
+import SwCrypt
 
 fileprivate let ruleId1 = "MyRuleID 001"
 fileprivate let ruleId2 = "MyRuleID 002"
@@ -801,6 +801,7 @@ player.play()*/
     var statusTE = SecItemCopyMatching(queryTE as CFDictionary, &dataTE)
     let pemKeyAsDataTE = dataTE as? Data
     let swKey = String(data: pemKeyAsDataTE!, encoding: .utf8)
+    let privKeyTE = SwKeyConvert.PrivateKey.derToPKCS1PEM(swKey)
     //showAlert(message: "swKey:\n\n\(swKey!)")
     
     
