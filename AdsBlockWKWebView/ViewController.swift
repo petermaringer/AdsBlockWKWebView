@@ -746,7 +746,6 @@ player.play()*/
       lb.text! += " key deletion result:\(status.description)"
     }
     
-    
     func generateKeysAndStoreInKeychain(_ algorithm: KeyAlgorithm, keySize: Int, tagPrivate: String, tagPublic: String) -> (SecKey?, SecKey?) {
       deleteRSAKeyFromKeychain(tagName: tagPrivate)
       deleteRSAKeyFromKeychain(tagName: tagPublic)
@@ -772,7 +771,6 @@ player.play()*/
       return (privateKey, publicKey)
     }
     
-    
     func getPublicKeyBits(_ algorithm: KeyAlgorithm, publicKey: SecKey, tagPublic: String) -> Data? {
       let query: [String: Any] = [String(kSecClass): kSecClassKey, String(kSecAttrKeyType): algorithm.secKeyAttrType, String(kSecAttrApplicationTag): tagPublic.data(using: .utf8)!, String(kSecReturnData): true]
       var tempPublicKeyBits: CFTypeRef?
@@ -792,17 +790,14 @@ player.play()*/
     let (privateKey, publicKey) = generateKeysAndStoreInKeychain(keyAlgorithm, keySize: sizeOfKey, tagPrivate: tagPrivate, tagPublic: tagPublic)
     
     
-    //let TEparameters: [NSString : AnyObject] = [kSecClass : kSecClassKey, kSecAttrKeyType : kSecAttrKeyTypeRSA, kSecAttrApplicationTag : tagPrivate as AnyObject, kSecReturnData : true as AnyObject]
-		//var TEdata: AnyObject?
-		//let TEstatus = SecItemCopyMatching(TEparameters as CFDictionary, &TEdata)
-		//let TEpemKeyAsData = TEdata as? Data
     let queryTE: [String: Any] = [String(kSecClass): kSecClassKey, String(kSecAttrKeyType): kSecAttrKeyTypeRSA, String(kSecAttrApplicationTag): tagPrivate.data(using: .utf8)!, String(kSecReturnData): true]
     var dataTE: CFTypeRef?
     var statusTE = SecItemCopyMatching(queryTE as CFDictionary, &dataTE)
     let pemKeyAsDataTE = dataTE as? Data
-    //let swKey = String(data: pemKeyAsDataTE!, encoding: .utf8)
     let privKeyTE = SwKeyConvert.PrivateKey.derToPKCS1PEM(pemKeyAsDataTE!)
     showAlert(message: "swKey:\n\n\(privKeyTE)")
+    let privKeyOffset = PKCS8.PrivateKey.getPKCS1DEROffset(pemKeyAsDataTE!)
+    showAlert(message: "offset:\n\n\(privKeyOffset)")
     
     
     let publicKeyBits = getPublicKeyBits(keyAlgorithm, publicKey: publicKey!, tagPublic: tagPublic)
