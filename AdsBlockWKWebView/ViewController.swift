@@ -802,7 +802,7 @@ player.play()*/
     let pemKeyAsDataTE = dataTE as? Data
     //let swKey = String(data: pemKeyAsDataTE!, encoding: .utf8)
     let privKeyTE = SwKeyConvert.PrivateKey.derToPKCS1PEM(pemKeyAsDataTE!)
-    showAlert(message: "swKey:\n\n\(privKeyTE!)")
+    showAlert(message: "swKey:\n\n\(privKeyTE)")
     
     
     let publicKeyBits = getPublicKeyBits(keyAlgorithm, publicKey: publicKey!, tagPublic: tagPublic)
