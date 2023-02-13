@@ -753,32 +753,23 @@ player.play()*/
       let publicKeyParameters: [String: Any] = [String(kSecAttrIsPermanent): true, String(kSecAttrAccessible): kSecAttrAccessibleAfterFirstUnlock, String(kSecAttrApplicationTag): tagPublic.data(using: .utf8)!]
       let privateKeyParameters: [String: Any] = [String(kSecAttrIsPermanent): true, String(kSecAttrAccessible): kSecAttrAccessibleAfterFirstUnlock, String(kSecAttrApplicationTag): tagPrivate.data(using: .utf8)!]
       let parameters: [String: Any] = [String(kSecAttrKeyType): algorithm.secKeyAttrType, String(kSecAttrKeySizeInBits): keySize, String(kSecReturnRef): true, String(kSecPublicKeyAttrs): publicKeyParameters, String(kSecPrivateKeyAttrs): privateKeyParameters]
-      
-        var error: Unmanaged<CFError>?
-        let privateKey = SecKeyCreateRandomKey(parameters as CFDictionary, &error)
-        if privateKey == nil {
-            //print("Error creating keys occured: \(error!.takeRetainedValue() as Error), keys weren't created")
-            lb.text! += " Error:genKeysFail1"
-            return (nil, nil)
-        }
-        
-        //Get generated public key
-        let query: [String: Any] = [
-            String(kSecClass): kSecClassKey,
-            String(kSecAttrKeyType): algorithm.secKeyAttrType,
-            String(kSecAttrApplicationTag): tagPublic.data(using: .utf8)!,
-            String(kSecReturnRef): true
-        ]
-        var publicKeyReturn: CFTypeRef?
-        let result = SecItemCopyMatching(query as CFDictionary, &publicKeyReturn)
-        if result != errSecSuccess {
-            //print("Error getting publicKey from keychain occured: \(result)")
-            lb.text! += " Error:genKeysFail2"
-            return (privateKey, nil)
-        }
-        
-        let publicKey = publicKeyReturn as! SecKey?
-        return (privateKey, publicKey)
+      var error: Unmanaged<CFError>?
+      let privateKey = SecKeyCreateRandomKey(parameters as CFDictionary, &error)
+      if privateKey == nil {
+        //error!.takeRetainedValue() as Error
+        lb.text! += " Error:genKeysFail1"
+        return (nil, nil)
+      }
+      let query: [String: Any] = [String(kSecClass): kSecClassKey, String(kSecAttrKeyType): algorithm.secKeyAttrType, String(kSecAttrApplicationTag): tagPublic.data(using: .utf8)!, String(kSecReturnRef): true]
+      var publicKeyReturn: CFTypeRef?
+      let result = SecItemCopyMatching(query as CFDictionary, &publicKeyReturn)
+      if result != errSecSuccess {
+        //print("Error: \(result)")
+        lb.text! += " Error:genKeysFail2"
+        return (privateKey, nil)
+      }
+      let publicKey = publicKeyReturn as! SecKey?
+      return (privateKey, publicKey)
     }
     
     
@@ -805,12 +796,12 @@ player.play()*/
 		//var TEdata: AnyObject?
 		//let TEstatus = SecItemCopyMatching(TEparameters as CFDictionary, &TEdata)
 		//let TEpemKeyAsData = TEdata as? Data
-    let queryTE: [String: Any] = [String(kSecClass): kSecClassKey, String(kSecAttrKeyType): kSecAttrKeyTypeRSA, String(kSecAttrApplicationTag): tagPrivate.data(using: .utf8)!, String(kSecReturnData): true]
+    let queryTE: [String: Any] = [String(kSecClass): kSecClassKey, String(kSecAttrKeyType): kSecAttrKeyTypeRSA, String(kSecAttrApplicationTag): tagPrivate.data(using: .utf8)!, String(kSecReturnRef): true]
     var dataTE: CFTypeRef?
     var statusTE = SecItemCopyMatching(queryTE as CFDictionary, &dataTE)
     let pemKeyAsDataTE = dataTE as? Data
     let swKey = String(data: pemKeyAsDataTE!, encoding: .utf8)
-    //showAlert(message: "swKey:\n\n\(swKey!)")
+    showAlert(message: "swKey:\n\n\(swKey!)")
     
     
     let publicKeyBits = getPublicKeyBits(keyAlgorithm, publicKey: publicKey!, tagPublic: tagPublic)
