@@ -849,7 +849,7 @@ player.play()*/
     
     
     //let swKey = try! SwKeyStore.getKey(tagPrivate)
-    //showAlert(message: "swKey:\n\n\(swKey)")
+    showAlert(message: "swKey:\n\n\(swKey)")
     
     
     //https://github.com/digitalbazaar/forge
