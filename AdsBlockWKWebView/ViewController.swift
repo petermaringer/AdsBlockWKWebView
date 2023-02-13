@@ -783,20 +783,14 @@ player.play()*/
     
     
     func getPublicKeyBits(_ algorithm: KeyAlgorithm, publicKey: SecKey, tagPublic: String) -> Data? {
-      
-        let query: [String: Any] = [
-            String(kSecClass): kSecClassKey,
-            String(kSecAttrKeyType): algorithm.secKeyAttrType,
-            String(kSecAttrApplicationTag): tagPublic.data(using: .utf8)!,
-            String(kSecReturnData): true
-        ]
-        var tempPublicKeyBits: CFTypeRef?
-        var _ = SecItemCopyMatching(query as CFDictionary, &tempPublicKeyBits)
-        guard let keyBits = tempPublicKeyBits as? Data else {
-            lb.text! += " Error:getBitsFail"
-            return nil
-        }
-        return keyBits
+      let query: [String: Any] = [String(kSecClass): kSecClassKey, String(kSecAttrKeyType): algorithm.secKeyAttrType, String(kSecAttrApplicationTag): tagPublic.data(using: .utf8)!, String(kSecReturnData): true]
+      var tempPublicKeyBits: CFTypeRef?
+      var _ = SecItemCopyMatching(query as CFDictionary, &tempPublicKeyBits)
+      guard let keyBits = tempPublicKeyBits as? Data else {
+        lb.text! += " Error:getBitsFail"
+        return nil
+      }
+      return keyBits
     }
     
     
@@ -816,7 +810,7 @@ player.play()*/
     var statusTE = SecItemCopyMatching(queryTE as CFDictionary, &dataTE)
     let pemKeyAsDataTE = dataTE as? Data
     let swKey = String(data: pemKeyAsDataTE!, encoding: .utf8)
-    showAlert(message: "swKey:\n\n\(swKey!)")
+    //showAlert(message: "swKey:\n\n\(swKey!)")
     
     
     let publicKeyBits = getPublicKeyBits(keyAlgorithm, publicKey: publicKey!, tagPublic: tagPublic)
