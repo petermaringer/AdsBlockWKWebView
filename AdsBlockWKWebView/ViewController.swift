@@ -13,7 +13,7 @@ import Security
 
 import OpenSSL
 import CertificateSigningRequest
-import SwCrypt
+//import SwCrypt
 
 fileprivate let ruleId1 = "MyRuleID 001"
 fileprivate let ruleId2 = "MyRuleID 002"
