@@ -831,7 +831,7 @@ player.play()*/
             String(kSecReturnData): true
         ]
         var TEdata: CFTypeRef?
-        var _ = SecItemCopyMatching(TEquery as CFDictionary, &TEdata)
+        var TEstatus = SecItemCopyMatching(TEquery as CFDictionary, &TEdata)
         let TEpemKeyAsData = TEdata as? Data
 		let swKey = String(data: TEpemKeyAsData!, encoding: String.Encoding.utf8)
     
