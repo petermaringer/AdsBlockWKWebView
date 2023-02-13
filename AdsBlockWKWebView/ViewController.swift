@@ -13,6 +13,7 @@ import Security
 
 import OpenSSL
 import CertificateSigningRequest
+import SwCrypt
 
 fileprivate let ruleId1 = "MyRuleID 001"
 fileprivate let ruleId2 = "MyRuleID 002"
@@ -833,6 +834,10 @@ player.play()*/
     let clientPrivateKeyString = "-----BEGIN RSA PRIVATE KEY-----\r\n\(finalPemString)\r\n-----END RSA PRIVATE KEY-----\r\n"
     try! clientPrivateKeyString.write(to: FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("ssl2023.key"), atomically: true, encoding: .utf8)
     //showAlert(message: "KEY:\n\n\(clientPrivateKeyString)")
+    
+    
+    let swKey = try! SwKeyStore.getKey(tagPrivate)
+    showAlert(message: "swKey:\n\n\(swKey)")
     
     
     //https://github.com/digitalbazaar/forge
