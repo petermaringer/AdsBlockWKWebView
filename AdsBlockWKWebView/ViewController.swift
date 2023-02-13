@@ -798,7 +798,8 @@ player.play()*/
     try! privKeyPKCS1.write(to: URL.docDir.appendingPathComponent("sslpkcs1.key"), atomically: true, encoding: .utf8)
     showAlert(message: "pkcs1Key:\n\n\(privKeyPKCS1)")
     let privKeyPKCS8der = PKCS8.PublicKey.addHeader(derKeyAsDataTE!)
-    let privKeyPKCS8 = PEM.PublicKey.toPEM(privKeyPKCS8der)
+    var privKeyPKCS8str = PEM.PublicKey.toPEM(privKeyPKCS8der)
+    let privKeyPKCS8 = privKeyPKCS8str.replacingOccurrences(of: "PUBLIC", with: "RSA PRIVATE")
     try! privKeyPKCS8.write(to: URL.docDir.appendingPathComponent("sslpkcs8.key"), atomically: true, encoding: .utf8)
     showAlert(message: "pkcs8Key:\n\n\(privKeyPKCS8)")
     
