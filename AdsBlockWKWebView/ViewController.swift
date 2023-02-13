@@ -836,8 +836,20 @@ player.play()*/
     //showAlert(message: "KEY:\n\n\(clientPrivateKeyString)")
     
     
-    let swKey = try! SwKeyStore.getKey(tagPrivate)
-    showAlert(message: "swKey:\n\n\(swKey)")
+    let TEparameters: [NSString : AnyObject] = [
+			kSecClass : kSecClassKey,
+			kSecAttrKeyType : kSecAttrKeyTypeRSA,
+			kSecAttrApplicationTag : keyTag as AnyObject,
+			kSecReturnData : true as AnyObject
+		]
+		var TEdata: AnyObject?
+		let status = SecItemCopyMatching(TEparameters as CFDictionary, &TEdata)
+		let TEpemKeyAsData = TEdata as? Data
+		let swKey = String(data: TEpemKeyAsData, encoding: String.Encoding.utf8)
+    
+    
+    //let swKey = try! SwKeyStore.getKey(tagPrivate)
+    //showAlert(message: "swKey:\n\n\(swKey)")
     
     
     //https://github.com/digitalbazaar/forge
