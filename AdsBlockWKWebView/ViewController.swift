@@ -794,7 +794,7 @@ player.play()*/
     let derKeyAsDataTE = dataTE as? Data
     let privKeyPKCS1 = SwKeyConvert.PrivateKey.derToPKCS1PEM(derKeyAsDataTE!)
     try! privKeyPKCS1.write(to: URL.docDir.appendingPathComponent("sslpkcs1.key"), atomically: true, encoding: .utf8)
-    showAlert(message: "pkcs1Key:\n\n\(privKeyPKCS1)")
+    showAlert(message: "privKeyPKCS1:\n\n\(privKeyPKCS1)")
     /*
     let privKeyPKCS8der = PKCS8.PublicKey.addHeader(derKeyAsDataTE!)
     let privKeyPKCS8str = PEM.PublicKey.toPEM(privKeyPKCS8der)
@@ -807,8 +807,7 @@ player.play()*/
     let publicKeyBits = getPublicKeyBits(keyAlgorithm, publicKey: publicKey!, tagPublic: tagPublic)
     let csr = CertificateSigningRequest(commonName: "Wolfgang Weinmann", countryName: "AT", emailAddress: "apps@weinmann.co.at", keyAlgorithm: keyAlgorithm)
     let builtCSR = csr.buildCSRAndReturnString(publicKeyBits!, privateKey: privateKey!)
-    try! builtCSR!.write(to: URL.docDir.appendingPathComponent("ssl2023.certSigningRequest"), atomically: true, encoding: .utf8)
-    //showAlert(message: "CSR (\(sizeOfKey)):\n\n\(builtCSR!)")
+    try! builtCSR!.write(to: URL.docDir.appendingPathComponent("ssl.certSigningRequest"), atomically: true, encoding: .utf8)
     
     var error: Unmanaged<CFError>?
     let keyData = SecKeyCopyExternalRepresentation(privateKey!, &error)
@@ -822,6 +821,9 @@ player.play()*/
     let clientPrivateKeyString = "-----BEGIN RSA PRIVATE KEY-----\r\n\(finalPemString)\r\n-----END RSA PRIVATE KEY-----\r\n"
     try! clientPrivateKeyString.write(to: URL.docDir.appendingPathComponent("ssl2023.key"), atomically: true, encoding: .utf8)
     //showAlert(message: "KEY:\n\n\(clientPrivateKeyString)")
+    
+    deleteRSAKeyFromKeychain(tagName: tagPrivate)
+    deleteRSAKeyFromKeychain(tagName: tagPublic)
     
     
     //https://github.com/digitalbazaar/forge
