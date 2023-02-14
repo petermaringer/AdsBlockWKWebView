@@ -873,80 +873,65 @@ player.play()*/
       let certificateData = UnsafeMutablePointer<UnsafePointer<UInt8>?>.allocate(capacity: 1)
       certificateData.pointee = certificatePointer
       let certificate = d2i_X509(nil, certificateData, certificateLength)
-      //
-    let p12Path = try pemPrivateKey.data(using: .utf8)!
-        .withUnsafeBytes { bytes throws -> String in
-            let privateKeyBuffer = BIO_new_mem_buf(bytes.baseAddress, Int32(pemPrivateKey.count))
-            let privateKey = PEM_read_bio_PrivateKey(privateKeyBuffer, nil, nil, nil)
-            defer {
-                BIO_free(privateKeyBuffer)
-            }
-            guard X509_check_private_key(certificate, privateKey) == 1 else {
-                lb.text! += " privateKeyDoesNotMatchCertificate"
-                throw X509Error.privateKeyDoesNotMatchCertificate
-            }
-            OpenSSL_add_all_algorithms()
-            ERR_load_CRYPTO_strings()
-            let certsStack = sk_X509_new_null()
-            if let certificateAuthorityFileURL = certificateAuthorityFileURL {
-                let rootCAFileHandle = try FileHandle(forReadingFrom: certificateAuthorityFileURL)
-                let rootCAFile = fdopen(rootCAFileHandle.fileDescriptor, "r")
-                let rootCA = PEM_read_X509(rootCAFile, nil, nil, nil)
-                fclose(rootCAFile)
-                rootCAFileHandle.closeFile()
-                sk_X509_push(certsStack, rootCA)
-            }
-            // Create P12 keystore
-            let passPhrase = UnsafeMutablePointer(mutating: (p12Password as NSString).utf8String)
-            let name = UnsafeMutablePointer(mutating: ("P12 Certificate" as NSString).utf8String)
-            guard let p12 = PKCS12_create(passPhrase,
-                                          name,
-                                          privateKey,
-                                          certificate,
-                                          certsStack,
-                                          0,
-                                          0,
-                                          0,
-                                          PKCS12_DEFAULT_ITER,
-                                          0) else {
-                lb.text! += " cannotCreateP12Keystore"
-                ERR_print_errors_fp(stderr)
-                throw X509Error.cannotCreateP12Keystore
-            }
-            // Save P12 keystore
-            let path = URL.docDir.appendingPathComponent("P12.p12").path
-            //let path = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString).path
-            FileManager.default.createFile(atPath: path, contents: nil, attributes: nil)
-            guard let fileHandle = FileHandle(forWritingAtPath: path) else {
-                //NSLog("Test: \(path)")
-                lb.text! += " cannotOpenFileHandles"
-                throw X509Error.cannotOpenFileHandles
-            }
-            let p12File = fdopen(fileHandle.fileDescriptor, "w")
-            i2d_PKCS12_fp(p12File, p12)
-            PKCS12_free(p12)
-            fclose(p12File)
-            fileHandle.closeFile()
-            return path
-    }
-    // Read P12 Data
-    guard let p12Data = NSData(contentsOfFile: p12Path) else {
+      let p12Path = try pemPrivateKey.data(using: .utf8)!.withUnsafeBytes { bytes throws -> String in
+        let privateKeyBuffer = BIO_new_mem_buf(bytes.baseAddress, Int32(pemPrivateKey.count))
+        let privateKey = PEM_read_bio_PrivateKey(privateKeyBuffer, nil, nil, nil)
+        defer {
+          BIO_free(privateKeyBuffer)
+        }
+        guard X509_check_private_key(certificate, privateKey) == 1 else {
+          lb.text! += " privateKeyDoesNotMatchCertificate"
+          throw X509Error.privateKeyDoesNotMatchCertificate
+        }
+        OpenSSL_add_all_algorithms()
+        ERR_load_CRYPTO_strings()
+        let certsStack = sk_X509_new_null()
+        if let certificateAuthorityFileURL = certificateAuthorityFileURL {
+          let rootCAFileHandle = try FileHandle(forReadingFrom: certificateAuthorityFileURL)
+          let rootCAFile = fdopen(rootCAFileHandle.fileDescriptor, "r")
+          let rootCA = PEM_read_X509(rootCAFile, nil, nil, nil)
+          fclose(rootCAFile)
+          rootCAFileHandle.closeFile()
+          sk_X509_push(certsStack, rootCA)
+        }
+        let passPhrase = UnsafeMutablePointer(mutating: (p12Password as NSString).utf8String)
+        let name = UnsafeMutablePointer(mutating: ("P12 Certificate" as NSString).utf8String)
+        guard let p12 = PKCS12_create(passPhrase, name, privateKey, certificate, certsStack, 0, 0, 0, PKCS12_DEFAULT_ITER, 0) else {
+          lb.text! += " cannotCreateP12Keystore"
+          ERR_print_errors_fp(stderr)
+          throw X509Error.cannotCreateP12Keystore
+        }
+        let path = URL.docDir.appendingPathComponent("P12.p12").path
+        //let path = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString).path
+        FileManager.default.createFile(atPath: path, contents: nil, attributes: nil)
+        guard let fileHandle = FileHandle(forWritingAtPath: path) else {
+          //NSLog("Test: \(path)")
+          lb.text! += " cannotOpenFileHandles"
+          throw X509Error.cannotOpenFileHandles
+        }
+        let p12File = fdopen(fileHandle.fileDescriptor, "w")
+        i2d_PKCS12_fp(p12File, p12)
+        PKCS12_free(p12)
+        fclose(p12File)
+        fileHandle.closeFile()
+        return path
+      }
+      guard let p12Data = NSData(contentsOfFile: p12Path) else {
         lb.text! += " cannotReadP12Certificate"
         throw X509Error.cannotReadP12Certificate
+      }
+      //try? FileManager.default.removeItem(atPath: p12Path)
+      lb.text! += " p12Path:\(p12Path)"
+      return p12Data
     }
-    // Remove temporary file
-    //try? FileManager.default.removeItem(atPath: p12Path)
-    lb.text! += " p12Path:\(p12Path)"
-    return p12Data
-}
-
-enum X509Error: Error {
-    //case cannotReadPEMCertificate
-    case privateKeyDoesNotMatchCertificate
-    case cannotCreateP12Keystore
-    case cannotOpenFileHandles
-    case cannotReadP12Certificate
-}
+    
+    enum X509Error: Error {
+      //case cannotReadPEMCertificate
+      case privateKeyDoesNotMatchCertificate
+      case cannotCreateP12Keystore
+      case cannotOpenFileHandles
+      case cannotReadP12Certificate
+    }
     
     var derCer: NSData = NSData()
     let derCerUrl = URL.docDir.appendingPathComponent("CER.cer")
@@ -959,8 +944,24 @@ enum X509Error: Error {
       pemKey = try! String(data: Data(contentsOf: pemKeyUrl), encoding: .utf8)!
     }
     if !pemKey.isEmpty && derCer.length != 0 {
+      do {
       let p12Data = try? pkcs12(fromDer: derCer, withPrivateKey: pemKey)
       lb.text! += (" p12Data:\(p12Data!)").prefix(50) + "..."
+      
+      } catch let error as X509Error {
+        switch error {
+        case .privateKeyDoesNotMatchCertificate:
+          lb.text! += " KeyDoesNotMatchCert"
+          return
+        case .cannotCreateP12Keystore:
+          lb.text! += " cannotCreateP12Keystore"
+          return
+        }
+    } catch let error {
+        lb.text! += " \(error)"
+        return
+    }
+    
     }
     
     
