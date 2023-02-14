@@ -780,6 +780,21 @@ player.play()*/
       return keyBits
     }
     
+    
+    let csrNextUrl = URL.docDir.appendingPathComponent("CSRNext.certSigningRequest")
+    if csrNextUrl.checkFileExist() {
+      var rv = URLResourceValues()
+      rv.name = "CSR.certSigningRequest"
+      url.setResourceValues(rv)
+    }
+    let keyNextUrl = URL.docDir.appendingPathComponent("KEYNext.pem")
+    if keyNextUrl.checkFileExist() {
+      var rv = URLResourceValues()
+      rv.name = "KEY.pem"
+      url.setResourceValues(rv)
+    }
+    
+    
     let tagPrivate = "at.co.weinmann.private.rsa256"
     let tagPublic = "at.co.weinmann.public.rsa256"
     let keyAlgorithm = KeyAlgorithm.rsa(signatureType: .sha256)
