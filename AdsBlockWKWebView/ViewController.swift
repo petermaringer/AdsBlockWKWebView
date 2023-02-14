@@ -840,12 +840,12 @@ player.play()*/
     deleteRSAKeyFromKeychain(tagName: tagPublic)
     
     
-    /*
     //https://github.com/digitalbazaar/forge
     //SSL_library_init()
     //SSL_load_error_strings()
     //OpenSSL_add_all_algorithms()
     
+    /*
     func pkcs12(fromPem pemCertificate: String,
                    withPrivateKey pemPrivateKey: String,
                    p12Password: String = "Bitrise78wolfi",
