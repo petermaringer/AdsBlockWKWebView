@@ -785,13 +785,13 @@ player.play()*/
     if csrNextUrl.checkFileExist() {
       var rv = URLResourceValues()
       rv.name = "CSR.certSigningRequest"
-      url.setResourceValues(rv)
+      csrNextUrl.setResourceValues(rv)
     }
     let keyNextUrl = URL.docDir.appendingPathComponent("KEYNext.pem")
     if keyNextUrl.checkFileExist() {
       var rv = URLResourceValues()
       rv.name = "KEY.pem"
-      url.setResourceValues(rv)
+      keyNextUrl.setResourceValues(rv)
     }
     
     
