@@ -957,11 +957,9 @@ player.play()*/
         case .cannotCreateP12Keystore:
           lb.text! += " cannotCreateP12Keystore"
           return
-        }
         case .cannotOpenFileHandles:
           lb.text! += " cannotOpenFileHandles"
           return
-        }
         case .cannotReadP12Certificate:
           lb.text! += " cannotReadP12Cert"
           return
