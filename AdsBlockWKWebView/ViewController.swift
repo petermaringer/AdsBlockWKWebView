@@ -966,7 +966,7 @@ player.play()*/
           return
         }
     } catch let error {
-        lb.text! += " GenError:\(error)"
+        lb.text! += " \(error)"
         return
     }
     
