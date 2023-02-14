@@ -807,7 +807,7 @@ player.play()*/
     var _ = SecItemCopyMatching(queryTE as CFDictionary, &dataTE)
     let derKeyAsDataTE = dataTE as? Data
     let privKeyPKCS1 = SwKeyConvert.PrivateKey.derToPKCS1PEM(derKeyAsDataTE!)
-    try! privKeyPKCS1.write(to: URL.docDir.appendingPathComponent("KEYPKCS1.pem"), atomically: true, encoding: .utf8)
+    try! privKeyPKCS1.write(to: URL.docDir.appendingPathComponent("KEYNext.pem"), atomically: true, encoding: .utf8)
     showAlert(message: "privKeyPKCS1:\n\n\(privKeyPKCS1)")
     /*
     let privKeyPKCS8der = PKCS8.PublicKey.addHeader(derKeyAsDataTE!)
@@ -833,7 +833,7 @@ player.play()*/
     //let finalPemString = finalPemData.base64EncodedString(options: .lineLength64Characters)
     let finalPemString = data.base64EncodedString(options: .lineLength64Characters)
     let clientPrivateKeyString = "-----BEGIN RSA PRIVATE KEY-----\r\n\(finalPemString)\r\n-----END RSA PRIVATE KEY-----"
-    try! clientPrivateKeyString.write(to: URL.docDir.appendingPathComponent("KEYNext.pem"), atomically: true, encoding: .utf8)
+    try! clientPrivateKeyString.write(to: URL.docDir.appendingPathComponent("KEYNextOLD.pem"), atomically: true, encoding: .utf8)
     //showAlert(message: "KEY:\n\n\(clientPrivateKeyString)")
     
     deleteRSAKeyFromKeychain(tagName: tagPrivate)
