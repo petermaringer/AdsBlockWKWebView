@@ -945,7 +945,8 @@ player.play()*/
     }
     if !pemKey.isEmpty && derCer.length != 0 {
       do {
-      let p12Data = try? pkcs12(fromDer: derCer, withPrivateKey: pemKey)
+      let p12Data = pkcs12(fromDer: derCer, withPrivateKey: pemKey)
+      //let p12Data = try? pkcs12(fromDer: derCer, withPrivateKey: pemKey)
       lb.text! += (" p12Data:\(p12Data!)").prefix(50) + "..."
       
       } catch let error as X509Error {
@@ -955,6 +956,14 @@ player.play()*/
           return
         case .cannotCreateP12Keystore:
           lb.text! += " cannotCreateP12Keystore"
+          return
+        }
+        case .cannotOpenFileHandles:
+          lb.text! += " cannotOpenFileHandles"
+          return
+        }
+        case .cannotReadP12Certificate:
+          lb.text! += " cannotReadP12Cert"
           return
         }
     } catch let error {
