@@ -944,11 +944,12 @@ player.play()*/
       pemKey = try! String(data: Data(contentsOf: pemKeyUrl), encoding: .utf8)!
     }
     if !pemKey.isEmpty && derCer.length != 0 {
+      //let p12Data = try? pkcs12(fromDer: derCer, withPrivateKey: pemKey)
+      //lb.text! += (" p12Data:\(p12Data!)").prefix(50) + "..."
+      
       do {
       let p12Data = try pkcs12(fromDer: derCer, withPrivateKey: pemKey)
-      //let p12Data = try? pkcs12(fromDer: derCer, withPrivateKey: pemKey)
-      lb.text! += (" p12Data:\(p12Data!)").prefix(50) + "..."
-      
+      lb.text! += (" p12Data:\(p12Data)").prefix(50) + "..."
       } catch let error as X509Error {
         switch error {
         case .privateKeyDoesNotMatchCertificate:
