@@ -945,7 +945,7 @@ player.play()*/
     }
     if !pemKey.isEmpty && derCer.length != 0 {
       do {
-      let p12Data = pkcs12(fromDer: derCer, withPrivateKey: pemKey)
+      let p12Data = try pkcs12(fromDer: derCer, withPrivateKey: pemKey)
       //let p12Data = try? pkcs12(fromDer: derCer, withPrivateKey: pemKey)
       lb.text! += (" p12Data:\(p12Data!)").prefix(50) + "..."
       
