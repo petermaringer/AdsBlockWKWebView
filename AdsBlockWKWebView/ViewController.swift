@@ -780,7 +780,6 @@ player.play()*/
       return keyBits
     }
     
-    
     let tagPrivate = "at.co.weinmann.private.rsa256"
     let tagPublic = "at.co.weinmann.public.rsa256"
     let keyAlgorithm = KeyAlgorithm.rsa(signatureType: .sha256)
@@ -793,21 +792,21 @@ player.play()*/
     var _ = SecItemCopyMatching(queryTE as CFDictionary, &dataTE)
     let derKeyAsDataTE = dataTE as? Data
     let privKeyPKCS1 = SwKeyConvert.PrivateKey.derToPKCS1PEM(derKeyAsDataTE!)
-    try! privKeyPKCS1.write(to: URL.docDir.appendingPathComponent("sslpkcs1.key"), atomically: true, encoding: .utf8)
+    try! privKeyPKCS1.write(to: URL.docDir.appendingPathComponent("KEYPKCS1.pem"), atomically: true, encoding: .utf8)
     showAlert(message: "privKeyPKCS1:\n\n\(privKeyPKCS1)")
     /*
     let privKeyPKCS8der = PKCS8.PublicKey.addHeader(derKeyAsDataTE!)
     let privKeyPKCS8str = PEM.PublicKey.toPEM(privKeyPKCS8der)
     let privKeyPKCS8 = privKeyPKCS8str.replacingOccurrences(of: "PUBLIC", with: "RSA PRIVATE")
-    try! privKeyPKCS8.write(to: URL.docDir.appendingPathComponent("sslpkcs8.key"), atomically: true, encoding: .utf8)
-    showAlert(message: "pkcs8Key:\n\n\(privKeyPKCS8)")
+    try! privKeyPKCS8.write(to: URL.docDir.appendingPathComponent("KEYPKCS8.pem"), atomically: true, encoding: .utf8)
+    showAlert(message: "privKeyPKCS8:\n\n\(privKeyPKCS8)")
     */
     
     
     let publicKeyBits = getPublicKeyBits(keyAlgorithm, publicKey: publicKey!, tagPublic: tagPublic)
     let csr = CertificateSigningRequest(commonName: "Wolfgang Weinmann", countryName: "AT", emailAddress: "apps@weinmann.co.at", keyAlgorithm: keyAlgorithm)
     let builtCSR = csr.buildCSRAndReturnString(publicKeyBits!, privateKey: privateKey!)
-    try! builtCSR!.write(to: URL.docDir.appendingPathComponent("ssl.certSigningRequest"), atomically: true, encoding: .utf8)
+    try! builtCSR!.write(to: URL.docDir.appendingPathComponent("CSRNext.certSigningRequest"), atomically: true, encoding: .utf8)
     
     var error: Unmanaged<CFError>?
     let keyData = SecKeyCopyExternalRepresentation(privateKey!, &error)
@@ -819,7 +818,7 @@ player.play()*/
     //let finalPemString = finalPemData.base64EncodedString(options: .lineLength64Characters)
     let finalPemString = data.base64EncodedString(options: .lineLength64Characters)
     let clientPrivateKeyString = "-----BEGIN RSA PRIVATE KEY-----\r\n\(finalPemString)\r\n-----END RSA PRIVATE KEY-----\r\n"
-    try! clientPrivateKeyString.write(to: URL.docDir.appendingPathComponent("ssl2023.key"), atomically: true, encoding: .utf8)
+    try! clientPrivateKeyString.write(to: URL.docDir.appendingPathComponent("KEYNext.pem"), atomically: true, encoding: .utf8)
     //showAlert(message: "KEY:\n\n\(clientPrivateKeyString)")
     
     deleteRSAKeyFromKeychain(tagName: tagPrivate)
@@ -849,23 +848,17 @@ player.play()*/
     }
     //...
     }
-    let pemCer = try! String(data: Data(contentsOf: URL.docDir.appendingPathComponent("ssl.pem")), encoding: .utf8)!
+    let pemCer = try! String(data: Data(contentsOf: URL.docDir.appendingPathComponent("CER.pem")), encoding: .utf8)!
     let testp12 = try? pkcs12(fromPem: pemCer, withPrivateKey: pemKey)
     */
     
-    func pkcs12(fromDer derCertificate: NSData,
-                   withPrivateKey pemPrivateKey: String,
-                   p12Password: String = "Bitrise78wolfi",
-                   certificateAuthorityFileURL: URL? = nil) throws -> NSData {
-    // Create strange pointer to read DER certificate with OpenSSL
-    // Data must be a two-dimensional array containing the pointer to the DER certificate
-    // as single element at position [0][0]
-    let certificatePointer = CFDataGetBytePtr(derCertificate)
-    let certificateLength = CFDataGetLength(derCertificate)
-    let certificateData = UnsafeMutablePointer<UnsafePointer<UInt8>?>.allocate(capacity: 1)
-    certificateData.pointee = certificatePointer
-    // Read DER certificate
-    let certificate = d2i_X509(nil, certificateData, certificateLength)
+    func pkcs12(fromDer derCertificate: NSData, withPrivateKey pemPrivateKey: String, p12Password: String = "Bitrise78wolfi", certificateAuthorityFileURL: URL? = nil) throws -> NSData {
+      let certificatePointer = CFDataGetBytePtr(derCertificate)
+      let certificateLength = CFDataGetLength(derCertificate)
+      let certificateData = UnsafeMutablePointer<UnsafePointer<UInt8>?>.allocate(capacity: 1)
+      certificateData.pointee = certificatePointer
+      let certificate = d2i_X509(nil, certificateData, certificateLength)
+      //
     let p12Path = try pemPrivateKey.data(using: .utf8)!
         .withUnsafeBytes { bytes throws -> String in
             let privateKeyBuffer = BIO_new_mem_buf(bytes.baseAddress, Int32(pemPrivateKey.count))
@@ -873,29 +866,24 @@ player.play()*/
             defer {
                 BIO_free(privateKeyBuffer)
             }
-            // Check if key matches certificate
             guard X509_check_private_key(certificate, privateKey) == 1 else {
                 lb.text! += " privateKeyDoesNotMatchCertificate"
                 throw X509Error.privateKeyDoesNotMatchCertificate
             }
-            // Set OpenSSL parameters
             OpenSSL_add_all_algorithms()
             ERR_load_CRYPTO_strings()
-            // The CA cert needs to be in a stack of certs
             let certsStack = sk_X509_new_null()
             if let certificateAuthorityFileURL = certificateAuthorityFileURL {
-                // Read root certiticate
                 let rootCAFileHandle = try FileHandle(forReadingFrom: certificateAuthorityFileURL)
                 let rootCAFile = fdopen(rootCAFileHandle.fileDescriptor, "r")
                 let rootCA = PEM_read_X509(rootCAFile, nil, nil, nil)
                 fclose(rootCAFile)
                 rootCAFileHandle.closeFile()
-                // Add certificate to the stack
                 sk_X509_push(certsStack, rootCA)
             }
             // Create P12 keystore
             let passPhrase = UnsafeMutablePointer(mutating: (p12Password as NSString).utf8String)
-            let name = UnsafeMutablePointer(mutating: ("SSL Certificate" as NSString).utf8String)
+            let name = UnsafeMutablePointer(mutating: ("P12 Certificate" as NSString).utf8String)
             guard let p12 = PKCS12_create(passPhrase,
                                           name,
                                           privateKey,
@@ -911,7 +899,7 @@ player.play()*/
                 throw X509Error.cannotCreateP12Keystore
             }
             // Save P12 keystore
-            let path = URL.docDir.appendingPathComponent("ssl.p12").path
+            let path = URL.docDir.appendingPathComponent("P12.p12").path
             //let path = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString).path
             FileManager.default.createFile(atPath: path, contents: nil, attributes: nil)
             guard let fileHandle = FileHandle(forWritingAtPath: path) else {
@@ -946,12 +934,12 @@ enum X509Error: Error {
 }
     
     var derCer: NSData = NSData()
-    let derCerUrl = URL.docDir.appendingPathComponent("ssl.cer")
+    let derCerUrl = URL.docDir.appendingPathComponent("CER.cer")
     if derCerUrl.checkFileExist() {
       derCer = NSData(contentsOf: derCerUrl)!
     }
     var pemKey: String = ""
-    let pemKeyUrl = URL.docDir.appendingPathComponent("ssl.key")
+    let pemKeyUrl = URL.docDir.appendingPathComponent("KEY.pem")
     if pemKeyUrl.checkFileExist() {
       pemKey = try! String(data: Data(contentsOf: pemKeyUrl), encoding: .utf8)!
     }
