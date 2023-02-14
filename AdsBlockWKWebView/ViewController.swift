@@ -832,7 +832,7 @@ player.play()*/
     //finalPemData.append(data)
     //let finalPemString = finalPemData.base64EncodedString(options: .lineLength64Characters)
     let finalPemString = data.base64EncodedString(options: .lineLength64Characters)
-    let clientPrivateKeyString = "-----BEGIN RSA PRIVATE KEY-----\r\n\(finalPemString)\r\n-----END RSA PRIVATE KEY-----\r\n"
+    let clientPrivateKeyString = "-----BEGIN RSA PRIVATE KEY-----\r\n\(finalPemString)\r\n-----END RSA PRIVATE KEY-----"
     try! clientPrivateKeyString.write(to: URL.docDir.appendingPathComponent("KEYNext.pem"), atomically: true, encoding: .utf8)
     //showAlert(message: "KEY:\n\n\(clientPrivateKeyString)")
     
