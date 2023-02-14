@@ -954,7 +954,7 @@ player.play()*/
         switch error {
         case .privateKeyDoesNotMatchCertificate:
           lb.text! += " KeyDoesNotMatchCert"
-          return
+          //return
         case .cannotCreateP12Keystore:
           lb.text! += " cannotCreateP12Keystore"
           return
