@@ -117,9 +117,10 @@ extension URL {
   }
   
   func rename(to: String) {
+    var fileUrl = self
     var rv = URLResourceValues()
     rv.name = to
-    try! self.setResourceValues(rv)
+    try! fileUrl.setResourceValues(rv)
   }
   
 }
@@ -804,7 +805,7 @@ player.play()*/
     */
     var keyNextUrl = URL.docDir.appendingPathComponent("KEYNext.pem")
     if keyNextUrl.checkFileExist() {
-      try! keyNextUrl.rename(to: "KEY.pem")
+      keyNextUrl.rename(to: "KEY.pem")
     }
     
     
