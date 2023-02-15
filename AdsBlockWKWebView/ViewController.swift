@@ -13,7 +13,7 @@ import Security
 
 import OpenSSL
 import CertificateSigningRequest
-import SwCrypt
+//import SwCrypt
 
 fileprivate let ruleId1 = "MyRuleID 001"
 fileprivate let ruleId2 = "MyRuleID 002"
@@ -800,19 +800,22 @@ player.play()*/
     let (privateKey, publicKey) = generateKeysAndStoreInKeychain(keyAlgorithm, keySize: sizeOfKey, tagPrivate: tagPrivate, tagPublic: tagPublic)
     
     
+    /*
+    //Get Key from Chain for swCrypt
     let queryTE: [String: Any] = [String(kSecClass): kSecClassKey, String(kSecAttrKeyType): kSecAttrKeyTypeRSA, String(kSecAttrApplicationTag): tagPrivate.data(using: .utf8)!, String(kSecReturnData): true]
     var dataTE: CFTypeRef?
     var _ = SecItemCopyMatching(queryTE as CFDictionary, &dataTE)
     let derKeyAsDataTE = dataTE as? Data
+    //Convert Key to PKCS1 with swCrypt
     let privKeyPKCS1 = SwKeyConvert.PrivateKey.derToPKCS1PEM(derKeyAsDataTE!)
     try! privKeyPKCS1.write(to: URL.docDir.appendingPathComponent("KEYPKCS1.pem"), atomically: true, encoding: .utf8)
-    //showAlert(message: "KEYPKCS1:\n\n\(privKeyPKCS1)")
-    /*
+    showAlert(message: "KEYPKCS1:\n\n\(privKeyPKCS1)")
+    //Convert Key to PKCS8 with swCrypt
     let privKeyPKCS8der = PKCS8.PublicKey.addHeader(derKeyAsDataTE!)
     let privKeyPKCS8str = PEM.PublicKey.toPEM(privKeyPKCS8der)
     let privKeyPKCS8 = privKeyPKCS8str.replacingOccurrences(of: "PUBLIC", with: "RSA PRIVATE")
     try! privKeyPKCS8.write(to: URL.docDir.appendingPathComponent("KEYPKCS8.pem"), atomically: true, encoding: .utf8)
-    showAlert(message: "privKeyPKCS8:\n\n\(privKeyPKCS8)")
+    showAlert(message: "KEYPKCS8:\n\n\(privKeyPKCS8)")
     */
     
     
