@@ -858,8 +858,7 @@ player.play()*/
         .trimmingCharacters(in: .whitespacesAndNewlines)
     guard let derCertificate = NSData(base64Encoded: modifiedCert, options: [])
     else {
-        lb.text! += " cannotReadPEMCertificate"
-        throw X509Error.cannotReadPEMCertificate
+        throw X509Error.cannotReadPEMCert
     }
     //...
     }
@@ -880,8 +879,7 @@ player.play()*/
           BIO_free(privateKeyBuffer)
         }
         guard X509_check_private_key(certificate, privateKey) == 1 else {
-          lb.text! += " privateKeyDoesNotMatchCertificate"
-          throw X509Error.privateKeyDoesNotMatchCertificate
+          throw X509Error.keyDoesNotMatchCert
         }
         OpenSSL_add_all_algorithms()
         ERR_load_CRYPTO_strings()
@@ -897,17 +895,15 @@ player.play()*/
         let passPhrase = UnsafeMutablePointer(mutating: (p12Password as NSString).utf8String)
         let name = UnsafeMutablePointer(mutating: ("P12 Certificate" as NSString).utf8String)
         guard let p12 = PKCS12_create(passPhrase, name, privateKey, certificate, certsStack, 0, 0, 0, PKCS12_DEFAULT_ITER, 0) else {
-          lb.text! += " cannotCreateP12Keystore"
           ERR_print_errors_fp(stderr)
-          throw X509Error.cannotCreateP12Keystore
+          throw X509Error.cannotCreateKeystore
         }
         let path = URL.docDir.appendingPathComponent("P12.p12").path
         //let path = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString).path
         FileManager.default.createFile(atPath: path, contents: nil, attributes: nil)
         guard let fileHandle = FileHandle(forWritingAtPath: path) else {
           //NSLog("Test: \(path)")
-          lb.text! += " cannotOpenFileHandles"
-          throw X509Error.cannotOpenFileHandles
+          throw X509Error.cannotOpenFileHandle
         }
         let p12File = fdopen(fileHandle.fileDescriptor, "w")
         i2d_PKCS12_fp(p12File, p12)
@@ -917,8 +913,7 @@ player.play()*/
         return path
       }
       guard let p12Data = NSData(contentsOfFile: p12Path) else {
-        lb.text! += " cannotReadP12Certificate"
-        throw X509Error.cannotReadP12Certificate
+        throw X509Error.cannotReadP12Cert
       }
       //try? FileManager.default.removeItem(atPath: p12Path)
       lb.text! += " p12Path:\(p12Path)"
@@ -926,11 +921,10 @@ player.play()*/
     }
     
     enum X509Error: Error {
-      //case cannotReadPEMCertificate
-      case privateKeyDoesNotMatchCertificate
-      case cannotCreateP12Keystore
-      case cannotOpenFileHandles
-      case cannotReadP12Certificate
+      case keyDoesNotMatchCert
+      case cannotCreateKeystore
+      case cannotOpenFileHandle
+      case cannotReadP12Cert
     }
     
     var derCer: NSData = NSData()
@@ -946,30 +940,23 @@ player.play()*/
     if !pemKey.isEmpty && derCer.length != 0 {
       //let p12Data = try? pkcs12(fromDer: derCer, withPrivateKey: pemKey)
       //lb.text! += (" p12Data:\(p12Data!)").prefix(50) + "..."
-      
       do {
-      let p12Data = try pkcs12(fromDer: derCer, withPrivateKey: pemKey)
-      lb.text! += (" p12Data:\(p12Data)").prefix(50) + "..."
+        let p12Data = try pkcs12(fromDer: derCer, withPrivateKey: pemKey)
+        lb.text! += (" p12Data:\(p12Data)").prefix(50) + "..."
       } catch let error as X509Error {
         switch error {
-        case .privateKeyDoesNotMatchCertificate:
-          lb.text! += " KeyDoesNotMatchCert"
-          //return
-        case .cannotCreateP12Keystore:
-          lb.text! += " cannotCreateP12Keystore"
-          return
-        case .cannotOpenFileHandles:
-          lb.text! += " cannotOpenFileHandles"
-          return
-        case .cannotReadP12Certificate:
+        case .keyDoesNotMatchCert:
+          lb.text! += " keyDoesNotMatchCert"
+        case .cannotCreateKeystore:
+          lb.text! += " cannotCreateKeystore"
+        case .cannotOpenFileHandle:
+          lb.text! += " cannotOpenFileHandle"
+        case .cannotReadP12Cert:
           lb.text! += " cannotReadP12Cert"
-          return
         }
-    } catch let error {
-        lb.text! += " \(error)"
-        return
-    }
-    
+      } catch let error {
+        lb.text! += " Error:\(error)"
+      }
     }
     
     
