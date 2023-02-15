@@ -118,9 +118,11 @@ extension URL {
   
   func rename(to: String) {
     var fileUrl = self
-    var rv = URLResourceValues()
-    rv.name = to
-    try! fileUrl.setResourceValues(rv)
+    if fileUrl.checkFileExist() {
+      var rv = URLResourceValues()
+      rv.name = to
+      try! fileUrl.setResourceValues(rv)
+    }
   }
   
 }
