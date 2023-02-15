@@ -115,7 +115,6 @@ extension URL {
       return false
     }
   }
-  
   func rename(to: String) {
     var fileUrl = self
     if fileUrl.checkFileExist() {
@@ -124,7 +123,6 @@ extension URL {
       try! fileUrl.setResourceValues(rv)
     }
   }
-  
 }
 
 
@@ -805,10 +803,9 @@ player.play()*/
       try! keyNextUrl.setResourceValues(rv)
     }
     */
-    var keyNextUrl = URL.docDir.appendingPathComponent("KEYNext.pem")
-    if keyNextUrl.checkFileExist() {
-      keyNextUrl.rename(to: "KEY.pem")
-    }
+    //var keyNextUrl = URL.docDir.appendingPathComponent("KEYNext.pem")
+    //keyNextUrl.rename(to: "KEY.pem")
+    URL.docDir.appendingPathComponent("KEYNext.pem").rename(to: "KEY.pem")
     
     
     let tagPrivate = "at.co.weinmann.private.rsa256"
@@ -847,7 +844,8 @@ player.play()*/
     //var finalPemData = Data([0x30, 0x2A, 0x30, 0x05, 0x06, 0x03, 0x2B, 0x65, 0x6E, 0x03, 0x21, 0x00])
     //finalPemData.append(data)
     //let finalPemString = finalPemData.base64EncodedString(options: .lineLength64Characters)
-    let finalPemString = data.base64EncodedString(options: .lineLength64Characters)
+    //let finalPemString = data.base64EncodedString(options: .lineLength64Characters)
+    let finalPemString = data.base64EncodedString()
     let clientPrivateKeyString = "-----BEGIN RSA PRIVATE KEY-----\n\(finalPemString)\n-----END RSA PRIVATE KEY-----"
     try! clientPrivateKeyString.write(to: URL.docDir.appendingPathComponent("KEYNextOLD.pem"), atomically: true, encoding: .utf8)
     //showAlert(message: "KEY:\n\n\(clientPrivateKeyString)")
