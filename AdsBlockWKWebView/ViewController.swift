@@ -837,8 +837,8 @@ player.play()*/
     //var finalPemData = Data([0x30, 0x2A, 0x30, 0x05, 0x06, 0x03, 0x2B, 0x65, 0x6E, 0x03, 0x21, 0x00])
     //finalPemData.append(data)
     //let finalPemString = finalPemData.base64EncodedString(options: .lineLength64Characters)
-    let finalPemString = data.base64EncodedString(options: .lineLength64Characters)
-    //let finalPemString = data.base64EncodedString()
+    //let finalPemString = data.base64EncodedString(options: .lineLength64Characters)
+    let finalPemString = data.base64EncodedString(options: [.lineLength64Characters, .endLineWithLineFeed])
     let clientPrivateKeyString = "-----BEGIN RSA PRIVATE KEY-----\n\(finalPemString)\n-----END RSA PRIVATE KEY-----"
     try! clientPrivateKeyString.write(to: URL.docDir.appendingPathComponent("KEYNextOLD.pem"), atomically: true, encoding: .utf8)
     //showAlert(message: "KEY:\n\n\(clientPrivateKeyString)")
@@ -853,16 +853,9 @@ player.play()*/
     //OpenSSL_add_all_algorithms()
     
     /*
-    func pkcs12(fromPem pemCertificate: String,
-                   withPrivateKey pemPrivateKey: String,
-                   p12Password: String = "Bitrise78wolfi",
-                   certificateAuthorityFileURL: URL? = nil) throws -> NSData {
-    // Create DER-certificate from PEM string
-    let modifiedCert = pemCertificate
-        .replacingOccurrences(of: "-----BEGIN CERTIFICATE-----", with: "")
-        .replacingOccurrences(of: "-----END CERTIFICATE-----", with: "")
-        .replacingOccurrences(of: "\n", with: "")
-        .trimmingCharacters(in: .whitespacesAndNewlines)
+    func pkcs12(fromPem pemCertificate: String, withPrivateKey pemPrivateKey: String, p12Password: String = "XXX", certificateAuthorityFileURL: URL? = nil) throws -> NSData {
+    //Create DER-certificate from PEM string
+    let modifiedCert = pemCertificate.replacingOccurrences(of: "-----BEGIN CERTIFICATE-----", with: "").replacingOccurrences(of: "-----END CERTIFICATE-----", with: "").replacingOccurrences(of: "\n", with: "").trimmingCharacters(in: .whitespacesAndNewlines)
     guard let derCertificate = NSData(base64Encoded: modifiedCert, options: [])
     else {
         throw X509Error.cannotReadPEMCert
@@ -951,6 +944,7 @@ player.play()*/
         let p12Data = try pkcs12(fromDer: derCer, withPrivateKey: pemKey)
         lb.text! += (" p12Data:\(p12Data)").prefix(50) + "..."
       } catch let error as X509Error {
+        lb.text! += " X509Error:"
         switch error {
         case .keyDoesNotMatchCert:
           lb.text! += " keyDoesNotMatchCert"
