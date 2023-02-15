@@ -115,6 +115,13 @@ extension URL {
       return false
     }
   }
+  
+  func rename(to: String) {
+    var rv = URLResourceValues()
+    rv.name = to
+    try! self.setResourceValues(rv)
+  }
+  
 }
 
 
@@ -787,11 +794,17 @@ player.play()*/
       rv.name = "CSR.certSigningRequest"
       try! csrNextUrl.setResourceValues(rv)
     }
+    /*
     var keyNextUrl = URL.docDir.appendingPathComponent("KEYNext.pem")
     if keyNextUrl.checkFileExist() {
       var rv = URLResourceValues()
       rv.name = "KEY.pem"
       try! keyNextUrl.setResourceValues(rv)
+    }
+    */
+    var keyNextUrl = URL.docDir.appendingPathComponent("KEYNext.pem")
+    if keyNextUrl.checkFileExist() {
+      try! keyNextUrl.rename(to: "KEY.pem")
     }
     
     
