@@ -789,14 +789,6 @@ player.play()*/
     }
     
     
-    /*
-    var csrNextUrl = URL.docDir.appendingPathComponent("CSRNext.certSigningRequest")
-    if csrNextUrl.checkFileExist() {
-      var rv = URLResourceValues()
-      rv.name = "CSR.certSigningRequest"
-      try! csrNextUrl.setResourceValues(rv)
-    }
-    */
     URL.docDir.appendingPathComponent("CSRNext.certSigningRequest").rename(to: "CSR.certSigningRequest")
     URL.docDir.appendingPathComponent("KEYNext.pem").rename(to: "KEY.pem")
     
@@ -813,8 +805,8 @@ player.play()*/
     var _ = SecItemCopyMatching(queryTE as CFDictionary, &dataTE)
     let derKeyAsDataTE = dataTE as? Data
     let privKeyPKCS1 = SwKeyConvert.PrivateKey.derToPKCS1PEM(derKeyAsDataTE!)
-    try! privKeyPKCS1.write(to: URL.docDir.appendingPathComponent("KEYNext.pem"), atomically: true, encoding: .utf8)
-    showAlert(message: "privKeyPKCS1:\n\n\(privKeyPKCS1)")
+    try! privKeyPKCS1.write(to: URL.docDir.appendingPathComponent("KEYPKCS1.pem"), atomically: true, encoding: .utf8)
+    //showAlert(message: "KEYPKCS1:\n\n\(privKeyPKCS1)")
     /*
     let privKeyPKCS8der = PKCS8.PublicKey.addHeader(derKeyAsDataTE!)
     let privKeyPKCS8str = PEM.PublicKey.toPEM(privKeyPKCS8der)
@@ -837,11 +829,10 @@ player.play()*/
     //var finalPemData = Data([0x30, 0x2A, 0x30, 0x05, 0x06, 0x03, 0x2B, 0x65, 0x6E, 0x03, 0x21, 0x00])
     //finalPemData.append(data)
     //let finalPemString = finalPemData.base64EncodedString(options: .lineLength64Characters)
-    //let finalPemString = data.base64EncodedString(options: .lineLength64Characters)
     let finalPemString = data.base64EncodedString(options: [.lineLength64Characters, .endLineWithLineFeed])
     let clientPrivateKeyString = "-----BEGIN RSA PRIVATE KEY-----\n\(finalPemString)\n-----END RSA PRIVATE KEY-----"
-    try! clientPrivateKeyString.write(to: URL.docDir.appendingPathComponent("KEYNextOLD.pem"), atomically: true, encoding: .utf8)
-    //showAlert(message: "KEY:\n\n\(clientPrivateKeyString)")
+    try! clientPrivateKeyString.write(to: URL.docDir.appendingPathComponent("KEYNext.pem"), atomically: true, encoding: .utf8)
+    showAlert(message: "KEYNext:\n\n\(clientPrivateKeyString)")
     
     deleteRSAKeyFromKeychain(tagName: tagPrivate)
     deleteRSAKeyFromKeychain(tagName: tagPublic)
@@ -947,13 +938,13 @@ player.play()*/
         lb.text! += " X509Error:"
         switch error {
         case .keyDoesNotMatchCert:
-          lb.text! += " keyDoesNotMatchCert"
+          lb.text! += "keyDoesNotMatchCert"
         case .cannotCreateKeystore:
-          lb.text! += " cannotCreateKeystore"
+          lb.text! += "cannotCreateKeystore"
         case .cannotOpenFileHandle:
-          lb.text! += " cannotOpenFileHandle"
+          lb.text! += "cannotOpenFileHandle"
         case .cannotReadP12Cert:
-          lb.text! += " cannotReadP12Cert"
+          lb.text! += "cannotReadP12Cert"
         }
       } catch let error {
         lb.text! += " Error:\(error)"
