@@ -287,7 +287,8 @@ class WebView2: WKWebView {
 */
 
 
-@available(iOS 15, *)
+//@available(iOS 15, *)
+@available(iOS 14.5, *)
 extension ViewController: WKDownloadDelegate {
   func download(_ download: WKDownload, decideDestinationUsing response: URLResponse, suggestedFilename: String, completionHandler: @escaping (URL?) -> Void) {
     //let temporaryDir = NSTemporaryDirectory()
@@ -1723,14 +1724,14 @@ downloadTask.resume()
   }
   
   
-  //@available(iOS 14.5, *)
-  @available(iOS 15, *)
+  @available(iOS 14.5, *)
+  //@available(iOS 15, *)
   func webView(_ webview: WKWebView, navigationAction: WKNavigationAction, didBecome download: WKDownload) {
     download.delegate = self
   }
   
-  //@available(iOS 14.5, *)
-  @available(iOS 15, *)
+  @available(iOS 14.5, *)
+  //@available(iOS 15, *)
   func webView(_ webview: WKWebView, navigationResponse: WKNavigationResponse, didBecome download: WKDownload) {
     download.delegate = self
   }
@@ -1844,7 +1845,8 @@ downloadTask.resume()
       return
     }
     
-    if #available(iOS 15, *) {
+    //if #available(iOS 15, *) {
+    if #available(iOS 14.5, *) {
       if navigationAction.shouldPerformDownload {
         lb.text! += " nAsPD"
         decisionHandler(.download)
@@ -1853,7 +1855,8 @@ downloadTask.resume()
     }
     if navTypeDownload {
       navTypeDownload = false
-      if #available(iOS 15, *) {
+      //if #available(iOS 15, *) {
+      if #available(iOS 14.5, *) {
         lb.text! += " nTD"
         decisionHandler(.download)
         return
@@ -1896,7 +1899,8 @@ downloadTask.resume()
     
     showFrameLoadError = true
     if !navigationResponse.canShowMIMEType {
-      if #available(iOS 15, *) {
+      //if #available(iOS 15, *) {
+      if #available(iOS 14.5, *) {
         showFrameLoadError = false
         lb.text! += " nRcSMT"
         decisionHandler(.download)
