@@ -750,8 +750,9 @@ player.play()*/
     
     func deleteRSAKeyFromKeychain(tagName: String) {
       let queryFilter: [String: Any] = [String(kSecClass): kSecClassKey, String(kSecAttrKeyType): kSecAttrKeyTypeRSA, String(kSecAttrApplicationTag): tagName]
-      let status: OSStatus = SecItemDelete(queryFilter as CFDictionary)
-      lb.text! += " keyDelStatus:\(status.description)"
+      SecItemDelete(queryFilter as CFDictionary)
+      //let status: OSStatus = SecItemDelete(queryFilter as CFDictionary)
+      //lb.text! += " keyDelStatus:\(status.description)"
     }
     
     func generateKeysAndStoreInKeychain(_ algorithm: KeyAlgorithm, keySize: Int, tagPrivate: String, tagPublic: String) -> (SecKey?, SecKey?) {
@@ -1505,7 +1506,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
   func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
     if message.body as? String == "restore" {
       
-      DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 7.0) {
         self.webview3.removeFromSuperview()
       }
       
@@ -1722,12 +1723,14 @@ downloadTask.resume()
   }
   
   
-  @available(iOS 14.5, *)
+  //@available(iOS 14.5, *)
+  @available(iOS 15, *)
   func webView(_ webview: WKWebView, navigationAction: WKNavigationAction, didBecome download: WKDownload) {
     download.delegate = self
   }
   
-  @available(iOS 14.5, *)
+  //@available(iOS 14.5, *)
+  @available(iOS 15, *)
   func webView(_ webview: WKWebView, navigationResponse: WKNavigationResponse, didBecome download: WKDownload) {
     download.delegate = self
   }
