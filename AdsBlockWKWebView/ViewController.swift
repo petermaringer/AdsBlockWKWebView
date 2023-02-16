@@ -296,8 +296,7 @@ extension ViewController: WKDownloadDelegate {
       let fileName = documentsDir + "/" + suggestedFilename
       let url = URL(fileURLWithPath: fileName)
       lb.text! += " wkD:\(url)"
-      //adjustLabel()
-      //showAlert(message: "\(url)")
+      showAlert(message: "\(url)")
       completionHandler(url)
     }
   }
@@ -307,7 +306,6 @@ extension ViewController: WKDownloadDelegate {
     
     showAlert(message: "\(lbcounter) Error: \(err.code) \(err.localizedDescription)")
     lb.text! += " STOP err:\(err.code)"
-    //adjustLabel()
     
     //showAlert(message: "Download failed \(error)")
   }
