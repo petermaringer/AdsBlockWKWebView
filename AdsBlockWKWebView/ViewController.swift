@@ -1796,7 +1796,7 @@ downloadTask.resume()
       }
     }
     
-    let desktopUrls: Array<String> = ["https://apps.apple.com", "https://identitysafe.norton.com", "https://de.yahoo.com"]
+    let desktopUrls: Array<String> = ["https://apps.apple.comXXX", "https://identitysafe.norton.com", "https://de.yahoo.com"]
     var desktopStop = false
     desktopUrls.forEach { item in
       if navigationAction.request.url!.absoluteString.lowercased().hasPrefix(item.lowercased()) {
@@ -1810,6 +1810,24 @@ downloadTask.resume()
       decisionHandler(.allow)
       return
     }
+    
+    let storekitUrls: Array<String> = ["https://apps.apple.com"]
+    var storekitStop = false
+    storekitUrls.forEach { item in
+      if navigationAction.request.url!.absoluteString.lowercased().hasPrefix(item.lowercased()) {
+        storekitStop = true
+      }
+    }
+    if storekitStop == true {
+      import StoreKit
+      let storeKitViewController = SKStoreProductViewController()
+      storeKitViewController.loadProduct(withParameters: [SKStoreProductParameterITunesItemIdentifier: NSNumber(integerLiteral: 364709193)])
+      present(storeKitViewController, animated: true)
+      lb.text! += " store:\(navigationAction.request.url!.absoluteString)"
+      decisionHandler(.cancal)
+      return
+    }
+    
     
     //if navigationAction.request.url?.scheme == "https" && UIApplication.shared.canOpenURL(navigationAction.request.url!) {
       //decisionHandler(.cancel)
@@ -2116,15 +2134,39 @@ downloadTask.resume()
   func webView(_ webview: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
   //@available(iOS 13, *)
   //func webView(_ webview: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo) async {
-    //DispatchQueue.main.async {
-      showAlert(message: "\(message)")
-      completionHandler()
-    //}
-    //let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-    //alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-      //completionHandler()
-    //}))
-    //present(alertController, animated: true, completion: nil)
+    showAlert(message: message)
+    showAlert()
+    completionHandler()
+    //UIAlertController(title: nil, ...
+  }
+  
+  func webView(_ webview: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
+    let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+    alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+      completionHandler(true)
+    }))
+    alertController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
+      completionHandler(false)
+    }))
+    present(alertController, animated: true, completion: nil)
+  }
+  
+  func webView(_ webview: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
+    let alertController = UIAlertController(title: nil, message: prompt, preferredStyle: .alert)
+    alertController.addTextField { (textField) in
+      textField.text = defaultText
+    }
+    alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+      if let text = alertController.textFields?.first?.text {
+        completionHandler(text)
+      } else {
+        completionHandler(defaultText)
+      }
+    }))
+    alertController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
+      completionHandler(nil)
+    }))
+    present(alertController, animated: true, completion: nil)
   }
   
   
