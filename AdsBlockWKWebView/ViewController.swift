@@ -2114,12 +2114,12 @@ downloadTask.resume()
   }
   
   func webView(_ webview: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
-    showAlert(message: message)
-    //let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-    //alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-      //completionHandler()
-    //}))
-    //present(alertController, animated: true, completion: nil)
+    //showAlert(message: message)
+    let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+    alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+      completionHandler()
+    }))
+    present(alertController, animated: true, completion: nil)
   }
   
   
