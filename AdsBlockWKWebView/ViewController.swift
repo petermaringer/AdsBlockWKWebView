@@ -14,6 +14,7 @@ import Security
 import OpenSSL
 import CertificateSigningRequest
 //import SwCrypt
+import StoreKit
 
 fileprivate let ruleId1 = "MyRuleID 001"
 fileprivate let ruleId2 = "MyRuleID 002"
@@ -1819,12 +1820,11 @@ downloadTask.resume()
       }
     }
     if storekitStop == true {
-      import StoreKit
       let storeKitViewController = SKStoreProductViewController()
       storeKitViewController.loadProduct(withParameters: [SKStoreProductParameterITunesItemIdentifier: NSNumber(integerLiteral: 364709193)])
       present(storeKitViewController, animated: true)
       lb.text! += " store:\(navigationAction.request.url!.absoluteString)"
-      decisionHandler(.cancal)
+      decisionHandler(.cancel)
       return
     }
     
