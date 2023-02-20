@@ -1820,10 +1820,11 @@ downloadTask.resume()
       }
     }
     if storekitStop == true {
+      let testio = navigationAction.request.url!.absoluteString.components(separatedBy: "/id")[1].components(separatedBy: "?")[0]
       let storeKitViewController = SKStoreProductViewController()
-      storeKitViewController.loadProduct(withParameters: [SKStoreProductParameterITunesItemIdentifier: NSNumber(integerLiteral: 364709193)])
+      storeKitViewController.loadProduct(withParameters: [SKStoreProductParameterITunesItemIdentifier: NSNumber(integerLiteral: testio)])
       present(storeKitViewController, animated: true)
-      lb.text! += " store:\(navigationAction.request.url!.absoluteString)"
+      lb.text! += " store:\(navigationAction.request.url!.absoluteString) \(testio)"
       decisionHandler(.cancel)
       return
     }
@@ -2135,7 +2136,6 @@ downloadTask.resume()
   //@available(iOS 13, *)
   //func webView(_ webview: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo) async {
     showAlert(message: message)
-    showAlert()
     completionHandler()
     //UIAlertController(title: nil, ...
   }
