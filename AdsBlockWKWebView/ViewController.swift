@@ -1822,7 +1822,7 @@ downloadTask.resume()
     if storekitStop == true {
       let testio = navigationAction.request.url!.absoluteString.components(separatedBy: "/id")[1].components(separatedBy: "?")[0]
       let storeKitViewController = SKStoreProductViewController()
-      storeKitViewController.loadProduct(withParameters: [SKStoreProductParameterITunesItemIdentifier: NSNumber(integerLiteral: testio)])
+      storeKitViewController.loadProduct(withParameters: [SKStoreProductParameterITunesItemIdentifier: NSNumber(integerLiteral: Int(testio)!)])
       present(storeKitViewController, animated: true)
       lb.text! += " store:\(navigationAction.request.url!.absoluteString) \(testio)"
       decisionHandler(.cancel)
