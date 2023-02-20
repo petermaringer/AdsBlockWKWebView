@@ -2114,6 +2114,7 @@ downloadTask.resume()
   }
   
   //func webView(_ webview: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
+  @available(iOS 13, *)
   func webView(_ webview: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo) async {
     //DispatchQueue.main.async {
       showAlert(message: "\(message)")
