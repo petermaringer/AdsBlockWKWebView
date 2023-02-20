@@ -2113,11 +2113,12 @@ downloadTask.resume()
     //adjustLabel()
   }
   
-  //func webView(_ webview: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
-  @available(iOS 13, *)
-  func webView(_ webview: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo) async {
+  func webView(_ webview: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
+  //@available(iOS 13, *)
+  //func webView(_ webview: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo) async {
     //DispatchQueue.main.async {
       showAlert(message: "\(message)")
+      completionHandler()
     //}
     //let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
     //alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
