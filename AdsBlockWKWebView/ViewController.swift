@@ -1820,15 +1820,14 @@ downloadTask.resume()
       }
     }
     if storekitStop == true {
-      let testio = navigationAction.request.url!.absoluteString.components(separatedBy: "/id").last!.components(separatedBy: "?")[0]
-      //let storeKitViewController = SKStoreProductViewController()
-      //storeKitViewController.loadProduct(withParameters: [SKStoreProductParameterITunesItemIdentifier: NSNumber(integerLiteral: Int(testio)!)])
-      //present(storeKitViewController, animated: true)
-      lb.text! += " store:\(navigationAction.request.url!.absoluteString) \(testio)"
+      let productID = navigationAction.request.url!.absoluteString.components(separatedBy: "/id").last!.components(separatedBy: "?")[0]
+      let storeKitViewController = SKStoreProductViewController()
+      storeKitViewController.loadProduct(withParameters: [SKStoreProductParameterITunesItemIdentifier: NSNumber(integerLiteral: Int(productID)!)])
+      present(storeKitViewController, animated: true)
+      lb.text! += " store:\(navigationAction.request.url!.absoluteString) pID:\(productID)"
       decisionHandler(.cancel)
       return
     }
-    
     
     //if navigationAction.request.url?.scheme == "https" && UIApplication.shared.canOpenURL(navigationAction.request.url!) {
       //decisionHandler(.cancel)
