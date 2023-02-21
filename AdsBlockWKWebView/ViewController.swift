@@ -33,7 +33,7 @@ var autoVideoDownloadPref: Bool = false
 var messages: [String] = []
 
 class alertObj {
-  var Type: String
+  var Style: String
   var Title: String
   var Message: String
   init (Message: String) {
@@ -1097,15 +1097,15 @@ player.play()*/
   }
   
   
-  private func showAlert(type: String? = nil, title: String? = nil, message: String? = nil) -> Any {
+  private func showAlert(style: String? = nil, title: String? = nil, message: String? = nil) -> Any? {
     if let message = message {
       if alertObjArray.count < 5 {
-        alertObjArray.append(alertObj(Type: type, Title: title, Message: message))
+        alertObjArray.append(alertObj(Style: style, Title: title, Message: message))
       }
     }
     guard alertObjArray.count > 0 else { return nil}
-    let title = alertObjArray.first.Title ?? "Alert"
-    let message = alertObjArray.first.Message ?? ""
+    let title = alertObjArray.first!.Title ?? "Alert"
+    let message = alertObjArray.first!.Message ?? ""
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "OK", style: .default){ (action) in
       alertObjArray.removeFirst()
