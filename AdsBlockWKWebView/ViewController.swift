@@ -685,6 +685,7 @@ player.play()*/
       
       if array[indexPath.row].hasPrefix("javascript:") {
         //showAlert(title: "Interfer1", message: "he")
+        alertCounter = 0
         webview.evaluateJavaScript(String(array[indexPath.row].dropFirst(11)), completionHandler: nil)
       } else {
         url = array[indexPath.row]
@@ -1083,13 +1084,13 @@ player.play()*/
     return true
   }
   
-  private func showAlertOld1(message: String) {
+  private func showAlertOld(message: String) {
     let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
     self.present(alert, animated: true, completion: nil)
   }
   
-  private func showAlertOld2(message: String? = nil) {
+  private func showAlert(message: String? = nil) {
     if let message = message {
       messages.append(message)
     }
@@ -1104,30 +1105,30 @@ player.play()*/
   }
   
   
-  private func showAlert(style: String? = nil, title: String? = nil, message: String? = nil, completionHandler: ((Any) -> Void)? = nil) {
-    if let message = message {
-      if alertObjArray.count < 5 {
-        alertObjArray.append(alertObj(Style: style, Title: title, Message: message, Handler: completionHandler))
-      }
-    }
-    guard alertObjArray.count > 0 else { return }
-    let title = alertObjArray.first!.Title ?? "Alert"
-    let message = alertObjArray.first!.Message
+  private func showJSAlert(style: String? = nil, title: String? = nil, message: String? = nil, completionHandler: ((Any) -> Void)? = nil) {
+    //if let message = message {
+      //if alertObjArray.count < 5 {
+        //alertObjArray.append(alertObj(Style: style, Title: title, Message: message, Handler: completionHandler))
+      //}
+    //}
+    //guard alertObjArray.count > 0 else { return }
+    //let title = alertObjArray.first!.Title ?? "Alert"
+    //let message = alertObjArray.first!.Message
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
       completionHandler?("\(alertObjArray.count):\(message)")
-      alertObjArray.removeFirst()
-      if alertObjArray.count > 0 {
-      if alertObjArray.first!.Handler != nil {
-      self.showAlert() { (response) in
-      completionHandler?(alertObjArray.first!.Handler)
-      }
-      } else {
-      self.showAlert()
-      }
-      } else {
-      self.showAlert()
-      }
+      //alertObjArray.removeFirst()
+      //if alertObjArray.count > 0 {
+      //if alertObjArray.first!.Handler != nil {
+      //self.showAlert() { (response) in
+      //completionHandler?(alertObjArray.first!.Handler)
+      //}
+      //} else {
+      //self.showAlert()
+      //}
+      //} else {
+      //self.showAlert()
+      //}
     }))
     self.present(alert, animated: true) { feedbackGenerator.notificationOccurred(.success) }
   }
@@ -2186,16 +2187,16 @@ downloadTask.resume()
     if alertCounter < 5 {
     alertCounter += 1
     
-    let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-    alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-      completionHandler()
-    }))
-    present(alertController, animated: true, completion: nil)
-    
-    //showAlert(message: message) { (response) in
-      //self.lb.text! += " RES:\(response)/\(alertCounter)"
+    //let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+    //alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
       //completionHandler()
-    //}
+    //}))
+    //present(alertController, animated: true, completion: nil)
+    
+    showJSAlert(message: message) { (response) in
+      self.lb.text! += " RES:\(response)/\(alertCounter)"
+      completionHandler()
+    }
     
     } else {
     completionHandler()
