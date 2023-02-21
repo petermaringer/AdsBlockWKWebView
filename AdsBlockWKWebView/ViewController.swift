@@ -1099,7 +1099,7 @@ player.play()*/
   }
   
   
-  private func showAlert(style: String? = nil, title: String? = nil, message: String? = nil, completionHandler: @escaping (Any) -> Void) {
+  private func showAlert(style: String? = nil, title: String? = nil, message: String? = nil, completionHandler: @escaping (Any?) -> Void) {
     if let message = message {
       if alertObjArray.count < 5 {
         alertObjArray.append(alertObj(Style: style, Title: title, Message: message))
