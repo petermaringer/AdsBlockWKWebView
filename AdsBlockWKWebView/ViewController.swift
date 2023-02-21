@@ -684,7 +684,7 @@ player.play()*/
       urlField.endEditing(true)
       
       if array[indexPath.row].hasPrefix("javascript:") {
-        showAlert(title: "Interfer1", message: "he")
+        //showAlert(title: "Interfer1", message: "he")
         webview.evaluateJavaScript(String(array[indexPath.row].dropFirst(11)), completionHandler: nil)
       } else {
         url = array[indexPath.row]
