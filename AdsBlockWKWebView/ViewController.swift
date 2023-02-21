@@ -681,6 +681,7 @@ player.play()*/
       urlField.endEditing(true)
       
       if array[indexPath.row].hasPrefix("javascript:") {
+        showAlert(title: "Interfer1", message: "he")
         webview.evaluateJavaScript(String(array[indexPath.row].dropFirst(11)), completionHandler: nil)
       } else {
         url = array[indexPath.row]
@@ -2171,8 +2172,6 @@ downloadTask.resume()
   //func webView(_ webview: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo) async {
     if alertCounter < 5 {
     alertCounter += 1
-    showAlert(title: "Interfer1", message: "he")
-    //showAlert(title: "Interfer2", message: "ho")
     showAlert(message: message) { (response) in
       self.lb.text! += " RES:\(response)/\(alertCounter)"
       completionHandler()
