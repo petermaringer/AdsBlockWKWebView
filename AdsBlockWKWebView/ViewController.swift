@@ -41,7 +41,7 @@ class alertObj {
     self.Style? = Style!
     self.Title? = Title!
     self.Message = Message
-    self.Handler: ((Any) -> Void)!
+    self.Handler = Handler
   }
 }
 var alertObjArray = [alertObj]()
@@ -1117,7 +1117,7 @@ player.play()*/
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
       completionHandler?("\(alertObjArray.count):\(message)")
       alertObjArray.removeFirst()
-      if alertObjArray.first!.Handler {
+      if alertObjArray.first!.Handler != nil {
       self.showAlert() { alertObjArray.first!.Handler }
       } else {
       self.showAlert()
