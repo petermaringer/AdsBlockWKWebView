@@ -2228,7 +2228,7 @@ downloadTask.resume()
       alertCounter += 1
       showJSAlert(type: "confirm", title: "Alert", message: message) { (response) in
         self.lb.text! += " RES:\(response)/\(alertCounter)"
-        completionHandler(response as Bool)
+        completionHandler(response as! Bool)
       }
     } else {
       completionHandler(false)
