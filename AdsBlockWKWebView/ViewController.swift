@@ -1109,10 +1109,20 @@ player.play()*/
   private func showJSAlert(type: String, title: String? = nil, message: String, completionHandler: @escaping (Any) -> Void) {
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
     if type == "alert" {
-    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-      completionHandler("\(message)")
-    }))
+      alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+        completionHandler("\(message)")
+      }))
     }
+    if type == "confirm" {
+      alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+        completionHandler(true)
+      }))
+      alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
+        completionHandler(false)
+      }))
+    }
+    
+    feedbackGenerator.notificationOccurred(.success)
     self.present(alert, animated: true) { feedbackGenerator.notificationOccurred(.success) }
   }
   
@@ -2198,35 +2208,39 @@ downloadTask.resume()
   //@available(iOS 13, *)
   //func webView(_ webview: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo) async {
     if alertCounter < 5 {
-    alertCounter += 1
-    
+      alertCounter += 1
+      showJSAlert(type: "alert", title: "Alert", message: message) { (response) in
+        self.lb.text! += " RES:\(response)/\(alertCounter)"
+        completionHandler()
+      }
+    } else {
+      completionHandler()
+    }
     //let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
     //alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
       //completionHandler()
     //}))
     //present(alertController, animated: true, completion: nil)
-    
-    showJSAlert(type: "alert", title: nil, message: message) { (response) in
-      self.lb.text! += " RES:\(response)/\(alertCounter)"
-      completionHandler()
-    }
-    
-    } else {
-    completionHandler()
-    }
-    //completionHandler()
-    //UIAlertController(title: nil, ...
   }
   
   func webView(_ webview: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
-    let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-    alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-      completionHandler(true)
-    }))
-    alertController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
+    if alertCounter < 5 {
+      alertCounter += 1
+      showJSAlert(type: "confirm", title: "Alert", message: message) { (response) in
+        self.lb.text! += " RES:\(response)/\(alertCounter)"
+        completionHandler(response)
+      }
+    } else {
       completionHandler(false)
-    }))
-    present(alertController, animated: true, completion: nil)
+    }
+    //let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+    //alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+      //completionHandler(true)
+    //}))
+    //alertController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
+      //completionHandler(false)
+    //}))
+    //present(alertController, animated: true, completion: nil)
   }
   
   func webView(_ webview: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
