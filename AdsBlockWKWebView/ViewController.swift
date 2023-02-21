@@ -1110,18 +1110,14 @@ player.play()*/
     let title = alertObjArray.first!.Title ?? "Alert"
     let message = alertObjArray.first!.Message
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-    //alert.addAction(UIAlertAction(title: "OK", style: .default) { (action) in
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
       completionHandler?("\(alertObjArray.count):\(message)")
       alertObjArray.removeFirst()
       self.showAlert()
     }))
-      //alertObjArray.removeFirst()
-      //self.showAlert()
-      //return nil
-    //})
     self.present(alert, animated: true) { UINotificationFeedbackGenerator().notificationOccurred(.success) }
-    //return nil
+    showAlert(title: "Interfer1", message: "he")
+    showAlert(title: "Interfer2", message: "ho")
   }
   
   
