@@ -31,7 +31,7 @@ var webviewStartPagePref: String = "https://www.google.com/"
 var goBackOnEditPref: Int = 2
 var autoVideoDownloadPref: Bool = false
 var messages: [String] = []
-
+/*
 class alertObj {
   var Style: String?
   var Title: String?
@@ -45,6 +45,7 @@ class alertObj {
   }
 }
 var alertObjArray = [alertObj]()
+*/
 var alertCounter: Int = 0
 let feedbackGenerator = UINotificationFeedbackGenerator()
 
@@ -1105,34 +1106,45 @@ player.play()*/
   }
   
   
+  private func showJSAlert(type: String, title: String, message: String, completionHandler: (Any) -> Void) {
+    let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    if type == "alert" {
+    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+      completionHandler("\(message)")
+    }))
+    }
+    self.present(alert, animated: true) { feedbackGenerator.notificationOccurred(.success) }
+  }
+  
+  /*
   private func showJSAlert(style: String? = nil, title: String? = nil, message: String? = nil, completionHandler: ((Any) -> Void)? = nil) {
-    //if let message = message {
-      //if alertObjArray.count < 5 {
-        //alertObjArray.append(alertObj(Style: style, Title: title, Message: message, Handler: completionHandler))
-      //}
-    //}
-    //guard alertObjArray.count > 0 else { return }
-    //let title = alertObjArray.first!.Title ?? "Alert"
-    //let message = alertObjArray.first!.Message
+    if let message = message {
+      if alertObjArray.count < 5 {
+        alertObjArray.append(alertObj(Style: style, Title: title, Message: message, Handler: completionHandler))
+      }
+    }
+    guard alertObjArray.count > 0 else { return }
+    let title = alertObjArray.first!.Title ?? "Alert"
+    let message = alertObjArray.first!.Message
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-      completionHandler?("\(message)")
-      //completionHandler?("\(alertObjArray.count):\(message)")
-      //alertObjArray.removeFirst()
-      //if alertObjArray.count > 0 {
-      //if alertObjArray.first!.Handler != nil {
-      //self.showAlert() { (response) in
-      //completionHandler?(alertObjArray.first!.Handler)
-      //}
-      //} else {
-      //self.showAlert()
-      //}
-      //} else {
-      //self.showAlert()
-      //}
+      completionHandler?("\(alertObjArray.count):\(message)")
+      alertObjArray.removeFirst()
+      if alertObjArray.count > 0 {
+      if alertObjArray.first!.Handler != nil {
+      self.showAlert() { (response) in
+      completionHandler?(alertObjArray.first!.Handler)
+      }
+      } else {
+      self.showAlert()
+      }
+      } else {
+      self.showAlert()
+      }
     }))
     self.present(alert, animated: true) { feedbackGenerator.notificationOccurred(.success) }
   }
+  */
   
   
   private func adjustLabel() {
@@ -2194,7 +2206,7 @@ downloadTask.resume()
     //}))
     //present(alertController, animated: true, completion: nil)
     
-    showJSAlert(message: message) { (response) in
+    showJSAlert(type: "alert", title: nil, message: message) { (response) in
       self.lb.text! += " RES:\(response)/\(alertCounter)"
       completionHandler()
     }
