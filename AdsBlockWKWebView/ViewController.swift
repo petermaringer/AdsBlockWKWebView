@@ -1117,9 +1117,13 @@ player.play()*/
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
       completionHandler?("\(alertObjArray.count):\(message)")
       alertObjArray.removeFirst()
+      if alertObjArray.count > 0 {
       if alertObjArray.first!.Handler != nil {
       self.showAlert() { (response) in
       completionHandler?(alertObjArray.first!.Handler)
+      }
+      } else {
+      self.showAlert()
       }
       } else {
       self.showAlert()
