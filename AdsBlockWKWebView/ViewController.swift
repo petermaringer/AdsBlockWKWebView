@@ -1118,8 +1118,8 @@ player.play()*/
       completionHandler?("\(alertObjArray.count):\(message)")
       alertObjArray.removeFirst()
       if alertObjArray.first!.Handler != nil {
-      self.showAlert() { (alertObjArray.first!.Handler) in
-      completionHandler()
+      self.showAlert() { (response) in
+      completionHandler(alertObjArray.first!.Handler)
       }
       } else {
       self.showAlert()
