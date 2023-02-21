@@ -1119,7 +1119,7 @@ player.play()*/
       alertObjArray.removeFirst()
       if alertObjArray.first!.Handler != nil {
       self.showAlert() { (response) in
-      completionHandler((alertObjArray.first!.Handler!)!)
+      completionHandler?(alertObjArray.first!.Handler)
       }
       } else {
       self.showAlert()
