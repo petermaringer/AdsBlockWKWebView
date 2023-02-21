@@ -1111,7 +1111,7 @@ player.play()*/
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
     //alert.addAction(UIAlertAction(title: "OK", style: .default) { (action) in
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-      completionHandler?(true)
+      completionHandler?(message)
       alertObjArray.removeFirst()
       self.showAlert()
     }))
