@@ -43,6 +43,7 @@ class alertObj {
   }
 }
 var alertObjArray = [alertObj]()
+var alertCounter: Int = 0
 
 func loadUserPrefs() {
   if (UserDefaults.standard.object(forKey: "webviewStartPagePref") != nil) {
@@ -2006,6 +2007,7 @@ downloadTask.resume()
     }
     //showAlert(message: defaultUserAgent)
     
+    alertCounter = 0
     lb.text! += " w:dF"
     //adjustLabel()
     //webview.evaluateJavaScript("var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width, initial-scale=1.0, minimum-scale=0, maximum-scale=10.0, user-scalable=yes'); document.getElementsByTagName('head')[0].appendChild(meta);", completionHandler: nil)
@@ -2173,9 +2175,13 @@ downloadTask.resume()
   func webView(_ webview: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
   //@available(iOS 13, *)
   //func webView(_ webview: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo) async {
+    if alertCounter < 5 {
     showAlert(message: message) { (response) in
       self.lb.text! += " RES:\(response)"
       completionHandler()
+    }
+    } else {
+    completionHandler()
     }
     //completionHandler()
     //UIAlertController(title: nil, ...
