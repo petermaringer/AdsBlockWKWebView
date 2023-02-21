@@ -33,12 +33,12 @@ var autoVideoDownloadPref: Bool = false
 var messages: [String] = []
 
 class alertObj {
-  var Style: String
-  var Title: String
+  var Style: String?
+  var Title: String?
   var Message: String
-  init (Style: String, Title: String, Message: String) {
-    self.Style = Style
-    self.Title = Title
+  init (Style: String? = nil, Title: String? = nil, Message: String) {
+    self.Style? = Style?
+    self.Title? = Title?
     self.Message = Message
   }
 }
