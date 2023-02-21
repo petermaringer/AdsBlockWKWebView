@@ -1099,7 +1099,7 @@ player.play()*/
   }
   
   
-  private func showAlert(style: String? = nil, title: String? = nil, message: String? = nil, completionHandler: @escaping (Any?) -> Void) {
+  private func showAlert(style: String? = nil, title: String? = nil, message: String? = nil, completionHandler: ((Any) -> Void)?) {
     if let message = message {
       if alertObjArray.count < 5 {
         alertObjArray.append(alertObj(Style: style, Title: title, Message: message))
@@ -1111,7 +1111,7 @@ player.play()*/
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
     //alert.addAction(UIAlertAction(title: "OK", style: .default) { (action) in
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-      completionHandler(true)
+      completionHandler?(true)
       alertObjArray.removeFirst()
       self.showAlert()
     }))
