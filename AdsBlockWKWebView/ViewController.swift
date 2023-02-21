@@ -1106,7 +1106,7 @@ player.play()*/
   }
   
   
-  private func showJSAlert(type: String, title: String? = nil, message: String, completionHandler: (Any) -> Void) {
+  private func showJSAlert(type: String, title: String? = nil, message: String, completionHandler: @escaping (Any) -> Void) {
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
     if type == "alert" {
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
