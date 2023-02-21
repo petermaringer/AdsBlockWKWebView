@@ -1116,7 +1116,8 @@ player.play()*/
     //let message = alertObjArray.first!.Message
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-      completionHandler?("\(alertObjArray.count):\(message)")
+      completionHandler?("\(message)")
+      //completionHandler?("\(alertObjArray.count):\(message)")
       //alertObjArray.removeFirst()
       //if alertObjArray.count > 0 {
       //if alertObjArray.first!.Handler != nil {
