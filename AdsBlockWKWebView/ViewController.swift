@@ -36,14 +36,17 @@ class alertObj {
   var Style: String?
   var Title: String?
   var Message: String
-  init (Style: String? = nil, Title: String? = nil, Message: String) {
+  var Handler: ((Any) -> Void)?
+  init (Style: String? = nil, Title: String? = nil, Message: String, Handler: ((Any) -> Void)? = nil) {
     self.Style? = Style!
     self.Title? = Title!
     self.Message = Message
+    self.Handler: ((Any) -> Void)!
   }
 }
 var alertObjArray = [alertObj]()
 var alertCounter: Int = 0
+let feedbackGenerator = UINotificationFeedbackGenerator()
 
 func loadUserPrefs() {
   if (UserDefaults.standard.object(forKey: "webviewStartPagePref") != nil) {
@@ -1104,7 +1107,7 @@ player.play()*/
   private func showAlert(style: String? = nil, title: String? = nil, message: String? = nil, completionHandler: ((Any) -> Void)? = nil) {
     if let message = message {
       if alertObjArray.count < 5 {
-        alertObjArray.append(alertObj(Style: style, Title: title, Message: message))
+        alertObjArray.append(alertObj(Style: style, Title: title, Message: message, Handler: completionHandler))
       }
     }
     guard alertObjArray.count > 0 else { return }
@@ -1114,9 +1117,13 @@ player.play()*/
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
       completionHandler?("\(alertObjArray.count):\(message)")
       alertObjArray.removeFirst()
+      if alertObjArray.first!.Handler {
+      self.showAlert() { alertObjArray.first!.Handler }
+      } else {
       self.showAlert()
+      }
     }))
-    self.present(alert, animated: true) { UINotificationFeedbackGenerator().notificationOccurred(.success) }
+    self.present(alert, animated: true) { feedbackGenerator.notificationOccurred(.success) }
   }
   
   
