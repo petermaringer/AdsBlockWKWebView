@@ -31,6 +31,17 @@ var webviewStartPagePref: String = "https://www.google.com/"
 var goBackOnEditPref: Int = 2
 var autoVideoDownloadPref: Bool = false
 var messages: [String] = []
+
+class alertObj {
+  var Type: String
+  var Title: String
+  var Message: String
+  init (Message: String) {
+    self.Message = Message
+  }
+}
+var alertObjArray = [alertObj]()
+
 func loadUserPrefs() {
   if (UserDefaults.standard.object(forKey: "webviewStartPagePref") != nil) {
     webviewStartPagePref = UserDefaults.standard.string(forKey: "webviewStartPagePref")!
@@ -1065,13 +1076,13 @@ player.play()*/
     return true
   }
   
-  private func showAlertOld(message: String) {
+  private func showAlertOld1(message: String) {
     let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
     self.present(alert, animated: true, completion: nil)
   }
   
-  private func showAlert(message: String? = nil) {
+  private func showAlertOld2(message: String? = nil) {
     if let message = message {
       messages.append(message)
     }
@@ -1084,6 +1095,26 @@ player.play()*/
     })
     self.present(alert, animated: true) { UINotificationFeedbackGenerator().notificationOccurred(.success) }
   }
+  
+  
+  private func showAlert(type: String? = nil, title: String? = nil, message: String? = nil) -> Any {
+    if let message = message {
+      if alertObjArray.count < 5 {
+        alertObjArray.append(alertObj(Type: type, Title: title, Message: message))
+      }
+    }
+    guard alertObjArray.count > 0 else { return nil}
+    let title = alertObjArray.first.Title ?? "Alert"
+    let message = alertObjArray.first.Message ?? ""
+    let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: "OK", style: .default){ (action) in
+      alertObjArray.removeFirst()
+      self.showAlert()
+    })
+    self.present(alert, animated: true) { UINotificationFeedbackGenerator().notificationOccurred(.success) }
+    return nil
+  }
+  
   
   private func adjustLabel() {
     
