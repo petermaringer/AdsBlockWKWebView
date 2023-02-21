@@ -36,7 +36,9 @@ class alertObj {
   var Style: String
   var Title: String
   var Message: String
-  init (Message: String) {
+  init (Style: String, Title: String, Message: String) {
+    self.Style = Style
+    self.Title = Title
     self.Message = Message
   }
 }
