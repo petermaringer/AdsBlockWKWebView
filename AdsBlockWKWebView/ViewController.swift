@@ -1099,13 +1099,13 @@ player.play()*/
   }
   
   
-  private func showAlert(style: String? = nil, title: String? = nil, message: String? = nil) -> Any? {
+  private func showAlert(style: String? = nil, title: String? = nil, message: String? = nil, completionHandler: @escaping (Any) -> Void) {
     if let message = message {
       if alertObjArray.count < 5 {
         alertObjArray.append(alertObj(Style: style, Title: title, Message: message))
       }
     }
-    guard alertObjArray.count > 0 else { return nil}
+    guard alertObjArray.count > 0 else { return }
     let title = alertObjArray.first!.Title ?? "Alert"
     let message = alertObjArray.first!.Message
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -1120,7 +1120,7 @@ player.play()*/
       //return nil
     //})
     self.present(alert, animated: true) { UINotificationFeedbackGenerator().notificationOccurred(.success) }
-    return nil
+    //return nil
   }
   
   
