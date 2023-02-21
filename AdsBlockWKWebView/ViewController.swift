@@ -2185,10 +2185,18 @@ downloadTask.resume()
   //func webView(_ webview: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo) async {
     if alertCounter < 5 {
     alertCounter += 1
-    showAlert(message: message) { (response) in
-      self.lb.text! += " RES:\(response)/\(alertCounter)"
+    
+    let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+    alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
       completionHandler()
-    }
+    }))
+    present(alertController, animated: true, completion: nil)
+    
+    //showAlert(message: message) { (response) in
+      //self.lb.text! += " RES:\(response)/\(alertCounter)"
+      //completionHandler()
+    //}
+    
     } else {
     completionHandler()
     }
