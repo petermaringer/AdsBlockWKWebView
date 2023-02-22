@@ -2226,7 +2226,7 @@ downloadTask.resume()
     if alertCounter < 5 {
       alertCounter += 1
       showJSAlert(type: "alert", title: "Alert", message: message) { (response) in
-        self.lb.text! += " RES:\(response)/\(alertCounter)"
+        self.lb.text! += " RES:\(response!)/\(alertCounter)"
         completionHandler()
       }
     } else {
@@ -2243,7 +2243,7 @@ downloadTask.resume()
     if alertCounter < 5 {
       alertCounter += 1
       showJSAlert(type: "confirm", title: "Alert", message: message) { (response) in
-        self.lb.text! += " RES:\(response)/\(alertCounter)"
+        self.lb.text! += " RES:\(response!)/\(alertCounter)"
         completionHandler(response as! Bool)
       }
     } else {
@@ -2263,7 +2263,7 @@ downloadTask.resume()
     if alertCounter < 5 {
       alertCounter += 1
       showJSAlert(type: "prompt", title: "Alert", message: prompt, input: defaultText) { (response) in
-        self.lb.text! += " RES:\(response)/\(alertCounter)"
+        self.lb.text! += " RES:\(response!)/\(alertCounter)"
         completionHandler(response as! String?)
       }
     } else {
