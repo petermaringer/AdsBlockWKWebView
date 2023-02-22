@@ -1900,7 +1900,7 @@ downloadTask.resume()
       return
     }
     
-    let storekitUrls: Array<String> = ["https://apps.apple.com"]
+    let storekitUrls: Array<String> = ["https://apps.apple.com", "itms-appss://apps.apple.com"]
     var storekitStop = false
     storekitUrls.forEach { item in
       if navigationAction.request.url!.absoluteString.lowercased().hasPrefix(item.lowercased()) {
@@ -2265,7 +2265,6 @@ downloadTask.resume()
       showJSAlert(type: "prompt", title: "Alert", message: prompt, input: defaultText) { (response) in
         //self.lb.text! += " RES:\(response!)/\(alertCounter)"
         completionHandler(response as? String)
-        //completionHandler(nil)
       }
     } else {
       completionHandler(nil)
