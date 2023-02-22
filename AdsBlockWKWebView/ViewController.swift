@@ -2264,7 +2264,8 @@ downloadTask.resume()
       alertCounter += 1
       showJSAlert(type: "prompt", title: "Alert", message: prompt, input: defaultText) { (response) in
         self.lb.text! += " RES:\(response!)/\(alertCounter)"
-        completionHandler(response as? String)
+        //completionHandler(response as String?)
+        completionHandler(nil)
       }
     } else {
       completionHandler(nil)
