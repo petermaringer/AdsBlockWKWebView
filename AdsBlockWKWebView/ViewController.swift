@@ -2262,7 +2262,7 @@ downloadTask.resume()
   func webView(_ webview: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
     if alertCounter < 5 {
       alertCounter += 1
-      showJSAlert(type: "prompt", title: "Alert", message: prompt, input: defaultText) { (response?) in
+      showJSAlert(type: "prompt", title: "Alert", message: prompt, input: defaultText) { (response) in
         //self.lb.text! += " RES:\(response!)/\(alertCounter)"
         //completionHandler(response as String?)
         completionHandler(nil)
