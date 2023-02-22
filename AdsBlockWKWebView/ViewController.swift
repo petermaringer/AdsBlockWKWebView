@@ -1106,7 +1106,7 @@ player.play()*/
   }
   
   
-  private func showJSAlert(type: String, title: String? = nil, message: String, completionHandler: @escaping (Any) -> Void) {
+  private func showJSAlert(type: String, title: String? = nil, message: String, input: String? = nil, completionHandler: @escaping (Any) -> Void) {
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
     if type == "alert" {
       alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
@@ -1121,9 +1121,25 @@ player.play()*/
         completionHandler(false)
       }))
     }
-    
+    if type == "prompt" {
+      alert.addTextField { (textField) in
+        textField.text = input
+      }
+      alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+        if let text = alert.textFields?.first?.text {
+          completionHandler(text)
+        } else {
+          completionHandler(input)
+        }
+      }))
+      alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
+        completionHandler(nil)
+      }))
+    }
     feedbackGenerator.notificationOccurred(.success)
-    self.present(alert, animated: true) { feedbackGenerator.notificationOccurred(.success) }
+    self.present(alert, animated: true) {
+      //feedbackGenerator.notificationOccurred(.success)
+    }
   }
   
   /*
@@ -2244,21 +2260,30 @@ downloadTask.resume()
   }
   
   func webView(_ webview: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
-    let alertController = UIAlertController(title: nil, message: prompt, preferredStyle: .alert)
-    alertController.addTextField { (textField) in
-      textField.text = defaultText
-    }
-    alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-      if let text = alertController.textFields?.first?.text {
-        completionHandler(text)
-      } else {
-        completionHandler(defaultText)
+    if alertCounter < 5 {
+      alertCounter += 1
+      showJSAlert(type: "prompt", title: "Alert", message: prompt, input: defaultText) { (response) in
+        self.lb.text! += " RES:\(response)/\(alertCounter)"
+        completionHandler(response as! String?)
       }
-    }))
-    alertController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
+    } else {
       completionHandler(nil)
-    }))
-    present(alertController, animated: true, completion: nil)
+    }
+    //let alertController = UIAlertController(title: nil, message: prompt, preferredStyle: .alert)
+    //alertController.addTextField { (textField) in
+      //textField.text = defaultText
+    //}
+    //alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+      //if let text = alertController.textFields?.first?.text {
+        //completionHandler(text)
+      //} else {
+        //completionHandler(defaultText)
+      //}
+    //}))
+    //alertController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
+      //completionHandler(nil)
+    //}))
+    //present(alertController, animated: true, completion: nil)
   }
   
   
