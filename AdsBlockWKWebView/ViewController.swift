@@ -1900,7 +1900,7 @@ downloadTask.resume()
       return
     }
     
-    let storekitUrls: Array<String> = ["https://apps.apple.com", "itms-appss://apps.apple.com"]
+    let storekitUrls: Array<String> = ["https://apps.apple.com", "itms-appss://apps.apple.com", "https://itunes.apple.com"]
     var storekitStop = false
     storekitUrls.forEach { item in
       if navigationAction.request.url!.absoluteString.lowercased().hasPrefix(item.lowercased()) {
@@ -1915,6 +1915,10 @@ downloadTask.resume()
       lb.text! += " store:\(navigationAction.request.url!.absoluteString) pID:\(productID)"
       decisionHandler(.cancel)
       return
+    }
+    
+    if UIApplication.shared.canOpenURL(navigationAction.request.url!) {
+      lb.text! += " canOpen:\(navigationAction.request.url!.absoluteString)"
     }
     
     //if navigationAction.request.url?.scheme == "https" && UIApplication.shared.canOpenURL(navigationAction.request.url!) {
