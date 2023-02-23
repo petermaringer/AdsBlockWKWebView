@@ -2268,7 +2268,7 @@ downloadTask.resume()
     if alertCounter < 5 {
       alertCounter += 1
       showJSAlert(type: "prompt", title: "Alert", message: prompt, input: defaultText) { (response) in
-        self.lb.text! += " RES:\(response?)/\(alertCounter)"
+        self.lb.text! += " RES:\(response ?? "nil")/\(alertCounter)"
         completionHandler(response as? String)
       }
     } else {
