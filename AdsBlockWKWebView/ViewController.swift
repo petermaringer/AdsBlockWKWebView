@@ -684,9 +684,9 @@ player.play()*/
     if array[indexPath.row] != "&showall" {
       urlField.endEditing(true)
       
+      alertCounter = 0
       if array[indexPath.row].hasPrefix("javascript:") {
         //showAlert(title: "Interfer1", message: "he")
-        alertCounter = 0
         webview.evaluateJavaScript(String(array[indexPath.row].dropFirst(11)), completionHandler: nil)
       } else {
         url = array[indexPath.row]
@@ -1068,6 +1068,7 @@ player.play()*/
             navTypeDownload = true
           }
           
+          alertCounter = 0
           if textField.text!.hasPrefix("javascript:") {
             webview.evaluateJavaScript(String(textField.text!.dropFirst(11)), completionHandler: nil)
             //break
@@ -2267,7 +2268,7 @@ downloadTask.resume()
     if alertCounter < 5 {
       alertCounter += 1
       showJSAlert(type: "prompt", title: "Alert", message: prompt, input: defaultText) { (response) in
-        //self.lb.text! += " RES:\(response!)/\(alertCounter)"
+        self.lb.text! += " RES:\(response?)/\(alertCounter)"
         completionHandler(response as? String)
       }
     } else {
