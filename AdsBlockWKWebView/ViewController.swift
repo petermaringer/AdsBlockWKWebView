@@ -90,7 +90,7 @@ if let cookies: [HTTPCookie] = getData(key: "cookies") {
   for cookie in cookies {
     if #available(iOS 11, *) {
       //configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
-        iwashere += "cookie count:\(cookies.count) name:\(cookie.name) content:\(cookie)"
+        iwashere += "cookie count:\(cookies.count) content:\(cookie)"
       //}
     }
     break
@@ -1697,6 +1697,15 @@ downloadTask.resume()
     
     if #available(iOS 11, *) {
       webview.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
+        
+        var sessionCookies: [HTTPCookie]
+        for cookie in cookies {
+        if cookie.isSessionOnly {
+        sessionCookies.append(cookie)
+        lb.text! += " cD:\(cookie.domain)"
+        }
+        }
+        
         setData(cookies, key: "cookies")
       }
     }
