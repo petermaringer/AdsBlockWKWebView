@@ -1702,7 +1702,7 @@ downloadTask.resume()
         for cookie in cookies {
         if cookie.isSessionOnly {
         sessionCookies.append(cookie)
-        lb.text! += " cD:\(cookie.domain)"
+        self.lb.text! += " cD:\(cookie.domain)"
         }
         }
         
