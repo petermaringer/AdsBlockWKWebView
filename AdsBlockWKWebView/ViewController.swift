@@ -1720,11 +1720,11 @@ downloadTask.resume()
     //adjustLabel()
     UIApplication.shared.isIdleTimerDisabled = false
     
-    //if #available(iOS 11.0, *) {
+    if #available(iOS 11, *) {
       webview.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
         setData(cookies, key: "cookies")
       }
-    //}
+    }
     
   }
   
