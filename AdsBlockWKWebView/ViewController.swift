@@ -78,6 +78,9 @@ else {
   setData(processPool1, key: "pool")
   iwashere += "no"
 }
+
+initCookies()
+
 return processPool1
 }
 let processPool: WKProcessPool = initPool()
@@ -95,7 +98,6 @@ if let cookies: [HTTPCookie] = getData(key: "cookies") {
   }
 }
 }
-initCookies()
 
 func setData(_ value: Any, key: String) {
   let archivedPool = NSKeyedArchiver.archivedData(withRootObject: value)
