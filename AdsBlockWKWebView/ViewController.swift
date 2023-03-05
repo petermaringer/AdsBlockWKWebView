@@ -86,15 +86,14 @@ return processPool1
 let processPool: WKProcessPool = initPool()
 
 func initCookies() {
-//let cookies: [HTTPCookie] = getData(key: "cookies")
 if let cookies: [HTTPCookie] = getData(key: "cookies") {
   for cookie in cookies {
-    //if #available(iOS 11.0, *) {
+    if #available(iOS 11, *) {
       //configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
-        iwashere += "cookie:\(cookie) name:\(cookie.name)"
-        break
+        iwashere += "cookie count:\(cookies.count) name:\(cookie.name) content:\(cookie)"
       //}
-    //}
+    }
+    break
   }
 }
 }
