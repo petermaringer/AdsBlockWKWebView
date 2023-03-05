@@ -1695,6 +1695,13 @@ downloadTask.resume()
     avPVC.player = nil
     lb.text! += " eBg"
     //adjustLabel()
+    
+    if #available(iOS 11, *) {
+      webview.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
+        setData(cookies, key: "cookies")
+      }
+    }
+    
   }
   
   @objc private func enterForeground() {
@@ -1736,13 +1743,6 @@ downloadTask.resume()
     lb.text! += " wDa"
     //adjustLabel()
     UIApplication.shared.isIdleTimerDisabled = false
-    
-    if #available(iOS 11, *) {
-      webview.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
-        setData(cookies, key: "cookies")
-      }
-    }
-    
   }
   
   
