@@ -82,6 +82,17 @@ return processPool1
 }
 let processPool: WKProcessPool = initPool()
 
+if let cookies: [HTTPCookie] = getData(key: "cookies") {
+  for cookie in cookies {
+    //if #available(iOS 11.0, *) {
+      //configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
+        iwashere += "cookie:\(cookie) name:\(cookie.name)"
+        break
+      //}
+    //}
+  }
+}
+
 func setData(_ value: Any, key: String) {
   let archivedPool = NSKeyedArchiver.archivedData(withRootObject: value)
   UserDefaults.standard.set(archivedPool, forKey: key)
@@ -1702,7 +1713,7 @@ downloadTask.resume()
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
       if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)") {
         self.webview.load(URLRequest(url: restoreUrl))
-        //self.showAlert(message: "\(iwashere)")
+        self.showAlert(message: "\(iwashere)")
         //self.showAlert(message: "\(restoreUrl.absoluteString)")
       }
     }))
