@@ -1698,7 +1698,7 @@ downloadTask.resume()
     if #available(iOS 11, *) {
       webview.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
         
-        var sessionCookies: [HTTPCookie]
+        var sessionCookies: [HTTPCookie] = []
         for cookie in cookies {
         if cookie.isSessionOnly {
         sessionCookies.append(cookie)
