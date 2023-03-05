@@ -1719,6 +1719,13 @@ downloadTask.resume()
     lb.text! += " wDa"
     //adjustLabel()
     UIApplication.shared.isIdleTimerDisabled = false
+    
+    //if #available(iOS 11.0, *) {
+      webview.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
+        setData(cookies, key: "cookies")
+      }
+    //}
+    
   }
   
   
