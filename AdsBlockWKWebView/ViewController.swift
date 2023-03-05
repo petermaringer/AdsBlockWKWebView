@@ -1705,8 +1705,9 @@ downloadTask.resume()
         self.lb.text! += " cD:\(cookie.domain)"
         }
         }
+        setData(sessionCookies, key: "cookies")
         
-        setData(cookies, key: "cookies")
+        //setData(cookies, key: "cookies")
       }
     }
     
