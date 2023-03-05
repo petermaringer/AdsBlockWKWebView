@@ -82,7 +82,8 @@ return processPool1
 }
 let processPool: WKProcessPool = initPool()
 
-if let cookies: [HTTPCookie] = getData(key: "cookies") {
+let cookies: [HTTPCookie] = getData(key: "cookies")
+//if let cookies: [HTTPCookie] = getData(key: "cookies") {
   for cookie in cookies {
     //if #available(iOS 11.0, *) {
       //configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
@@ -91,7 +92,7 @@ if let cookies: [HTTPCookie] = getData(key: "cookies") {
       //}
     //}
   }
-}
+//}
 
 func setData(_ value: Any, key: String) {
   let archivedPool = NSKeyedArchiver.archivedData(withRootObject: value)
