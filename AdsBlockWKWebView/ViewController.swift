@@ -89,9 +89,9 @@ func initCookies() {
 if let cookies: [HTTPCookie] = getData(key: "cookies") {
   for cookie in cookies {
     if #available(iOS 11, *) {
-      webview.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
+      //webview.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
         iwashere += "cookie count:\(cookies.count) content:\(cookie)\n\n"
-      }
+      //}
     }
     //break
   }
