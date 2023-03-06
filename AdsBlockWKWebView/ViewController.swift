@@ -1358,24 +1358,21 @@ player.play()*/
         webview = WKWebView(frame: view.bounds, configuration: webviewConfig)
         webview.navigationDelegate = self
         webview.uiDelegate = self
-        //initCookies()
         webview.allowsBackForwardNavigationGestures = true
         webview.allowsLinkPreview = true
         webview.clipsToBounds = false
         webview.scrollView.clipsToBounds = false
         
-        //func initCookies() {
-if let cookies: [HTTPCookie] = getData(key: "cookies") {
-  for cookie in cookies {
-    if #available(iOS 11, *) {
-      webview.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
+        if let cookies: [HTTPCookie] = getData(key: "cookies") {
+        for cookie in cookies {
+        if #available(iOS 11, *) {
+        webview.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
         iwashere += "cookie count:\(cookies.count) content:\(cookie)\n\n"
-      }
-    }
-    //break
-  }
-}
-//}
+        }
+        }
+        //break
+        }
+        }
         
 webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
           self.defaultUserAgent = result as! String
@@ -1695,7 +1692,6 @@ downloadTask.resume()
     
     if #available(iOS 11, *) {
       webview.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
-        
         var sessionCookies: [HTTPCookie] = []
         for cookie in cookies {
         if cookie.isSessionOnly {
@@ -1703,8 +1699,9 @@ downloadTask.resume()
         self.lb.text! += " cD:\(cookie.domain)"
         }
         }
+        if !sessionCookies.isEmpty {
         setData(sessionCookies, key: "cookies")
-        
+        }
         //setData(cookies, key: "cookies")
       }
     }
