@@ -79,7 +79,7 @@ else {
   iwashere += "no"
 }
 
-initCookies()
+//initCookies()
 
 return processPool1
 }
@@ -89,9 +89,9 @@ func initCookies() {
 if let cookies: [HTTPCookie] = getData(key: "cookies") {
   for cookie in cookies {
     if #available(iOS 11, *) {
-      //configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
+      webview.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
         iwashere += "cookie count:\(cookies.count) content:\(cookie)\n\n"
-      //}
+      }
     }
     //break
   }
@@ -1374,6 +1374,7 @@ player.play()*/
         webview = WKWebView(frame: view.bounds, configuration: webviewConfig)
         webview.navigationDelegate = self
         webview.uiDelegate = self
+        initCookies()
         webview.allowsBackForwardNavigationGestures = true
         webview.allowsLinkPreview = true
         webview.clipsToBounds = false
