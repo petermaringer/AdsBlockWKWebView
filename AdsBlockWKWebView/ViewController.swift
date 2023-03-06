@@ -78,25 +78,9 @@ else {
   setData(processPool1, key: "pool")
   iwashere += "no"
 }
-
-//initCookies()
-
 return processPool1
 }
 let processPool: WKProcessPool = initPool()
-
-func initCookies() {
-if let cookies: [HTTPCookie] = getData(key: "cookies") {
-  for cookie in cookies {
-    if #available(iOS 11, *) {
-      //webview.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
-        iwashere += "cookie count:\(cookies.count) content:\(cookie)\n\n"
-      //}
-    }
-    //break
-  }
-}
-}
 
 func setData(_ value: Any, key: String) {
   let archivedPool = NSKeyedArchiver.archivedData(withRootObject: value)
@@ -1374,11 +1358,24 @@ player.play()*/
         webview = WKWebView(frame: view.bounds, configuration: webviewConfig)
         webview.navigationDelegate = self
         webview.uiDelegate = self
-        initCookies()
+        //initCookies()
         webview.allowsBackForwardNavigationGestures = true
         webview.allowsLinkPreview = true
         webview.clipsToBounds = false
         webview.scrollView.clipsToBounds = false
+        
+        //func initCookies() {
+if let cookies: [HTTPCookie] = getData(key: "cookies") {
+  for cookie in cookies {
+    if #available(iOS 11, *) {
+      webview.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
+        iwashere += "cookie count:\(cookies.count) content:\(cookie)\n\n"
+      }
+    }
+    //break
+  }
+}
+//}
         
 webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
           self.defaultUserAgent = result as! String
