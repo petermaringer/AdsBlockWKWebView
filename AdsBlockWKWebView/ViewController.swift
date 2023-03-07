@@ -1390,6 +1390,10 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         lb.textAlignment = .center
         lb.font = lb.font.withSize(12)
         lb.backgroundColor = .devBgColor
+        
+        lb.layer.cornerRadius = 6
+        lb.layer.masksToBounds = true
+        
         lb.numberOfLines = 0
         //lb.isUserInteractionEnabled = true
         lb.isHidden = true
@@ -1947,7 +1951,7 @@ downloadTask.resume()
     }
     
     if UIApplication.shared.canOpenURL(navigationAction.request.url!) {
-      lb.text! += " canOpen:\(navigationAction.request.url!.absoluteString)"
+      lb.text! += " cO:" + String(String(describing: navigationAction.request.url!.absoluteString).prefix(5))
     }
     
     //if navigationAction.request.url?.scheme == "https" && UIApplication.shared.canOpenURL(navigationAction.request.url!) {
