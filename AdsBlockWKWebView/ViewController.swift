@@ -1951,7 +1951,7 @@ downloadTask.resume()
       return
     }
     
-    if UIApplication.shared.canOpenURL(navigationAction.request.url!) {
+    if UIApplication.shared.canOpenURL(navigationAction.request.url!) && navigationAction.request.url! != webview.url! {
       lb.text! += " cO:" + String(String(describing: navigationAction.request.url!.absoluteString).prefix(15))
     }
     
