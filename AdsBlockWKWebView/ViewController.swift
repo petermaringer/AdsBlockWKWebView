@@ -1364,10 +1364,12 @@ player.play()*/
         webview.scrollView.clipsToBounds = false
         
         if let cookies: [HTTPCookie] = getData(key: "cookies") {
-        for cookie in cookies {
+        //for cookie in cookies {
+        for (index, cookie) in cookies.enumerated() {
         if #available(iOS 11, *) {
         webview.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
-        iwashere += "cookie count:\(cookies.count) content:\(cookie)\n\n"
+        //iwashere += "cookie count:\(cookies.count) content:\(cookie)\n\n"
+        iwashere += " \(index):\(cookie.domain)"
         }
         }
         //break
@@ -1401,6 +1403,8 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         view.addSubview(lb)
         
         lb.addObserver(self, forKeyPath: "text", options: [.old, .new], context: nil)
+        
+        lb.text! += " iwh:\(iwashere)"
         
         topNavBgView = UIView(frame: CGRect.zero)
         //topNavBgView.backgroundColor = UIColor.viewBgColor.withAlphaComponent(0.85)
