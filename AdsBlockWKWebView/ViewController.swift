@@ -1737,8 +1737,8 @@ downloadTask.resume()
         }
         }
     
-    webview.evaluateJavaScript("window.getComputedStyle(document.body,null).getPropertyValue('background-color').replace(/rgb/i,'rgba')") { (result, error) in
-      self.lb.text! += " \(result ?? "")\(error?.localizedDescription)"
+    webview.evaluateJavaScript("window.getComputedStyle(document.body,null).getPropertyValue('background-color').replace(/rgb\(/i,'rgba\(').replace(/\)/i,', 1)')") { (result, error) in
+      self.lb.text! += " \(result ?? "")\(error.localizedDescription)"
     }
     topNavBgView.backgroundColor = .appBgLightColor
     
