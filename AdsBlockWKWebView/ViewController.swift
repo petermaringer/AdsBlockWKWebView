@@ -1367,8 +1367,8 @@ player.play()*/
         if let cookies: [HTTPCookie] = getData(key: "cookies") {
         for (index, cookie) in cookies.enumerated() {
         webview.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
-        iwashere += "\n\ncookie \(index+1)/\(cookies.count) content:\(cookie)"
-        self.lb.text! += " \(index+1):\(cookie.domain)"
+        iwashere += "\n\ncookie \(index+1)/\(cookies.count):\n\(cookie)"
+        self.lb.text! += " c\(index+1):\(cookie.domain)"
         }
         //break
         }
@@ -1694,7 +1694,6 @@ downloadTask.resume()
   @objc private func enterBackground() {
     avPVC.player = nil
     lb.text! += " eBg"
-    //adjustLabel()
     
     if #available(iOS 11, *) {
       webview.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
@@ -1719,7 +1718,19 @@ downloadTask.resume()
     loadUserPrefs()
     avPVC.player = player
     lb.text! += " eFg"
-    //adjustLabel()
+    
+    if #available(iOS 11, *) {
+        if let cookies: [HTTPCookie] = getData(key: "cookies") {
+        for (index, cookie) in cookies.enumerated() {
+        webview.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
+        //iwashere += "\n\ncookie \(index+1)/\(cookies.count):\n\(cookie)"
+        self.lb.text! += " c\(index+1):\(cookie.domain)"
+        }
+        //break
+        }
+        }
+        }
+    
   }
   
   @objc private func resignActive() {
