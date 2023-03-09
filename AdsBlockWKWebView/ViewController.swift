@@ -1739,7 +1739,7 @@ downloadTask.resume()
     
     webview.evaluateJavaScript("window.getComputedStyle(document.body,null).getPropertyValue('background-color').replace(/rgb\\(/i,'rgba(').replace(/\\)/i,', 255)')") { (result, error) in
       let pageColor: [String] = "\(result ?? "")".components(separatedBy: CharacterSet(charactersIn: "rgba( )")).joined(separator: "").components(separatedBy: ",")
-      let returnedColor = UIColor(r: Int(pageColor[0])!, g: Int(String(pageColor[1]))!, b: Int(String(pageColor[2]))!, a: Int(String(pageColor[3]))!)
+      let returnedColor = UIColor(r: Int(pageColor[0])!, g: Int(pageColor[1])!, b: Int(pageColor[2])!, a: Int(pageColor[3])!)
       self.topNavBgView.backgroundColor = returnedColor
       self.lb.text! += " \(result ?? "nil") \(pageColor) \(pageColor[0]) \(pageColor[1]) \(pageColor[2]) \(pageColor[3])"
     }
