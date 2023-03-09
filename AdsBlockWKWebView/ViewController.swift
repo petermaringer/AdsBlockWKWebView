@@ -1738,7 +1738,7 @@ downloadTask.resume()
         }
     
     webview.evaluateJavaScript("window.getComputedStyle(document.body,null).getPropertyValue('background-color').replace(/rgb/i,'rgba')") { (result, error) in
-      self.lb.text! += " \(result ?? "")\(error ?? "")"
+      self.lb.text! += " \(result ?? "")\(error?.localizedDescription)"
     }
     topNavBgView.backgroundColor = .appBgLightColor
     
