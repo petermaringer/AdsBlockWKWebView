@@ -1370,7 +1370,7 @@ player.play()*/
         webview.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
         //iwashere += "cookie count:\(cookies.count) content:\(cookie)\n\n"
         iwashere += " \(index):\(cookie.domain)"
-        lb.text! += " iwh:\(iwashere)"
+        self.lb.text! += " iwh:\(iwashere)"
         }
         }
         //break
