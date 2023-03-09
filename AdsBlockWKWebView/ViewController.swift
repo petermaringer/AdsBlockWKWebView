@@ -1722,7 +1722,7 @@ downloadTask.resume()
     lb.text! += " eFg"
     
     if #available(iOS 11, *) {
-        //iwashere = ""
+        iwashere = ""
         if let cookies: [HTTPCookie] = getData(key: "cookies") {
         for (index, cookie) in cookies.enumerated() {
         webview.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
@@ -1732,11 +1732,13 @@ downloadTask.resume()
         //break
         }
         }
-        showAlert(message: iwashere)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        self.showAlert(message: iwashere)
+        }
         }
     
-    webview.evaluateJavaScript("document.body.style.backgroundColor") { (result, error) in
-      self.lb.text! += "\(result ?? "nil")"
+    webview.evaluateJavaScript("window.getComputedStyle(document.body,null).getPropertyValue('background-color')") { (result, error) in
+      self.lb.text! += " \(result ?? "nil")\(error)"
     }
     topNavBgView.backgroundColor = .appBgLightColor
     
