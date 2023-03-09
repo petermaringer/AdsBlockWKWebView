@@ -1722,17 +1722,22 @@ downloadTask.resume()
     lb.text! += " eFg"
     
     if #available(iOS 11, *) {
+        //iwashere = ""
         if let cookies: [HTTPCookie] = getData(key: "cookies") {
         for (index, cookie) in cookies.enumerated() {
         webview.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
-        self.showAlert(message: "\n\ncookie \(index+1)/\(cookies.count):\n\(cookie)")
+        iwashere += "\n\ncookie \(index+1)/\(cookies.count):\n\(cookie)"
         self.lb.text! += " c\(index+1):\(cookie.domain)"
         }
         //break
         }
         }
+        showAlert(message: iwashere)
         }
     
+    webview.evaluateJavaScript("document.body.style.backgroundColor") { (result, error) in
+      self.lb.text! += "\(result ?? "nil")"
+    }
     topNavBgView.backgroundColor = .appBgLightColor
     
   }
