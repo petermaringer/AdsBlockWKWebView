@@ -1733,21 +1733,15 @@ downloadTask.resume()
         }
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-        self.showAlert(message: iwashere)
+        //self.showAlert(message: iwashere)
         }
         }
     
     webview.evaluateJavaScript("window.getComputedStyle(document.body,null).getPropertyValue('background-color').replace(/rgb\\(/i,'rgba(').replace(/\\)/i,', 255)')") { (result, error) in
-      //var pageColor = "\(result ?? "")"
-      //pageColor = pageColor.components(separatedBy: CharacterSet(charactersIn: "rgba( )")).joined(separator: "")
-      //pageColor = pageColor.components(separatedBy: ",")
-      
       let pageColor: [String] = "\(result ?? "")".components(separatedBy: CharacterSet(charactersIn: "rgba( )")).joined(separator: "").components(separatedBy: ",")
-      
-      let returnedColor = UIColor(r: Int(String(pageColor[0]))!, g: Int(String(pageColor[1]))!, b: Int(String(pageColor[2]))!, a: Int(String(pageColor[3]))!)
-      //UIColor(red: CGFloat(pageColor[0]) / 255.0, green: CGFloat(pageColor[1]) / 255.0, blue: CGFloat(pageColor[2]) / 255.0, alpha: CGFloat(pageColor[3]) / 255.0)
+      let returnedColor = UIColor(r: Int(pageColor[0])!, g: Int(String(pageColor[1]))!, b: Int(String(pageColor[2]))!, a: Int(String(pageColor[3]))!)
       self.topNavBgView.backgroundColor = returnedColor
-      self.lb.text! += " \(result ?? "nil") \(pageColor) \(pageColor[1])"
+      self.lb.text! += " \(result ?? "nil") \(pageColor) \(pageColor[0]) \(pageColor[1]) \(pageColor[2]) \(pageColor[3])"
     }
     //topNavBgView.backgroundColor = .appBgLightColor
     
