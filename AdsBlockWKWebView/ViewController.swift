@@ -1692,6 +1692,7 @@ downloadTask.resume()
   }
   
   @objc private func enterBackground() {
+    UIApplication.shared.isIdleTimerDisabled = false
     avPVC.player = nil
     lb.text! += " eBg"
     
@@ -1701,13 +1702,14 @@ downloadTask.resume()
         for cookie in cookies {
         if cookie.isSessionOnly {
         sessionCookies.append(cookie)
-        self.lb.text! += " cD:\(cookie.domain)"
+        self.lb.text! += " c:\(cookie.domain)"
         }
         }
         if !sessionCookies.isEmpty {
         setData(sessionCookies, key: "cookies")
         }
         //setData(cookies, key: "cookies")
+        self.lb.text! += " c:\(cookies.count)"
       }
     }
     
@@ -1723,13 +1725,15 @@ downloadTask.resume()
         if let cookies: [HTTPCookie] = getData(key: "cookies") {
         for (index, cookie) in cookies.enumerated() {
         webview.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
-        //iwashere += "\n\ncookie \(index+1)/\(cookies.count):\n\(cookie)"
+        self.showAlert(message: "\n\ncookie \(index+1)/\(cookies.count):\n\(cookie)")
         self.lb.text! += " c\(index+1):\(cookie.domain)"
         }
         //break
         }
         }
         }
+    
+    topNavBgView.backgroundColor = .appBgLightColor
     
   }
   
@@ -1759,12 +1763,13 @@ downloadTask.resume()
   }
   
   
+  /*
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     lb.text! += " wDa"
-    //adjustLabel()
     UIApplication.shared.isIdleTimerDisabled = false
   }
+  */
   
   
   private func changeUserAgent() {
