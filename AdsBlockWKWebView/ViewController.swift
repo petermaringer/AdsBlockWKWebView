@@ -1737,8 +1737,8 @@ downloadTask.resume()
         }
         }
     
-    webview.evaluateJavaScript("window.getComputedStyle(document.body,null).getPropertyValue('background-color')") { (result, error) in
-      self.lb.text! += " \(result ?? "nil")\(error)"
+    webview.evaluateJavaScript("window.getComputedStyle(document.body,null).getPropertyValue('background-color').replace(/rgb/i,'rgba')") { (result, error) in
+      self.lb.text! += " \(result ?? "")\(error ?? "")"
     }
     topNavBgView.backgroundColor = .appBgLightColor
     
