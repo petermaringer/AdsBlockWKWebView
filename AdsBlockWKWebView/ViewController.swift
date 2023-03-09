@@ -1370,6 +1370,7 @@ player.play()*/
         webview.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
         //iwashere += "cookie count:\(cookies.count) content:\(cookie)\n\n"
         iwashere += " \(index):\(cookie.domain)"
+        lb.text! += " iwh:\(iwashere)"
         }
         }
         //break
@@ -1403,8 +1404,6 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
         view.addSubview(lb)
         
         lb.addObserver(self, forKeyPath: "text", options: [.old, .new], context: nil)
-        
-        lb.text! += " iwh:\(iwashere)"
         
         topNavBgView = UIView(frame: CGRect.zero)
         //topNavBgView.backgroundColor = UIColor.viewBgColor.withAlphaComponent(0.85)
