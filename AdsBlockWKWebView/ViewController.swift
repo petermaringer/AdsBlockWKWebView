@@ -1739,7 +1739,7 @@ downloadTask.resume()
     
     webview.evaluateJavaScript("window.getComputedStyle(document.body,null).getPropertyValue('background-color').replace(/rgb\\(/i,'rgba(').replace(/\\)/i,', 255)')") { (result, error) in
       var pageColor = "\(result ?? "")"
-      pageColor.components(separatedBy: CharacterSet(charactersIn: "rgba( )")).joined(separator: "")
+      pageColor = pageColor.components(separatedBy: CharacterSet(charactersIn: "rgba( )")).joined(separator: "")
       pageColor.components(separatedBy: ",")
       self.lb.text! += " \(result ?? "nil") \(pageColor)"
     }
