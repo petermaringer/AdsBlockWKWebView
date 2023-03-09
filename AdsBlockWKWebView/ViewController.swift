@@ -1363,17 +1363,15 @@ player.play()*/
         webview.clipsToBounds = false
         webview.scrollView.clipsToBounds = false
         
-        if let cookies: [HTTPCookie] = getData(key: "cookies") {
-        //for cookie in cookies {
-        for (index, cookie) in cookies.enumerated() {
         if #available(iOS 11, *) {
+        if let cookies: [HTTPCookie] = getData(key: "cookies") {
+        for (index, cookie) in cookies.enumerated() {
         webview.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
-        //iwashere += "cookie count:\(cookies.count) content:\(cookie)\n\n"
-        iwashere += " \(index):\(cookie.domain)"
-        self.lb.text! += " iwh:\(iwashere)"
-        }
+        iwashere += "\n\ncookie \(index+1)/\(cookies.count) content:\(cookie)"
+        self.lb.text! += " \(index+1):\(cookie.domain)"
         }
         //break
+        }
         }
         }
         
