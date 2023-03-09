@@ -1741,7 +1741,7 @@ downloadTask.resume()
       var pageColor = "\(result ?? "")"
       pageColor = pageColor.components(separatedBy: CharacterSet(charactersIn: "rgba( )")).joined(separator: "")
       pageColor.components(separatedBy: ",")
-      let returnedColor = UIColor(r: Int(pageColor[0]), g: Int(pageColor[1]), b: Int(pageColor[2]), a: Int(pageColor[3]))
+      let returnedColor = UIColor(r: Int(String(pageColor[0])), g: Int(pageColor[1]), b: Int(pageColor[2]), a: Int(pageColor[3]))
       //UIColor(red: CGFloat(pageColor[0]) / 255.0, green: CGFloat(pageColor[1]) / 255.0, blue: CGFloat(pageColor[2]) / 255.0, alpha: CGFloat(pageColor[3]) / 255.0)
       topNavBgView.backgroundColor = returnedColor
       self.lb.text! += " \(result ?? "nil") \(pageColor)"
