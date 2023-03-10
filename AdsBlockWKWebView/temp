@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function mode(arr){
+    return arr.sort((a,b) =>
+          arr.filter(v => v===a).length
+        - arr.filter(v => v===b).length
+    ).pop();
+}
+
+//document.addEventListener("DOMContentLoaded", event => {
+function styles(){
+    let names = ["background-color", "color"];
+    let colors = [];
+
+    names.forEach(name =>
+    {
+        Array.from(document.body.querySelectorAll("*")).forEach(element =>
+        {
+            let style = getComputedStyle(element);
+
+            let value = style[name]; if(!value) { return; }
+
+            //if(!colors.includes(value))
+            //{
+                colors.push(value);
+            //}
+        });
+    });
+
+//mode(colors);
+    
+    alert(colors + "::::" + mode(colors));
+    }
+//});
+</script>
+</head>
+<body>
+
+<h1>The Window Object</h1>
+<h2 style="background:rgb(0,122,255)">The alert() Method</h2>
+
+<p>Click the button to display an alert box.</p>
+
+<button onclick="styles()">Try it</button>
+
+<script>
+function myFunction() {
+  alert("Hello! I am an alert box!" + colors);
+}
+</script>
+
+</body>
+</html>
+
+
+
+
+javascript: 
+function mode(arr){
+    return arr.sort((a,b) =>
+          arr.filter(v => v===a).length
+        - arr.filter(v => v===b).length
+    ).pop();
+}
+function styles(){
+    let orignames = ["background-color", "color"];
+    let names = ["background-color"];
+    let colors = [];
+    names.forEach(name =>
+    {
+        Array.from(document.body.querySelectorAll("*")).forEach(element =>
+        {
+            let style = getComputedStyle(element);
+
+            let value = style[name]; if(!value) { return; }
+            if(value != "rgba(0, 0, 0, 0)"){
+            if(value != "rgb(0, 0, 0)"){
+            if(value != "rgb(255, 255, 255)"){
+            colors.push(value);
+            }
+            }
+            }
+        });
+    });
+    let origcolors = colors;
+    alert(mode(colors) + "\n\n" + origcolors);
+    }
+    styles();
+    
+    
+    
+    
+    
+    
+    <!DOCTYPE html> <html> <head> <meta name="theme-color" content="#FF5600"> </head> <body>  <h1>The Window Object</h1> <h2 id="test" style="background-color:lightblue">The getComputedStyle() Method</h2>  <p>The computed background color for the test div is:</p> <p id="demo"></p>  <script> const element = document.querySelector("meta[name='theme-color']"); const cssObj = window.getComputedStyle(element, null);  let bgColor = cssObj.getPropertyValue("content"); alert(element.getAttribute("content")); document.getElementById("demo").innerHTML = bgColor; </script>  </body> </html> 
+
+const element = document.querySelector("meta[property='theme-color']").getAttribute("content");
+
+cssObj.getPropertyValue("content")

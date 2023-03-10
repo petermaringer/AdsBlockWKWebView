@@ -1745,6 +1745,13 @@ downloadTask.resume()
     }
     //topNavBgView.backgroundColor = .appBgLightColor
     
+    webview.evaluateJavaScript("document.querySelector(\"meta[name='theme-color']\").getAttribute('content')") { (result, error) in
+      //let pageColor: [String] = "\(result ?? "")".components(separatedBy: CharacterSet(charactersIn: "rgba( )")).joined(separator: "").components(separatedBy: ",")
+      //let returnedColor = UIColor(r: Int(pageColor[0])!, g: Int(pageColor[1])!, b: Int(pageColor[2])!, a: Int(pageColor[3])!)
+      //self.topNavBgView.backgroundColor = returnedColor
+      self.lb.text! += " tc:\(result ?? "nil")"
+    }
+    
   }
   
   @objc private func resignActive() {
