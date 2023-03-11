@@ -12,11 +12,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     
-    var paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+    
+    let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
 let documentsDirectory = paths[0]
 let fileName = "\(Date()).log"
 let logFilePath = (documentsDirectory as NSString).appendingPathComponent(fileName)
 freopen(logFilePath.cString(using: String.Encoding.ascii)!, "a+", stderr)
+freopen(logFilePath.cString(using: String.Encoding.ascii)!, "a+", stdout)
+    
     
     self.window = UIWindow(frame: UIScreen.main.bounds)
     if let window = self.window {
