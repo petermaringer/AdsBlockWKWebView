@@ -484,6 +484,18 @@ player.play()*/
   avPVC.player = player
   avPVC.player!.play()
   
+  //BackgroundAudioBegin
+        let session = AVAudioSession.sharedInstance()
+        do {
+            try session.setCategory(AVAudioSessionCategoryPlayback)
+            //try session.setCategory(AVAudioSessionCategoryPlayback, with: .mixWithOthers)
+            try session.setActive(true)
+        } catch {
+            print(error.localizedDescription)
+        }
+        lb.text! += " \(session.category)"
+        //BackgroundAudioEnd
+  
   var navlist = "navlist:"
   navUrlArray.forEach { url in
     navlist = navlist + "\n\n" + url
