@@ -1778,6 +1778,7 @@ downloadTask.resume()
   }
   
   @objc private func willTerminate() {
+    NSLog("wTe")
     lb.text! += " wTe"
   }
   
