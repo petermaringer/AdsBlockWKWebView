@@ -1765,6 +1765,9 @@ downloadTask.resume()
       self.lb.text! += " tc:\(result ?? "nil")"
     }
     
+    print("print: Test")
+    NSLog("NSLog: Test")
+    
   }
   
   @objc private func resignActive() {
