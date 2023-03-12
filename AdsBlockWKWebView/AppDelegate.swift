@@ -18,9 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     freopen(logFilePath.cString(using: String.Encoding.ascii)!, "a+", stderr)
     freopen(logFilePath.cString(using: String.Encoding.ascii)!, "a+", stdout)
     */
-    let logUrl = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("\(Date()).log")
-    freopen(logUrl.absoluteString, "a+", stderr)
-    freopen(logUrl.absoluteString, "a+", stdout)
+    let logFileUrl = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("\(Date()).log")
+    freopen(logFileUrl.path, "a+", stderr)
+    freopen(logFileUrl.path, "a+", stdout)
     print("print: TestAD")
     NSLog("NSLog: TestAD")
     
