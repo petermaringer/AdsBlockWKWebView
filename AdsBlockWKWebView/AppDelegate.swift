@@ -13,7 +13,7 @@ extension OSLog {
 }
 
 @UIApplicationMain
-class AppDelegate: NSObject, UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
   var sesscat: String = "sesscat"
   
