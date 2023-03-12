@@ -13,7 +13,7 @@ extension OSLog {
 }
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: NSObject, UIResponder, UIApplicationDelegate {
   var window: UIWindow?
   var sesscat: String = "sesscat"
   
@@ -45,7 +45,7 @@ freopen(logFilePath.cString(using: String.Encoding.ascii)!, "a+", stdout)
                 assert(result2 >= 0, String(cString: strerror(errno)))
 
                 os_log("***** os_log: Test", log: OSLog.test, type: .debug)
-                print("***** print:Test")
+                print("***** print: Test")
                 NSLog("***** NSLog: Test")
             }
         }
