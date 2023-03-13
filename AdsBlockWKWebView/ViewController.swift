@@ -1764,7 +1764,7 @@ downloadTask.resume()
     }
     //topNavBgView.backgroundColor = .appBgLightColor
     
-    webview.evaluateJavaScript("document.querySelector(\"meta[name='theme-color']\").getAttribute('content').replace(/rgb\\(/i,'rgba(').replace(/\\)/i,', 255)')") { (result) in
+    webview.evaluateJavaScript("document.querySelector(\"meta[name='theme-color']\").getAttribute('content').replace(/rgb\\(/i,'rgba(').replace(/\\)/i,', 255)')") { (result, error) in
       if result != nil {
         let resultString = result as! String
         if resultString.hasPrefix("rgba") {
