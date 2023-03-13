@@ -1764,9 +1764,12 @@ downloadTask.resume()
     }
     //topNavBgView.backgroundColor = .appBgLightColor
     
-    webview.evaluateJavaScript("document.querySelector(\"meta[name='theme-color']\").getAttribute('content')") { (result, error) in
+    webview.evaluateJavaScript("document.querySelector(\"meta[name='theme-color']\").getAttribute('content').replace(/rgb\\(/i,'rgba(').replace(/\\)/i,', 255)')") { (result) in
       if result != nil {
-        //self.topNavBgView.backgroundColor = getUIColorFromString(string: result as! String)
+        let resultString = result as! String
+        if resultString.hasPrefix("rgba") {
+          self.topNavBgView.backgroundColor = getUIColorFromString(string: resultString)
+        }
       } else {
         
       }
