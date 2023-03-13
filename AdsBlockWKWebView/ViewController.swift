@@ -1750,26 +1750,40 @@ downloadTask.resume()
         //}
         }
     
-    func getUIColorFromString(string: String) -> UIColor {
-      let rgbaArray: [String] = string.components(separatedBy: CharacterSet(charactersIn: "rgba( )")).joined(separator: "").components(separatedBy: ",")
-      let rgbaColor = UIColor(r: Int(rgbaArray[0])!, g: Int(rgbaArray[1])!, b: Int(rgbaArray[2])!, a: Int(rgbaArray[3])!)
-      return rgbaColor
+    //func getUIColorFromString(string: String) -> UIColor {
+    func setTopNavBgViewColor(_ input: Any?) {
+      if input == nil { return }
+      let inputString = input as! String
+      if inputString.hasPrefix("rgba") {
+        let rgbaArray: [String] = inputString.components(separatedBy: CharacterSet(charactersIn: "rgba( )")).joined(separator: "").components(separatedBy: ",")
+        let rgbaColor = UIColor(r: Int(rgbaArray[0])!, g: Int(rgbaArray[1])!, b: Int(rgbaArray[2])!, a: Int(rgbaArray[3])!)
+        topNavBgView.backgroundColor = rgbaColor
+        lb.text! += " \(rgbaArray) \(rgbaArray[0]) \(rgbaArray[1]) \(rgbaArray[2]) \(rgbaArray[3])"
+      }
+      //return rgbaColor
     }
     
     webview.evaluateJavaScript("window.getComputedStyle(document.body,null).getPropertyValue('background-color').replace(/rgb\\(/i,'rgba(').replace(/\\)/i,', 255)')") { (result, error) in
+      setTopNavBgViewColor(result)
+      self.lb.text! += " \(result ?? "nil")"
+      /*
       let pageColor: [String] = "\(result ?? "")".components(separatedBy: CharacterSet(charactersIn: "rgba( )")).joined(separator: "").components(separatedBy: ",")
       let returnedColor = UIColor(r: Int(pageColor[0])!, g: Int(pageColor[1])!, b: Int(pageColor[2])!, a: Int(pageColor[3])!)
       self.topNavBgView.backgroundColor = returnedColor
       self.lb.text! += " \(result ?? "nil") \(pageColor) \(pageColor[0]) \(pageColor[1]) \(pageColor[2]) \(pageColor[3])"
+      */
     }
     //topNavBgView.backgroundColor = .appBgLightColor
     
     webview.evaluateJavaScript("document.querySelector(\"meta[name='theme-color']\").getAttribute('content').replace(/rgb\\(/i,'rgba(').replace(/\\)/i,', 255)')") { (result, error) in
       if result != nil {
+        setTopNavBgViewColor(result)
+        /*
         let resultString = result as! String
         if resultString.hasPrefix("rgba") {
           self.topNavBgView.backgroundColor = getUIColorFromString(string: resultString)
         }
+        */
       } else {
         
       }
