@@ -1766,7 +1766,7 @@ downloadTask.resume()
       if result != nil {
         setTopNavBgViewColor(result)
       } else {
-        webview.evaluateJavaScript("window.getComputedStyle(document.body,null).getPropertyValue('background-color').replace(/rgb\\(/i,'rgba(').replace(/\\)/i,', 255)')") { (result, error) in
+        self.webview.evaluateJavaScript("window.getComputedStyle(document.body,null).getPropertyValue('background-color').replace(/rgb\\(/i,'rgba(').replace(/\\)/i,', 255)')") { (result, error) in
       self.lb.text! += " BG:\(result ?? "nil")"
       setTopNavBgViewColor(result)
     }
