@@ -1899,6 +1899,11 @@ downloadTask.resume()
   }
   
   
+  func webView(_ webview: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+    lb.text! += " dSPN:\(self.webview.url!.absoluteString)"
+  }
+  
+  
   @available(iOS 14.5, *)
   //@available(iOS 15, *)
   func webView(_ webview: WKWebView, navigationAction: WKNavigationAction, didBecome download: WKDownload) {
@@ -2005,8 +2010,10 @@ downloadTask.resume()
       return
     }
     
+    if navigationAction.request.url!.absoluteString != "about:blank" {
     if UIApplication.shared.canOpenURL(navigationAction.request.url!) && navigationAction.request.url! != webview.url! {
       lb.text! += " cO:" + String(String(describing: navigationAction.request.url!.absoluteString).prefix(15))
+    }
     }
     
     //if navigationAction.request.url?.scheme == "https" && UIApplication.shared.canOpenURL(navigationAction.request.url!) {

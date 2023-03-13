@@ -11,13 +11,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var sesscat: String = "sesscat"
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-    /*
-    let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-    let fileName = "\(Date()).log"
-    let logFilePath = (documentsDirectory as NSString).appendingPathComponent(fileName)
-    freopen(logFilePath.cString(using: String.Encoding.ascii)!, "a+", stderr)
-    freopen(logFilePath.cString(using: String.Encoding.ascii)!, "a+", stdout)
-    */
+    
     let logFileUrl = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("\(Date()).log")
     freopen(logFileUrl.path, "a+", stderr)
     freopen(logFileUrl.path, "a+", stdout)
