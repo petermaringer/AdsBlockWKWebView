@@ -1766,7 +1766,7 @@ downloadTask.resume()
     
     webview.evaluateJavaScript("document.querySelector(\"meta[name='theme-color']\").getAttribute('content')") { (result, error) in
       if result != nil {
-        self.topNavBgView.backgroundColor = getUIColorFromString(result)
+        self.topNavBgView.backgroundColor = getUIColorFromString(string: result as! String)
       } else {
         
       }
