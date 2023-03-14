@@ -47,7 +47,7 @@ class alertObj {
 var alertObjArray = [alertObj]()
 */
 var alertCounter: Int = 0
-let feedbackGenerator = UINotificationFeedbackGenerator()
+let hapticFB = UINotificationFeedbackGenerator()
 
 func loadUserPrefs() {
   if (UserDefaults.standard.object(forKey: "webviewStartPagePref") != nil) {
@@ -362,8 +362,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var navTypeBackForward: Bool = false
   var navTypeDownload: Bool = false
   var showFrameLoadError: Bool = true
-  
-  ///var navMainDoc: Bool = true
   
   var restoreIndex: Int = 0
   var restoreIndexLast: Int = 0
@@ -1117,7 +1115,9 @@ player.play()*/
       messages.removeFirst()
       self.showAlert()
     })
-    self.present(alert, animated: true) { UINotificationFeedbackGenerator().notificationOccurred(.success) }
+    hapticFB.notificationOccurred(.success)
+    present(alert, animated: true, completion: nil)
+    //self.present(alert, animated: true) { UINotificationFeedbackGenerator().notificationOccurred(.success) }
   }
   
   
@@ -1151,10 +1151,11 @@ player.play()*/
         completionHandler(nil)
       }))
     }
-    feedbackGenerator.notificationOccurred(.success)
-    self.present(alert, animated: true) {
-      //feedbackGenerator.notificationOccurred(.success)
-    }
+    hapticFB.notificationOccurred(.success)
+    present(alert, animated: true, completion: nil)
+    //self.present(alert, animated: true) {
+      //hapticFB.notificationOccurred(.success)
+    //}
   }
   
   /*
@@ -1183,7 +1184,7 @@ player.play()*/
       self.showAlert()
       }
     }))
-    self.present(alert, animated: true) { feedbackGenerator.notificationOccurred(.success) }
+    self.present(alert, animated: true) { hapticFB.notificationOccurred(.success) }
   }
   */
   
@@ -1757,7 +1758,7 @@ downloadTask.resume()
       let inputString = input as! String
       if inputString.hasPrefix("rgba") {
         let rgbaArray: [String] = inputString.components(separatedBy: CharacterSet(charactersIn: "rgba( )")).joined(separator: "").components(separatedBy: ",")
-        lb.text! += " \(rgbaArray) \(rgbaArray[0]) \(rgbaArray[1]) \(rgbaArray[2]) \(rgbaArray[3])"
+        //lb.text! += " \(rgbaArray) \(rgbaArray[0]) \(rgbaArray[1]) \(rgbaArray[2]) \(rgbaArray[3])"
         if Int(rgbaArray[3])! < 255 {
           return false
         }
@@ -1780,7 +1781,8 @@ downloadTask.resume()
       self.lb.text! += " BG:\(result ?? "nil")"
       success = setTopNavBgViewColor(result)
       if !success {
-        self.topNavBgView.backgroundColor = .appBgLightColor
+        self.topNavBgView.backgroundColor = .viewBgColor
+        //self.topNavBgView.backgroundColor = .appBgLightColor
       }
     }
       }
