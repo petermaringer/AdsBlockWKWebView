@@ -1098,11 +1098,13 @@ player.play()*/
     return true
   }
   
+  /*
   private func showAlertOld(message: String) {
     let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
     self.present(alert, animated: true, completion: nil)
   }
+  */
   
   private func showAlert(message: String? = nil) {
     if let message = message {
@@ -1111,13 +1113,12 @@ player.play()*/
     guard messages.count > 0 else { return }
     let message = messages.first
     let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
-    alert.addAction(UIAlertAction(title: "OK", style: .default){ (action) in
+    alert.addAction(UIAlertAction(title: "OK", style: .default) { (action) in
       messages.removeFirst()
       self.showAlert()
     })
     hapticFB.notificationOccurred(.success)
     present(alert, animated: true, completion: nil)
-    //self.present(alert, animated: true) { UINotificationFeedbackGenerator().notificationOccurred(.success) }
   }
   
   
@@ -1153,9 +1154,6 @@ player.play()*/
     }
     hapticFB.notificationOccurred(.success)
     present(alert, animated: true, completion: nil)
-    //self.present(alert, animated: true) {
-      //hapticFB.notificationOccurred(.success)
-    //}
   }
   
   /*
@@ -1819,7 +1817,8 @@ downloadTask.resume()
       self.webview.load(URLRequest(url: URL(string: "https://www.google.com/")!))
       //self.webview3.removeFromSuperview()
     }))
-    self.present(alert, animated: true, completion: nil)
+    hapticFB.notificationOccurred(.success)
+    present(alert, animated: true, completion: nil)
   }
   
   
