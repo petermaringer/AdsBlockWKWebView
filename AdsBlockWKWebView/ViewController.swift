@@ -1710,6 +1710,7 @@ downloadTask.resume()
     avPVC.player = nil
     lb.text! += " eBg"
     
+    /*
     if #available(iOS 11, *) {
       webview.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
         var sessionCookies: [HTTPCookie] = []
@@ -1726,6 +1727,7 @@ downloadTask.resume()
         self.lb.text! += " c:\(cookies.count)"
       }
     }
+    */
     
   }
   
@@ -1795,10 +1797,34 @@ downloadTask.resume()
     if webview.scrollView.contentOffset.y < 0 {
       webview.scrollView.setContentOffset(CGPoint(x: webview.scrollView.contentOffset.x, y: 0), animated: true)
     }
+    
+    if #available(iOS 11, *) {
+      webview.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
+        var sessionCookies: [HTTPCookie] = []
+        for cookie in cookies {
+        if cookie.isSessionOnly {
+        sessionCookies.append(cookie)
+        self.lb.text! += " c:\(cookie.domain)"
+        }
+        }
+        if !sessionCookies.isEmpty {
+        setData(sessionCookies, key: "cookies")
+        }
+        //setData(cookies, key: "cookies")
+        self.lb.text! += " c:\(cookies.count)"
+      }
+    }
+    
     lb.text! += " rAc"
   }
   
   @objc private func willTerminate() {
+    
+    if #available(iOS 11, *) {
+      let sessionCookies: [HTTPCookie] = []
+      setData(sessionCookies, key: "cookies")
+    }
+    
     NSLog("wTe")
     lb.text! += " wTe"
   }
