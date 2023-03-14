@@ -1755,9 +1755,15 @@ downloadTask.resume()
       let inputString = input as! String
       if inputString.hasPrefix("rgba") {
         let rgbaArray: [String] = inputString.components(separatedBy: CharacterSet(charactersIn: "rgba( )")).joined(separator: "").components(separatedBy: ",")
+        lb.text! += " \(rgbaArray) \(rgbaArray[0]) \(rgbaArray[1]) \(rgbaArray[2]) \(rgbaArray[3])"
+        if Int(rgbaArray[3])! < 255 {
+          return false
+        }
+        if Int(rgbaArray[0])! > 240 && Int(rgbaArray[1])! > 240 && Int(rgbaArray[2])! > 240 {
+          return false
+        }
         let rgbaColor = UIColor(r: Int(rgbaArray[0])!, g: Int(rgbaArray[1])!, b: Int(rgbaArray[2])!, a: Int(rgbaArray[3])!)
         topNavBgView.backgroundColor = rgbaColor
-        lb.text! += " \(rgbaArray) \(rgbaArray[0]) \(rgbaArray[1]) \(rgbaArray[2]) \(rgbaArray[3])"
         return true
       }
       return false
@@ -1768,16 +1774,15 @@ downloadTask.resume()
       self.lb.text! += " TC:\(result ?? "nil")"
       success = setTopNavBgViewColor(result)
       if !success {
-      //if result != nil {
-        //setTopNavBgViewColor(result)
-      //} else {
         self.webview.evaluateJavaScript("window.getComputedStyle(document.body,null).getPropertyValue('background-color').replace(/rgb\\(/i,'rgba(').replace(/\\)/i,', 255)')") { (result, error) in
       self.lb.text! += " BG:\(result ?? "nil")"
       success = setTopNavBgViewColor(result)
+      if !success {
+        self.topNavBgView.backgroundColor = .appBgLightColor
+      }
     }
       }
     }
-    //topNavBgView.backgroundColor = .appBgLightColor
     
     print("print: TestVC")
     NSLog("NSLog: TestVC")
