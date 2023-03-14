@@ -1750,25 +1750,30 @@ downloadTask.resume()
         //}
         }
     
-    func setTopNavBgViewColor(_ input: Any?) {
-      if input == nil { return }
+    func setTopNavBgViewColor(_ input: Any?) -> Bool {
+      if input == nil { return false }
       let inputString = input as! String
       if inputString.hasPrefix("rgba") {
         let rgbaArray: [String] = inputString.components(separatedBy: CharacterSet(charactersIn: "rgba( )")).joined(separator: "").components(separatedBy: ",")
         let rgbaColor = UIColor(r: Int(rgbaArray[0])!, g: Int(rgbaArray[1])!, b: Int(rgbaArray[2])!, a: Int(rgbaArray[3])!)
         topNavBgView.backgroundColor = rgbaColor
         lb.text! += " \(rgbaArray) \(rgbaArray[0]) \(rgbaArray[1]) \(rgbaArray[2]) \(rgbaArray[3])"
+        return true
       }
+      return false
     }
     
+    var success: Bool = false
     webview.evaluateJavaScript("document.querySelector(\"meta[name='theme-color']\").getAttribute('content').replace(/rgb\\(/i,'rgba(').replace(/\\)/i,', 255)')") { (result, error) in
       self.lb.text! += " TC:\(result ?? "nil")"
-      if result != nil {
-        setTopNavBgViewColor(result)
-      } else {
+      success = setTopNavBgViewColor(result)
+      if !success {
+      //if result != nil {
+        //setTopNavBgViewColor(result)
+      //} else {
         self.webview.evaluateJavaScript("window.getComputedStyle(document.body,null).getPropertyValue('background-color').replace(/rgb\\(/i,'rgba(').replace(/\\)/i,', 255)')") { (result, error) in
       self.lb.text! += " BG:\(result ?? "nil")"
-      setTopNavBgViewColor(result)
+      success = setTopNavBgViewColor(result)
     }
       }
     }
