@@ -363,6 +363,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var navTypeDownload: Bool = false
   var showFrameLoadError: Bool = true
   
+  ///var navMainDoc: Bool = true
+  
   var restoreIndex: Int = 0
   var restoreIndexLast: Int = 0
   var restoreUrls: Array<String> = ["https://www.google.com/"]
@@ -2029,8 +2031,8 @@ downloadTask.resume()
       return
     }
     
-    if navigationAction.request.url!.absoluteString != "about:blank" {
-    if UIApplication.shared.canOpenURL(navigationAction.request.url!) && navigationAction.request.url!.absoluteString != webview.url!.absoluteString {
+    if navigationAction.request.url!.absoluteString != "about:blank" && navigationAction.navigationType != .linkActivated {
+    if UIApplication.shared.canOpenURL(navigationAction.request.url!) && navigationAction.request.url! != webview.url! {
       lb.text! += " cO:\(navigationAction.request.url!.absoluteString) \(webview.url!.absoluteString)"
       //lb.text! += " cO:" + String(String(describing: navigationAction.request.url!.absoluteString).prefix(15))
     }
