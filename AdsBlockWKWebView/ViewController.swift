@@ -1550,9 +1550,9 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     let currentDateTime = Date()
     let formatter = DateFormatter()
     formatter.dateFormat = "dd.MM.yyyy HH:mm"
-    let now = formatter.string(from: currentDateTime)
+    let timestamp = formatter.string(from: currentDateTime)
     
-    var bflist = "\(now) LASTbflist:"
+    var bflist = "\(timestamp) LASTbflist:"
     for (index, url) in restoreUrls.enumerated() {
       //self.webview.load(URLRequest(url: url))
       //DispatchQueue.main.async {
@@ -2030,8 +2030,9 @@ downloadTask.resume()
     }
     
     if navigationAction.request.url!.absoluteString != "about:blank" {
-    if UIApplication.shared.canOpenURL(navigationAction.request.url!) && navigationAction.request.url! != webview.url! {
-      lb.text! += " cO:" + String(String(describing: navigationAction.request.url!.absoluteString).prefix(15))
+    if UIApplication.shared.canOpenURL(navigationAction.request.url!) && navigationAction.request.url!.absoluteString != webview.url!.absoluteString {
+      lb.text! += " cO:\(navigationAction.request.url!.absoluteString) \(webview.url!.absoluteString)"
+      //lb.text! += " cO:" + String(String(describing: navigationAction.request.url!.absoluteString).prefix(15))
     }
     }
     
