@@ -989,11 +989,11 @@ player.play()*/
     if lb.isHidden == true {
       lb.isHidden = false
       webView.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
-      webView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
+      //webView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
     } else {
       lb.isHidden = true
       webView.removeObserver(self, forKeyPath: "URL")
-      webView.removeObserver(self, forKeyPath: "estimatedProgress")
+      //webView.removeObserver(self, forKeyPath: "estimatedProgress")
       UIPasteboard.general.string = lb.text!
     }
     
@@ -1392,6 +1392,8 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         //webView.isHidden = true
         view.addSubview(webView)
         
+        webView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
+        
         counter += 1
         
         //lb = UITextView(frame: CGRect.zero)
@@ -1681,9 +1683,9 @@ downloadTask.resume()
           DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.progressView.progress = Float(0)
           }
+          webViewDidFinish()
         }
         lb.text! += " oV:" + String(String(describing: key).prefix(5))
-        //adjustLabel()
       }
       
     }
@@ -2361,9 +2363,9 @@ downloadTask.resume()
     
   }
   
-  private func endLoading() {
+  func webViewDidFinish() {
+    
     lb.text! += " end"
-    //adjustLabel()
   }
   
   func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
