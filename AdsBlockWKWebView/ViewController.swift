@@ -2060,8 +2060,8 @@ downloadTask.resume()
     
     if navigationAction.request.url!.absoluteString != "about:blank" && navigationAction.navigationType != .linkActivated {
     if UIApplication.shared.canOpenURL(navigationAction.request.url!) && navigationAction.request.url! != webView.url! {
-      lb.text! += " cO:\(navigationAction.request.url!.absoluteString) \(webView.url!.absoluteString)"
-      //lb.text! += " cO:" + String(String(describing: navigationAction.request.url!.absoluteString).prefix(15))
+      //lb.text! += " cO:\(navigationAction.request.url!.absoluteString) \(webView.url!.absoluteString)"
+      lb.text! += " cO:" + String(String(describing: navigationAction.request.url!.absoluteString).prefix(15))
     }
     }
     
@@ -2187,6 +2187,7 @@ downloadTask.resume()
   }
   
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+    /*
     if webView.url!.absoluteString.hasPrefix("http://localhost:6571/errors/error.html") == false {
       urlField.text = webView.url!.absoluteString
       
@@ -2195,12 +2196,13 @@ downloadTask.resume()
       } else {
         urlField.textColor = .errorFgColor
       }
-      /*if #available(iOS 14, *) {
-        let mediaType = webView.mediaType
-        showAlert(message: "mT:\(mediaType)!")
-      }*/
+      //if #available(iOS 14, *) {
+        //let mediaType = webView.mediaType
+        //showAlert(message: "mT:\(mediaType)!")
+      //}
       
     }
+    */
     //showAlert(message: defaultUserAgent)
     
     alertCounter = 0
@@ -2364,8 +2366,19 @@ downloadTask.resume()
   }
   
   func webViewDidFinish() {
-    
-    lb.text! += " end"
+    if webView.url!.absoluteString.hasPrefix("http://localhost:6571/errors/error.html") == false {
+      urlField.text = webView.url!.absoluteString
+      if webView.hasOnlySecureContent {
+        urlField.textColor = .successFgColor
+      } else {
+        urlField.textColor = .errorFgColor
+      }
+      if #available(iOS 14, *) {
+        let mediaType = webView.mediaType
+        showAlert(message: "mT:\(mediaType)!")
+      }
+    }
+    lb.text! += " END"
   }
   
   func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
