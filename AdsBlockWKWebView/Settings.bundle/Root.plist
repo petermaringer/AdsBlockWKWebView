@@ -20,7 +20,7 @@
 			<key>Title</key>
 			<string>Start Page</string>
 			<key>Key</key>
-			<string>webviewStartPagePref</string>
+			<string>webViewStartPagePref</string>
 			<key>DefaultValue</key>
 			<string>https://www.google.com/</string>
 			<key>KeyboardType</key>
@@ -36,7 +36,7 @@
 			<key>Title</key>
 			<string>Search Engine</string>
 			<key>Key</key>
-			<string>webviewSearchUrlPref</string>
+			<string>webViewSearchUrlPref</string>
 			<key>DefaultValue</key>
 			<string>https://www.google.com/search?q=</string>
 			<key>Titles</key>

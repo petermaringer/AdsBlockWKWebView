@@ -23,9 +23,9 @@ fileprivate let ruleId2 = "MyRuleID 002"
 ////////// USERPREFS //////////
 let tableMaxLinesPref: Int = 6 //6
 let tableMoveTopPref: Bool = false //true
-var webviewSearchUrlPref: String = "https://www.google.com/search?q="
+var webViewSearchUrlPref: String = "https://www.google.com/search?q="
 //StartseiteStattGoogle
-var webviewStartPagePref: String = "https://www.google.com/"
+var webViewStartPagePref: String = "https://www.google.com/"
 //AlleSeitenHinzuStatt+
 //IdleTimerEinAus
 var goBackOnEditPref: Int = 2
@@ -50,11 +50,11 @@ var alertCounter: Int = 0
 let hapticFB = UINotificationFeedbackGenerator()
 
 func loadUserPrefs() {
-  if (UserDefaults.standard.object(forKey: "webviewStartPagePref") != nil) {
-    webviewStartPagePref = UserDefaults.standard.string(forKey: "webviewStartPagePref")!
+  if (UserDefaults.standard.object(forKey: "webViewStartPagePref") != nil) {
+    webViewStartPagePref = UserDefaults.standard.string(forKey: "webViewStartPagePref")!
   }
-  if (UserDefaults.standard.object(forKey: "webviewSearchUrlPref") != nil) {
-    webviewSearchUrlPref = UserDefaults.standard.string(forKey: "webviewSearchUrlPref")!
+  if (UserDefaults.standard.object(forKey: "webViewSearchUrlPref") != nil) {
+    webViewSearchUrlPref = UserDefaults.standard.string(forKey: "webViewSearchUrlPref")!
   }
   if (UserDefaults.standard.object(forKey: "goBackOnEditPref") != nil) {
     goBackOnEditPref = UserDefaults.standard.integer(forKey: "goBackOnEditPref")
@@ -96,8 +96,6 @@ if let val = UserDefaults.standard.value(forKey: key) as? Data,
 }
 
 
-//let videoURL = URL(string: "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_adv_example_hevc/master.m3u8")
-//let player = AVPlayer(url: videoURL!)
 //let playerViewController = AVPlayerViewController()
 //let player = AVPlayer(url: URL(string: "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_adv_example_hevc/master.m3u8")!)
 let player = AVPlayer(url: URL(string: "http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.m3u")!)
@@ -338,7 +336,7 @@ extension ViewController: WKDownloadDelegate {
 
 class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
   
-  var webview: WKWebView!
+  var webView: WKWebView!
   
   var topNavBgView: UIView!
   //var topNavBgView: UIVisualEffectView!
@@ -368,10 +366,10 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var restoreUrls: Array<String> = ["https://www.google.com/"]
   var restorePosition: Int = 0
   //var bfarray: Array<String> = []
-  var webview2: WebView!
-  var webview3: WebView!
-  var webviewPrefs: WKPreferences!
-  var webviewConfig: WKWebViewConfiguration!
+  var webView2: WebView!
+  var webView3: WebView!
+  var webViewPrefs: WKPreferences!
+  var webViewConfig: WKWebViewConfiguration!
   var avPVC: AVPlayerViewController!
   var navUrl: String!
   var navUrlArray: Array<String> = []
@@ -560,15 +558,15 @@ player.play()*/
     //if let dic = NSDictionary(contentsOfFile: path) as? [String: Any] {}
     
     /*VerursachtError
-    //let blitem = webview2.backForwardList.item(at: 0)!.url.absoluteString
-    let blitem = webview2.backForwardList.forwardList.count
-    let blcount1 = webview2.backForwardList.backList.count
-    webview2.backForwardList.backList.removeAll()
-    let blcount2 = webview2.backForwardList.backList.count
+    //let blitem = webView2.backForwardList.item(at: 0)!.url.absoluteString
+    let blitem = webView2.backForwardList.forwardList.count
+    let blcount1 = webView2.backForwardList.backList.count
+    webView2.backForwardList.backList.removeAll()
+    let blcount2 = webView2.backForwardList.backList.count
     showAlert(message: "\(navlist) \(blitem) \(blcount1)/\(blcount2) \(appVersion!) \(text!)")
     */
     
-    showAlert(message: "\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\(webviewStartPagePref)\(goBackOnEditPref)")
+    showAlert(message: "\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\(webViewStartPagePref)\(goBackOnEditPref)")
     
   }
   
@@ -699,7 +697,7 @@ player.play()*/
       alertCounter = 0
       if array[indexPath.row].hasPrefix("javascript:") {
         //showAlert(title: "Interfer1", message: "he")
-        webview.evaluateJavaScript(String(array[indexPath.row].dropFirst(11)), completionHandler: nil)
+        webView.evaluateJavaScript(String(array[indexPath.row].dropFirst(11)), completionHandler: nil)
       } else {
         url = array[indexPath.row]
         startLoading()
@@ -766,10 +764,10 @@ player.play()*/
     tableView.isEditing = true
     
     var goBackBy = goBackOnEditPref
-    if goBackBy > webview.backForwardList.backList.count {
-      goBackBy = webview.backForwardList.backList.count
+    if goBackBy > webView.backForwardList.backList.count {
+      goBackBy = webView.backForwardList.backList.count
     }
-    webview.go(to: webview.backForwardList.item(at: goBackBy * -1)!)
+    webView.go(to: webView.backForwardList.item(at: goBackBy * -1)!)
     
     //showAlert(message: "E:\(url)")
     //lb.text! += " E"
@@ -990,17 +988,17 @@ player.play()*/
     
     if lb.isHidden == true {
       lb.isHidden = false
-      webview.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
-      webview.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
+      webView.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
+      webView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
     } else {
       lb.isHidden = true
-      webview.removeObserver(self, forKeyPath: "URL")
-      webview.removeObserver(self, forKeyPath: "estimatedProgress")
+      webView.removeObserver(self, forKeyPath: "URL")
+      webView.removeObserver(self, forKeyPath: "estimatedProgress")
       UIPasteboard.general.string = lb.text!
     }
     
-    webview.evaluateJavaScript("var el = document.querySelector('input[type=password]'); if (el !== null) { window.webkit.messageHandlers.iosListener.postMessage('iP' + el.getAttribute('name')); }", completionHandler: nil)
-    //let urlArr = webview.url!.absoluteString.components(separatedBy: "/")
+    webView.evaluateJavaScript("var el = document.querySelector('input[type=password]'); if (el !== null) { window.webkit.messageHandlers.iosListener.postMessage('iP' + el.getAttribute('name')); }", completionHandler: nil)
+    //let urlArr = webView.url!.absoluteString.components(separatedBy: "/")
     //let server = urlArr[2]
     let server = "www.example.com"
     let account = "tester2"
@@ -1037,8 +1035,8 @@ player.play()*/
         if tableView.isDescendant(of: view) {
           tableView.removeFromSuperview()
         }
-        if webview3.isDescendant(of: view) {
-          webview3.removeFromSuperview()
+        if webView3.isDescendant(of: view) {
+          webView3.removeFromSuperview()
         }
         navUrlArray = []
         lb.text = "log:"
@@ -1082,7 +1080,7 @@ player.play()*/
           
           alertCounter = 0
           if textField.text!.hasPrefix("javascript:") {
-            webview.evaluateJavaScript(String(textField.text!.dropFirst(11)), completionHandler: nil)
+            webView.evaluateJavaScript(String(textField.text!.dropFirst(11)), completionHandler: nil)
             //break
           } else {
             url = textField.text!
@@ -1281,45 +1279,45 @@ player.play()*/
       tableView.frame.size.height = 185
       tableView.reloadData()
       
-      webview.frame.origin.x = insetL
-      webview.frame.origin.y = urlField.frame.origin.y + urlField.frame.size.height + 5
-      webview.frame.size.width = view.frame.width - insetL - insetR
-      //webview.frame.size.height = view.frame.height - urlField.frame.origin.y - urlField.frame.size.height - 5 - insetB
-      webview.frame.size.height = view.frame.height - urlField.frame.origin.y - urlField.frame.size.height - 5
+      webView.frame.origin.x = insetL
+      webView.frame.origin.y = urlField.frame.origin.y + urlField.frame.size.height + 5
+      webView.frame.size.width = view.frame.width - insetL - insetR
+      //webView.frame.size.height = view.frame.height - urlField.frame.origin.y - urlField.frame.size.height - 5 - insetB
+      webView.frame.size.height = view.frame.height - urlField.frame.origin.y - urlField.frame.size.height - 5
       
-      //webview.frame.origin.y = 0
-      //webview.frame.size.height = view.frame.height
+      //webView.frame.origin.y = 0
+      //webView.frame.size.height = view.frame.height
       
-      if webview2.isDescendant(of: view) {
-        webview.frame.origin.y += 200
-        webview.frame.size.height -= 200
+      if webView2.isDescendant(of: view) {
+        webView.frame.origin.y += 200
+        webView.frame.size.height -= 200
       }
       
-      //webview.scrollView.contentSize = CGSize(width: self.view.frame.width - insetL - insetR, height: self.view.frame.height - insetT - urlField.frame.size.height - 10)
-      //webview.scrollView.contentInset = UIEdgeInsets(top: insetT + urlField.frame.size.height + 10, left: 0, bottom: 0, right: 0)
-      //webview.scrollView.scrollIndicatorInsets = UIEdgeInsets(top: insetT + urlField.frame.size.height + 10, left: 0, bottom: 0, right: 0)
-      //webview.scrollView.contentSize.height = self.view.frame.height - insetT - urlField.frame.size.height - 10
-      //webview.scrollView.frame.origin.y = insetT + urlField.frame.size.height + 100
-      //webview.scrollView.frame.size.height = self.view.frame.height - insetT - urlField.frame.size.height - 100
-      //webview.scrollView.contentOffset.y = -insetT - urlField.frame.size.height - 10
+      //webView.scrollView.contentSize = CGSize(width: self.view.frame.width - insetL - insetR, height: self.view.frame.height - insetT - urlField.frame.size.height - 10)
+      //webView.scrollView.contentInset = UIEdgeInsets(top: insetT + urlField.frame.size.height + 10, left: 0, bottom: 0, right: 0)
+      //webView.scrollView.scrollIndicatorInsets = UIEdgeInsets(top: insetT + urlField.frame.size.height + 10, left: 0, bottom: 0, right: 0)
+      //webView.scrollView.contentSize.height = self.view.frame.height - insetT - urlField.frame.size.height - 10
+      //webView.scrollView.frame.origin.y = insetT + urlField.frame.size.height + 100
+      //webView.scrollView.frame.size.height = self.view.frame.height - insetT - urlField.frame.size.height - 100
+      //webView.scrollView.contentOffset.y = -insetT - urlField.frame.size.height - 10
       
       /*
-      webview.setValue(true, forKey: "_haveSetObscuredInsets")
-      webview.setValue(UIEdgeInsets(top: insetT + urlField.frame.size.height + 10, left: 0, bottom: insetB, right: 0), forKey: "_obscuredInsets")
-      webview.scrollView.contentInset = UIEdgeInsets(top: insetT + urlField.frame.size.height + 10, left: 0, bottom: insetB, right: 0)
+      webView.setValue(true, forKey: "_haveSetObscuredInsets")
+      webView.setValue(UIEdgeInsets(top: insetT + urlField.frame.size.height + 10, left: 0, bottom: insetB, right: 0), forKey: "_obscuredInsets")
+      webView.scrollView.contentInset = UIEdgeInsets(top: insetT + urlField.frame.size.height + 10, left: 0, bottom: insetB, right: 0)
       if #available(iOS 11, *) {
-        webview.scrollView.contentInsetAdjustmentBehavior = .never
+        webView.scrollView.contentInsetAdjustmentBehavior = .never
       }
-      //webview.scrollView.scrollIndicatorInsets = webview.scrollView.contentInset
-      webview.scrollView.scrollIndicatorInsets = UIEdgeInsets(top: urlField.frame.size.height + 10, left: 0, bottom: 0, right: 0)
+      //webView.scrollView.scrollIndicatorInsets = webView.scrollView.contentInset
+      webView.scrollView.scrollIndicatorInsets = UIEdgeInsets(top: urlField.frame.size.height + 10, left: 0, bottom: 0, right: 0)
       */
       
-      webview3.frame.origin.x = insetL
-      //webview3.frame.origin.y = urlField.frame.origin.y
-      webview3.frame.origin.y = urlField.frame.origin.y + urlField.frame.size.height + 5
-      webview3.frame.size.width = view.frame.width - insetL - insetR
-      //webview3.frame.size.height = view.frame.height - urlField.frame.origin.y
-      webview3.frame.size.height = view.frame.height - urlField.frame.origin.y - urlField.frame.size.height - 5
+      webView3.frame.origin.x = insetL
+      //webView3.frame.origin.y = urlField.frame.origin.y
+      webView3.frame.origin.y = urlField.frame.origin.y + urlField.frame.size.height + 5
+      webView3.frame.size.width = view.frame.width - insetL - insetR
+      //webView3.frame.size.height = view.frame.height - urlField.frame.origin.y
+      webView3.frame.size.height = view.frame.height - urlField.frame.origin.y - urlField.frame.size.height - 5
       
       lb.frame.origin.x = insetL + 21
       lb.frame.size.width = view.frame.width - insetL - insetR - 42
@@ -1353,33 +1351,33 @@ player.play()*/
             ])
         UserDefaults.standard.synchronize()
         
-        webviewPrefs = WKPreferences()
-        webviewPrefs.javaScriptEnabled = true
-        webviewPrefs.javaScriptCanOpenWindowsAutomatically = false
+        webViewPrefs = WKPreferences()
+        webViewPrefs.javaScriptEnabled = true
+        webViewPrefs.javaScriptCanOpenWindowsAutomatically = false
         
-        webviewConfig = WKWebViewConfiguration()
-        webviewConfig.preferences = webviewPrefs
-        webviewConfig.processPool = processPool
-        webviewConfig.allowsInlineMediaPlayback = true
-        webviewConfig.mediaTypesRequiringUserActionForPlayback = []
-        //webviewConfig.mediaTypesRequiringUserActionForPlayback = .all
-        //webviewConfig.ignoresViewportScaleLimits = true
-        webviewConfig.userContentController.addUserScript(WKUserScript(source: "var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=device-width, initial-scale=1.0, minimum-scale=0.1, maximum-scale=15.0, user-scalable=yes'); } window.webkit.messageHandlers.iosListener.postMessage('dF'); setTimeout(function() { var videos = document.getElementsByTagName('video'); for (var i = 0; i < videos.length; i++) { videos.item(i).pause(); window.webkit.messageHandlers.iosListener.postMessage('vs' + videos.item(i).src); window.webkit.messageHandlers.iosListener.postMessage('vc' + videos.item(i).currentSrc); } }, 3000); var el = document.querySelector('input[type=file]'); if (el !== null) { window.webkit.messageHandlers.iosListener.postMessage('iF'); el.removeAttribute('capture'); }", injectionTime: .atDocumentEnd, forMainFrameOnly: false))
-        webviewConfig.userContentController.addUserScript(WKUserScript(source: "document.addEventListener('click', function() { window.webkit.messageHandlers.iosListener.postMessage('c'); })", injectionTime: .atDocumentEnd, forMainFrameOnly: false))
-        webviewConfig.userContentController.add(self, name: "iosListener")
+        webViewConfig = WKWebViewConfiguration()
+        webViewConfig.preferences = webViewPrefs
+        webViewConfig.processPool = processPool
+        webViewConfig.allowsInlineMediaPlayback = true
+        webViewConfig.mediaTypesRequiringUserActionForPlayback = []
+        //webViewConfig.mediaTypesRequiringUserActionForPlayback = .all
+        //webViewConfig.ignoresViewportScaleLimits = true
+        webViewConfig.userContentController.addUserScript(WKUserScript(source: "var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=device-width, initial-scale=1.0, minimum-scale=0.1, maximum-scale=15.0, user-scalable=yes'); } window.webkit.messageHandlers.iosListener.postMessage('dF'); setTimeout(function() { var videos = document.getElementsByTagName('video'); for (var i = 0; i < videos.length; i++) { videos.item(i).pause(); window.webkit.messageHandlers.iosListener.postMessage('vs' + videos.item(i).src); window.webkit.messageHandlers.iosListener.postMessage('vc' + videos.item(i).currentSrc); } }, 3000); var el = document.querySelector('input[type=file]'); if (el !== null) { window.webkit.messageHandlers.iosListener.postMessage('iF'); el.removeAttribute('capture'); }", injectionTime: .atDocumentEnd, forMainFrameOnly: false))
+        webViewConfig.userContentController.addUserScript(WKUserScript(source: "document.addEventListener('click', function() { window.webkit.messageHandlers.iosListener.postMessage('c'); })", injectionTime: .atDocumentEnd, forMainFrameOnly: false))
+        webViewConfig.userContentController.add(self, name: "iosListener")
         
-        webview = WKWebView(frame: view.bounds, configuration: webviewConfig)
-        webview.navigationDelegate = self
-        webview.uiDelegate = self
-        webview.allowsBackForwardNavigationGestures = true
-        webview.allowsLinkPreview = true
-        webview.clipsToBounds = false
-        webview.scrollView.clipsToBounds = false
+        webView = WKWebView(frame: view.bounds, configuration: webViewConfig)
+        webView.navigationDelegate = self
+        webView.uiDelegate = self
+        webView.allowsBackForwardNavigationGestures = true
+        webView.allowsLinkPreview = true
+        webView.clipsToBounds = false
+        webView.scrollView.clipsToBounds = false
         
         if #available(iOS 11, *) {
         if let cookies: [HTTPCookie] = getData(key: "cookies") {
         for (index, cookie) in cookies.enumerated() {
-        webview.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
+        webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
         iwashere += "\n\ncookie \(index+1)/\(cookies.count):\n\(cookie)"
         self.lb.text! += " c\(index+1):\(cookie.domain)"
         }
@@ -1388,11 +1386,11 @@ player.play()*/
         }
         }
         
-webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
+webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
           self.defaultUserAgent = result as! String
         }
-        //webview.isHidden = true
-        view.addSubview(webview)
+        //webView.isHidden = true
+        view.addSubview(webView)
         
         counter += 1
         
@@ -1546,7 +1544,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
           }
         }
         
-    //webview.load(URLRequest(url: URL(string: restoreUrls[restoreIndex])!))
+    //webView.load(URLRequest(url: URL(string: restoreUrls[restoreIndex])!))
     
     let currentDateTime = Date()
     let formatter = DateFormatter()
@@ -1555,9 +1553,9 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     
     var bflist = "\(timestamp) LASTbflist:"
     for (index, url) in restoreUrls.enumerated() {
-      //self.webview.load(URLRequest(url: url))
+      //self.webView.load(URLRequest(url: url))
       //DispatchQueue.main.async {
-      //self.webview.load(URLRequest(url: URL(string: url)!))
+      //self.webView.load(URLRequest(url: URL(string: url)!))
       //}
       bflist += "<br><br>\(index+1): \(url)"
     }
@@ -1566,23 +1564,23 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
       //self.showAlert(message: "\(bflist)")
     //}
     
-    webview2 = WebView(frame: CGRect.zero, history: WebViewHistory())
-    //webview2.navigationDelegate = self
-    webview2.allowsBackForwardNavigationGestures = true
-    webview2.frame = CGRect(x: 0, y: 84, width: webview.frame.size.width, height: 200)
-    webview2.loadHTMLString("<b>So long and thanks for all the fish!</b><br><a href='https://www.google.com/'>hoho</a>", baseURL: nil)
-    //view.addSubview(webview2)
+    webView2 = WebView(frame: CGRect.zero, history: WebViewHistory())
+    //webView2.navigationDelegate = self
+    webView2.allowsBackForwardNavigationGestures = true
+    webView2.frame = CGRect(x: 0, y: 84, width: webView.frame.size.width, height: 200)
+    webView2.loadHTMLString("<b>So long and thanks for all the fish!</b><br><a href='https://www.google.com/'>hoho</a>", baseURL: nil)
+    //view.addSubview(webView2)
     
-    webview3 = WebView(frame: CGRect.zero, history: WebViewHistory())
-    webview3.loadHTMLString("<body style='background-color:transparent;color:white;'><h1 id='a' style='position:relative;top:30px;background-color:white;color:black;'>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br><div id='b' style='position:relative;top:70px;' onclick='copy()'>\(bflist)<br><br>AddressBar: \(origArray.count)<br><br>\(origArray)</div><script>function copy() { var range = document.createRange(); range.selectNode(document.getElementById('b')); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); window.getSelection().removeAllRanges(); }</script></body>", baseURL: nil)
-    webview3.isOpaque = false
-    //webview3.backgroundColor = .orange
-    //webview3.scrollView.backgroundColor = .orange
-    webview3.backgroundColor = .appBgColor
-    webview3.scrollView.backgroundColor = .appBgColor
-    webview3.scrollView.isScrollEnabled = true
-    //webview3.scrollView.bounces = false
-    view.addSubview(webview3)
+    webView3 = WebView(frame: CGRect.zero, history: WebViewHistory())
+    webView3.loadHTMLString("<body style='background-color:transparent;color:white;'><h1 id='a' style='position:relative;top:30px;background-color:white;color:black;'>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br><div id='b' style='position:relative;top:70px;' onclick='copy()'>\(bflist)<br><br>AddressBar: \(origArray.count)<br><br>\(origArray)</div><script>function copy() { var range = document.createRange(); range.selectNode(document.getElementById('b')); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); window.getSelection().removeAllRanges(); }</script></body>", baseURL: nil)
+    webView3.isOpaque = false
+    //webView3.backgroundColor = .orange
+    //webView3.scrollView.backgroundColor = .orange
+    webView3.backgroundColor = .appBgColor
+    webView3.scrollView.backgroundColor = .appBgColor
+    webView3.scrollView.isScrollEnabled = true
+    //webView3.scrollView.bounces = false
+    view.addSubview(webView3)
     
     avPVC = AVPlayerViewController()
     NotificationCenter.default.addObserver(self, selector: #selector(focusNewWindow), name: .UIWindowDidResignKey, object: nil)
@@ -1627,7 +1625,7 @@ webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
     if message.body as? String == "restore" {
       
       DispatchQueue.main.asyncAfter(deadline: .now() + 7.0) {
-        self.webview3.removeFromSuperview()
+        self.webView3.removeFromSuperview()
       }
       
       lb.text! += " restoreD"
@@ -1672,14 +1670,14 @@ downloadTask.resume()
       }
       
       if keyPath == "URL" {
-        webview.evaluateJavaScript("var el = document.querySelector('input[type=file]'); if (el !== null) { window.webkit.messageHandlers.iosListener.postMessage('iF' + el.getAttribute('accept')); el.removeAttribute('accept'); el.removeAttribute('capture'); el.removeAttribute('onclick'); el.click(); }", completionHandler: nil)
+        webView.evaluateJavaScript("var el = document.querySelector('input[type=file]'); if (el !== null) { window.webkit.messageHandlers.iosListener.postMessage('iF' + el.getAttribute('accept')); el.removeAttribute('accept'); el.removeAttribute('capture'); el.removeAttribute('onclick'); el.click(); }", completionHandler: nil)
         lb.text! += " oV:" + String(String(describing: key).prefix(15))
         //adjustLabel()
       }
       
       if keyPath == "estimatedProgress" {
-        progressView.progress = Float(webview.estimatedProgress)
-        if webview.estimatedProgress == 1 {
+        progressView.progress = Float(webView.estimatedProgress)
+        if webView.estimatedProgress == 1 {
           DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.progressView.progress = Float(0)
           }
@@ -1712,7 +1710,7 @@ downloadTask.resume()
     
     /*
     if #available(iOS 11, *) {
-      webview.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
+      webView.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
         var sessionCookies: [HTTPCookie] = []
         for cookie in cookies {
         if cookie.isSessionOnly {
@@ -1741,7 +1739,7 @@ downloadTask.resume()
         iwashere = ""
         if let cookies: [HTTPCookie] = getData(key: "cookies") {
         for (index, cookie) in cookies.enumerated() {
-        webview.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
+        webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
         iwashere += "\n\ncookie \(index+1)/\(cookies.count):\n\(cookie)"
         self.lb.text! += " c\(index+1):\(cookie.domain)"
         }
@@ -1773,11 +1771,11 @@ downloadTask.resume()
     }
     
     var success: Bool = false
-    webview.evaluateJavaScript("document.querySelector(\"meta[name='theme-color']\").getAttribute('content').replace(/rgb\\(/i,'rgba(').replace(/\\)/i,', 255)')") { (result, error) in
+    webView.evaluateJavaScript("document.querySelector(\"meta[name='theme-color']\").getAttribute('content').replace(/rgb\\(/i,'rgba(').replace(/\\)/i,', 255)')") { (result, error) in
       self.lb.text! += " TC:\(result ?? "nil")"
       success = setTopNavBgViewColor(result)
       if !success {
-        self.webview.evaluateJavaScript("window.getComputedStyle(document.body,null).getPropertyValue('background-color').replace(/rgb\\(/i,'rgba(').replace(/\\)/i,', 255)')") { (result, error) in
+        self.webView.evaluateJavaScript("window.getComputedStyle(document.body,null).getPropertyValue('background-color').replace(/rgb\\(/i,'rgba(').replace(/\\)/i,', 255)')") { (result, error) in
       self.lb.text! += " BG:\(result ?? "nil")"
       success = setTopNavBgViewColor(result)
       if !success {
@@ -1794,12 +1792,12 @@ downloadTask.resume()
   }
   
   @objc private func resignActive() {
-    if webview.scrollView.contentOffset.y < 0 {
-      webview.scrollView.setContentOffset(CGPoint(x: webview.scrollView.contentOffset.x, y: 0), animated: true)
+    if webView.scrollView.contentOffset.y < 0 {
+      webView.scrollView.setContentOffset(CGPoint(x: webView.scrollView.contentOffset.x, y: 0), animated: true)
     }
     
     if #available(iOS 11, *) {
-      webview.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
+      webView.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
         var sessionCookies: [HTTPCookie] = []
         for cookie in cookies {
         if cookie.isSessionOnly {
@@ -1834,14 +1832,14 @@ downloadTask.resume()
     let alert = UIAlertController(title: "Alert", message: "Restore last session?\n\nThe last session contains \(restoreIndexLast+1) pages.", preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
       if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)") {
-        self.webview.load(URLRequest(url: restoreUrl))
+        self.webView.load(URLRequest(url: restoreUrl))
         self.showAlert(message: "\(iwashere)")
         //self.showAlert(message: "\(restoreUrl.absoluteString)")
       }
     }))
     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-      self.webview.load(URLRequest(url: URL(string: "https://www.google.com/")!))
-      //self.webview3.removeFromSuperview()
+      self.webView.load(URLRequest(url: URL(string: "https://www.google.com/")!))
+      //self.webView3.removeFromSuperview()
     }))
     hapticFB.notificationOccurred(.success)
     present(alert, animated: true, completion: nil)
@@ -1859,29 +1857,29 @@ downloadTask.resume()
   
   private func changeUserAgent() {
     if currentUserAgent == "default" {
-      webview.customUserAgent = desktopUserAgent
+      webView.customUserAgent = desktopUserAgent
       currentUserAgent = "desktop"
     } else {
-      webview.customUserAgent = nil
+      webView.customUserAgent = nil
       currentUserAgent = "default"
     }
-    webview.reload()
+    webView.reload()
     
     /*
-    if webview.customUserAgent != desktopUserAgent {
+    if webView.customUserAgent != desktopUserAgent {
     //if defaultUserAgent == "default" {
-      webview.evaluateJavaScript("navigator.userAgent") { (result, error) in
+      webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         self.defaultUserAgent = result as! String
-        self.webview.customUserAgent = self.desktopUserAgent
-        //self.webview.customUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.109 Safari/537.36"
-        self.webview.reload()
+        self.webView.customUserAgent = self.desktopUserAgent
+        //self.webView.customUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.109 Safari/537.36"
+        self.webView.reload()
       }
     } else {
-      webview.customUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 12_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Mobile/15E148 Safari/604.1"
-      //webview.customUserAgent = nil
-      //webview.customUserAgent = defaultUserAgent
+      webView.customUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 12_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Mobile/15E148 Safari/604.1"
+      //webView.customUserAgent = nil
+      //webView.customUserAgent = defaultUserAgent
       //defaultUserAgent = "default"
-      webview.reload()
+      webView.reload()
     }
     */
   }
@@ -1934,7 +1932,7 @@ downloadTask.resume()
       if matchedNumber == 0 {
         urlobj = URL(string: "http://" + url)
         if !url.contains(".") {
-          urlobj = URL(string: webviewSearchUrlPref + url)
+          urlobj = URL(string: webViewSearchUrlPref + url)
         }
       }
       lb.text! += " \(matchedNumber)"
@@ -1943,42 +1941,42 @@ downloadTask.resume()
     }
     navTypeBackForward = false
     let request = URLRequest(url: urlobj!, timeoutInterval: 10.0)
-    webview.load(request)
+    webView.load(request)
   }
   
   
-  func webView(_ webview: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-    lb.text! += " dSPN:\(self.webview.url!.absoluteString)"
+  func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+    lb.text! += " dSPN:\(self.webView.url!.absoluteString)"
   }
   
   
   @available(iOS 14.5, *)
   //@available(iOS 15, *)
-  func webView(_ webview: WKWebView, navigationAction: WKNavigationAction, didBecome download: WKDownload) {
+  func webView(_ webView: WKWebView, navigationAction: WKNavigationAction, didBecome download: WKDownload) {
     download.delegate = self
   }
   
   @available(iOS 14.5, *)
   //@available(iOS 15, *)
-  func webView(_ webview: WKWebView, navigationResponse: WKNavigationResponse, didBecome download: WKDownload) {
+  func webView(_ webView: WKWebView, navigationResponse: WKNavigationResponse, didBecome download: WKDownload) {
     download.delegate = self
   }
   
   
-  func webView(_ webview: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+  func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
     if let urlStr = navigationAction.request.url?.absoluteString {
-      //Full path self.webview.url
+      //Full path self.webView.url
       navUrl = urlStr
       navUrlArray.insert(navUrl, at: 0)
       if navUrl == "about:blank" {
-        navUrlArray.insert("AB:" + self.webview.url!.absoluteString, at: 0)
+        navUrlArray.insert("AB:" + self.webView.url!.absoluteString, at: 0)
       }
     }
     
     if currentUserAgent == "default" {
-      webview.customUserAgent = nil
+      webView.customUserAgent = nil
     } else {
-      webview.customUserAgent = desktopUserAgent
+      webView.customUserAgent = desktopUserAgent
     }
     
     
@@ -1998,7 +1996,7 @@ downloadTask.resume()
       
       //DispatchQueue.main.asyncAfter(deadline: .now() + 2.3) {
         //self.navTypeBackForward = false
-        //self.webview.load(navigationAction.request)
+        //self.webView.load(navigationAction.request)
       //}
       
       //sleep(2)
@@ -2012,13 +2010,13 @@ downloadTask.resume()
       var unilinkStop = false
       unilinkUrls.forEach { item in
         if navigationAction.request.url!.absoluteString.lowercased().hasPrefix(item.lowercased()) {
-          //if !webview.url!.absoluteString.lowercased().hasPrefix(item.lowercased()) {
+          //if !webView.url!.absoluteString.lowercased().hasPrefix(item.lowercased()) {
             unilinkStop = true
           //}
         }
       }
       if unilinkStop == true {
-        webview.load(navigationAction.request)
+        webView.load(navigationAction.request)
         lb.text! += " uni:\(navigationAction.request.url!.absoluteString)"
         //adjustLabel()
         decisionHandler(.cancel)
@@ -2034,7 +2032,7 @@ downloadTask.resume()
       }
     }
     if desktopStop == true {
-      webview.customUserAgent = desktopUserAgent
+      webView.customUserAgent = desktopUserAgent
       lb.text! += " desk:\(navigationAction.request.url!.absoluteString)"
       //adjustLabel()
       decisionHandler(.allow)
@@ -2059,8 +2057,8 @@ downloadTask.resume()
     }
     
     if navigationAction.request.url!.absoluteString != "about:blank" && navigationAction.navigationType != .linkActivated {
-    if UIApplication.shared.canOpenURL(navigationAction.request.url!) && navigationAction.request.url! != webview.url! {
-      lb.text! += " cO:\(navigationAction.request.url!.absoluteString) \(webview.url!.absoluteString)"
+    if UIApplication.shared.canOpenURL(navigationAction.request.url!) && navigationAction.request.url! != webView.url! {
+      lb.text! += " cO:\(navigationAction.request.url!.absoluteString) \(webView.url!.absoluteString)"
       //lb.text! += " cO:" + String(String(describing: navigationAction.request.url!.absoluteString).prefix(15))
     }
     }
@@ -2072,20 +2070,20 @@ downloadTask.resume()
     //&& navigationAction.targetFrame == nil {
     
     if navigationAction.request.url?.scheme == "itms-appss" {
-      webview.stopLoading()
-      webview.customUserAgent = desktopUserAgent
+      webView.stopLoading()
+      webView.customUserAgent = desktopUserAgent
       let newUrlStr = navigationAction.request.url!.absoluteString.replacingOccurrences(of: "itms-appss", with: "https")
       let newUrl = URL(string: newUrlStr)
       //var newUrl = URLRequest(url: URL(string: newUrlStr)!)
       //newUrl.setValue(desktopUserAgent, forHTTPHeaderField: "User-Agent")
       if counter < 3 {
       counter += 1
-      webview.load(URLRequest(url: newUrl!))
-      //webview.load(newUrl)
+      webView.load(URLRequest(url: newUrl!))
+      //webView.load(newUrl)
       lb.text! += " itms-appss:\(navigationAction.request.url!.absoluteString)"
       //adjustLabel()
       }
-      //webview.customUserAgent = nil
+      //webView.customUserAgent = nil
       //UIApplication.shared.open(navigationAction.request.url!, options: [:], completionHandler: nil)
       decisionHandler(.cancel)
       return
@@ -2119,7 +2117,7 @@ downloadTask.resume()
     decisionHandler(.allow)
   }
   
-  func webView(_ webview: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+  func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
     
     if let urlStr = navigationResponse.response.url?.absoluteString {
       navUrl = urlStr
@@ -2132,8 +2130,8 @@ downloadTask.resume()
       
       if mimeType == "application/application/pdf" {
         if let data = try? Data(contentsOf: navigationResponse.response.url!) {
-          webview.stopLoading()
-          webview.load(data, mimeType: "application/pdf", characterEncodingName: "", baseURL: navigationResponse.response.url!)
+          webView.stopLoading()
+          webView.load(data, mimeType: "application/pdf", characterEncodingName: "", baseURL: navigationResponse.response.url!)
           decisionHandler(.cancel)
           return
         }
@@ -2165,12 +2163,12 @@ downloadTask.resume()
   }
   
   
-  func webView(_ webview: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+  func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
     let err = error as NSError
     switch err.code {
       case -999: break
       case 101, -1003:
-        url = "\(webviewSearchUrlPref)\(url!)"
+        url = "\(webViewSearchUrlPref)\(url!)"
         startLoading()
       case 102:
         if showFrameLoadError == false {
@@ -2186,17 +2184,17 @@ downloadTask.resume()
     //adjustLabel()
   }
   
-  func webView(_ webview: WKWebView, didFinish navigation: WKNavigation!) {
-    if webview.url!.absoluteString.hasPrefix("http://localhost:6571/errors/error.html") == false {
-      urlField.text = webview.url!.absoluteString
+  func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+    if webView.url!.absoluteString.hasPrefix("http://localhost:6571/errors/error.html") == false {
+      urlField.text = webView.url!.absoluteString
       
-      if webview.hasOnlySecureContent {
+      if webView.hasOnlySecureContent {
         urlField.textColor = .successFgColor
       } else {
         urlField.textColor = .errorFgColor
       }
       /*if #available(iOS 14, *) {
-        let mediaType = webview.mediaType
+        let mediaType = webView.mediaType
         showAlert(message: "mT:\(mediaType)!")
       }*/
       
@@ -2206,36 +2204,36 @@ downloadTask.resume()
     alertCounter = 0
     lb.text! += " w:dF"
     //adjustLabel()
-    //webview.evaluateJavaScript("var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width, initial-scale=1.0, minimum-scale=0, maximum-scale=10.0, user-scalable=yes'); document.getElementsByTagName('head')[0].appendChild(meta);", completionHandler: nil)
-    //webview.evaluateJavaScript("var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=device-width, initial-scale=1.0, minimum-scale=0.1, maximum-scale=15.0, user-scalable=yes'); }", completionHandler: nil)
+    //webView.evaluateJavaScript("var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width, initial-scale=1.0, minimum-scale=0, maximum-scale=10.0, user-scalable=yes'); document.getElementsByTagName('head')[0].appendChild(meta);", completionHandler: nil)
+    //webView.evaluateJavaScript("var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=device-width, initial-scale=1.0, minimum-scale=0.1, maximum-scale=15.0, user-scalable=yes'); }", completionHandler: nil)
     
-    //for item in webview.backForwardList {}
-    //for (item: WKBackForwardListItem) in webview.backForwardList.backList {}
+    //for item in webView.backForwardList {}
+    //for (item: WKBackForwardListItem) in webView.backForwardList.backList {}
     
-    //let historySize = webview.backForwardList.backList.count
-    //let firstItem = webview.backForwardList.item(at: -historySize)
-    //webview.go(to: firstItem!)
+    //let historySize = webView.backForwardList.backList.count
+    //let firstItem = webView.backForwardList.item(at: -historySize)
+    //webView.go(to: firstItem!)
     
     var bflist = "bflist:"
-    let historySize = webview.backForwardList.backList.count
+    let historySize = webView.backForwardList.backList.count
     if historySize != 0 {
       for index in -historySize..<0 {
-        bflist = bflist + " \(index)/\(historySize)/" + webview.backForwardList.item(at: index)!.url.absoluteString
+        bflist = bflist + " \(index)/\(historySize)/" + webView.backForwardList.item(at: index)!.url.absoluteString
       }
     }
     
     //var bflist = "bflist:"
-    //bfarray.append(webview.url!.absoluteString)
+    //bfarray.append(webView.url!.absoluteString)
     //bfarray.forEach { item in
       //bflist = bflist + " \(item)"
     //}
     //showAlert(message: bflist)
     
-    guard let currentItem = self.webview.backForwardList.currentItem else {
+    guard let currentItem = self.webView.backForwardList.currentItem else {
     return
     }
-    let urls = (self.webview.backForwardList.backList + [currentItem] + self.webview.backForwardList.forwardList).compactMap { $0.url.absoluteString }
-    let currentIndexButLast = self.webview.backForwardList.forwardList.count
+    let urls = (self.webView.backForwardList.backList + [currentItem] + self.webView.backForwardList.forwardList).compactMap { $0.url.absoluteString }
+    let currentIndexButLast = self.webView.backForwardList.forwardList.count
     
     UserDefaults.standard.set(urls, forKey: "urls")
     UserDefaults.standard.set(currentIndexButLast, forKey: "currentIndexButLast")
@@ -2311,7 +2309,7 @@ downloadTask.resume()
       
       //if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?history={'currentPage': -1, 'history': ['https://orf.at', 'https://derstandard.at']}") {
       if let restoreUrl = URL(string: "\(webServer.serverURL!)") {
-        self.webview.load(URLRequest(url: restoreUrl))
+        self.webView.load(URLRequest(url: restoreUrl))
         lb.text! += " \(webserv) \(restoreUrl.absoluteString)"
         //adjustLabel()
       }
@@ -2322,27 +2320,27 @@ downloadTask.resume()
       //var restoreUrlPart = "/errors/restore?history={\"currentPage\": -1, \"history\": [\"https://www.aktienfahrplan.com\", \"https://orf.at\", \"https://www.google.com/search?q=opensea&source=hp\"]}"
       //restoreUrlPart = restoreUrlPart.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
       //if let restoreUrl = URL(string: "\(WebServer.instance.base)\(restoreUrlPart)") {
-        //self.webview.load(URLRequest(url: restoreUrl))
+        //self.webView.load(URLRequest(url: restoreUrl))
         //self.lb.text! += " \(restoreUrl.absoluteString)"
       //}
       //lb.text! += " \(webserv) \(restoreUrlPart)"
       lb.text! += " \(webserv)"
       //adjustLabel()
       
-      //webview.go(to: webview.backForwardList.item(at: restorePosition * -1)!)
-      //##webview3.removeFromSuperview()
+      //webView.go(to: webView.backForwardList.item(at: restorePosition * -1)!)
+      //##webView3.removeFromSuperview()
       
       //var myBackList = [WKBackForwardListItem]()
-      //myBackList.append(webview.backForwardList.item(at: 0)!)
-        //override var webview.backForwardList.backList: [WKBackForwardListItem] {
+      //myBackList.append(webView.backForwardList.item(at: 0)!)
+        //override var webView.backForwardList.backList: [WKBackForwardListItem] {
         //return myBackList
         //}
         
     }
     if restoreIndex < restoreIndexLast {
       restoreIndex += 1
-      //webview.load(URLRequest(url: URL(string: restoreUrls[restoreIndex])!))
-      webview3.evaluateJavaScript("document.getElementById('a').innerHTML = 'Loading last Session... \(restoreIndex+1+restoreIndexLast+1-3)/\(restoreIndexLast+1)';", completionHandler: nil)
+      //webView.load(URLRequest(url: URL(string: restoreUrls[restoreIndex])!))
+      webView3.evaluateJavaScript("document.getElementById('a').innerHTML = 'Loading last Session... \(restoreIndex+1+restoreIndexLast+1-3)/\(restoreIndexLast+1)';", completionHandler: nil)
     }
     
     //let urlss = UserDefaults.standard.array(forKey: "urls") as? [URL] ?? [URL]()
@@ -2368,9 +2366,9 @@ downloadTask.resume()
     //adjustLabel()
   }
   
-  func webView(_ webview: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
+  func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
   //@available(iOS 13, *)
-  //func webView(_ webview: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo) async {
+  //func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo) async {
     if alertCounter < 5 {
       alertCounter += 1
       showJSAlert(type: "alert", title: "Alert", message: message) { (response) in
@@ -2387,7 +2385,7 @@ downloadTask.resume()
     //present(alertController, animated: true, completion: nil)
   }
   
-  func webView(_ webview: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
+  func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
     if alertCounter < 5 {
       alertCounter += 1
       showJSAlert(type: "confirm", title: "Alert", message: message) { (response) in
@@ -2407,7 +2405,7 @@ downloadTask.resume()
     //present(alertController, animated: true, completion: nil)
   }
   
-  func webView(_ webview: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
+  func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
     if alertCounter < 5 {
       alertCounter += 1
       showJSAlert(type: "prompt", title: "Alert", message: prompt, input: defaultText) { (response) in
@@ -2458,7 +2456,7 @@ downloadTask.resume()
                     return
                 }
                 if let list = contentRuleList {
-                    self?.webview.configuration.userContentController.add(list)
+                    self?.webView.configuration.userContentController.add(list)
                     completion?()
                 }
             }
@@ -2470,7 +2468,7 @@ downloadTask.resume()
                     return
                 }
                 if let list = contentRuleList {
-                    self?.webview.configuration.userContentController.add(list)
+                    self?.webView.configuration.userContentController.add(list)
                     UserDefaults.standard.set(true, forKey: ruleId1)
                     completion?()
                 }
@@ -2501,7 +2499,7 @@ downloadTask.resume()
     //self?.adjustLabel()
     if ruleId2FileDate > ruleId2FileDateLast! {
       //if #available(iOS 11.0, *) {
-      //webview.configuration.userContentController.removeAllContentRuleLists()
+      //webView.configuration.userContentController.removeAllContentRuleLists()
       WKContentRuleListStore.default().removeContentRuleList(forIdentifier: ruleId2, completionHandler: { _ in })
       UserDefaults.standard.set(false, forKey: ruleId2)
       //let group = DispatchGroup()
@@ -2521,7 +2519,7 @@ downloadTask.resume()
       //}
     }
                     
-                    self?.webview.configuration.userContentController.add(list)
+                    self?.webView.configuration.userContentController.add(list)
                     completion?()
                 }
             }
@@ -2535,7 +2533,7 @@ downloadTask.resume()
                         return
                     }
                     if let list = contentRuleList {
-                        self?.webview.configuration.userContentController.add(list)
+                        self?.webView.configuration.userContentController.add(list)
                         UserDefaults.standard.set(true, forKey: ruleId2)
                         completion?()
                     }
@@ -2546,7 +2544,7 @@ downloadTask.resume()
     
     @available(iOS 11.0, *)
     private func resetContentRuleList() {
-        let config = webview.configuration
+        let config = webView.configuration
         config.userContentController.removeAllContentRuleLists()
     }
     
