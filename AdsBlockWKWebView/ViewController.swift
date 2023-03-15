@@ -2375,7 +2375,7 @@ downloadTask.resume()
         urlField.textColor = .errorFgColor
       }
       if #available(iOS 15, *) {
-        lb.text! += "mT:\(webView.mediaType ?? "nil") tC:\(webView.themeColor ?? "nil") uC:\(webView.underPageBackgroundColor ?? "nil")"
+        lb.text! += "mT:\(webView.mediaType ?? "nil") tC:\(webView.themeColor) uC:\(webView.underPageBackgroundColor)"
       }
     }
     lb.text! += " END"
