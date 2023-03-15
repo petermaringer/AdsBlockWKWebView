@@ -1948,7 +1948,8 @@ downloadTask.resume()
   
   
   func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-    lb.text! += " dSPN:\(self.webView.url!.absoluteString)"
+    //lb.text! += " dSPN:\(webView.url!.absoluteString)"
+    lb.text! += " dSPN:" + String(String(describing: webView.url!.absoluteString).prefix(15))
   }
   
   
@@ -2373,9 +2374,8 @@ downloadTask.resume()
       } else {
         urlField.textColor = .errorFgColor
       }
-      if #available(iOS 14, *) {
-        let mediaType = webView.mediaType
-        showAlert(message: "mT:\(mediaType)!")
+      if #available(iOS 15, *) {
+        lb.text! += "mT:\(webView.mediaType ?? "nil") tC:\(webView.themeColor ?? "nil") uC:\(webView.underPageBackgroundColor ?? "nil")"
       }
     }
     lb.text! += " END"
