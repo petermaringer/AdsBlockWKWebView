@@ -1270,7 +1270,7 @@ player.play()*/
       progressView.frame.origin.y = urlField.frame.origin.y + urlField.frame.size.height + 2
       //progressView.frame.size.width = view.frame.width - insetL - insetR
       progressView.frame.size.width = urlField.frame.size.width
-      progressView.frame.size.height = 2
+      progressView.frame.size.height = 1
       //progressView.transform = progressView.transform.scaledBy(x: 1, y: 1.5)
       
       tableView.frame.origin.x = insetL
@@ -1738,6 +1738,7 @@ downloadTask.resume()
     avPVC.player = player
     lb.text! += " eFg"
     
+    /*
     if #available(iOS 11, *) {
         iwashere = ""
         if let cookies: [HTTPCookie] = getData(key: "cookies") {
@@ -1753,6 +1754,7 @@ downloadTask.resume()
         //self.showAlert(message: iwashere)
         //}
         }
+        */
     
     func setTopNavBgViewColor(_ input: Any?) -> Bool {
       if input == nil { return false }
@@ -1820,6 +1822,23 @@ downloadTask.resume()
   }
   
   @objc private func becomeActive() {
+    
+    if #available(iOS 11, *) {
+        iwashere = ""
+        if let cookies: [HTTPCookie] = getData(key: "cookies") {
+        for (index, cookie) in cookies.enumerated() {
+        webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
+        iwashere += "\n\ncookie \(index+1)/\(cookies.count):\n\(cookie)"
+        self.lb.text! += " c\(index+1):\(cookie.domain)"
+        }
+        //break
+        }
+        }
+        //DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        //self.showAlert(message: iwashere)
+        //}
+        }
+    
     lb.text! += " bAc"
   }
   
