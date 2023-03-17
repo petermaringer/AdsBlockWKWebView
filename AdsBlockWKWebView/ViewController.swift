@@ -1271,7 +1271,7 @@ player.play()*/
       //progressView.frame.size.width = view.frame.width - insetL - insetR
       progressView.frame.size.width = urlField.frame.size.width
       progressView.frame.size.height = 2
-      progressView.transform = progressView.transform.scaledBy(x: 1, y: 1.5)
+      //progressView.transform = progressView.transform.scaledBy(x: 1, y: 1.5)
       
       tableView.frame.origin.x = insetL
       tableView.frame.origin.y = urlField.frame.origin.y + urlField.frame.size.height + 5
@@ -1589,6 +1589,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
     NotificationCenter.default.addObserver(self, selector: #selector(enterBackground), name: .UIApplicationDidEnterBackground, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(enterForeground), name: .UIApplicationWillEnterForeground, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(resignActive), name: .UIApplicationWillResignActive, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(becomeActive), name: .UIApplicationDidBecomeActive, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(willTerminate), name: .UIApplicationWillTerminate, object: nil)
     let commandCenter = MPRemoteCommandCenter.shared()
     commandCenter.togglePlayPauseCommand.addTarget { [unowned self] event in
@@ -1816,6 +1817,10 @@ downloadTask.resume()
     }
     
     lb.text! += " rAc"
+  }
+  
+  @objc private func becomeActive() {
+    lb.text! += " bAc"
   }
   
   @objc private func willTerminate() {
@@ -2375,7 +2380,7 @@ downloadTask.resume()
         urlField.textColor = .errorFgColor
       }
       if #available(iOS 15, *) {
-        lb.text! += "mT:\(webView.mediaType ?? "nil") tC:\(webView.themeColor) uC:\(webView.underPageBackgroundColor)"
+        lb.text! += " mT:\(webView.mediaType ?? "nil") tC:\(webView.themeColor) uC:\(webView.underPageBackgroundColor)"
       }
     }
     lb.text! += " END"
