@@ -1379,7 +1379,10 @@ player.play()*/
         for (index, cookie) in cookies.enumerated() {
         webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
         iwashere += "\n\ncookie \(index+1)/\(cookies.count):\n\(cookie)"
-        self.lb.text! += " c\(index+1):\(cookie.domain)"
+        //self.lb.text! += " c\(index+1):\(cookie.domain)"
+        if index + 1 == cookies.count {
+        self.lb.text! += " cR:\(cookies.count)"
+        }
         }
         }
         }
@@ -1795,13 +1798,11 @@ downloadTask.resume()
         if let cookies: [HTTPCookie] = getData(key: "cookies") {
         for (index, cookie) in cookies.enumerated() {
         webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
-        iwashere += "\n\ncookie \(index+1)/\(cookies.count):\n\(cookie)"
-        self.lb.text! += " c\(index+1):\(cookie.domain)"
-        
+        //iwashere += "\n\ncookie \(index+1)/\(cookies.count):\n\(cookie)"
+        //self.lb.text! += " c\(index+1):\(cookie.domain)"
         if index + 1 == cookies.count {
         self.lb.text! += " cR:\(cookies.count)"
         }
-        
         }
         }
         }
