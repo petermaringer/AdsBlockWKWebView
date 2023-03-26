@@ -1362,7 +1362,7 @@ player.play()*/
         webViewConfig.mediaTypesRequiringUserActionForPlayback = []
         //webViewConfig.mediaTypesRequiringUserActionForPlayback = .all
         //webViewConfig.ignoresViewportScaleLimits = true
-        webViewConfig.userContentController.addUserScript(WKUserScript(source: "var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=device-width, initial-scale=1.0, minimum-scale=0.1, maximum-scale=15.0, user-scalable=yes'); } window.webkit.messageHandlers.iosListener.postMessage('dF'); setTimeout(function() { var videos = document.getElementsByTagName('video'); for (var i = 0; i < videos.length; i++) { videos.item(i).pause(); window.webkit.messageHandlers.iosListener.postMessage('vs' + videos.item(i).src); window.webkit.messageHandlers.iosListener.postMessage('vc' + videos.item(i).currentSrc); } }, 3000); var el = document.querySelector('input[type=file]'); if (el !== null) { window.webkit.messageHandlers.iosListener.postMessage('iF'); el.removeAttribute('capture'); }", injectionTime: .atDocumentEnd, forMainFrameOnly: false))
+        webViewConfig.userContentController.addUserScript(WKUserScript(source: "var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=device-width, initial-scale=1.0, minimum-scale=0.1, maximum-scale=15.0, user-scalable=yes'); } window.webkit.messageHandlers.iosListener.postMessage('dF'); setTimeout(function() { var videos = document.getElementsByTagName('video'); for (var i = 0; i < videos.length; i++) { videos.item(i).pause(); window.webkit.messageHandlers.iosListener.postMessage('vs' + videos.item(i).src); /*window.webkit.messageHandlers.iosListener.postMessage('vc' + videos.item(i).currentSrc);*/ } }, 3000); var el = document.querySelector('input[type=file]'); if (el !== null) { window.webkit.messageHandlers.iosListener.postMessage('iF'); el.removeAttribute('capture'); }", injectionTime: .atDocumentEnd, forMainFrameOnly: false))
         webViewConfig.userContentController.addUserScript(WKUserScript(source: "document.addEventListener('click', function() { window.webkit.messageHandlers.iosListener.postMessage('c'); })", injectionTime: .atDocumentEnd, forMainFrameOnly: false))
         webViewConfig.userContentController.add(self, name: "iosListener")
         
@@ -1381,7 +1381,6 @@ player.play()*/
         iwashere += "\n\ncookie \(index+1)/\(cookies.count):\n\(cookie)"
         self.lb.text! += " c\(index+1):\(cookie.domain)"
         }
-        //break
         }
         }
         }
@@ -1716,24 +1715,22 @@ downloadTask.resume()
     avPVC.player = nil
     lb.text! += " eBg"
     
-    /*
     if #available(iOS 11, *) {
       webView.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
         var sessionCookies: [HTTPCookie] = []
         for cookie in cookies {
         if cookie.isSessionOnly {
         sessionCookies.append(cookie)
-        self.lb.text! += " c:\(cookie.domain)"
+        //self.lb.text! += " c:\(cookie.domain)"
         }
         }
-        if !sessionCookies.isEmpty {
+        //if !sessionCookies.isEmpty {
         setData(sessionCookies, key: "cookies")
-        }
-        //setData(cookies, key: "cookies")
-        self.lb.text! += " c:\(cookies.count)"
+        //}
+        //self.lb.text! += " c:\(cookies.count)"
+        self.lb.text! += " cS:\(sessionCookies.count)/\(cookies.count)"
       }
     }
-    */
     
   }
   
@@ -1743,23 +1740,7 @@ downloadTask.resume()
     avPVC.player = player
     lb.text! += " eFg"
     
-    /*
-    if #available(iOS 11, *) {
-        iwashere = ""
-        if let cookies: [HTTPCookie] = getData(key: "cookies") {
-        for (index, cookie) in cookies.enumerated() {
-        webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
-        iwashere += "\n\ncookie \(index+1)/\(cookies.count):\n\(cookie)"
-        self.lb.text! += " c\(index+1):\(cookie.domain)"
-        }
-        //break
-        }
-        }
-        //DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-        //self.showAlert(message: iwashere)
-        //}
-        }
-        */
+    //DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { /*AppCrashes self.showAlert(message: iwashere)*/ }
     
     func setTopNavBgViewColor(_ input: Any?) -> Bool {
       if input == nil { return false }
@@ -1805,43 +1786,25 @@ downloadTask.resume()
     if webView.scrollView.contentOffset.y < 0 {
       webView.scrollView.setContentOffset(CGPoint(x: webView.scrollView.contentOffset.x, y: 0), animated: true)
     }
-    
-    if #available(iOS 11, *) {
-      webView.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
-        var sessionCookies: [HTTPCookie] = []
-        for cookie in cookies {
-        if cookie.isSessionOnly {
-        sessionCookies.append(cookie)
-        self.lb.text! += " c:\(cookie.domain)"
-        }
-        }
-        if !sessionCookies.isEmpty {
-        setData(sessionCookies, key: "cookies")
-        }
-        //setData(cookies, key: "cookies")
-        self.lb.text! += " c:\(cookies.count)"
-      }
-    }
-    
     lb.text! += " rAc"
   }
   
   @objc private func becomeActive() {
     
-    if #available(iOS 11, *) {
-        iwashere = ""
+        if #available(iOS 11, *) {
         if let cookies: [HTTPCookie] = getData(key: "cookies") {
         for (index, cookie) in cookies.enumerated() {
         webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
         iwashere += "\n\ncookie \(index+1)/\(cookies.count):\n\(cookie)"
         self.lb.text! += " c\(index+1):\(cookie.domain)"
+        
+        if index + 1 == cookies.count {
+        self.lb.text! += " cR:\(cookies.count)"
         }
-        //break
+        
         }
         }
-        //DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-        //self.showAlert(message: iwashere)
-        //}
+        }
         }
     
     lb.text! += " bAc"
