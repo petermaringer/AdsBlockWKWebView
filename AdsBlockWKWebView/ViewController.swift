@@ -1270,8 +1270,8 @@ player.play()*/
       progressView.frame.origin.y = urlField.frame.origin.y + urlField.frame.size.height + 2
       //progressView.frame.size.width = view.frame.width - insetL - insetR
       progressView.frame.size.width = urlField.frame.size.width
-      progressView.frame.size.height = 1
-      //progressView.transform = progressView.transform.scaledBy(x: 1, y: 1.5)
+      progressView.frame.size.height = 2
+      progressView.transform = progressView.transform.scaledBy(x: 1, y: 0.5)
       
       tableView.frame.origin.x = insetL
       tableView.frame.origin.y = urlField.frame.origin.y + urlField.frame.size.height + 5
@@ -1392,6 +1392,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         //webView.isHidden = true
         view.addSubview(webView)
         
+        webView.addObserver(self, forKeyPath: "title", options: .new, context: nil)
         webView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
         
         counter += 1
@@ -1673,9 +1674,13 @@ downloadTask.resume()
       }
       
       if keyPath == "URL" {
-        webView.evaluateJavaScript("var el = document.querySelector('input[type=file]'); if (el !== null) { window.webkit.messageHandlers.iosListener.postMessage('iF' + el.getAttribute('accept')); el.removeAttribute('accept'); el.removeAttribute('capture'); el.removeAttribute('onclick'); el.click(); }", completionHandler: nil)
+        //webView.evaluateJavaScript("var el = document.querySelector('input[type=file]'); if (el !== null) { window.webkit.messageHandlers.iosListener.postMessage('iF' + el.getAttribute('accept')); el.removeAttribute('accept'); el.removeAttribute('capture'); el.removeAttribute('onclick'); el.click(); }", completionHandler: nil)
         lb.text! += " oV:" + String(String(describing: key).prefix(15))
-        //adjustLabel()
+      }
+      
+      if keyPath == "title" {
+        //webViewDidFinish()
+        lb.text! += " oV:" + String(String(describing: key).prefix(15))
       }
       
       if keyPath == "estimatedProgress" {
@@ -1843,14 +1848,12 @@ downloadTask.resume()
   }
   
   @objc private func willTerminate() {
-    
     if #available(iOS 11, *) {
       let sessionCookies: [HTTPCookie] = []
       setData(sessionCookies, key: "cookies")
+      NSLog("cS:X")
     }
-    
     NSLog("wTe")
-    lb.text! += " wTe"
   }
   
   
