@@ -1682,7 +1682,8 @@ downloadTask.resume()
       
       if keyPath == "title" {
         //webViewDidFinish()
-        lb.text! += " oV:" + String(String(describing: key).prefix(15))
+        //lb.text! += " oV:" + String(String(describing: key).prefix(15))
+        lb.text! += " ovT:" + String(String(describing: key).prefix(3))
       }
       
       if keyPath == "estimatedProgress" {
@@ -1693,7 +1694,7 @@ downloadTask.resume()
           }
           webViewDidFinish()
         }
-        lb.text! += " oV:" + String(String(describing: key).prefix(5))
+        lb.text! += " oV:" + String(String(describing: key).prefix(4))
       }
       
     }
@@ -2366,6 +2367,17 @@ downloadTask.resume()
         urlField.textColor = .errorFgColor
       }
       if #available(iOS 15, *) {
+        
+        if webView.themeColor != nil {
+          topNavBgView.backgroundColor = webView.themeColor
+        } else {
+          if webView.underPageBackgroundColor != nil {
+            topNavBgView.backgroundColor = webView.underPageBackgroundColor
+          } else {
+            topNavBgView.backgroundColor = .viewBgColor
+          }
+        }
+        
         lb.text! += " mT:\(webView.mediaType ?? "nil") tC:\(webView.themeColor) uC:\(webView.underPageBackgroundColor)"
       }
     }
