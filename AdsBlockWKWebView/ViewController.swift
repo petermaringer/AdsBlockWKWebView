@@ -357,6 +357,9 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var currentUserAgent: String = "default"
   var defaultUserAgent: String = "default"
   let desktopUserAgent: String = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.1 Safari/605.1.15"
+  
+  var newNav: Bool = true
+  
   var navTypeBackForward: Bool = false
   var navTypeDownload: Bool = false
   var showFrameLoadError: Bool = true
@@ -2051,12 +2054,19 @@ downloadTask.resume()
       return
     }
     
+    
     if navigationAction.request.url!.absoluteString != "about:blank" && navigationAction.navigationType != .linkActivated {
     if UIApplication.shared.canOpenURL(navigationAction.request.url!) && navigationAction.request.url! != webView.url! {
       //lb.text! += " cO:\(navigationAction.request.url!.absoluteString) \(webView.url!.absoluteString)"
       lb.text! += " cO:" + String(String(describing: navigationAction.request.url!.absoluteString).prefix(15))
     }
     }
+    
+    
+    if !newNav {
+      lb.text! += " cO2:" + String(String(describing: navigationAction.request.url!.absoluteString).prefix(15))
+    }
+    newNav = false
     
     //if navigationAction.request.url?.scheme == "https" && UIApplication.shared.canOpenURL(navigationAction.request.url!) {
       //decisionHandler(.cancel)
@@ -2381,6 +2391,7 @@ downloadTask.resume()
         lb.text! += " mT:\(webView.mediaType ?? "nil") tC:\(webView.themeColor) uC:\(webView.underPageBackgroundColor)"
       }
     }
+    newNav = true
     lb.text! += " END"
   }
   
