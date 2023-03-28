@@ -1704,7 +1704,9 @@ downloadTask.resume()
       }
       
       if keyPath == "themeColor" {
-        lb.text! += " otC:\(key) ouC:\(webView.underPageBackgroundColor)"
+        if #available(iOS 15, *) {
+          lb.text! += " otC:\(key) ouC:\(webView.underPageBackgroundColor)"
+        }
       }
       
     }
