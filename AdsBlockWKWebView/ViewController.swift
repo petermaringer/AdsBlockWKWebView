@@ -2392,7 +2392,7 @@ downloadTask.resume()
         
         if webView.themeColor != nil {
           topNavBgView.backgroundColor = webView.themeColor
-          let rgbtest = webView.themeColor.cgColor.components
+          let rgbtest = webView.themeColor!.cgColor.components
           lb.text! += " tCb:\(rgbtest[2])"
         } else {
           if webView.underPageBackgroundColor != nil {
