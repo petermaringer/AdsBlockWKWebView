@@ -1399,6 +1399,9 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         
         webView.addObserver(self, forKeyPath: "title", options: .new, context: nil)
         webView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
+        if #available(iOS 15, *) {
+          webView.addObserver(self, forKeyPath: "themeColor", options: .new, context: nil)
+        }
         
         counter += 1
         
@@ -1700,6 +1703,10 @@ downloadTask.resume()
         lb.text! += " oV:" + String(String(describing: key).prefix(4))
       }
       
+      if keyPath == "themeColor" {
+        lb.text! += " oV:\(key)"
+      }
+      
     }
   }
   
@@ -1944,7 +1951,8 @@ downloadTask.resume()
   
   func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
     //lb.text! += " dSPN:\(webView.url!.absoluteString)"
-    lb.text! += " dSPN:" + String(String(describing: webView.url!.absoluteString).prefix(15))
+    //lb.text! += " dSPN:" + String(String(describing: webView.url!.absoluteString).prefix(15))
+    lb.text! += " dSPN"
   }
   
   
@@ -2064,7 +2072,11 @@ downloadTask.resume()
     
     
     if !newNav {
-      lb.text! += " cO2:" + String(String(describing: navigationAction.request.url!.absoluteString).prefix(15))
+      if navigationAction.request.url!.absoluteString == "about:blank" {
+        lb.text! += " cO2:ab"
+      } else {
+        lb.text! += " cO2:" + String(String(describing: navigationAction.request.url!.absoluteString).prefix(15))
+      }
     }
     newNav = false
     
@@ -2380,6 +2392,8 @@ downloadTask.resume()
         
         if webView.themeColor != nil {
           topNavBgView.backgroundColor = webView.themeColor
+          let rgbtest = webView.themeColor.cgColor.components
+          lb.text! += " tCb:\(rgbtest[2])"
         } else {
           if webView.underPageBackgroundColor != nil {
             topNavBgView.backgroundColor = webView.underPageBackgroundColor
