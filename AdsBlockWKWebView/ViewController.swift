@@ -1704,7 +1704,7 @@ downloadTask.resume()
       }
       
       if keyPath == "themeColor" {
-        lb.text! += " oV:\(key)"
+        lb.text! += " otC:\(key) ouC:\(webView.underPageBackgroundColor)"
       }
       
     }
@@ -2142,8 +2142,11 @@ downloadTask.resume()
     }
     
     if let mimeType = navigationResponse.response.mimeType {
-      lb.text! += " mT:\(mimeType)"
-      //adjustLabel()
+      if mimeType == "text/html" {
+        lb.text! += " mT"
+      } else {
+        lb.text! += " mT:\(mimeType)"
+      }
       
       if mimeType == "application/application/pdf" {
         if let data = try? Data(contentsOf: navigationResponse.response.url!) {
@@ -2154,15 +2157,16 @@ downloadTask.resume()
         }
       }
       
+      /*
       if mimeType == "application/pdf" {
-        //lb.isHidden = false
+        lb.isHidden = false
       } else {
-        //lb.isHidden = true
+        lb.isHidden = true
       }
+      */
       
     } else {
       lb.text! += " mT:noMime"
-      //adjustLabel()
     }
     
     showFrameLoadError = true
