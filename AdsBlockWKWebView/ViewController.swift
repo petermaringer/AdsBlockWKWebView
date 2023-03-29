@@ -1705,7 +1705,23 @@ downloadTask.resume()
       
       if keyPath == "themeColor" {
         if #available(iOS 15, *) {
-          lb.text! += " otC:\(key) ouC:\(webView.underPageBackgroundColor)"
+          
+          if webView.themeColor != nil {
+            topNavBgView.backgroundColor = webView.themeColor
+            let rgbtest = webView.themeColor!.cgColor.components
+            lb.text! += " otCb:\(rgbtest![2])"
+          } else {
+            topNavBgView.backgroundColor = .viewBgColor
+            /*
+            if webView.underPageBackgroundColor != nil {
+              topNavBgView.backgroundColor = webView.underPageBackgroundColor
+            } else {
+              topNavBgView.backgroundColor = .viewBgColor
+            }
+            */
+          }
+          
+          lb.text! += " otC:\(key)"
         }
       }
       
@@ -2395,19 +2411,6 @@ downloadTask.resume()
         urlField.textColor = .errorFgColor
       }
       if #available(iOS 15, *) {
-        
-        if webView.themeColor != nil {
-          topNavBgView.backgroundColor = webView.themeColor
-          let rgbtest = webView.themeColor!.cgColor.components
-          lb.text! += " tCb:\(rgbtest![2])"
-        } else {
-          if webView.underPageBackgroundColor != nil {
-            topNavBgView.backgroundColor = webView.underPageBackgroundColor
-          } else {
-            topNavBgView.backgroundColor = .viewBgColor
-          }
-        }
-        
         lb.text! += " mT:\(webView.mediaType ?? "nil") tC:\(webView.themeColor) uC:\(webView.underPageBackgroundColor)"
       }
     }
