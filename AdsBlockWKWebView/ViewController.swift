@@ -1707,9 +1707,13 @@ downloadTask.resume()
         if #available(iOS 15, *) {
           
           if webView.themeColor != nil {
-            topNavBgView.backgroundColor = webView.themeColor
-            let rgbtest = webView.themeColor!.cgColor.components
-            lb.text! += " otCb:\(rgbtest![2])"
+            let rgbaArray = webView.themeColor!.cgColor.components
+            lb.text! += " otCb:\(rgbaArray![2])"
+            if rgbaArray![0]*255 <= 240 && rgbaArray![1]*255 <= 240 && rgbaArray![2]*255 <= 240 && rgbaArray![3]*255 == 255 {
+              topNavBgView.backgroundColor = webView.themeColor
+            } else {
+              topNavBgView.backgroundColor = .viewBgColor
+            }
           } else {
             topNavBgView.backgroundColor = .viewBgColor
             /*
@@ -2410,12 +2414,12 @@ downloadTask.resume()
       } else {
         urlField.textColor = .errorFgColor
       }
-      if #available(iOS 15, *) {
-        lb.text! += " mT:\(webView.mediaType ?? "nil") tC:\(webView.themeColor) uC:\(webView.underPageBackgroundColor)"
-      }
+      //if #available(iOS 15, *) {
+        //lb.text! += " mT:\(webView.mediaType ?? "nil") tC:\(webView.themeColor) uC:\(webView.underPageBackgroundColor)"
+      //}
     }
     newNav = true
-    lb.text! += " END"
+    lb.text! += " WDF"
   }
   
   func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
