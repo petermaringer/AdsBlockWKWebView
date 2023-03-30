@@ -1708,7 +1708,7 @@ downloadTask.resume()
           
           if webView.themeColor != nil {
             let rgbaArray = webView.themeColor!.cgColor.components
-            lb.text! += " otCr:\(round(rgbaArray![0]*255))otCg:\(round(rgbaArray![1]*255))otCb:\(round(rgbaArray![2]*255))otCa:\(round(rgbaArray![3]*255))"
+            lb.text! += " otCrgba:\(round(rgbaArray![0]*255)),\(round(rgbaArray![1]*255)),\(round(rgbaArray![2]*255)),\(round(rgbaArray![3]*255))"
             if rgbaArray![0]*255 > 240 && rgbaArray![1]*255 > 240 && rgbaArray![2]*255 > 240 || rgbaArray![3]*255 < 255 {
               topNavBgView.backgroundColor = .viewBgColor
             } else {
