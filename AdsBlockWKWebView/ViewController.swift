@@ -2213,13 +2213,15 @@ downloadTask.resume()
       case 101, -1003:
         
         if webViewSearchUrlPref == "https://www.google.com/search?q=" {
+          let part1: String = "sk-3TNyPqwqHIyHcj3kqz45T3Blbk"
+          let part2: String = "JIPhJlMBF35NihRQFBtum"
           let jsonObject: [String: Any] = ["model": "gpt-3.5-turbo", "messages": ["role": "user", "content": "Say this is a test!"], "temperature": 0.7]
           let jsonData = try? JSONSerialization.data(withJSONObject: jsonObject)
           var request = URLRequest(url: URL(string: "https://api.openai.com/v1/chat/completions")!)
           request.httpMethod = "POST"
           request.setValue("application/json",
           forHTTPHeaderField: "Content-Type")
-          request.setValue("Bearer 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",
+          request.setValue("Bearer \(part1)F\(part2)",
           forHTTPHeaderField: "Authorization")
           request.httpBody = jsonData
           

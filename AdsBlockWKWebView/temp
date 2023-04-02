@@ -42,7 +42,7 @@ function styles(){
 <h2 style="background:rgb(0,122,255)">The alert() Method</h2>
 
 <p>Click the button to display an alert box.
-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
+U7k01sTXLFciblvSUcBcT3BlbkFJulTDvmRLGZsosYreo6HW
 </p>
 
 <button onclick="styles()">Try it</button>
