@@ -2219,10 +2219,18 @@ downloadTask.resume()
           request.httpMethod = "POST"
           request.setValue("application/json",
           forHTTPHeaderField: "Content-Type")
-          request.setValue("Bearer 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",
+          request.setValue("Bearer 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",
           forHTTPHeaderField: "Authorization")
           request.httpBody = jsonData
-          webView.load(request)
+          
+          let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else { return }
+            let responseString = String(data: data, encoding: .utf8)
+            showAlert(message: "Response: \(responseString)")
+          }
+          task.resume()
+          
+          //webView.load(request)
         } else {
           url = "\(webViewSearchUrlPref)\(url!)"
           startLoading()
