@@ -2219,14 +2219,14 @@ downloadTask.resume()
           request.httpMethod = "POST"
           request.setValue("application/json",
           forHTTPHeaderField: "Content-Type")
-          request.setValue("Bearer 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",
+          request.setValue("Bearer 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",
           forHTTPHeaderField: "Authorization")
           request.httpBody = jsonData
           
           let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else { return }
             let responseString = String(data: data, encoding: .utf8)
-            showAlert(message: "Response: \(responseString)")
+            self.showAlert(message: "Response: \(responseString!)")
           }
           task.resume()
           
