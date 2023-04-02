@@ -2228,7 +2228,7 @@ downloadTask.resume()
           let task2 = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else { return }
             let responseString = String(data: data, encoding: .utf8)
-            self.showAlert(message: "Response: \(responseString ?? "nil") \(data ?? "nil")")
+            self.showAlert(message: "Response: \(responseString ?? "nil") \(data)")
           }
           task2.resume()
           
