@@ -2219,7 +2219,7 @@ downloadTask.resume()
           request.httpMethod = "POST"
           request.setValue("application/json",
           forHTTPHeaderField: "Content-Type")
-          request.setValue("Bearer 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",
+          request.setValue("Bearer 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",
           forHTTPHeaderField: "Authorization")
           request.httpBody = jsonData
           
