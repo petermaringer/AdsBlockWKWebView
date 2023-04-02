@@ -41,7 +41,9 @@ function styles(){
 <h1>The Window Object</h1>
 <h2 style="background:rgb(0,122,255)">The alert() Method</h2>
 
-<p>Click the button to display an alert box.</p>
+<p>Click the button to display an alert box.
+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
+</p>
 
 <button onclick="styles()">Try it</button>
 

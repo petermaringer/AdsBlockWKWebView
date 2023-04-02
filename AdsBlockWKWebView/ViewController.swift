@@ -2211,8 +2211,25 @@ downloadTask.resume()
     switch err.code {
       case -999: break
       case 101, -1003:
-        url = "\(webViewSearchUrlPref)\(url!)"
-        startLoading()
+        
+        if webViewSearchUrlPref == "https://www.google.com/search?q=" {
+          let jsonObject: [String: Any] = ["model": "gpt-3.5-turbo", "messages": [{"role": "user", "content": "Say this is a test!"}], "temperature": 0.7]
+          let jsonData = try? JSONSerialization.data(withJSONObject: jsonObject)
+          var request = URLRequest(url: URL(string: "https://api.openai.com/v1/chat/completions")!)
+          request.httpMethod = "POST"
+          request.setValue("application/json",
+          forHTTPHeaderField: "Content-Type")
+          request.setValue("Bearer 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",
+          forHTTPHeaderField: "Authorization")
+          request.httpBody = jsonData
+          webView.load(request)
+        } else {
+          url = "\(webViewSearchUrlPref)\(url!)"
+          startLoading()
+        }
+        
+        //url = "\(webViewSearchUrlPref)\(url!)"
+        //startLoading()
       case 102:
         if showFrameLoadError == false {
           //showFrameLoadError = true
