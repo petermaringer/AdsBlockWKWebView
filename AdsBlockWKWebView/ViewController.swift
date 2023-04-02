@@ -2225,12 +2225,12 @@ downloadTask.resume()
           forHTTPHeaderField: "Authorization")
           request.httpBody = jsonData
           
-          let task = URLSession.shared.dataTask(with: request) { data, response, error in
+          let task2 = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else { return }
             let responseString = String(data: data, encoding: .utf8)
-            self.showAlert(message: "Response: \(responseString!)")
+            self.showAlert(message: "Response: \(responseString ?? "nil") \(data ?? "nil")")
           }
-          task.resume()
+          task2.resume()
           
           //webView.load(request)
         } else {
