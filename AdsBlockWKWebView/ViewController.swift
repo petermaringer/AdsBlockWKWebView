@@ -54,7 +54,7 @@ func loadUserPrefs() {
   if (UserDefaults.standard.object(forKey: "webViewStartPagePref") != nil) {
     webViewStartPagePref = UserDefaults.standard.string(forKey: "webViewStartPagePref")!
   }
-  webViewRestorePref = UserDefaults.standard.string(forKey: "webViewRestorePref")! ?? webViewRestorePref
+  webViewRestorePref = UserDefaults.standard.string(forKey: "webViewRestorePref") ?? webViewRestorePref
   if (UserDefaults.standard.object(forKey: "webViewSearchUrlPref") != nil) {
     webViewSearchUrlPref = UserDefaults.standard.string(forKey: "webViewSearchUrlPref")!
   }
