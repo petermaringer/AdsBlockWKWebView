@@ -26,6 +26,7 @@ let tableMoveTopPref: Bool = false //true
 var webViewSearchUrlPref: String = "https://www.google.com/search?q="
 //StartseiteStattGoogle
 var webViewStartPagePref: String = "https://www.google.com/"
+var webViewRestorePref: String = "ask"
 //AlleSeitenHinzuStatt+
 //IdleTimerEinAus
 var goBackOnEditPref: Int = 2
@@ -53,6 +54,7 @@ func loadUserPrefs() {
   if (UserDefaults.standard.object(forKey: "webViewStartPagePref") != nil) {
     webViewStartPagePref = UserDefaults.standard.string(forKey: "webViewStartPagePref")!
   }
+  webViewRestorePref = UserDefaults.standard.string(forKey: "webViewRestorePref")! ?? webViewRestorePref
   if (UserDefaults.standard.object(forKey: "webViewSearchUrlPref") != nil) {
     webViewSearchUrlPref = UserDefaults.standard.string(forKey: "webViewSearchUrlPref")!
   }
@@ -1855,7 +1857,7 @@ downloadTask.resume()
   
   
   private func askRestore() {
-    let alert = UIAlertController(title: "Alert", message: "Restore last session?\n\nThe last session contains \(restoreIndexLast+1) pages.", preferredStyle: .alert)
+    let alert = UIAlertController(title: "Alert", message: "Restore last session?\n\nThe last session contains \(restoreIndexLast+1) pages.\(webViewRestorePref)", preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
       if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)") {
         self.webView.load(URLRequest(url: restoreUrl))
@@ -1910,6 +1912,31 @@ downloadTask.resume()
     */
   }
   
+  private func searchWithChatGPT() {
+    let part1: String = "sk-3TNyPqwqHIyHcj3kqz45T3Blbk"
+          let part2: String = "JIPhJlMBF35NihRQFBtum"
+          let jsonObject: [String: Any] = ["model": "gpt-3.5-turbo", "messages": [["role": "user", "content": "\(url!)"]], "temperature": 0.7]
+          let jsonData = try? JSONSerialization.data(withJSONObject: jsonObject)
+          var request = URLRequest(url: URL(string: "https://api.openai.com/v1/chat/completions")!)
+          request.httpMethod = "POST"
+          request.setValue("application/json",
+          forHTTPHeaderField: "Content-Type")
+          request.setValue("Bearer \(part1)F\(part2)",
+          forHTTPHeaderField: "Authorization")
+          request.httpBody = jsonData
+          
+          /*
+          let task2 = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else { return }
+            let responseString = String(data: data, encoding: .utf8)
+            self.showAlert(message: "Response: \(responseString ?? "nil") \(data)")
+          }
+          task2.resume()
+          */
+          
+          webView.load(request)
+  }
+  
   //url = url.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
   //let characterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
   //var characterset = CharacterSet.urlPathAllowed
@@ -1958,6 +1985,12 @@ downloadTask.resume()
       if matchedNumber == 0 {
         urlobj = URL(string: "http://" + url)
         if !url.contains(".") {
+          
+          if webViewSearchUrlPref.contains("openai.com") {
+            searchWithChatGPT()
+            return
+          }
+          
           urlobj = URL(string: webViewSearchUrlPref + url)
         }
       }
@@ -2212,29 +2245,8 @@ downloadTask.resume()
       case -999: break
       case 101, -1003:
         
-        if webViewSearchUrlPref == "https://www.google.com/search?q=" {
-          let part1: String = "sk-3TNyPqwqHIyHcj3kqz45T3Blbk"
-          let part2: String = "JIPhJlMBF35NihRQFBtum"
-          let jsonObject: [String: Any] = ["model": "gpt-3.5-turbo", "messages": [["role": "user", "content": "\(url!)"]], "temperature": 0.7]
-          let jsonData = try? JSONSerialization.data(withJSONObject: jsonObject)
-          var request = URLRequest(url: URL(string: "https://api.openai.com/v1/chat/completions")!)
-          request.httpMethod = "POST"
-          request.setValue("application/json",
-          forHTTPHeaderField: "Content-Type")
-          request.setValue("Bearer \(part1)F\(part2)",
-          forHTTPHeaderField: "Authorization")
-          request.httpBody = jsonData
-          
-          /*
-          let task2 = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else { return }
-            let responseString = String(data: data, encoding: .utf8)
-            self.showAlert(message: "Response: \(responseString ?? "nil") \(data)")
-          }
-          task2.resume()
-          */
-          
-          webView.load(request)
+        if webViewSearchUrlPref.contains("openai.com") {
+          searchWithChatGPT()
         } else {
           url = "\(webViewSearchUrlPref)\(url!)"
           startLoading()
