@@ -1931,10 +1931,10 @@ downloadTask.resume()
       if let data = data {
         self.webView.loadHTMLString("<b>Response1</b><br><br>\(httpResponse)<br><br>\(String(data: data, encoding: .utf8)!)", baseURL: URL(string: "https://orf.at"))
         let json = try! JSONSerialization.jsonObject(with: data) as? [String: Any]
-        //if let homePhoneNumber = jsonObject["phoneNumbers"]?[0]["number"] as? String
         //if let choices = json["choices"]?[0]["message"] as? [[String: Any]], let content = choices.first?["content"] as? String {
-        //self.webView.loadHTMLString("<b>Response2</b><br><br>\(content)<br><br>\(data)", baseURL: nil)
-        //}
+        if let choices = json["choices"] as? [[String: Any]], let message = choices[0]["message"] as? [String: Any], let content = message["content"] as? String {
+        self.webView.loadHTMLString("<b>Response2</b><br><br>\(content)<br><br>\(data)", baseURL: nil)
+        }
         //let responseString = String(data: data, encoding: .utf8)
         //self.webView.loadHTMLString("<b>Response</b><br>\(responseString ?? "nil")", baseURL: nil)
       }
