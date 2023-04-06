@@ -1928,7 +1928,9 @@ downloadTask.resume()
     let task = URLSession.shared.uploadTask(with: request, from: jsonData) { data, response, error in
     //data, _, _ in
       if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+      self.webView.loadHTMLString("<b>Response</b><br><br>\(httpResponse)<br><br>", baseURL: nil)
       if let data = data {
+        self.webView.loadHTMLString("<b>Response</b><br><br><br><br>\(data)", baseURL: nil)
         let json = try! JSONSerialization.jsonObject(with: data) as? [String: Any]
         if let choices = json?["choices"] as? [[String: Any]], let content = choices.first?["content"] as? String {
         self.webView.loadHTMLString("<b>Response</b><br><br>\(content)<br><br>\(data)", baseURL: nil)
