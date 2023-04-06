@@ -1367,7 +1367,7 @@ player.play()*/
         webViewConfig.mediaTypesRequiringUserActionForPlayback = []
         //webViewConfig.mediaTypesRequiringUserActionForPlayback = .all
         //webViewConfig.ignoresViewportScaleLimits = true
-        webViewConfig.userContentController.addUserScript(WKUserScript(source: "var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=device-width, initial-scale=1.0, minimum-scale=0.1, maximum-scale=15.0, user-scalable=yes'); } window.webkit.messageHandlers.iosListener.postMessage('dF'); setTimeout(function() { var videos = document.getElementsByTagName('video'); for (var i = 0; i < videos.length; i++) { videos.item(i).pause(); window.webkit.messageHandlers.iosListener.postMessage('vs' + videos.item(i).src); /*window.webkit.messageHandlers.iosListener.postMessage('vc' + videos.item(i).currentSrc);*/ } }, 3000); var el = document.querySelector('input[type=file]'); if (el !== null) { window.webkit.messageHandlers.iosListener.postMessage('iF'); el.removeAttribute('capture'); } Object.defineProperty(document, 'activeElement', { get: function() { return null; } });", injectionTime: .atDocumentEnd, forMainFrameOnly: false))
+        webViewConfig.userContentController.addUserScript(WKUserScript(source: "var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=device-width, initial-scale=1.0, minimum-scale=0.1, maximum-scale=15.0, user-scalable=yes'); } window.webkit.messageHandlers.iosListener.postMessage('dF'); setTimeout(function() { var videos = document.getElementsByTagName('video'); for (var i = 0; i < videos.length; i++) { videos.item(i).pause(); window.webkit.messageHandlers.iosListener.postMessage('vs' + videos.item(i).src); /*window.webkit.messageHandlers.iosListener.postMessage('vc' + videos.item(i).currentSrc);*/ } }, 3000); var el = document.querySelector('input[type=file]'); if (el !== null) { window.webkit.messageHandlers.iosListener.postMessage('iF'); el.removeAttribute('capture'); } document.querySelector('input').blur(); Object.defineProperty(document, 'activeElement', { get: function() { return null; } });", injectionTime: .atDocumentEnd, forMainFrameOnly: false))
         webViewConfig.userContentController.addUserScript(WKUserScript(source: "document.addEventListener('click', function() { window.webkit.messageHandlers.iosListener.postMessage('c'); })", injectionTime: .atDocumentEnd, forMainFrameOnly: false))
         webViewConfig.userContentController.add(self, name: "iosListener")
         
@@ -1928,12 +1928,12 @@ downloadTask.resume()
     let task = URLSession.shared.uploadTask(with: request, from: jsonData) { data, response, error in
     //data, _, _ in
       if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
-      self.webView.loadHTMLString("<b>Response</b><br><br>\(httpResponse)<br><br>", baseURL: nil)
+      self.webView.loadHTMLString("<b>Response1</b><br><br>\(httpResponse)", baseURL: URL(string: "https://orf.at"))
       if let data = data {
-        self.webView.loadHTMLString("<b>Response</b><br><br><br><br>\(data)", baseURL: nil)
+        self.webView.loadHTMLString("<b>Response2</b><br><br>\(String(data: data, encoding: .utf8))", baseURL: URL(string: "https://orf.at"))
         let json = try! JSONSerialization.jsonObject(with: data) as? [String: Any]
         if let choices = json?["choices"] as? [[String: Any]], let content = choices.first?["content"] as? String {
-        self.webView.loadHTMLString("<b>Response</b><br><br>\(content)<br><br>\(data)", baseURL: nil)
+        self.webView.loadHTMLString("<b>Response3</b><br><br>\(content)<br><br>\(data)", baseURL: nil)
         }
         //let responseString = String(data: data, encoding: .utf8)
         //self.webView.loadHTMLString("<b>Response</b><br>\(responseString ?? "nil")", baseURL: nil)
