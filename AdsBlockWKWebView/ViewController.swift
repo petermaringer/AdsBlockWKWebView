@@ -1923,10 +1923,9 @@ downloadTask.resume()
     request.addValue("Bearer \(part1)F\(part2)", forHTTPHeaderField: "Authorization")
     let task = URLSession.shared.uploadTask(with: request, from: jsonData) { data, response, error in
       if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200, let data = data {
-        self.webView.loadHTMLString("<b>Response</b><br><br>\(httpResponse)<br><br>\(String(data: data, encoding: .utf8)!)<br><br>You: \(self.url!)<br><br>", baseURL: URL(string: " "))
         let json = try! JSONSerialization.jsonObject(with: data) as? [String: Any]
         if let choices = json?["choices"] as? [[String: Any]], let message = choices[0]["message"] as? [String: Any], let content = message["content"] as? String {
-          self.webView.loadHTMLString("<b>Response</b><br><br>\(httpResponse)<br><br>\(String(data: data, encoding: .utf8)!)<br><br>You: \(self.url!)<br><br>ChatGPT: \(content)", baseURL: URL(string: " "))
+          self.webView.loadHTMLString("<b>Response:</b><br><br>\(httpResponse)<br><br>\(String(data: data, encoding: .utf8)!)<br><br><b>You:</b> \(self.url!.removingPercentEncoding!)<br><br><b>ChatGPT:</b> \(content)", baseURL: URL(string: webViewSearchUrlPref))
         }
       }
     }
