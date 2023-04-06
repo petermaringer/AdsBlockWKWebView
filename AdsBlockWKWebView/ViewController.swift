@@ -2255,6 +2255,9 @@ downloadTask.resume()
     lb.text! += " err:\(err.code)"
   }
   
+  func webView(_ webView: WKWebView, shouldFocus node: WKFocusNode, in context: WKFocusInContext) -> Bool {
+    return false
+  }
   /*
   func webView(_ webView: WKWebView, didCreateJavaScriptContext context: JSContext, for frame: WKFrameInfo) {
     let disableAutoFocusScript = "Object.defineProperty(document, 'activeElement', { get: function() { return null; } });"
