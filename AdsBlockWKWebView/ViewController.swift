@@ -1367,7 +1367,7 @@ player.play()*/
         webViewConfig.mediaTypesRequiringUserActionForPlayback = []
         //webViewConfig.mediaTypesRequiringUserActionForPlayback = .all
         //webViewConfig.ignoresViewportScaleLimits = true
-        webViewConfig.userContentController.addUserScript(WKUserScript(source: "var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=device-width, initial-scale=1.0, minimum-scale=0.1, maximum-scale=15.0, user-scalable=yes'); } window.webkit.messageHandlers.iosListener.postMessage('dF'); setTimeout(function() { var videos = document.getElementsByTagName('video'); for (var i = 0; i < videos.length; i++) { videos.item(i).pause(); window.webkit.messageHandlers.iosListener.postMessage('vs' + videos.item(i).src); /*window.webkit.messageHandlers.iosListener.postMessage('vc' + videos.item(i).currentSrc);*/ } }, 3000); var el = document.querySelector('input[type=file]'); if (el !== null) { window.webkit.messageHandlers.iosListener.postMessage('iF'); el.removeAttribute('capture'); }", injectionTime: .atDocumentEnd, forMainFrameOnly: false))
+        webViewConfig.userContentController.addUserScript(WKUserScript(source: "var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=device-width, initial-scale=1.0, minimum-scale=0.1, maximum-scale=15.0, user-scalable=yes'); } window.webkit.messageHandlers.iosListener.postMessage('dF'); setTimeout(function() { var videos = document.getElementsByTagName('video'); for (var i = 0; i < videos.length; i++) { videos.item(i).pause(); window.webkit.messageHandlers.iosListener.postMessage('vs' + videos.item(i).src); /*window.webkit.messageHandlers.iosListener.postMessage('vc' + videos.item(i).currentSrc);*/ } }, 3000); var el = document.querySelector('input[type=file]'); if (el !== null) { window.webkit.messageHandlers.iosListener.postMessage('iF'); el.removeAttribute('capture'); } Object.defineProperty(document, 'activeElement', { get: function() { return null; } });", injectionTime: .atDocumentEnd, forMainFrameOnly: false))
         webViewConfig.userContentController.addUserScript(WKUserScript(source: "document.addEventListener('click', function() { window.webkit.messageHandlers.iosListener.postMessage('c'); })", injectionTime: .atDocumentEnd, forMainFrameOnly: false))
         webViewConfig.userContentController.add(self, name: "iosListener")
         
@@ -1929,6 +1929,7 @@ downloadTask.resume()
           
           let task2 = URLSession.shared.dataTask(with: request) { data, response, error in
             //guard let data = data, error == nil else { return }
+            guard let data = data else { return }
             let responseString = String(data: data, encoding: .utf8)
             //self.showAlert(message: "Response: \(responseString ?? "nil") \(response)")
             self.webView.loadHTMLString("<b>\(response)</b><br>\(responseString ?? "nil")", baseURL: nil)
@@ -2261,10 +2262,12 @@ downloadTask.resume()
     lb.text! += " err:\(err.code)"
   }
   
+  /*
   func webView(_ webView: WKWebView, didCreateJavaScriptContext context: JSContext, for frame: WKFrameInfo) {
     let disableAutoFocusScript = "Object.defineProperty(document, 'activeElement', { get: function() { return null; } });"
     context.evaluateScript(disableAutoFocusScript)
   }
+  */
   
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
     /*->WDF
