@@ -1929,7 +1929,7 @@ downloadTask.resume()
     //data, _, _ in
       if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
       if let data = data {
-        let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
+        let json = try! JSONSerialization.jsonObject(with: data) as? [String: Any]
         if let choices = json?["choices"] as? [[String: Any]], let content = choices.first?["content"] as? String {
         webView.loadHTMLString("<b>Response</b><br>\(content ?? "nil")", baseURL: nil)
         }
