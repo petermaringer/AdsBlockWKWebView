@@ -1919,25 +1919,20 @@ downloadTask.resume()
     let jsonData = try? JSONSerialization.data(withJSONObject: jsonObject)
     var request = URLRequest(url: URL(string: webViewSearchUrlPref)!)
     request.httpMethod = "POST"
-    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    request.setValue("Bearer \(part1)F\(part2)", forHTTPHeaderField: "Authorization")
+    request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.addValue("Bearer \(part1)F\(part2)", forHTTPHeaderField: "Authorization")
     //request.httpBody = jsonData
     //webView.load(request)
     
-    //let task = URLSession.shared.dataTask(with: request) { data, response, error in
     let task = URLSession.shared.uploadTask(with: request, from: jsonData) { data, response, error in
-    //data, _, _ in
-      if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
-      if let data = data {
-        self.webView.loadHTMLString("<b>Response1</b><br><br>\(httpResponse)<br><br>\(String(data: data, encoding: .utf8)!)", baseURL: URL(string: "https://orf.at"))
+      if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200, let data = data {
+      //if let data = data {
+        self.webView.loadHTMLString("<b>Response</b><br><br>\(httpResponse)<br><br>\(String(data: data, encoding: .utf8)!)<br><br><div id=\"a\"></div>", baseURL: URL(string: "https://orf"))
         let json = try! JSONSerialization.jsonObject(with: data) as? [String: Any]
-        //if let choices = json["choices"]?[0]["message"] as? [[String: Any]], let content = choices.first?["content"] as? String {
         if let choices = json?["choices"] as? [[String: Any]], let message = choices[0]["message"] as? [String: Any], let content = message["content"] as? String {
-        self.webView.loadHTMLString("<b>Response2</b><br><br>\(content)<br><br>\(data)", baseURL: nil)
+        self.webView.evaluateJavaScript("document.getElementById('a').innerHTML = '\(content)';", completionHandler: nil)
         }
-        //let responseString = String(data: data, encoding: .utf8)
-        //self.webView.loadHTMLString("<b>Response</b><br>\(responseString ?? "nil")", baseURL: nil)
-      }
+      //}
       }
     }
     task.resume()
