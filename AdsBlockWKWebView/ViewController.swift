@@ -1928,12 +1928,12 @@ downloadTask.resume()
     let task = URLSession.shared.uploadTask(with: request, from: jsonData) { data, response, error in
     //data, _, _ in
       if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
-      self.webView.loadHTMLString("<b>Response1</b><br><br>\(httpResponse)", baseURL: URL(string: "https://orf.at"))
       if let data = data {
-        self.webView.loadHTMLString("<b>Response2</b><br><br>\(String(data: data, encoding: .utf8))", baseURL: URL(string: "https://orf.at"))
+        self.webView.loadHTMLString("<b>Response1</b><br><br>\(httpResponse)<br><br>\(String(data: data, encoding: .utf8)!)", baseURL: URL(string: "https://orf.at"))
         let json = try! JSONSerialization.jsonObject(with: data) as? [String: Any]
-        if let choices = json?["choices"] as? [[String: Any]], let content = choices.first?["content"] as? String {
-        self.webView.loadHTMLString("<b>Response3</b><br><br>\(content)<br><br>\(data)", baseURL: nil)
+        //if let homePhoneNumber = jsonObject["phoneNumbers"]?[0]["number"] as? String {
+        if let choices = json?["choices"]?[0]["message"] as? [[String: Any]], let content = choices.first?["content"] as? String {
+        self.webView.loadHTMLString("<b>Response2</b><br><br>\(content)<br><br>\(data)", baseURL: nil)
         }
         //let responseString = String(data: data, encoding: .utf8)
         //self.webView.loadHTMLString("<b>Response</b><br>\(responseString ?? "nil")", baseURL: nil)
