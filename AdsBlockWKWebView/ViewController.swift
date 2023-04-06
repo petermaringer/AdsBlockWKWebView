@@ -1914,31 +1914,31 @@ downloadTask.resume()
   
   private func searchWithChatGPT() {
     let part1: String = "sk-3TNyPqwqHIyHcj3kqz45T3Blbk"
-          let part2: String = "JIPhJlMBF35NihRQFBtum"
-          let jsonObject: [String: Any] = ["model": "gpt-3.5-turbo", "messages": [["role": "user", "content": "\(url!)"]], "temperature": 0.7]
-          let jsonData = try? JSONSerialization.data(withJSONObject: jsonObject)
-          var request = URLRequest(url: URL(string: webViewSearchUrlPref)!)
-          request.httpMethod = "POST"
-          request.setValue("application/json",
-          forHTTPHeaderField: "Content-Type")
-          request.setValue("Bearer \(part1)F\(part2)",
-          forHTTPHeaderField: "Authorization")
-          request.httpBody = jsonData
-          //webView.load(request)
-          
-          
-          let task2 = URLSession.shared.dataTask(with: request) { data, _, _ in
-          //data, response, error in
-            //guard let data = data, error == nil else { return }
-            //guard let data = data else { return }
-            if let data = data {
-            let responseString = String(data: data, encoding: .utf8)
-            //self.showAlert(message: "Response: \(responseString ?? "nil") \(response)")
-            self.webView.loadHTMLString("<b>Response</b><br>\(responseString ?? "nil")", baseURL: nil)
-          } }
-          task2.resume()
-          
-          
+    let part2: String = "JIPhJlMBF35NihRQFBtum"
+    let jsonObject: [String: Any] = ["model": "gpt-3.5-turbo", "messages": [["role": "user", "content": "\(url!)"]], "temperature": 0.7]
+    let jsonData = try? JSONSerialization.data(withJSONObject: jsonObject)
+    var request = URLRequest(url: URL(string: webViewSearchUrlPref)!)
+    request.httpMethod = "POST"
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.setValue("Bearer \(part1)F\(part2)", forHTTPHeaderField: "Authorization")
+    //request.httpBody = jsonData
+    //webView.load(request)
+    
+    //let task = URLSession.shared.dataTask(with: request) { data, response, error in
+    let task = URLSession.shared.uploadTask(with: request, from: jsonData) { data, response, error in
+    //data, _, _ in
+      if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+      if let data = data {
+        let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
+        if let choices = json?["choices"] as? [[String: Any]], let content = choices.first?["content"] as? String {
+        webView.loadHTMLString("<b>Response</b><br>\(content ?? "nil")", baseURL: nil)
+        }
+        //let responseString = String(data: data, encoding: .utf8)
+        //self.webView.loadHTMLString("<b>Response</b><br>\(responseString ?? "nil")", baseURL: nil)
+      }
+      }
+    }
+    task.resume()
   }
   
   //url = url.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
