@@ -1931,7 +1931,7 @@ downloadTask.resume()
       if let data = data {
         let json = try! JSONSerialization.jsonObject(with: data) as? [String: Any]
         if let choices = json?["choices"] as? [[String: Any]], let content = choices.first?["content"] as? String {
-        webView.loadHTMLString("<b>Response</b><br>\(content ?? "nil")", baseURL: nil)
+        self.webView.loadHTMLString("<b>Response</b><br><br>\(content)<br><br>\(data)", baseURL: nil)
         }
         //let responseString = String(data: data, encoding: .utf8)
         //self.webView.loadHTMLString("<b>Response</b><br>\(responseString ?? "nil")", baseURL: nil)
