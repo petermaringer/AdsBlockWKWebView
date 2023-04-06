@@ -1927,13 +1927,15 @@ downloadTask.resume()
           //webView.load(request)
           
           
-          let task2 = URLSession.shared.dataTask(with: request) { data, response, error in
+          let task2 = URLSession.shared.dataTask(with: request) { data, _, _ in
+          //data, response, error in
             //guard let data = data, error == nil else { return }
-            guard let data = data else { return }
+            //guard let data = data else { return }
+            if let data = data {
             let responseString = String(data: data, encoding: .utf8)
             //self.showAlert(message: "Response: \(responseString ?? "nil") \(response)")
-            self.webView.loadHTMLString("<b>\(response)</b><br>\(responseString ?? "nil")", baseURL: nil)
-          }
+            self.webView.loadHTMLString("<b>Response</b><br>\(responseString ?? "nil")", baseURL: nil)
+          } }
           task2.resume()
           
           
