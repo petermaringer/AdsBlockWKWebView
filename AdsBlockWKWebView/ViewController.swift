@@ -1930,7 +1930,8 @@ downloadTask.resume()
         self.webView.loadHTMLString("<b>Response</b><br><br>\(httpResponse)<br><br>\(String(data: data, encoding: .utf8)!)<br><br><div id='a'>Content</div>", baseURL: URL(string: "hallo"))
         let json = try! JSONSerialization.jsonObject(with: data) as? [String: Any]
         if let choices = json?["choices"] as? [[String: Any]], let message = choices[0]["message"] as? [String: Any], let content = message["content"] as? String {
-        self.webView.evaluateJavaScript("document.getElementById('a').innerHTML = '\(content)';", completionHandler: nil)
+        self.webView.loadHTMLString("<b>Response</b><br><br>\(httpResponse)<br><br>\(String(data: data, encoding: .utf8)!)<br><br>\(content)", baseURL: URL(string: ""))
+        //self.webView.evaluateJavaScript("document.getElementById('a').innerHTML = '\(content)';", completionHandler: nil)
         }
       //}
       }
