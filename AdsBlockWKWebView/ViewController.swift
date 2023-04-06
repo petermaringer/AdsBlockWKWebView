@@ -1917,24 +1917,25 @@ downloadTask.resume()
           let part2: String = "JIPhJlMBF35NihRQFBtum"
           let jsonObject: [String: Any] = ["model": "gpt-3.5-turbo", "messages": [["role": "user", "content": "\(url!)"]], "temperature": 0.7]
           let jsonData = try? JSONSerialization.data(withJSONObject: jsonObject)
-          var request = URLRequest(url: URL(string: "https://api.openai.com/v1/chat/completions")!)
+          var request = URLRequest(url: URL(string: webViewSearchUrlPref)!)
           request.httpMethod = "POST"
           request.setValue("application/json",
           forHTTPHeaderField: "Content-Type")
           request.setValue("Bearer \(part1)F\(part2)",
           forHTTPHeaderField: "Authorization")
           request.httpBody = jsonData
+          //webView.load(request)
           
-          /*
+          
           let task2 = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else { return }
+            //guard let data = data, error == nil else { return }
             let responseString = String(data: data, encoding: .utf8)
-            self.showAlert(message: "Response: \(responseString ?? "nil") \(data)")
+            //self.showAlert(message: "Response: \(responseString ?? "nil") \(response)")
+            self.webView.loadHTMLString("<b>\(response)</b><br>\(responseString ?? "nil")", baseURL: nil)
           }
           task2.resume()
-          */
           
-          webView.load(request)
+          
   }
   
   //url = url.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
@@ -1985,18 +1986,15 @@ downloadTask.resume()
       if matchedNumber == 0 {
         urlobj = URL(string: "http://" + url)
         if !url.contains(".") {
-          
           if webViewSearchUrlPref.contains("openai.com") {
             searchWithChatGPT()
             return
           }
-          
           urlobj = URL(string: webViewSearchUrlPref + url)
         }
       }
       lb.text! += " \(matchedNumber)"
       lb.text! += "|\(urlobj!.absoluteString)"
-      //adjustLabel()
     }
     navTypeBackForward = false
     let request = URLRequest(url: urlobj!, timeoutInterval: 10.0)
@@ -2244,16 +2242,12 @@ downloadTask.resume()
     switch err.code {
       case -999: break
       case 101, -1003:
-        
         if webViewSearchUrlPref.contains("openai.com") {
           searchWithChatGPT()
         } else {
           url = "\(webViewSearchUrlPref)\(url!)"
           startLoading()
         }
-        
-        //url = "\(webViewSearchUrlPref)\(url!)"
-        //startLoading()
       case 102:
         if showFrameLoadError == false {
           //showFrameLoadError = true
@@ -2265,11 +2259,15 @@ downloadTask.resume()
         showAlert(message: "Error: \(err.code) \(err.localizedDescription)")
     }
     lb.text! += " err:\(err.code)"
-    //adjustLabel()
+  }
+  
+  func webView(_ webView: WKWebView, didCreateJavaScriptContext context: JSContext, for frame: WKFrameInfo) {
+    let disableAutoFocusScript = "Object.defineProperty(document, 'activeElement', { get: function() { return null; } });"
+    context.evaluateScript(disableAutoFocusScript)
   }
   
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-    /*
+    /*->WDF
     if webView.url!.absoluteString.hasPrefix("http://localhost:6571/errors/error.html") == false {
       urlField.text = webView.url!.absoluteString
       
