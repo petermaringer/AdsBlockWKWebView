@@ -1921,19 +1921,13 @@ downloadTask.resume()
     request.httpMethod = "POST"
     request.addValue("application/json", forHTTPHeaderField: "Content-Type")
     request.addValue("Bearer \(part1)F\(part2)", forHTTPHeaderField: "Authorization")
-    //request.httpBody = jsonData
-    //webView.load(request)
-    
     let task = URLSession.shared.uploadTask(with: request, from: jsonData) { data, response, error in
       if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200, let data = data {
-      //if let data = data {
-        self.webView.loadHTMLString("<b>Response</b><br><br>\(httpResponse)<br><br>\(String(data: data, encoding: .utf8)!)<br><br><div id='a'>Content</div>", baseURL: URL(string: "hallo"))
+        self.webView.loadHTMLString("<b>Response</b><br><br>\(httpResponse)<br><br>\(String(data: data, encoding: .utf8)!)<br><br>You: \(url!)<br><br>", baseURL: URL(string: " "))
         let json = try! JSONSerialization.jsonObject(with: data) as? [String: Any]
         if let choices = json?["choices"] as? [[String: Any]], let message = choices[0]["message"] as? [String: Any], let content = message["content"] as? String {
-        self.webView.loadHTMLString("<b>Response</b><br><br>\(httpResponse)<br><br>\(String(data: data, encoding: .utf8)!)<br><br>\(content)", baseURL: URL(string: ""))
-        //self.webView.evaluateJavaScript("document.getElementById('a').innerHTML = '\(content)';", completionHandler: nil)
+          self.webView.loadHTMLString("<b>Response</b><br><br>\(httpResponse)<br><br>\(String(data: data, encoding: .utf8)!)<br><br>You: \(url!)<br><br>ChatGPT: \(content)", baseURL: URL(string: " "))
         }
-      //}
       }
     }
     task.resume()
