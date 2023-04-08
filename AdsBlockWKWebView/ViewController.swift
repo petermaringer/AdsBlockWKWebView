@@ -1368,7 +1368,7 @@ player.play()*/
         //webViewConfig.mediaTypesRequiringUserActionForPlayback = .all
         //webViewConfig.ignoresViewportScaleLimits = true
         
-        var userScript: String
+        var userScript: String = ""
         userScript += "document.addEventListener('click', function() { window.webkit.messageHandlers.iosListener.postMessage('c'); })"
         userScript += " "
         userScript += "var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=device-width, initial-scale=1.0, minimum-scale=0.1, maximum-scale=15.0, user-scalable=yes'); }"
