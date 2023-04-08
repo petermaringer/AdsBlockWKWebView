@@ -1373,7 +1373,7 @@ player.play()*/
         userScript += " "
         userScript += "var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=device-width, initial-scale=1.0, minimum-scale=0.1, maximum-scale=15.0, user-scalable=yes'); }"
         userScript += " "
-        userScript += "document.querySelector('input').blur(); Object.defineProperty(document, 'activeElement', { get: function() { return null; } });"
+        userScript += "document.addEventListener('focus', function() { document.activeElement.blur(); window.webkit.messageHandlers.iosListener.postMessage('foc'); }); document.querySelector('input').blur(); document.activeElement.blur(); Object.defineProperty(document, 'activeElement', { get: function() { return null; } });"
         userScript += " "
         userScript += "var el = document.querySelector('input[type=file]'); if (el !== null) { window.webkit.messageHandlers.iosListener.postMessage('iF'); el.removeAttribute('capture'); }"
         userScript += " "
