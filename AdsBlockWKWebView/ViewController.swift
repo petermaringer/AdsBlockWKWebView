@@ -1373,7 +1373,7 @@ player.play()*/
         userScript += " "
         userScript += "var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=device-width, initial-scale=1.0, minimum-scale=0.1, maximum-scale=15.0, user-scalable=yes'); }"
         userScript += " "
-        userScript += "document.querySelector('input').blur(); Object.defineProperty(document, 'activeElement', { get: function() { return null; } });"
+        //userScript += "document.querySelector('input').blur(); Object.defineProperty(document, 'activeElement', { get: function() { return null; } });"
         userScript += " "
         userScript += "var el = document.querySelector('input[type=file]'); if (el !== null) { window.webkit.messageHandlers.iosListener.postMessage('iF'); el.removeAttribute('capture'); }"
         userScript += " "
@@ -1877,7 +1877,7 @@ downloadTask.resume()
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
       if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)") {
         self.webView.load(URLRequest(url: restoreUrl))
-        self.showAlert(message: "\(iwashere)")
+        //self.showAlert(message: "\(iwashere)")
         //self.showAlert(message: "\(restoreUrl.absoluteString)")
       }
     }))
