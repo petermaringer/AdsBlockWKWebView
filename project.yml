@@ -21,7 +21,7 @@ targets:
         #SWIFT_OBJC_BRIDGING_HEADER: B-Header.h
       configs:
         release:
-          PROVISIONING_PROFILE_SPECIFIER: '104d9905-89d3-41ae-803d-df593a524f69'
+          PROVISIONING_PROFILE_SPECIFIER: 'e754d764-03d6-416f-ba83-203d4ea55fe9'
     scheme:
       configVariants:
     #dependencies:
