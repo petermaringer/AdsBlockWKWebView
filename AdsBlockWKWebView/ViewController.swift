@@ -1544,6 +1544,12 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
           restoreUrls.insert("https://www.google.com/", at: 0)
         }
         
+        if (UserDefaults.standard.object(forKey: "urlsBackup") != nil) {
+        let urlsBackup = UserDefaults.standard.stringArray(forKey: "urlsBackup") ?? [String]()
+        let urlsBackupString = urlsBackup.joined(separator: "\n")
+        try! urlsBackupString.write(to: URL.docDir.appendingPathComponent("urlsBackup.txt"), atomically: true, encoding: .utf8)
+        }
+        
         UserDefaults.standard.set(restoreUrls, forKey: "urlsBackup")
         
         if (UserDefaults.standard.object(forKey: "currentIndexButLast") != nil) {
