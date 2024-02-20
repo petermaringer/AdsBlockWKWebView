@@ -26,3 +26,9 @@ targets:
       configVariants:
     #dependencies:
       #- package: XYZ
+  AdsBlockWKWebViewShare:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: AdsBlockWKWebViewShare
+      
