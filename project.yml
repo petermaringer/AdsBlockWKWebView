@@ -3,6 +3,9 @@ options:
   bundleIdPrefix: at.co.weinmann
   #postGenCommand: pod install
 #packages:
+settings:
+  base:
+    DEVELOPMENT_TEAM: NG9KE3E3Q3
 targets:
   AdsBlockWKWebView:
     type: application
@@ -15,7 +18,7 @@ targets:
           #- Assets.xcassets/AppIconOld.appiconset
     settings:
       base:
-        DEVELOPMENT_TEAM: NG9KE3E3Q3
+        #DEVELOPMENT_TEAM: NG9KE3E3Q3
         CODE_SIGN_IDENTITY: iPhone Distribution
         SWIFT_VERSION: '4.0'
         #SWIFT_OBJC_BRIDGING_HEADER: B-Header.h
