@@ -31,4 +31,14 @@ targets:
     platform: iOS
     sources:
       - path: AdsBlockWKWebViewShare
-      
+    info:
+      path: AdsBlockWKWebViewShare/Info.plist
+      properties:
+        NSExtension:
+          NSExtensionPrincipalClass: PrincipalClassName
+          NSExtensionAttributes:
+            NSExtensionPointIdentifier: com.apple.share-services
+    entitlements:
+      path: AdsBlockWKWebViewShare/App.entitlements
+      properties:
+        com.apple.security.application-groups: group.com.app
