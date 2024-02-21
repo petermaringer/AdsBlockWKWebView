@@ -8,6 +8,7 @@ options:
 settings:
   base:
     DEVELOPMENT_TEAM: NG9KE3E3Q3
+    CODE_SIGN_STYLE: Manual
     CODE_SIGN_IDENTITY: iPhone Distribution
   configs:
     release:
