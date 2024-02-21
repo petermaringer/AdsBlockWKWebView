@@ -3,18 +3,25 @@ options:
   bundleIdPrefix: at.co.weinmann
   #postGenCommand: pod install
 settingGroups:
-  preset_generic:
-    DEVELOPMENT_TEAM: NG9KE3E3Q3
-    CODE_SIGN_IDENTITY: Apple Distribution
-  preset_release:
-    PROVISIONING_PROFILE_SPECIFIER: 'e754d764-03d6-416f-ba83-203d4ea55fe9'
+  #preset_generic:
+    #DEVELOPMENT_TEAM: NG9KE3E3Q3
+    #CODE_SIGN_IDENTITY: Apple Distribution
+  #preset_release:
+    #PROVISIONING_PROFILE_SPECIFIER: 'e754d764-03d6-416f-ba83-203d4ea55fe9'
+  #preset_all:
+    #groups:
+      #- preset_generic
+    #configs:
+      #release:
+        #groups:
+          #- preset_release
   preset_all:
-    groups:
-      - preset_generic
+    base:
+      DEVELOPMENT_TEAM: NG9KE3E3Q3
+      CODE_SIGN_IDENTITY: Apple Distribution
     configs:
       release:
-        groups:
-          - preset_release
+        PROVISIONING_PROFILE_SPECIFIER: 'e754d764-03d6-416f-ba83-203d4ea55fe9'
 #packages:
 targets:
   AdsBlockWKWebView:
