@@ -5,13 +5,13 @@ options:
 #configs:
   #Debug: debug
   #Release: release
-#settings:
-  #base:
-    #DEVELOPMENT_TEAM: NG9KE3E3Q3
+settings:
+  base:
+    DEVELOPMENT_TEAM: NG9KE3E3Q3
     ##CODE_SIGN_STYLE: Manual
-    #CODE_SIGN_IDENTITY: iPhone Distribution
-  #configs:
-    #release:
+    CODE_SIGN_IDENTITY: Apple Distribution
+  configs:
+    release:
       #PROVISIONING_PROFILE_SPECIFIER: 'e754d764-03d6-416f-ba83-203d4ea55fe9'
 #packages:
 targets:
@@ -26,8 +26,8 @@ targets:
           #- Assets.xcassets/AppIconOld.appiconset
     settings:
       base:
-        DEVELOPMENT_TEAM: NG9KE3E3Q3
-        CODE_SIGN_IDENTITY: iPhone Distribution
+        #DEVELOPMENT_TEAM: NG9KE3E3Q3
+        #CODE_SIGN_IDENTITY: iPhone Distribution
         SWIFT_VERSION: '4.0'
         #SWIFT_OBJC_BRIDGING_HEADER: B-Header.h
       configs:
@@ -46,8 +46,8 @@ targets:
       - path: AdsBlockWKWebViewShare
     settings:
       base:
-        DEVELOPMENT_TEAM: NG9KE3E3Q3
-        CODE_SIGN_IDENTITY: iPhone Distribution
+        #DEVELOPMENT_TEAM: NG9KE3E3Q3
+        #CODE_SIGN_IDENTITY: iPhone Distribution
       configs:
         release:
           PROVISIONING_PROFILE_SPECIFIER: 'e754d764-03d6-416f-ba83-203d4ea55fe9'
