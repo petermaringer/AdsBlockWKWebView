@@ -3,18 +3,6 @@ options:
   bundleIdPrefix: at.co.weinmann
   #postGenCommand: pod install
 settingGroups:
-  #preset_generic:
-    #DEVELOPMENT_TEAM: NG9KE3E3Q3
-    #CODE_SIGN_IDENTITY: Apple Distribution
-  #preset_release:
-    #PROVISIONING_PROFILE_SPECIFIER: 'e754d764-03d6-416f-ba83-203d4ea55fe9'
-  #preset_all:
-    #groups:
-      #- preset_generic
-    #configs:
-      #release:
-        #groups:
-          #- preset_release
   preset:
     base:
       DEVELOPMENT_TEAM: NG9KE3E3Q3
@@ -37,13 +25,8 @@ targets:
       groups:
         - preset
       base:
-        #DEVELOPMENT_TEAM: NG9KE3E3Q3
-        #CODE_SIGN_IDENTITY: iPhone Distribution
         SWIFT_VERSION: '4.0'
         #SWIFT_OBJC_BRIDGING_HEADER: B-Header.h
-      #configs:
-        #release:
-          #PROVISIONING_PROFILE_SPECIFIER: 'e754d764-03d6-416f-ba83-203d4ea55fe9'
     scheme:
       configVariants:
     dependencies:
@@ -58,12 +41,6 @@ targets:
     settings:
       groups:
         - preset
-      #base:
-        #DEVELOPMENT_TEAM: NG9KE3E3Q3
-        #CODE_SIGN_IDENTITY: iPhone Distribution
-      #configs:
-        #release:
-          #PROVISIONING_PROFILE_SPECIFIER: 'e754d764-03d6-416f-ba83-203d4ea55fe9'
     info:
       path: AdsBlockWKWebViewShare/Info.plist
       properties:
