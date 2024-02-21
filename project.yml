@@ -6,7 +6,7 @@ settingGroups:
   preset:
     base:
       DEVELOPMENT_TEAM: NG9KE3E3Q3
-      CODE_SIGN_IDENTITY: Apple Distribution
+      #CODE_SIGN_IDENTITY: Apple Distribution
     configs:
       release:
         PROVISIONING_PROFILE_SPECIFIER: 'e754d764-03d6-416f-ba83-203d4ea55fe9'
@@ -31,7 +31,7 @@ targets:
       configVariants:
     dependencies:
       - target: AdsBlockWKWebViewShare
-        embed: true
+        #embed: true
       #- package: XYZ
   AdsBlockWKWebViewShare:
     type: app-extension
@@ -52,6 +52,4 @@ targets:
       path: AdsBlockWKWebViewShare/App.entitlements
       properties:
         com.apple.developer.default-data-protection: NSFileProtectionComplete
-    #scheme:
-      #configVariants:
 
