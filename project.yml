@@ -50,4 +50,4 @@ targets:
     entitlements:
       path: AdsBlockWKWebViewShare/App.entitlements
       properties:
-        com.apple.security.application-groups: group.com.app
+        com.apple.developer.default-data-protection: NSFileProtectionComplete
