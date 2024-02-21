@@ -7,8 +7,7 @@ settingGroups:
     DEVELOPMENT_TEAM: NG9KE3E3Q3
     CODE_SIGN_IDENTITY: Apple Distribution
   preset_release:
-    #PROVISIONING_PROFILE_SPECIFIER: 'e754d764-03d6-416f-ba83-203d4ea55fe9'
-    PROVISIONING_PROFILE_SPECIFIER: 'Bitrise_Wildcard_App_AdHoc'
+    PROVISIONING_PROFILE_SPECIFIER: 'e754d764-03d6-416f-ba83-203d4ea55fe9'
   preset_all:
     groups:
       - preset_generic
