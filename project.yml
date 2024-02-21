@@ -2,15 +2,15 @@ name: AdsBlockWKWebView
 options:
   bundleIdPrefix: at.co.weinmann
   #postGenCommand: pod install
-configs:
-  Debug: debug
-  Release: release
+#configs:
+  #Debug: debug
+  #Release: release
 settings:
   base:
     DEVELOPMENT_TEAM: NG9KE3E3Q3
     CODE_SIGN_IDENTITY: iPhone Distribution
   configs:
-    Release:
+    release:
       PROVISIONING_PROFILE_SPECIFIER: 'e754d764-03d6-416f-ba83-203d4ea55fe9'
 #packages:
 targets:
