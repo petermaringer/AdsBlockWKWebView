@@ -15,7 +15,7 @@ settingGroups:
       #release:
         #groups:
           #- preset_release
-  preset_all:
+  preset:
     base:
       DEVELOPMENT_TEAM: NG9KE3E3Q3
       CODE_SIGN_IDENTITY: Apple Distribution
@@ -35,7 +35,7 @@ targets:
           #- Assets.xcassets/AppIconOld.appiconset
     settings:
       groups:
-        - preset_all
+        - preset
       base:
         #DEVELOPMENT_TEAM: NG9KE3E3Q3
         #CODE_SIGN_IDENTITY: iPhone Distribution
@@ -57,7 +57,7 @@ targets:
       - path: AdsBlockWKWebViewShare
     settings:
       groups:
-        - preset_all
+        - preset
       #base:
         #DEVELOPMENT_TEAM: NG9KE3E3Q3
         #CODE_SIGN_IDENTITY: iPhone Distribution
