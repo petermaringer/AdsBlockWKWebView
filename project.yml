@@ -3,7 +3,7 @@ options:
   bundleIdPrefix: at.co.weinmann
   #postGenCommand: pod install
 configs:
-  Debug: none
+  Debug: debug
   Release: release
 settings:
   base:
@@ -54,3 +54,7 @@ targets:
       path: AdsBlockWKWebViewShare/App.entitlements
       properties:
         com.apple.developer.default-data-protection: NSFileProtectionComplete
+    scheme:
+      configVariants:
+        - Release
+
