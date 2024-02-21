@@ -3,6 +3,7 @@ options:
   bundleIdPrefix: at.co.weinmann
   #postGenCommand: pod install
 configs:
+  Debug: none
   Release: release
 settings:
   base:
