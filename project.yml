@@ -56,5 +56,4 @@ targets:
         com.apple.developer.default-data-protection: NSFileProtectionComplete
     scheme:
       configVariants:
-        - Release
 
