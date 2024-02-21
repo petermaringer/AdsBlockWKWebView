@@ -44,6 +44,10 @@ targets:
     platform: iOS
     sources:
       - path: AdsBlockWKWebViewShare
+    settings:
+      configs:
+        release:
+          PROVISIONING_PROFILE_SPECIFIER: 'e754d764-03d6-416f-ba83-203d4ea55fe9'
     info:
       path: AdsBlockWKWebViewShare/Info.plist
       properties:
