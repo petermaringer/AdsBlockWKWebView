@@ -9,7 +9,8 @@ settingGroups:
       CODE_SIGN_IDENTITY: Apple Distribution
     configs:
       release:
-        PROVISIONING_PROFILE_SPECIFIER: 'e754d764-03d6-416f-ba83-203d4ea55fe9'
+        #PROVISIONING_PROFILE_SPECIFIER: 'e754d764-03d6-416f-ba83-203d4ea55fe9'
+        PROVISIONING_PROFILE_SPECIFIER: '1128a688-5cb4-4285-82a3-3ec811fe2bc2'
 #packages:
 targets:
   AdsBlockWKWebView:
