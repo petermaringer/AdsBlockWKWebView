@@ -27,13 +27,13 @@ targets:
       base:
         SWIFT_VERSION: '4.0'
         #SWIFT_OBJC_BRIDGING_HEADER: B-Header.h
-      #configs:
-        #release:
-          #PROVISIONING_PROFILE_SPECIFIER: '370821b0-f384-4fb3-be72-41f47b8a6126'
-    #entitlements:
-      #path: AdsBlockWKWebView/App.entitlements
-      #properties:
-        #com.apple.security.application-groups: [group.at.co.weinmann.AdsBlockWKWebView]
+      configs:
+        release:
+          PROVISIONING_PROFILE_SPECIFIER: '370821b0-f384-4fb3-be72-41f47b8a6126'
+    entitlements:
+      path: AdsBlockWKWebView/App.entitlements
+      properties:
+        com.apple.security.application-groups: [group.at.co.weinmann.AdsBlockWKWebView]
     scheme:
       configVariants:
     #dependencies:
