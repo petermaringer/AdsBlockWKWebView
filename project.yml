@@ -9,8 +9,7 @@ settingGroups:
       CODE_SIGN_IDENTITY: Apple Distribution
     configs:
       release:
-        #PROVISIONING_PROFILE_SPECIFIER: 'e754d764-03d6-416f-ba83-203d4ea55fe9'
-        PROVISIONING_PROFILE_SPECIFIER: '370821b0-f384-4fb3-be72-41f47b8a6126'
+        PROVISIONING_PROFILE_SPECIFIER: 'e754d764-03d6-416f-ba83-203d4ea55fe9'
 #packages:
 targets:
   AdsBlockWKWebView:
@@ -28,6 +27,13 @@ targets:
       base:
         SWIFT_VERSION: '4.0'
         #SWIFT_OBJC_BRIDGING_HEADER: B-Header.h
+      configs:
+        release:
+          PROVISIONING_PROFILE_SPECIFIER: '370821b0-f384-4fb3-be72-41f47b8a6126'
+    entitlements:
+      path: AdsBlockWKWebView/App.entitlements
+      properties:
+        com.apple.security.application-groups: [group.at.co.weinmann.AdsBlockWKWebView]
     scheme:
       configVariants:
     dependencies:
@@ -42,6 +48,9 @@ targets:
     settings:
       groups:
         - preset
+      #configs:
+        #release:
+          #PROVISIONING_PROFILE_SPECIFIER: 'be6ac4a5-1bd2-42d8-b32c-d01fe9ddeb55'
     info:
       path: AdsBlockWKWebViewShare/Info.plist
       properties:
@@ -52,5 +61,6 @@ targets:
     entitlements:
       path: AdsBlockWKWebViewShare/App.entitlements
       properties:
+        com.apple.security.application-groups: [group.at.co.weinmann.AdsBlockWKWebView]
         com.apple.developer.default-data-protection: NSFileProtectionComplete
 
