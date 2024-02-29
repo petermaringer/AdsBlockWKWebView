@@ -55,12 +55,14 @@ targets:
       path: AdsBlockWKWebViewShare/Info.plist
       properties:
         NSExtension:
-          NSExtensionPrincipalClass: PrincipalClassName
           NSExtensionAttributes:
-            NSExtensionPointIdentifier: com.apple.share-services
+            NSExtensionActivationRule:
+              NSExtensionActivationSupportsWebURLWithMaxCount: 1
+          NSExtensionPointIdentifier: com.apple.share-services
+          NSExtensionPrincipalClass: PrincipalClassName
     entitlements:
       path: AdsBlockWKWebViewShare/App.entitlements
       properties:
         com.apple.security.application-groups: [group.at.co.weinmann.AdsBlockWKWebView]
-        com.apple.developer.default-data-protection: NSFileProtectionComplete
+        #com.apple.developer.default-data-protection: NSFileProtectionComplete
 
