@@ -7,8 +7,8 @@ settingGroups:
     base:
       DEVELOPMENT_TEAM: NG9KE3E3Q3
       CODE_SIGN_IDENTITY: Apple Distribution
-    configs:
-      release:
+    #configs:
+      #release:
         #PROVISIONING_PROFILE_SPECIFIER: 'e754d764-03d6-416f-ba83-203d4ea55fe9'
 #packages:
 targets:
@@ -44,6 +44,7 @@ targets:
   AdsBlockWKWebViewShare:
     type: app-extension
     platform: iOS
+    deploymentTarget: '10.0'
     sources:
       - path: AdsBlockWKWebViewShare
     settings:
@@ -51,7 +52,7 @@ targets:
         - preset
       configs:
         release:
-          #PROVISIONING_PROFILE_SPECIFIER: 'be6ac4a5-1bd2-42d8-b32c-d01fe9ddeb55'
+          PROVISIONING_PROFILE_SPECIFIER: 'be6ac4a5-1bd2-42d8-b32c-d01fe9ddeb55'
     info:
       path: AdsBlockWKWebViewShare/Info.plist
       properties:
