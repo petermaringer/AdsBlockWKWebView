@@ -38,6 +38,7 @@ targets:
       configVariants:
     dependencies:
       - target: AdsBlockWKWebViewShare
+        codeSign: false
         embed: true
       #- package: XYZ
   AdsBlockWKWebViewShare:
