@@ -2176,14 +2176,18 @@ downloadTask.resume()
     }
     
     let urlSchemes: Array<String> = ["tel", "shortcuts"]
+    var urlSchemesStop = false
     urlSchemes.forEach { item in
       if navigationAction.request.url?.scheme == item {
     //if navigationAction.request.url?.scheme == "tel" {
-        UIApplication.shared.open(URL(string: navigationAction.request.url!.absoluteString.components(separatedBy: " //")[0])!, options: [:], completionHandler: nil)
-        //UIApplication.shared.open(navigationAction.request.url!, options: [:], completionHandler: nil)
-        decisionHandler(.cancel)
-        return
+        urlSchemesStop = true
       }
+    }
+    if urlSchemesStop == true {
+      UIApplication.shared.open(URL(string: navigationAction.request.url!.absoluteString.components(separatedBy: " //")[0])!, options: [:], completionHandler: nil)
+      //UIApplication.shared.open(navigationAction.request.url!, options: [:], completionHandler: nil)
+      decisionHandler(.cancel)
+      return
     }
     
     //if #available(iOS 15, *) {
