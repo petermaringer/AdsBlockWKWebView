@@ -48,9 +48,9 @@ targets:
     settings:
       groups:
         - preset
-      #configs:
-        #release:
-          #PROVISIONING_PROFILE_SPECIFIER: 'be6ac4a5-1bd2-42d8-b32c-d01fe9ddeb55'
+      configs:
+        release:
+          PROVISIONING_PROFILE_SPECIFIER: 'be6ac4a5-1bd2-42d8-b32c-d01fe9ddeb55'
     info:
       path: AdsBlockWKWebViewShare/Info.plist
       properties:
