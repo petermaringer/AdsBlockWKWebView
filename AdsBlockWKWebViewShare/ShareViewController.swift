@@ -50,7 +50,8 @@ class ShareViewController: UIViewController {
                             )
                             u.view.frame = (self.view.bounds)
                             self.view.addSubview(u.view)
-                            self.addChild(u)
+                            //self.addChild(u)
+                            self.addChildViewController(u)
                         }
                         // [END]
                     }
