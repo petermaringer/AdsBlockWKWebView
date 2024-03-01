@@ -3,7 +3,7 @@ options:
   bundleIdPrefix: at.co.weinmann
   #postGenCommand: pod install
   deploymentTarget:
-    iOS: "10.0"
+    iOS: "12.0"
 settingGroups:
   preset:
     base:
