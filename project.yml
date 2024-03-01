@@ -38,13 +38,13 @@ targets:
       configVariants:
     dependencies:
       - target: AdsBlockWKWebViewShare
-        codeSign: false
-        embed: true
+        #codeSign: false
+        #embed: true
       #- package: XYZ
   AdsBlockWKWebViewShare:
     type: app-extension
     platform: iOS
-    deploymentTarget: '10.0'
+    #deploymentTarget: '10.0'
     sources:
       - path: AdsBlockWKWebViewShare
     settings:
@@ -67,6 +67,6 @@ targets:
       properties:
         com.apple.security.application-groups: [group.at.co.weinmann.AdsBlockWKWebView]
         #com.apple.developer.default-data-protection: NSFileProtectionComplete
-    scheme:
-      configVariants:
+    #scheme:
+      #configVariants:
 
