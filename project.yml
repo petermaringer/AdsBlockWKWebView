@@ -60,7 +60,7 @@ targets:
           NSExtensionAttributes:
             NSExtensionActivationRule:
               NSExtensionActivationSupportsWebURLWithMaxCount: 1
-          NSExtensionPointIdentifier: com.apple.share-services
+          NSExtensionPointIdentifier: com.apple.ui-services
           NSExtensionPrincipalClass: PrincipalClassName
     entitlements:
       path: AdsBlockWKWebViewShare/App.entitlements
