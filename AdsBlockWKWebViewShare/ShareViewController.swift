@@ -32,7 +32,8 @@ class ShareViewController: UIViewController {
         super.viewDidLoad()
         // self.extensionContext can be used to retrieve images, videos and urls from share extension input
         let extensionAttachments = (self.extensionContext!.inputItems.first as! NSExtensionItem).attachments
-        for provider in extensionAttachments! {
+        //for provider in extensionAttachments! {
+        for case let provider as NSItemProvider in extensionAttachments! {
             // loadItem can be used to extract different types of data from NSProvider object in attachements
             provider.loadItem(forTypeIdentifier: "public.image"){ data, _ in
                 // Load Image data from image URL
