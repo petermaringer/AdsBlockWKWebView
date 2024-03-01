@@ -2,8 +2,8 @@ name: AdsBlockWKWebView
 options:
   bundleIdPrefix: at.co.weinmann
   #postGenCommand: pod install
-  deploymentTarget:
-    iOS: "17.0"
+  #deploymentTarget:
+    #iOS: "17.0"
 settingGroups:
   preset:
     base:
