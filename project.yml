@@ -53,6 +53,8 @@ targets:
     settings:
       groups:
         - preset
+      base:
+        SWIFT_VERSION: '4.0'
       configs:
         release:
           PROVISIONING_PROFILE_SPECIFIER: 'be6ac4a5-1bd2-42d8-b32c-d01fe9ddeb55'
