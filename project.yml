@@ -18,6 +18,7 @@ targets:
     type: application
     platform: iOS
     #deploymentTarget: '10.0'
+    deploymentTarget: '16.0'
     sources:
       - path: AdsBlockWKWebView
         excludes:
