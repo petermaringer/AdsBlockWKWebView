@@ -1,6 +1,6 @@
 import UIKit
 
-@objc(PrincipalClassName)
+//@objc(PrincipalClassName)
 class ShareViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()

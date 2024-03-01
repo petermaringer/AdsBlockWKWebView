@@ -71,7 +71,7 @@ targets:
               NSExtensionActivationSupportsAttachmentsWithMaxCount: 1
               NSExtensionActivationSupportsText: true
           NSExtensionPointIdentifier: com.apple.share-services
-          NSExtensionPrincipalClass: PrincipalClassName
+          NSExtensionPrincipalClass: AdsBlockWKWebViewShare.ShareViewController
     entitlements:
       path: AdsBlockWKWebViewShare/App.entitlements
       properties:
