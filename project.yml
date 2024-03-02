@@ -41,7 +41,7 @@ targets:
       configVariants:
     dependencies:
       - target: AdsBlockWKWebViewShare
-        codeSign: false
+        #codeSign: false
         embed: true
       #- package: XYZ
   AdsBlockWKWebViewShare:
@@ -53,8 +53,8 @@ targets:
     settings:
       groups:
         - preset
-      base:
-        SWIFT_VERSION: '4.0'
+      #base:
+        #SWIFT_VERSION: '4.0'
       configs:
         release:
           PROVISIONING_PROFILE_SPECIFIER: 'be6ac4a5-1bd2-42d8-b32c-d01fe9ddeb55'
@@ -81,4 +81,5 @@ targets:
       configVariants:
     #dependencies:
       #- target: AdsBlockWKWebView
+    onlyCopyFilesOnInstall: true
 
