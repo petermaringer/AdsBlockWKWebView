@@ -79,6 +79,6 @@ targets:
         #com.apple.developer.default-data-protection: NSFileProtectionComplete
     scheme:
       configVariants:
-    dependencies:
-      - target: AdsBlockWKWebView
+    #dependencies:
+      #- target: AdsBlockWKWebView
 
