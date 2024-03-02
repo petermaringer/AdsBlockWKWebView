@@ -39,8 +39,8 @@ targets:
         com.apple.security.application-groups: [group.at.co.weinmann.AdsBlockWKWebView]
     scheme:
       configVariants:
-    dependencies:
-      - target: AdsBlockWKWebViewShare
+    #dependencies:
+      #- target: AdsBlockWKWebViewShare
         #codeSign: false
         #embed: true
       #- package: XYZ
@@ -79,4 +79,6 @@ targets:
         #com.apple.developer.default-data-protection: NSFileProtectionComplete
     scheme:
       configVariants:
+    dependencies:
+      - target: AdsBlockWKWebView
 
