@@ -41,11 +41,11 @@ targets:
     scheme:
       configVariants:
     dependencies:
-      - target: AdsBlockWKWebViewShare
+      - target: AdsBlockWKWebView.Share
         #codeSign: false
         #embed: true
       #- package: XYZ
-  AdsBlockWKWebViewShare:
+  AdsBlockWKWebView.Share:
     type: app-extension
     platform: iOS
     deploymentTarget: '16.0'
