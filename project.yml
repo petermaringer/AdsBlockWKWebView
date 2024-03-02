@@ -41,30 +41,26 @@ targets:
       configVariants:
     dependencies:
       - target: AdsBlockWKWebView.Share
-        #embed: true
       #- package: XYZ
   AdsBlockWKWebView.Share:
     type: app-extension
     platform: iOS
-    deploymentTarget: "13.0"
+    #deploymentTarget: "13.0"
+    deploymentTarget:
+      iOS: "13.0"
     sources:
       - path: AdsBlockWKWebViewShare
     settings:
       #groups:
         #- preset
       base:
-        SWIFT_VERSION: '4.0'
-        ##PRODUCT_BUNDLE_IDENTIFIER: at.co.weinmann.AdsBlockWKWebView.Share
+        SWIFT_VERSION: "4.0"
       #configs:
         #release:
           #PROVISIONING_PROFILE_SPECIFIER: 'aad5d130-7c8d-46e7-8424-4aba86f71b9a'
-    #info:
-      #path: AdsBlockWKWebViewShare/Info.plist
-      #properties:
     entitlements:
       path: AdsBlockWKWebViewShare/App.entitlements
       properties:
         com.apple.security.application-groups: [group.at.co.weinmann.AdsBlockWKWebView]
         com.apple.developer.default-data-protection: NSFileProtectionComplete
-    #onlyCopyFilesOnInstall: true
 
