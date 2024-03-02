@@ -41,11 +41,11 @@ targets:
     scheme:
       configVariants:
     dependencies:
-      - target: Share
+      - target: AdsBlockWKWebViewShare
         #codeSign: false
-        #embed: true
+        embed: true
       #- package: XYZ
-  Share:
+  AdsBlockWKWebViewShare:
     type: app-extension
     platform: iOS
     deploymentTarget: '16.0'
@@ -56,6 +56,7 @@ targets:
         - preset
       base:
         SWIFT_VERSION: '4.0'
+        PRODUCT_BUNDLE_IDENTIFIER: at.co.weinmann.AdsBlockWKWebView.Share
       configs:
         release:
           PROVISIONING_PROFILE_SPECIFIER: 'aad5d130-7c8d-46e7-8424-4aba86f71b9a'
@@ -72,7 +73,7 @@ targets:
               #NSExtensionActivationSupportsAttachmentsWithMaxCount: 1
               #NSExtensionActivationSupportsText: true
           NSExtensionPointIdentifier: com.apple.share-services
-          NSExtensionPrincipalClass: AdsBlockWKWebViewShare.ShareViewController
+          NSExtensionPrincipalClass: AdsBlockWKWebView.Share.ShareViewController
     entitlements:
       path: AdsBlockWKWebViewShare/App.entitlements
       properties:
