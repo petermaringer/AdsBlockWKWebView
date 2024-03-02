@@ -2,13 +2,13 @@ name: AdsBlockWKWebView
 options:
   bundleIdPrefix: at.co.weinmann
   #postGenCommand: pod install
-  #deploymentTarget:
-    #iOS: "16.0"
+  deploymentTarget:
+    iOS: "10.0"
 #settingGroups:
   #preset:
     #base:
       #DEVELOPMENT_TEAM: NG9KE3E3Q3
-      #CODE_SIGN_STYLE: Manual
+      ##CODE_SIGN_STYLE: Manual
       #CODE_SIGN_IDENTITY: Apple Distribution
     #configs:
       #release:
@@ -18,8 +18,7 @@ targets:
   AdsBlockWKWebView:
     type: application
     platform: iOS
-    deploymentTarget: '10.0'
-    #deploymentTarget: '16.0'
+    #deploymentTarget: '10.0'
     sources:
       - path: AdsBlockWKWebView
         excludes:
@@ -29,7 +28,7 @@ targets:
       #groups:
         #- preset
       base:
-        SWIFT_VERSION: '4.0'
+        SWIFT_VERSION: "4.0"
         #SWIFT_OBJC_BRIDGING_HEADER: B-Header.h
       #configs:
         #release:
@@ -42,14 +41,12 @@ targets:
       configVariants:
     dependencies:
       - target: AdsBlockWKWebView.Share
-        #codeSign: false
         #embed: true
-        #link: true
       #- package: XYZ
   AdsBlockWKWebView.Share:
     type: app-extension
     platform: iOS
-    deploymentTarget: '13.0'
+    deploymentTarget: '12.0'
     sources:
       - path: AdsBlockWKWebViewShare
     settings:
@@ -57,32 +54,17 @@ targets:
         #- preset
       base:
         SWIFT_VERSION: '4.0'
-        #PRODUCT_BUNDLE_IDENTIFIER: at.co.weinmann.AdsBlockWKWebView.Share
+        ##PRODUCT_BUNDLE_IDENTIFIER: at.co.weinmann.AdsBlockWKWebView.Share
       #configs:
         #release:
           #PROVISIONING_PROFILE_SPECIFIER: 'aad5d130-7c8d-46e7-8424-4aba86f71b9a'
     #info:
       #path: AdsBlockWKWebViewShare/Info.plist
       #properties:
-        #NSExtension:
-          #NSExtensionAttributes:
-            #NSExtensionActivationRule:
-              #NSExtensionActivationSupportsWebURLWithMaxCount: 1
-              #NSExtensionActivationSupportsWebPageWithMaxCount: 1
-              #NSExtensionActivationSupportsImageWithMaxCount: 1
-              #NSExtensionActivationSupportsFileWithMaxCount: 1
-              #NSExtensionActivationSupportsAttachmentsWithMaxCount: 1
-              #NSExtensionActivationSupportsText: true
-          #NSExtensionPointIdentifier: com.apple.share-services
-          #NSExtensionPrincipalClass: ShareViewController
     entitlements:
       path: AdsBlockWKWebViewShare/App.entitlements
       properties:
         com.apple.security.application-groups: [group.at.co.weinmann.AdsBlockWKWebView]
         com.apple.developer.default-data-protection: NSFileProtectionComplete
-    #scheme:
-      #configVariants:
-    #dependencies:
-      #- target: AdsBlockWKWebView
     #onlyCopyFilesOnInstall: true
 
