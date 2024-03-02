@@ -46,7 +46,7 @@ targets:
   AdsBlockWKWebView.Share:
     type: app-extension
     platform: iOS
-    deploymentTarget: '12.0'
+    deploymentTarget: "13.0"
     sources:
       - path: AdsBlockWKWebViewShare
     settings:
