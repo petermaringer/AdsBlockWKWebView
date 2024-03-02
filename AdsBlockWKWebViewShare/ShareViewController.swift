@@ -25,7 +25,7 @@ struct ImageView: View {
 }
 
 
-//@objc(PrincipalClassName)
+@objc(ShareViewController)
 class ShareViewController: UIViewController {
     
     override func viewDidLoad() {
