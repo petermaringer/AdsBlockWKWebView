@@ -2,13 +2,13 @@ name: AdsBlockWKWebView
 options:
   bundleIdPrefix: at.co.weinmann
   #postGenCommand: pod install
-  #deploymentTarget:
-    #iOS: "16.0"
+  deploymentTarget:
+    iOS: "16.0"
 settingGroups:
   preset:
     base:
       DEVELOPMENT_TEAM: NG9KE3E3Q3
-      CODE_SIGN_STYLE: Manual
+      #CODE_SIGN_STYLE: Manual
       CODE_SIGN_IDENTITY: Apple Distribution
     #configs:
       #release:
@@ -18,7 +18,7 @@ targets:
   AdsBlockWKWebView:
     type: application
     platform: iOS
-    deploymentTarget: '10.0'
+    #deploymentTarget: '10.0'
     #deploymentTarget: '16.0'
     sources:
       - path: AdsBlockWKWebView
@@ -48,7 +48,7 @@ targets:
   AdsBlockWKWebViewShare:
     type: app-extension
     platform: iOS
-    deploymentTarget: '16.0'
+    #deploymentTarget: '16.0'
     sources:
       - path: AdsBlockWKWebViewShare
     settings:
@@ -79,9 +79,9 @@ targets:
       properties:
         com.apple.security.application-groups: [group.at.co.weinmann.AdsBlockWKWebView]
         #com.apple.developer.default-data-protection: NSFileProtectionComplete
-    scheme:
-      configVariants:
+    #scheme:
+      #configVariants:
     #dependencies:
       #- target: AdsBlockWKWebView
-    #onlyCopyFilesOnInstall: true
+    onlyCopyFilesOnInstall: true
 
