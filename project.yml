@@ -39,10 +39,10 @@ targets:
         com.apple.security.application-groups: [group.at.co.weinmann.AdsBlockWKWebView]
     scheme:
       configVariants:
-    #dependencies:
-      #- target: AdsBlockWKWebViewShare
-        #codeSign: false
-        #embed: true
+    dependencies:
+      - target: AdsBlockWKWebViewShare
+        codeSign: false
+        embed: true
       #- package: XYZ
   AdsBlockWKWebViewShare:
     type: app-extension
