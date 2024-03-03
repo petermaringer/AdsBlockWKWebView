@@ -10,9 +10,9 @@ options:
       #DEVELOPMENT_TEAM: NG9KE3E3Q3
       ##CODE_SIGN_STYLE: Manual
       #CODE_SIGN_IDENTITY: Apple Distribution
-    #configs:
-      #release:
-        #PROVISIONING_PROFILE_SPECIFIER: 'e754d764-03d6-416f-ba83-203d4ea55fe9'
+    ##configs:
+      ##release:
+        ##PROVISIONING_PROFILE_SPECIFIER: 'e754d764-03d6-416f-ba83-203d4ea55fe9'
 #packages:
 targets:
   AdsBlockWKWebView:
