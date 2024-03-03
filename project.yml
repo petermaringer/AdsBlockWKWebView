@@ -55,9 +55,9 @@ targets:
       #configs:
         #release:
           #PROVISIONING_PROFILE_SPECIFIER: 'aad5d130-7c8d-46e7-8424-4aba86f71b9a'
-    entitlements:
-      path: AdsBlockWKWebViewShare/App.entitlements
-      properties:
-        com.apple.security.application-groups: [group.at.co.weinmann.AdsBlockWKWebView]
-        com.apple.developer.default-data-protection: NSFileProtectionComplete
+    #entitlements:
+      #path: AdsBlockWKWebViewShare/App.entitlements
+      #properties:
+        #com.apple.security.application-groups: [group.at.co.weinmann.AdsBlockWKWebView]
+        #com.apple.developer.default-data-protection: NSFileProtectionComplete
 
