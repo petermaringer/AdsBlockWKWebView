@@ -36,6 +36,7 @@ targets:
       path: AdsBlockWKWebView/App.entitlements
       properties:
         com.apple.security.application-groups: [group.at.co.weinmann.AdsBlockWKWebView]
+        com.apple.developer.siri: true
     scheme:
       configVariants:
     dependencies:
