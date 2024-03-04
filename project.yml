@@ -32,8 +32,8 @@ targets:
     platform: iOS
     deploymentTarget: "13.0"
     sources:
-      - path: AdsBlockWKWebViewShare
+      - path: AdsBlockWKWebView_Share
     settings:
       SWIFT_VERSION: "5.9.2"
-      CODE_SIGN_ENTITLEMENTS: AdsBlockWKWebViewShare/App.entitlements
+      CODE_SIGN_ENTITLEMENTS: AdsBlockWKWebView_Share/App.entitlements
 
