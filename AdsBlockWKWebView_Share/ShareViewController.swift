@@ -16,15 +16,13 @@ struct ImageView: View {
 
 @objc(ShareViewController)
 class ShareViewController: UIViewController {
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // self.extensionContext can be used to retrieve images, videos and urls from share extension input
-        let extensionAttachments = (self.extensionContext!.inputItems.first as! NSExtensionItem).attachments
-        for provider in extensionAttachments! {
-        //for case let provider as NSItemProvider in extensionAttachments! {
-            // loadItem can be used to extract different types of data from NSProvider object in attachements
-            provider.loadItem(forTypeIdentifier: "public.image"){ data, _ in
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    let extensionAttachments = (self.extensionContext!.inputItems.first as! NSExtensionItem).attachments
+    for provider in extensionAttachments! {
+      provider.loadItem(forTypeIdentifier: "public.image") { data, _ in
+        
                 // Load Image data from image URL
                 if let url = data as? URL {
                     if let imageData = try? Data(contentsOf: url) {
@@ -45,8 +43,35 @@ class ShareViewController: UIViewController {
                         // [END]
                     }
                 }
-            }
-        }
+      
+      }
     }
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    guard let extensionItem = extensionContext?.inputItems.first as? NSExtensionItem, let itemProvider = extensionItem.attachments?.first else {
+      self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+      return
+    }
+    if itemProvider.hasItemConformingToTypeIdentifier(String(kUTTypeURL)) {
+      handleIncomingURL(itemProvider: itemProvider)
+    } else {
+      self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+    }
+  }
+  
+  private func handleIncomingURL(itemProvider: NSItemProvider) {
+    itemProvider.loadItem(forTypeIdentifier: String(kUTTypeURL), options: nil) { (item, error) in
+      if let error = error {
+        print("URL-Error: \(error.localizedDescription)")
+      }
+      if let url = item as? NSURL, let urlString = url.absoluteString {
+        print(urlString)
+        UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")?.set(urlString, forKey: "incomingURL")
+      }
+      self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+    }
+  }
+  
 }
-
