@@ -1864,6 +1864,11 @@ downloadTask.resume()
         }
         }
         }
+        
+        if let incomingURL = UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")?.value(forKey: "incomingURL") as? String {
+          urlField.text = incomingURL
+          UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")?.removeObject(forKey: "incomingURL")
+        }
     
     lb.text! += " bAc"
   }
