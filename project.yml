@@ -4,6 +4,7 @@ options:
   #postGenCommand: pod install
   deploymentTarget:
     iOS: "10.0"
+  minimumXcodeGenVersion: "4.0"
 #settingGroups:
   #preset:
     #base:
@@ -52,7 +53,7 @@ targets:
       #groups:
         #- preset
       base:
-        SWIFT_VERSION: "4.0"
+        #SWIFT_VERSION: "4.0"
         CODE_SIGN_ENTITLEMENTS: AdsBlockWKWebViewShare/App.entitlements
       #configs:
         #release:
