@@ -54,15 +54,17 @@ class ShareViewController: UIViewController {
       self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
       return
     }
-    if itemProvider.hasItemConformingToTypeIdentifier(String(kUTTypeURL)) {
+    if itemProvider.hasItemConformingToTypeIdentifier("public.url") {
       handleIncomingURL(itemProvider: itemProvider)
+    } else if itemProvider.hasItemConformingToTypeIdentifier("public.image") {
+      return
     } else {
       self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
     }
   }
   
   private func handleIncomingURL(itemProvider: NSItemProvider) {
-    itemProvider.loadItem(forTypeIdentifier: String(kUTTypeURL), options: nil) { (item, error) in
+    itemProvider.loadItem(forTypeIdentifier: "public.url", options: nil) { (item, error) in
       if let error = error {
         print("URL-Error: \(error.localizedDescription)")
       }
