@@ -54,10 +54,11 @@ class ShareViewController: UIViewController {
       self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
       return
     }
-    if itemProvider.hasItemConformingToTypeIdentifier("public.url") {
-      handleIncomingURL(itemProvider: itemProvider)
-    } else if itemProvider.hasItemConformingToTypeIdentifier("public.image") {
+    if   itemProvider.hasItemConformingToTypeIdentifier("public.image") {
+      //handleIncomingURL(itemProvider: itemProvider)
       return
+    } else if itemProvider.hasItemConformingToTypeIdentifier("public.url") {
+      handleIncomingURL(itemProvider: itemProvider)
     } else {
       self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
     }
@@ -71,9 +72,25 @@ class ShareViewController: UIViewController {
       if let url = item as? NSURL, let urlString = url.absoluteString {
         print(urlString)
         UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")?.set(urlString, forKey: "incomingURL")
+        self.extensionContext?.completeRequest(returningItems: nil, completionHandler: { _ in
+          guard let url = URL(string: "adsblockwkwebview://") else { return }
+          _ = self.openURL(url)
+        })
+        return
       }
       self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
     }
+  }
+  
+  @objc private func openURL(_ url: URL) -> Bool {
+    var responder: UIResponder? = self
+    while responder != nil {
+      if let application = responder as? UIApplication {
+        return application.perform(#selector(openURL(_:)), with: url) != nil
+      }
+      responder = responder?.next
+    }
+    return false
   }
   
 }
