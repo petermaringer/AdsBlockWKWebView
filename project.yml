@@ -49,8 +49,8 @@ targets:
     deploymentTarget: "13.0"
     sources:
       - path: AdsBlockWKWebViewShare
-        includes:
-          - App.entitlements
+        #includes:
+          #- App.entitlements
     settings:
       #groups:
         #- preset
