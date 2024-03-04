@@ -4,7 +4,7 @@ options:
   #postGenCommand: pod install
   deploymentTarget:
     iOS: "10.0"
-  minimumXcodeGenVersion: "4.0"
+  minimumXcodeGenVersion: "2.39.1"
 #settingGroups:
   #preset:
     #base:
