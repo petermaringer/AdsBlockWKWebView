@@ -20,7 +20,12 @@ class ShareViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    guard let extensionItem = extensionContext?.inputItems.first as? NSExtensionItem, let itemProvider = extensionItem.attachments?.first else { return }
+    //guard let extensionItem = extensionContext?.inputItems.first as? NSExtensionItem, let itemProvider = extensionItem.attachments?.first else { return }
+    
+    for extItem in extensionContext!.inputItems as! [NSExtensionItem] {
+      if let extAttachments = extItem.attachments {
+        for itemProvider in extAttachments {
+    
     if itemProvider.hasItemConformingToTypeIdentifier("public.image") {
       handleIncomingImage(itemProvider: itemProvider)
       return
@@ -29,6 +34,9 @@ class ShareViewController: UIViewController {
       handleIncomingUrl(itemProvider: itemProvider)
       return
     }
+    
+    } } }
+    
   }
   
   private func handleIncomingImage(itemProvider: NSItemProvider) {
@@ -60,6 +68,10 @@ class ShareViewController: UIViewController {
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+    
+    //override func viewWillAppear(_ animated: Bool) {
+    //super.viewWillAppear(animated)
+    
     if incomingItemType == "Url" {
       self.extensionContext?.completeRequest(returningItems: nil, completionHandler: { _ in
         guard let url = URL(string: "adsblockwkwebview://") else { return }
