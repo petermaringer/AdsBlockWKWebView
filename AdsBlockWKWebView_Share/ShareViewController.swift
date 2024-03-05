@@ -51,7 +51,7 @@ class ShareViewController: UIViewController {
   
   private func handleIncomingUrl(itemProvider: NSItemProvider) {
     itemProvider.loadItem(forTypeIdentifier: "public.url", options: nil) { (item, error) in
-      if let url = item as? URL, let urlString = url.absoluteString {
+      if let url = item as? NSURL, let urlString = url.absoluteString {
         UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")?.set(urlString, forKey: "incomingURL")
         self.incomingItemType = "Url"
       }
