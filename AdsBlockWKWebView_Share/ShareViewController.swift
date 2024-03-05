@@ -22,7 +22,7 @@ class ShareViewController: UIViewController {
     let extensionAttachments = (self.extensionContext!.inputItems.first as! NSExtensionItem).attachments
     for provider in extensionAttachments! {
       handleIncomingImage(itemProvider: provider)
-      /*
+      //
       provider.loadItem(forTypeIdentifier: "public.image") { data, _ in
         if let url = data as? URL {
           if let imageData = try? Data(contentsOf: url) {
@@ -37,7 +37,7 @@ class ShareViewController: UIViewController {
           }
         }
       }
-      *
+      //
     }
   }
   */
