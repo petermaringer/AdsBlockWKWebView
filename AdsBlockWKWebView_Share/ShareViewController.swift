@@ -16,66 +16,18 @@ struct ImageView: View {
 @objc(ShareViewController)
 class ShareViewController: UIViewController {
   
-  /*
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    let extensionAttachments = (self.extensionContext!.inputItems.first as! NSExtensionItem).attachments
-    for provider in extensionAttachments! {
-      handleIncomingImage(itemProvider: provider)
-      //
-      provider.loadItem(forTypeIdentifier: "public.image") { data, _ in
-        if let url = data as? URL {
-          if let imageData = try? Data(contentsOf: url) {
-            let uiimg = UIImage(data: imageData)!
-            let image = Image(uiImage: uiimg)
-            DispatchQueue.main.async {
-              let u = UIHostingController(rootView: ImageView(image: image))
-              u.view.frame = (self.view.bounds)
-              self.view.addSubview(u.view)
-              self.addChild(u)
-            }
-          }
-        }
-      }
-      //
-    }
-  }
-  */
-  
   var incomingItemType: String = "Undefined"
   
   override func viewDidLoad() {
     super.viewDidLoad()
-  //override func viewDidAppear(_ animated: Bool) {
-    //super.viewDidAppear(animated)
-    guard let extensionItem = extensionContext?.inputItems.first as? NSExtensionItem, let itemProvider = extensionItem.attachments?.first else {
-      //self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
-      return
-    }
+    guard let extensionItem = extensionContext?.inputItems.first as? NSExtensionItem, let itemProvider = extensionItem.attachments?.first else { return }
     if itemProvider.hasItemConformingToTypeIdentifier("public.image") {
       handleIncomingImage(itemProvider: itemProvider)
       return
     }
-    //else if
     if itemProvider.hasItemConformingToTypeIdentifier("public.url") {
-      handleIncomingURL(itemProvider: itemProvider)
+      handleIncomingUrl(itemProvider: itemProvider)
       return
-    }
-    //else {
-      //self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
-    //}
-  }
-  
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    if incomingItemType == "Url" {
-      self.extensionContext?.completeRequest(returningItems: nil, completionHandler: { _ in
-          guard let url = URL(string: "adsblockwkwebview://") else { return }
-          _ = self.openURL(url)
-        })
-    }
-    if incomingItemType == "Undefined" {
-      self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
     }
   }
   
@@ -97,22 +49,25 @@ class ShareViewController: UIViewController {
     }
   }
   
-  private func handleIncomingURL(itemProvider: NSItemProvider) {
+  private func handleIncomingUrl(itemProvider: NSItemProvider) {
     itemProvider.loadItem(forTypeIdentifier: "public.url", options: nil) { (item, error) in
-      //if let error = error {
-        //print("URL-Error: \(error.localizedDescription)")
-      //}
-      if let url = item as? NSURL, let urlString = url.absoluteString {
-        //print(urlString)
+      if let url = item as? URL, let urlString = url.absoluteString {
         UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")?.set(urlString, forKey: "incomingURL")
         self.incomingItemType = "Url"
-        //self.extensionContext?.completeRequest(returningItems: nil, completionHandler: { _ in
-          //guard let url = URL(string: "adsblockwkwebview://") else { return }
-          //_ = self.openURL(url)
-        //})
-        //return
       }
-      //self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+    }
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    if incomingItemType == "Url" {
+      self.extensionContext?.completeRequest(returningItems: nil, completionHandler: { _ in
+        guard let url = URL(string: "adsblockwkwebview://") else { return }
+        _ = self.openURL(url)
+      })
+    }
+    if incomingItemType == "Undefined" {
+      self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
     }
   }
   
