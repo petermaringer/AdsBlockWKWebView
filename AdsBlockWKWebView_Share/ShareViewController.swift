@@ -42,6 +42,8 @@ class ShareViewController: UIViewController {
   }
   */
   
+  var incomingItemType: String = "Undefined"
+  
   override func viewDidLoad() {
     super.viewDidLoad()
   //override func viewDidAppear(_ animated: Bool) {
@@ -60,6 +62,13 @@ class ShareViewController: UIViewController {
     }
   }
   
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    if incomingItemType != "Image" {
+      self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+    }
+  }
+  
   private func handleIncomingImage(itemProvider: NSItemProvider) {
     itemProvider.loadItem(forTypeIdentifier: "public.image", options: nil) { (item, error) in
       if let url = item as? URL {
@@ -71,6 +80,7 @@ class ShareViewController: UIViewController {
             u.view.frame = (self.view.bounds)
             self.view.addSubview(u.view)
             self.addChild(u)
+            incomingItemType = "Image"
           }
         }
       }
@@ -85,6 +95,7 @@ class ShareViewController: UIViewController {
       if let url = item as? NSURL, let urlString = url.absoluteString {
         print(urlString)
         UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")?.set(urlString, forKey: "incomingURL")
+        incomingItemType = "Url"
         self.extensionContext?.completeRequest(returningItems: nil, completionHandler: { _ in
           guard let url = URL(string: "adsblockwkwebview://") else { return }
           _ = self.openURL(url)
