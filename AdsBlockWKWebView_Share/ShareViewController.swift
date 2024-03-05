@@ -80,7 +80,7 @@ class ShareViewController: UIViewController {
             u.view.frame = (self.view.bounds)
             self.view.addSubview(u.view)
             self.addChild(u)
-            incomingItemType = "Image"
+            self.incomingItemType = "Image"
           }
         }
       }
@@ -95,7 +95,7 @@ class ShareViewController: UIViewController {
       if let url = item as? NSURL, let urlString = url.absoluteString {
         print(urlString)
         UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")?.set(urlString, forKey: "incomingURL")
-        incomingItemType = "Url"
+        self.incomingItemType = "Url"
         self.extensionContext?.completeRequest(returningItems: nil, completionHandler: { _ in
           guard let url = URL(string: "adsblockwkwebview://") else { return }
           _ = self.openURL(url)
