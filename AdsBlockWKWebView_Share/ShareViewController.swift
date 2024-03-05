@@ -54,12 +54,15 @@ class ShareViewController: UIViewController {
     }
     if itemProvider.hasItemConformingToTypeIdentifier("public.image") {
       handleIncomingImage(itemProvider: itemProvider)
-      return
-    } else if itemProvider.hasItemConformingToTypeIdentifier("public.url") {
-      handleIncomingURL(itemProvider: itemProvider)
-    } else {
-      //self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+      //return
     }
+    //else if
+    if itemProvider.hasItemConformingToTypeIdentifier("public.url") {
+      handleIncomingURL(itemProvider: itemProvider)
+    }
+    //else {
+      //self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+    //}
   }
   
   override func viewDidAppear(_ animated: Bool) {
@@ -106,7 +109,7 @@ class ShareViewController: UIViewController {
           //guard let url = URL(string: "adsblockwkwebview://") else { return }
           //_ = self.openURL(url)
         //})
-        return
+        //return
       }
       //self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
     }
