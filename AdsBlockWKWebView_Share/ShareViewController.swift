@@ -49,7 +49,7 @@ class ShareViewController: UIViewController {
   //override func viewDidAppear(_ animated: Bool) {
     //super.viewDidAppear(animated)
     guard let extensionItem = extensionContext?.inputItems.first as? NSExtensionItem, let itemProvider = extensionItem.attachments?.first else {
-      self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+      //self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
       return
     }
     if itemProvider.hasItemConformingToTypeIdentifier("public.image") {
@@ -58,13 +58,19 @@ class ShareViewController: UIViewController {
     } else if itemProvider.hasItemConformingToTypeIdentifier("public.url") {
       handleIncomingURL(itemProvider: itemProvider)
     } else {
-      self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+      //self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
     }
   }
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    if incomingItemType != "Image" {
+    if incomingItemType == "Url" {
+      self.extensionContext?.completeRequest(returningItems: nil, completionHandler: { _ in
+          guard let url = URL(string: "adsblockwkwebview://") else { return }
+          _ = self.openURL(url)
+        })
+    }
+    if incomingItemType == "Undefined" {
       self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
     }
   }
@@ -89,20 +95,20 @@ class ShareViewController: UIViewController {
   
   private func handleIncomingURL(itemProvider: NSItemProvider) {
     itemProvider.loadItem(forTypeIdentifier: "public.url", options: nil) { (item, error) in
-      if let error = error {
-        print("URL-Error: \(error.localizedDescription)")
-      }
+      //if let error = error {
+        //print("URL-Error: \(error.localizedDescription)")
+      //}
       if let url = item as? NSURL, let urlString = url.absoluteString {
-        print(urlString)
+        //print(urlString)
         UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")?.set(urlString, forKey: "incomingURL")
         self.incomingItemType = "Url"
-        self.extensionContext?.completeRequest(returningItems: nil, completionHandler: { _ in
-          guard let url = URL(string: "adsblockwkwebview://") else { return }
-          _ = self.openURL(url)
-        })
+        //self.extensionContext?.completeRequest(returningItems: nil, completionHandler: { _ in
+          //guard let url = URL(string: "adsblockwkwebview://") else { return }
+          //_ = self.openURL(url)
+        //})
         return
       }
-      self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+      //self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
     }
   }
   
