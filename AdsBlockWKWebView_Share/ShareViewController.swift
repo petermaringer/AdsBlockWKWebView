@@ -54,11 +54,12 @@ class ShareViewController: UIViewController {
     }
     if itemProvider.hasItemConformingToTypeIdentifier("public.image") {
       handleIncomingImage(itemProvider: itemProvider)
-      //return
+      return
     }
     //else if
     if itemProvider.hasItemConformingToTypeIdentifier("public.url") {
       handleIncomingURL(itemProvider: itemProvider)
+      return
     }
     //else {
       //self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)

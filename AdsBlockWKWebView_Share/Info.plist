@@ -41,9 +41,9 @@
 				<!--
 				<key>NSExtensionActivationSupportsMovieWithMaxCount</key>
 				<integer>1</integer>
+				-->
 				<key>NSExtensionActivationSupportsText</key>
 				<true/>
-				-->
 			</dict>
 		</dict>
 		<key>NSExtensionPointIdentifier</key>
