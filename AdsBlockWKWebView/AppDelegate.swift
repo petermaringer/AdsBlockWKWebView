@@ -16,7 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd"
     let date = dateFormatter.string(from: Date())
-    let logFileUrl = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("Logs/\(date).log")
+    let logFileUrl = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("Logs")
+    
+    try FileManager.default.createDirectory(at: logFileUrl, withIntermediateDirectories: true)
+    logFileUrl.appendingPathComponent("\(date).log")
+    
     freopen(logFileUrl.path, "a+", stderr)
     freopen(logFileUrl.path, "a+", stdout)
     //print("print: TestAD")
