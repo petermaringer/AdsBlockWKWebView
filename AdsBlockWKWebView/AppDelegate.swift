@@ -15,8 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let logFileUrl = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("\(Date()).log")
     freopen(logFileUrl.path, "a+", stderr)
     freopen(logFileUrl.path, "a+", stdout)
-    print("print: TestAD")
-    NSLog("NSLog: TestAD")
+    //print("print: TestAD")
+    //NSLog("NSLog: TestAD")
+    NSLog("NSLog: APPSTART")
     
     self.window = UIWindow(frame: UIScreen.main.bounds)
     if let window = self.window {

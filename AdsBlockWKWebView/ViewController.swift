@@ -1837,8 +1837,8 @@ downloadTask.resume()
       }
     }
     
-    print("print: TestVC")
-    NSLog("NSLog: TestVC")
+    //print("print: TestVC")
+    //NSLog("NSLog: TestVC")
     
   }
   
