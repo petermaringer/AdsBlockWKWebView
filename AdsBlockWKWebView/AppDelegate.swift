@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd"
     let date = dateFormatter.string(from: Date())
-    let logFileUrl = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("Logs")
+    var logFileUrl = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("Logs")
     
     try! FileManager.default.createDirectory(at: logFileUrl, withIntermediateDirectories: true)
     logFileUrl = logFileUrl.appendingPathComponent("\(date).log")
