@@ -1663,7 +1663,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
             }
             group.notify(queue: .main, execute: { [weak self] in
                 //self?.startLoading()
-                self?.showAlert(message: "group.notify")
+                //self?.showAlert(message: "group.notify")
             })
         } else {
             alertToUseIOS11()
