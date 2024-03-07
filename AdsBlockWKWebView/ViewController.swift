@@ -354,6 +354,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var origArray: Array<String> = ["https://www.google.com/"]
   var array: Array<String> = []
   var moverIndex: Int = -1
+  var editButtonBgColor = .appBgColor
   
   var url: String!
   var currentUserAgent: String = "default"
@@ -729,7 +730,8 @@ player.play()*/
     let edit = UITableViewRowAction(style: .normal, title: "Edit") { (action, indexPath) in
       self.editButtonClicked(url: self.array[indexPath.row])
     }
-    edit.backgroundColor = .appBgColor
+    //edit.backgroundColor = .appBgColor
+    edit.backgroundColor = editButtonBgColor
     let dev = UITableViewRowAction(style: .normal, title: "Dev") { (action, indexPath) in
       self.devButtonClicked(url: self.array[indexPath.row])
     }
@@ -745,7 +747,8 @@ player.play()*/
     let edit = UIContextualAction(style: .normal, title: "Edit") { (action, view, bool) in
       self.editButtonClicked(url: self.array[indexPath.row])
     }
-    edit.backgroundColor = .appBgColor
+    //edit.backgroundColor = .appBgColor
+    edit.backgroundColor = editButtonBgColor
     let dev = UIContextualAction(style: .normal, title: "Dev") { (action, view, bool) in
       self.devButtonClicked(url: self.array[indexPath.row])
     }
@@ -773,6 +776,17 @@ player.play()*/
       goBackBy = webView.backForwardList.backList.count
     }
     webView.go(to: webView.backForwardList.item(at: goBackBy * -1)!)
+    
+    if #available(iOS 11, *) {
+      if editButtonBgColor == .appBgColor {
+        resetContentRuleList()
+        editButtonBgColor = .gray
+      } else {
+        setupContentBlockFromStringLiteral(completion)
+        setupContentBlockFromFile(completion)
+        editButtonBgColor = .appBgColor
+      }
+    }
     
     //showAlert(message: "E:\(url)")
     //lb.text! += " E"
@@ -1649,6 +1663,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
             }
             group.notify(queue: .main, execute: { [weak self] in
                 //self?.startLoading()
+                showAlert(message: "group.notify")
             })
         } else {
             alertToUseIOS11()
