@@ -354,7 +354,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var origArray: Array<String> = ["https://www.google.com/"]
   var array: Array<String> = []
   var moverIndex: Int = -1
-  var editButtonBgColor = .appBgColor
+  var editButtonBgColor: UIColor = .appBgColor
   
   var url: String!
   var currentUserAgent: String = "default"
@@ -782,8 +782,8 @@ player.play()*/
         resetContentRuleList()
         editButtonBgColor = .gray
       } else {
-        setupContentBlockFromStringLiteral(completion)
-        setupContentBlockFromFile(completion)
+        setupContentBlockFromStringLiteral()
+        setupContentBlockFromFile()
         editButtonBgColor = .appBgColor
       }
     }
@@ -1663,7 +1663,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
             }
             group.notify(queue: .main, execute: { [weak self] in
                 //self?.startLoading()
-                showAlert(message: "group.notify")
+                self?.showAlert(message: "group.notify")
             })
         } else {
             alertToUseIOS11()
