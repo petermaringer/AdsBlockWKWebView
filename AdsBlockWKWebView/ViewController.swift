@@ -782,8 +782,8 @@ player.play()*/
         resetContentRuleList()
         editButtonBgColor = .gray
       } else {
-        setupContentBlockFromStringLiteral()
-        setupContentBlockFromFile()
+        setupContentBlockFromStringLiteral() { }
+        setupContentBlockFromFile() { }
         editButtonBgColor = .appBgColor
       }
     }
