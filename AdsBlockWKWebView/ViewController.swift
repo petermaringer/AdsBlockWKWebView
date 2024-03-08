@@ -1490,9 +1490,19 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         urlField.autocapitalizationType = .none
         urlField.autocorrectionType = UITextAutocorrectionType.no
         
-        let keyboardView = UIView(frame: CGRect(x: 0, y: view.frame.height - 2, width: view.frame.width, height: 2))
+        //let keyboardView = UIView(frame: CGRect(x: 0, y: view.frame.height - 2, width: view.frame.width, height: 2))
+        let keyboardView = UIView(frame: CGRect(x: 0, y: view.frame.height - 54, width: view.frame.width, height: 54))
         keyboardView.backgroundColor = .appBgColor
         urlField.inputAccessoryView = keyboardView
+        let kvButton = UIButton(frame: CGRect.zero)
+        kvButton.frame = CGRect(x: 10, y: 2, width: 100, height: 50)
+        kvButton.backgroundColor = .gray
+        kvButton.layer.cornerRadius = 5
+        kvButton.clipsToBounds = true
+        kvButton.setTitle("Test", for: .normal)
+        kvButton.setTitleColor(.buttonFgColor, for: .normal)
+        kvButton.addTarget(self, action: #selector(self.buttonClicked), for: .touchUpInside)
+        keyboardView.addSubview(kvButton)
         
         urlField.keyboardType = UIKeyboardType.webSearch
         urlField.returnKeyType = UIReturnKeyType.done
