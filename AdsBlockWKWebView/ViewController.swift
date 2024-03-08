@@ -1918,7 +1918,7 @@ downloadTask.resume()
     
     let cleanStart = webView.load(URLRequest(url: URL(string: "https://www.google.com/")!))
     //let restoreStart = webView.load(URLRequest(url: URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)")!))
-    let restoreStart: () -> () = showAlert(message: "hey")
+    let restoreStart: () -> Void = showAlert(message: "hey")
     if webViewRestorePref == "never" {
       //cleanStart()
       //return
