@@ -1940,7 +1940,7 @@ downloadTask.resume()
     if webViewRestorePref == "ask" {
     let alert = UIAlertController(title: "Alert", message: "Restore last session?\n\nThe last session contains \(restoreIndexLast+1) pages.", preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
-      if restoreIndexLast > 0 {
+      if self.restoreIndexLast > 0 {
         restoreStart()
       } else {
         cleanStart()
