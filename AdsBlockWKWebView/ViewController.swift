@@ -1491,12 +1491,13 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         urlField.autocorrectionType = UITextAutocorrectionType.no
         
         //let keyboardView = UIView(frame: CGRect(x: 0, y: view.frame.height - 2, width: view.frame.width, height: 2))
-        let keyboardView = UIView(frame: CGRect(x: 0, y: view.frame.height - 54, width: view.frame.width, height: 54))
-        keyboardView.backgroundColor = .appBgColor
+        //keyboardView.backgroundColor = .appBgColor
+        let keyboardView = UIInputView(frame: CGRect(x: 0, y: view.frame.height - 40, width: view.frame.width, height: 40), inputViewStyle: .keyboard)
+        //keyboardView.backgroundColor = .gray
         urlField.inputAccessoryView = keyboardView
         let kvButton = UIButton(frame: CGRect.zero)
-        kvButton.frame = CGRect(x: 10, y: 2, width: 100, height: 50)
-        kvButton.backgroundColor = .gray
+        kvButton.frame = CGRect(x: 5, y: 5, width: 80, height: 30)
+        kvButton.backgroundColor = .appBgColor
         kvButton.layer.cornerRadius = 5
         kvButton.clipsToBounds = true
         kvButton.setTitle("Test", for: .normal)
@@ -1600,9 +1601,9 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         restoreUrlsJson = restoreUrlsJson!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         
         if restoreIndexLast > 0 {
-          DispatchQueue.main.async {
-            self.askRestore()
-          }
+          //DispatchQueue.main.async {
+            //self.askRestore()
+          //}
         }
         
     //webView.load(URLRequest(url: URL(string: restoreUrls[restoreIndex])!))
@@ -1675,12 +1676,14 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
             }
             group.notify(queue: .main, execute: { [weak self] in
                 //self?.startLoading()
-                //self?.showAlert(message: "group.notify")
-                self?.button.setTitle("Canc11", for: .normal)
+                //self?.showAlert(message: "gn")
+                //self?.button.setTitle("Canc11", for: .normal)
+                self?.askRestore()
             })
         } else {
-            alertToUseIOS11()
-            startLoading()
+            //alertToUseIOS11()
+            //startLoading()
+            askRestore()
         }
     }
   
@@ -1925,7 +1928,11 @@ downloadTask.resume()
       //self.webView3.removeFromSuperview()
     }))
     hapticFB.notificationOccurred(.success)
-    present(alert, animated: true, completion: nil)
+    //present(alert, animated: true, completion: nil)
+    DispatchQueue.main.async { [unowned self] in
+      //self.view.window?.rootViewController?.present(alertController, animated: true, completion: { })
+      self.present(alert, animated: true, completion: nil)
+    }
   }
   
   
