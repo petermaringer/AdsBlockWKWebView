@@ -1915,6 +1915,27 @@ downloadTask.resume()
   
   
   private func askRestore() {
+    
+    let cleanStart = webView.load(URLRequest(url: URL(string: "https://www.google.com/")!))
+    //let restoreStart = webView.load(URLRequest(url: URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)")!))
+    let restoreStart = showAlert(message: "hey")
+    if webViewRestorePref == "never" {
+      //cleanStart()
+      //return
+    }
+    if webViewRestorePref == "always" {
+      if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)") {
+        self.webView.load(URLRequest(url: restoreUrl))
+      }
+      //if restoreIndexLast > 0 {
+        restoreStart()
+      //} else {
+        //cleanStart()
+      //}
+      //return
+    }
+    
+    if webViewRestorePref == "ask" {
     let alert = UIAlertController(title: "Alert", message: "Restore last session?\n\nThe last session contains \(restoreIndexLast+1) pages.\(webViewRestorePref)", preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
       if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)") {
@@ -1933,6 +1954,8 @@ downloadTask.resume()
       //self.view.window?.rootViewController?.present(alertController, animated: true, completion: { })
       self.present(alert, animated: true, completion: nil)
     }
+    }
+    
   }
   
   
