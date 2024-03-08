@@ -1920,7 +1920,7 @@ downloadTask.resume()
     func restoreStart() {
       webView.load(URLRequest(url: URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)")!))
       DispatchQueue.main.async {
-        self.showAlert(message: "ril: \(restoreIndexLast)")
+        self.showAlert(message: "ril: \(self.restoreIndexLast)")
       }
     }
     
