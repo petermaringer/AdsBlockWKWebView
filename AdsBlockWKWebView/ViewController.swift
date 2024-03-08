@@ -1915,45 +1915,43 @@ downloadTask.resume()
   
   
   private func askRestore() {
-    
-    //let cleanStart = webView.load(URLRequest(url: URL(string: "https://www.google.com/")!))
+    func cleanStart() {
+      webView.load(URLRequest(url: URL(string: "https://www.google.com/")!))
+    }
     func restoreStart() {
       webView.load(URLRequest(url: URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)")!))
       DispatchQueue.main.async {
-        self.showAlert(message: "ril: \(self.restoreIndexLast)")
+        self.showAlert(message: "\(iwashere)")
+        self.showAlert(message: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)")
+        self.showAlert(message: "restoreIndexLast: \(self.restoreIndexLast) webViewRestorePref: \(webViewRestorePref)")
       }
     }
-    
     if webViewRestorePref == "never" {
-      //cleanStart()
-      //return
+      cleanStart()
     }
     if webViewRestorePref == "always" {
-      //if restoreIndexLast > 0 {
+      if restoreIndexLast > 0 {
         restoreStart()
-      //} else {
-        //cleanStart()
-      //}
-      //return
+      } else {
+        cleanStart()
+      }
     }
     
     if webViewRestorePref == "ask" {
-    let alert = UIAlertController(title: "Alert", message: "Restore last session?\n\nThe last session contains \(restoreIndexLast+1) pages.\(webViewRestorePref)", preferredStyle: .alert)
+    let alert = UIAlertController(title: "Alert", message: "Restore last session?\n\nThe last session contains \(restoreIndexLast+1) pages.", preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
-      if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)") {
-        self.webView.load(URLRequest(url: restoreUrl))
-        //self.showAlert(message: "\(iwashere)")
-        //self.showAlert(message: "\(restoreUrl.absoluteString)")
+      if restoreIndexLast > 0 {
+        restoreStart()
+      } else {
+        cleanStart()
       }
     }))
     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-      self.webView.load(URLRequest(url: URL(string: "https://www.google.com/")!))
+      cleanStart()
       //self.webView3.removeFromSuperview()
     }))
     hapticFB.notificationOccurred(.success)
-    //present(alert, animated: true, completion: nil)
     DispatchQueue.main.async { [unowned self] in
-      //self.view.window?.rootViewController?.present(alertController, animated: true, completion: { })
       self.present(alert, animated: true, completion: nil)
     }
     }
