@@ -1917,11 +1917,10 @@ downloadTask.resume()
   private func askRestore() {
     
     //let cleanStart = webView.load(URLRequest(url: URL(string: "https://www.google.com/")!))
-    //let restoreStart = webView.load(URLRequest(url: URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)")!))
-    //let restoreStart: () -> Void = showAlert(message: "hey")
     func restoreStart() {
+      webView.load(URLRequest(url: URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)")!))
       DispatchQueue.main.async {
-        self.showAlert(message: "hey")
+        self.showAlert(message: "ril: \(restoreIndexLast)")
       }
     }
     
@@ -1930,9 +1929,6 @@ downloadTask.resume()
       //return
     }
     if webViewRestorePref == "always" {
-      if let restoreUrl = URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)") {
-        self.webView.load(URLRequest(url: restoreUrl))
-      }
       //if restoreIndexLast > 0 {
         restoreStart()
       //} else {
