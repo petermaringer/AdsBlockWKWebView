@@ -475,6 +475,7 @@ player.play()*/
   //adjustLabel()
   //}
   
+  if UIApplication.shared.windows.count >= 3 {
   if let targetSC = UIApplication.shared.windows[2].rootViewController!.childViewControllers.first(where: { $0 is AVPlayerViewController }) as? AVPlayerViewController {
   avPVC = targetSC
   lb.text! += " VC:\(avPVC!)"
@@ -483,6 +484,7 @@ player.play()*/
   lb.text! += " VCP:\(avPVC!.player!)"
   }
   //adjustLabel()
+  }
   }
   
   avPVC.player = player
@@ -1664,6 +1666,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
             group.notify(queue: .main, execute: { [weak self] in
                 //self?.startLoading()
                 //self?.showAlert(message: "group.notify")
+                self?.button.setTitle("Canc11", for: .normal)
             })
         } else {
             alertToUseIOS11()
