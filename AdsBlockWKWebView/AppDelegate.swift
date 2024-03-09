@@ -17,10 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     dateFormatter.dateFormat = "yyyy-MM-dd"
     let date = dateFormatter.string(from: Date())
     var logFileUrl = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("Logs")
-    
     try! FileManager.default.createDirectory(at: logFileUrl, withIntermediateDirectories: true)
     logFileUrl = logFileUrl.appendingPathComponent("\(date).log")
-    
     freopen(logFileUrl.path, "a+", stderr)
     freopen(logFileUrl.path, "a+", stdout)
     //print("print: TestAD")

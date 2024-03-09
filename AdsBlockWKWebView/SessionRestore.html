@@ -21,11 +21,13 @@
     history.replaceState({}, '', getRestoreURL(urlList[0]));
     for (var i = 1; i < urlList.length; i++) {
       history.pushState({}, '', getRestoreURL(urlList[i]));
+      div.innerHTML += '<br><br>' + urlList[i] + ' ' + i + '<br>' + getRestoreURL(urlList[i]);
     }
     history.go(currentPage);
     setTimeout(function () {
-      div.innerHTML = '';
-      window.location.reload();
+      //div.innerHTML = '';
+      div.innerHTML += '<br><br>' + currentPage;
+      //window.location.reload();
       webkit.messageHandlers.iosListener.postMessage('restore');
     }, 0);
   })();

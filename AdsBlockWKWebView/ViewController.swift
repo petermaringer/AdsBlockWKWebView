@@ -782,10 +782,12 @@ player.play()*/
     if #available(iOS 11, *) {
       if editButtonBgColor == .appBgColor {
         resetContentRuleList()
+        webView.evaluateJavaScript("document.body.style.zoom = 0.5", completionHandler: nil)
         editButtonBgColor = .gray
       } else {
         setupContentBlockFromStringLiteral() { }
         setupContentBlockFromFile() { }
+        webView.evaluateJavaScript("document.body.style.zoom = 1.0", completionHandler: nil)
         editButtonBgColor = .appBgColor
       }
     }
@@ -1600,11 +1602,11 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
     }
         restoreUrlsJson = restoreUrlsJson!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         
-        if restoreIndexLast > 0 {
+        //if restoreIndexLast > 0 {
           //DispatchQueue.main.async {
             //self.askRestore()
           //}
-        }
+        //}
         
     //webView.load(URLRequest(url: URL(string: restoreUrls[restoreIndex])!))
     
