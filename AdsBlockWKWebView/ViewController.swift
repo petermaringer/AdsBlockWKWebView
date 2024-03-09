@@ -1729,7 +1729,8 @@ downloadTask.resume()
     
     if (message.body as! String).hasPrefix("Script") {
     //webView.loadHTMLString("<body>\(message.body)</body>", baseURL: nil)
-    NSLog("NSLog: \(message.body)")
+    //NSLog("NSLog: \(message.body)")
+    try! (message.body as! String).write(to: URL.docDir.appendingPathComponent("debug.txt"), atomically: true, encoding: .utf8)
     }
     
     lb.text! += " m:\(message.body)"
