@@ -1727,7 +1727,11 @@ downloadTask.resume()
       lb.text! += " VideoDownload"
     }
     
-    webView.loadHTMLString("<body>\(message.body)</body>", baseURL: nil)
+    if (message.body as! String).hasPrefix("Script") {
+    //webView.loadHTMLString("<body>\(message.body)</body>", baseURL: nil)
+    NSLog("NSLog: \(message.body)")
+    }
+    
     lb.text! += " m:\(message.body)"
     //adjustLabel()
   }

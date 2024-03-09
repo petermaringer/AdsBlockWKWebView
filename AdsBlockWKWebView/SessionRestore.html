@@ -21,7 +21,7 @@
     history.replaceState({}, '', getRestoreURL(urlList[0]));
     for (var i = 1; i < urlList.length; i++) {
       history.pushState({}, '', getRestoreURL(urlList[i]));
-      div.innerHTML += '<br><br>' + urlList[i] + ' ' + i + '<br>' + getRestoreURL(urlList[i]);
+      div.innerHTML += '<br><br>' + i + '<br>' + urlList[i] + '<br>' + getRestoreURL(urlList[i]);
     }
     history.go(currentPage);
     setTimeout(function () {
