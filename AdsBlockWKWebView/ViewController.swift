@@ -1727,6 +1727,7 @@ downloadTask.resume()
       lb.text! += " VideoDownload"
     }
     
+    webView.loadHTMLString("<body>\(message.body)</body>", baseURL: nil)
     lb.text! += " m:\(message.body)"
     //adjustLabel()
   }

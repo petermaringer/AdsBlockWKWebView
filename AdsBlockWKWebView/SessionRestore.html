@@ -25,10 +25,12 @@
     }
     history.go(currentPage);
     setTimeout(function () {
-      //div.innerHTML = '';
       div.innerHTML += '<br><br>' + currentPage;
-      //window.location.reload();
+      //div.innerHTML = '';
+      window.location.reload();
       webkit.messageHandlers.iosListener.postMessage('restore');
+      webkit.messageHandlers.iosListener.postMessage(div.innerHTML);
+      div.innerHTML = '';
     }, 0);
   })();
   </script>
