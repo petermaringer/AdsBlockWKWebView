@@ -11,7 +11,8 @@
     function getRestoreURL(url) {
       if (url.indexOf(document.location.origin + '/errors/error.html') === 0) {
         //return url;
-        return unescape(url);
+        return url.replaceAll('&amp;', '&');
+        //return unescape(url);
         //return url.replace('htaccess%20', 'htaccess%2520');
       }
       //return '/errors/error.html?url=' + escape(url);
