@@ -207,7 +207,7 @@ class SessionRestoreHandler {
         NSLog("NSLog: pT0|\(phoneTest1!)")
         //var phoneTest = request?.url.absoluteString[range.upperBound...].replacingOccurrences(of: "%25", with: "%")
         //NSLog("NSLog: pT1|\(phoneTest!)")
-        var phoneTest = phoneTest!.removingPercentEncoding!
+        var phoneTest = request?.url.absoluteString[range.upperBound...].removingPercentEncoding!
         NSLog("NSLog: pT2|\(phoneTest!)")
         try! "\(phoneTest!)\n\n".write(to: URL.docDir.appendingPathComponent("debug2.txt"), atomically: true, encoding: .utf8)
         phoneTest = phoneTest!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
