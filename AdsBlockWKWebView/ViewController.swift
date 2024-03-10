@@ -212,6 +212,8 @@ class SessionRestoreHandler {
         //NSLog("NSLog: pT2|\(phoneTest!)")
         phoneTest = phoneTest!.removingPercentEncoding!
         NSLog("NSLog: pT2|\(phoneTest!)")
+        phoneTest = phoneTest!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        NSLog("NSLog: pT3|\(phoneTest!)")
         //phoneTest = request?.url.absoluteString[range.upperBound...].removingPercentEncoding!
         //NSLog("NSLog: pT|\(phoneTest!)")
         //let phone = request?.url.absoluteString[range.upperBound...].removingPercentEncoding!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
