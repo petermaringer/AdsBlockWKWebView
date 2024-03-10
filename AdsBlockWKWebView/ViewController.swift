@@ -203,6 +203,14 @@ class SessionRestoreHandler {
     }
     webServer.registerHandlerForMethod("GET", module: "errors", resource: "error.html") { request in
       if let range = request?.url.absoluteString.range(of: "=") {
+        var phoneTest = request?.url.absoluteString[range.upperBound...]
+        NSLog("NSLog: pT1|\(phoneTest!)")
+        phoneTest = phoneTest.replacingOccurrences(of: "%25", with: "%")
+        NSLog("NSLog: pT2|\(phoneTest!)")
+        phoneTest = phoneTest.removingPercentEncoding!
+        NSLog("NSLog: pT3|\(phoneTest!)")
+        //phoneTest = request?.url.absoluteString[range.upperBound...].removingPercentEncoding!
+        //NSLog("NSLog: pT|\(phoneTest!)")
         //let phone = request?.url.absoluteString[range.upperBound...].removingPercentEncoding!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         let phone = request?.url.absoluteString[range.upperBound...].removingPercentEncoding!
         NSLog("NSLog: \(phone!)")
