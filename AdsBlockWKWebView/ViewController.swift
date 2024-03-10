@@ -205,6 +205,7 @@ class SessionRestoreHandler {
       if let range = request?.url.absoluteString.range(of: "=") {
         //let phone = request?.url.absoluteString[range.upperBound...].removingPercentEncoding!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         let phone = request?.url.absoluteString[range.upperBound...].removingPercentEncoding!
+        NSLog("NSLog: \(phone!)")
         //return GCDWebServerDataResponse(html: "hi:\(phone!)")
         return GCDWebServerDataResponse(redirect: URL(string: phone!)!, permanent: false)
       }
