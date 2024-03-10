@@ -205,7 +205,7 @@ class SessionRestoreHandler {
       if let range = request?.url.absoluteString.range(of: "=") {
         var phoneTest = request?.url.absoluteString[range.upperBound...]
         NSLog("NSLog: pT1|\(phoneTest!)")
-        let phoneTestSub = phoneTest.replacingOccurrences(of: "%25", with: "%")
+        let phoneTestSub = phoneTest!.replacingOccurrences(of: "%25", with: "%")
         phoneTest = String(phoneTestSub!)
         NSLog("NSLog: pT2|\(phoneTest!)")
         phoneTest = phoneTest.removingPercentEncoding!
