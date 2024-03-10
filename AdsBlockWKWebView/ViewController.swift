@@ -223,7 +223,8 @@ class SessionRestoreHandler {
         phoneTest = phoneTest!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         NSLog("NSLog: pT3|\(phoneTest!)")
         //let phone = request?.url.absoluteString[range.upperBound...].removingPercentEncoding!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-        let phone = request?.url.absoluteString[range.upperBound...].removingPercentEncoding!
+        //let phone = request?.url.absoluteString[range.upperBound...].removingPercentEncoding!
+        let phone = request?.url.absoluteString[range.upperBound...]
         NSLog("NSLog: \(phone!)")
         //return GCDWebServerDataResponse(html: "hi:\(phone!)")
         return GCDWebServerDataResponse(redirect: URL(string: phone!)!, permanent: false)

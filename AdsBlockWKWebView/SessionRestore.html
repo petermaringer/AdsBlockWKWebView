@@ -16,7 +16,8 @@
       //return '/errors/error.html?url=' + escape(url);
       //return document.location.origin + '/errors/error.html?url=' + escape(url);
       //return document.location.origin + '/errors/error.html?url=' + encodeURIComponent(url).replace('%25', '%');
-      return document.location.origin + '/errors/error.html?url=' + encodeURIComponent(url);
+      //return document.location.origin + '/errors/error.html?url=' + encodeURIComponent(url);
+      return document.location.origin + '/errors/error.html?url=' + url;
     }
     var index = document.location.href.search('history');
     var sessionRestoreComponents = JSON.parse(unescape(document.location.href.substring(index + 'history='.length)));
