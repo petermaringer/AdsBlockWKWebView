@@ -204,16 +204,13 @@ class SessionRestoreHandler {
     webServer.registerHandlerForMethod("GET", module: "errors", resource: "error.html") { request in
       if let range = request?.url.absoluteString.range(of: "=") {
         let phoneTest1 = request?.url.absoluteString[range.upperBound...]
-        NSLog("NSLog: pT0|\(phoneTest1!)")
         if let fileUpdater = try? FileHandle(forUpdating: URL.docDir.appendingPathComponent("debug2.txt")) {
           fileUpdater.seekToEndOfFile()
           fileUpdater.write("pt0\n\(phoneTest1!)\n\n".data(using: .utf8)!)
           fileUpdater.closeFile()
         }
         //var phoneTest = request?.url.absoluteString[range.upperBound...].replacingOccurrences(of: "%25", with: "%")
-        //NSLog("NSLog: pT1|\(phoneTest!)")
         var phoneTest = request?.url.absoluteString[range.upperBound...].removingPercentEncoding!
-        NSLog("NSLog: pT2|\(phoneTest!)")
         //try! "\(phoneTest!)\n\n".write(to: URL.docDir.appendingPathComponent("debug2.txt"), atomically: true, encoding: .utf8)
         if let fileUpdater = try? FileHandle(forUpdating: URL.docDir.appendingPathComponent("debug2.txt")) {
           fileUpdater.seekToEndOfFile()
