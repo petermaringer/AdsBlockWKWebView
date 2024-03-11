@@ -260,16 +260,16 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
         urlBegin = "internal://local/restore?history="
         if url.absoluteString.hasPrefix(urlBegin) {
           //webView.load(URLRequest(url: URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)")!))
-          let url1 = Bundle.main.url(forResource: "SessionRestore", withExtension: "html")!
+          //let url1 = Bundle.main.url(forResource: "SessionRestore", withExtension: "html")!
           //let url2 = URL(string: "?history=\(restoreUrlsJson!)", relativeTo: url1)!
-          let url2 = URL(string: "?history=", relativeTo: url1)!
+          //let url2 = URL(string: "?history=", relativeTo: url1)!
           //webView.loadRequest(NSURLRequest(url: url2))
-          webView.load(URLRequest(url: url2))
+          //webView.load(URLRequest(url: url2))
           
-          //guard let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore", ofType: "html"), let html = try? String(contentsOfFile: sessionRestorePath), let data = html.data(using: .utf8) else { return }
-          //let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
-          //urlSchemeTask.didReceive(response)
-          //urlSchemeTask.didReceive(data)
+          guard let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore", ofType: "html"), let html = try? String(contentsOfFile: sessionRestorePath), let data = html.data(using: .utf8) else { return }
+          let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
+          urlSchemeTask.didReceive(response)
+          urlSchemeTask.didReceive(data)
           urlSchemeTask.didFinish()
         }
         urlBegin = "internal://path?type="
