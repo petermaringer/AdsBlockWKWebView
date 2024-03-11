@@ -249,7 +249,7 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
         urlBegin = "internal://local/restore?url="
         if url.absoluteString.hasPrefix(urlBegin) {
           let newUrl = url.absoluteString.replacingOccurrences(of: urlBegin, with: "")
-          wkscheme += "<br>\(newUrl)"
+          wkscheme += "\n<br>\(newUrl)"
           if let data = "<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>hellooo<br><br>\(wkscheme)</body></html>".data(using: .utf8) {
           let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
           urlSchemeTask.didReceive(response)
@@ -279,11 +279,11 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
             //internal://path?type=remote&url=https://www.orf.at&text=bla
             if queryParams.name == "type" && queryParams.value == "remote" {
               let queryItem = queryItems.filter({ $0.name == "url" })
-              wkscheme += "<br>\(queryItem)<br>"
+              wkscheme += "\n\(queryItem)\n"
               wkscheme += "\(queryItem[0].value!)"
               //DispatchQueue.main.async {
-                if let data = "<body>hellooö<br><br>\(wkscheme)</body>".data(using: .utf8) {
-                let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
+                if let data = "hellooö\n\n\(restoreUrlsJson!)\n\n\(wkscheme)".data(using: .utf8) {
+                let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/plain", expectedContentLength: data.count, textEncodingName: "utf-8")
                 urlSchemeTask.didReceive(response)
                 urlSchemeTask.didReceive(data)
                 urlSchemeTask.didFinish()
