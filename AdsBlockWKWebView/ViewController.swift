@@ -242,7 +242,7 @@ class SessionRestoreHandler {
 var wkscheme = "hi"
 @available(iOS 11.0, *)
 class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
-  var imagePicker: ImagePicker!
+  //var imagePicker: ImagePicker!
   func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
     //DispatchQueue.global().async {
       if let url = urlSchemeTask.request.url, url.scheme == "internal" {
@@ -252,21 +252,29 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
             if queryParams.name == "type" && queryParams.value == "remote" {
               let queryItem = queryItems.filter({ $0.name == "url" })
               wkscheme += "\n\(queryItem)\n"
-              wkscheme += "\(queryItem[0].value?)"
+              wkscheme += "\(queryItem[0].value)"
               DispatchQueue.main.async {
-                self.showAlert(message: "\(wkscheme)")
-                self.imagePicker = ImagePicker()
-                self.imagePicker.showGallery(cHandler: { (response, data) in
+                //self.showAlert(message: "\(wkscheme)")
+                //self.imagePicker = ImagePicker()
+                //self.imagePicker.showGallery(cHandler: { (response, data) in
+                //let response = URLResponse.init(url: URL(string: "https://www.orf.at")!)
+                if let data = "helloo" as Data? {
+                let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/plain", expectedContentLength: data.count, textEncodingName: nil)
+                //completionHandler!(response,data)
                 urlSchemeTask.didReceive(response!)
                 urlSchemeTask.didReceive(data!)
                 urlSchemeTask.didFinish()
-                })
+                }
+                //})
               }
             }
           }
         }
       }
     //}
+  }
+  func webView(_ webView: WKWebView, stop urlSchemeTask: WKURLSchemeTask) {
+    
   }
 }
 
