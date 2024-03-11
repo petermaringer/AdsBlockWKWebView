@@ -242,7 +242,6 @@ class SessionRestoreHandler {
 var wkscheme = "hi"
 @available(iOS 11.0, *)
 class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
-  //var imagePicker: ImagePicker!
   func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
     //DispatchQueue.global().async {
       if let url = urlSchemeTask.request.url, url.scheme == "internal" {
@@ -251,21 +250,15 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
             //internal://path?type=remote&url=http://placehold.it/120x120&text=image1
             if queryParams.name == "type" && queryParams.value == "remote" {
               let queryItem = queryItems.filter({ $0.name == "url" })
-              wkscheme += "\n\(queryItem)\n"
+              wkscheme += "<br>\(queryItem)<br>"
               wkscheme += "\(queryItem[0].value!)"
               DispatchQueue.main.async {
-                //self.showAlert(message: "\(wkscheme)")
-                //self.imagePicker = ImagePicker()
-                //self.imagePicker.showGallery(cHandler: { (response, data) in
-                //let response = URLResponse.init(url: URL(string: "https://www.orf.at")!)
-                if let data = "hellooo".data(using: .utf8) {
-                let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/plain", expectedContentLength: data.count, textEncodingName: nil)
-                //completionHandler!(response,data)
+                if let data = "<body>hellooo<br><br>\(wkscheme)</body>".data(using: .utf8) {
+                let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: nil)
                 urlSchemeTask.didReceive(response)
                 urlSchemeTask.didReceive(data)
                 urlSchemeTask.didFinish()
                 }
-                //})
               }
             }
           }
@@ -1993,7 +1986,6 @@ downloadTask.resume()
       webView.load(URLRequest(url: URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)")!))
       DispatchQueue.main.async {
         //self.showAlert(message: "\(iwashere)")
-        self.showAlert(message: "\(wkscheme)")
         self.showAlert(message: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)")
         self.showAlert(message: "restoreIndexLast: \(self.restoreIndexLast) webViewRestorePref: \(webViewRestorePref)")
       }
