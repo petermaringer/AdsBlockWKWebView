@@ -245,30 +245,42 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
   func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
     //DispatchQueue.global().async {
       if let url = urlSchemeTask.request.url, url.scheme == "internal" {
+        let urlBegin = "internal://local/restore?url="
+        if url.absoluteString.hasPrefix(urlBegin) {
+          let newUrl = url.absoluteString.replacingOccurrences(of: urlBegin, with: "")
+          wkscheme += "<br>\(newUrl)"
+          if let data = "<!DOCTYPE html><html><head><script>//location.replace('\(newUrl)');</script></head><body>hellooo<br><br>\(wkscheme)</body></html>".data(using: .utf8) {
+          let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
+          urlSchemeTask.didReceive(response)
+          urlSchemeTask.didReceive(data)
+          urlSchemeTask.didFinish()
+          }
+          
+        } else {
         if let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: true)?.queryItems {
           for queryParams in queryItems {
             //internal://path?type=remote&url=http://placehold.it/120x120&text=image1
+            //internal://path?type=remote&url=https://www.orf.at&text=bla
             if queryParams.name == "type" && queryParams.value == "remote" {
               let queryItem = queryItems.filter({ $0.name == "url" })
               wkscheme += "<br>\(queryItem)<br>"
               wkscheme += "\(queryItem[0].value!)"
-              DispatchQueue.main.async {
+              //DispatchQueue.main.async {
                 if let data = "<body>hellooo<br><br>\(wkscheme)</body>".data(using: .utf8) {
                 let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: nil)
                 urlSchemeTask.didReceive(response)
                 urlSchemeTask.didReceive(data)
                 urlSchemeTask.didFinish()
                 }
-              }
+              //}
             }
           }
+        }
         }
       }
     //}
   }
-  func webView(_ webView: WKWebView, stop urlSchemeTask: WKURLSchemeTask) {
-    
-  }
+  func webView(_ webView: WKWebView, stop urlSchemeTask: WKURLSchemeTask) { }
 }
 
 
