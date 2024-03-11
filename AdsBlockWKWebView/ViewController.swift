@@ -262,7 +262,7 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
                 let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/plain", expectedContentLength: data.count, textEncodingName: nil)
                 //completionHandler!(response,data)
                 urlSchemeTask.didReceive(response)
-                urlSchemeTask.didReceive(data!)
+                urlSchemeTask.didReceive(data)
                 urlSchemeTask.didFinish()
                 }
                 //})
