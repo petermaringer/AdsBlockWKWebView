@@ -249,7 +249,7 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
         if url.absoluteString.hasPrefix(urlBegin) {
           let newUrl = url.absoluteString.replacingOccurrences(of: urlBegin, with: "")
           wkscheme += "<br>\(newUrl)"
-          if let data = "<!DOCTYPE html><html><head><script>//location.replace('\(newUrl)');</script></head><body>hellooo<br><br>\(wkscheme)</body></html>".data(using: .utf8) {
+          if let data = "<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>hellooo<br><br>\(wkscheme)</body></html>".data(using: .utf8) {
           let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
           urlSchemeTask.didReceive(response)
           urlSchemeTask.didReceive(data)
@@ -266,7 +266,7 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
               wkscheme += "<br>\(queryItem)<br>"
               wkscheme += "\(queryItem[0].value!)"
               //DispatchQueue.main.async {
-                if let data = "<body>hellooo<br><br>\(wkscheme)</body>".data(using: .utf8) {
+                if let data = "<body>hellooö<br><br>\(wkscheme)</body>".data(using: .utf8) {
                 let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: nil)
                 urlSchemeTask.didReceive(response)
                 urlSchemeTask.didReceive(data)
