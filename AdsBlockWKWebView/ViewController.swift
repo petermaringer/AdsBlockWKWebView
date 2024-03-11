@@ -245,7 +245,8 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
   func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
     //DispatchQueue.global().async {
       if let url = urlSchemeTask.request.url, url.scheme == "internal" {
-        let urlBegin = "internal://local/restore?url="
+        var urlBegin: String = ""
+        urlBegin = "internal://local/restore?url="
         if url.absoluteString.hasPrefix(urlBegin) {
           let newUrl = url.absoluteString.replacingOccurrences(of: urlBegin, with: "")
           wkscheme += "<br>\(newUrl)"
@@ -255,11 +256,26 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
           urlSchemeTask.didReceive(data)
           urlSchemeTask.didFinish()
           }
+        }
+        urlBegin = "internal://local/restore?history="
+        if url.absoluteString.hasPrefix(urlBegin) {
+          //webView.load(URLRequest(url: URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)")!))
+          let url1 = Bundle.main.url(forResource: "SessionRestore", withExtension: "html")!
+          //let url2 = URL(string: "?history=\(restoreUrlsJson!)", relativeTo: url1)!
+          let url2 = URL(string: "?history=", relativeTo: url1)!
+          //webView.loadRequest(NSURLRequest(url: url2))
+          webView.load(URLRequest(url: url2))
           
-        } else {
+          //guard let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore", ofType: "html"), let html = try? String(contentsOfFile: sessionRestorePath), let data = html.data(using: .utf8) else { return }
+          //let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
+          //urlSchemeTask.didReceive(response)
+          //urlSchemeTask.didReceive(data)
+          urlSchemeTask.didFinish()
+        }
+        urlBegin = "internal://path?type="
+        if url.absoluteString.hasPrefix(urlBegin) {
         if let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: true)?.queryItems {
           for queryParams in queryItems {
-            //internal://path?type=remote&url=http://placehold.it/120x120&text=image1
             //internal://path?type=remote&url=https://www.orf.at&text=bla
             if queryParams.name == "type" && queryParams.value == "remote" {
               let queryItem = queryItems.filter({ $0.name == "url" })
@@ -267,7 +283,7 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
               wkscheme += "\(queryItem[0].value!)"
               //DispatchQueue.main.async {
                 if let data = "<body>hellooö<br><br>\(wkscheme)</body>".data(using: .utf8) {
-                let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: nil)
+                let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
                 urlSchemeTask.didReceive(response)
                 urlSchemeTask.didReceive(data)
                 urlSchemeTask.didFinish()
