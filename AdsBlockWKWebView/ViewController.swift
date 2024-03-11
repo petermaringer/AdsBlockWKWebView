@@ -252,13 +252,13 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
             if queryParams.name == "type" && queryParams.value == "remote" {
               let queryItem = queryItems.filter({ $0.name == "url" })
               wkscheme += "\n\(queryItem)\n"
-              wkscheme += "\(queryItem[0].value)"
+              wkscheme += "\(queryItem[0]!.value)"
               DispatchQueue.main.async {
                 //self.showAlert(message: "\(wkscheme)")
                 //self.imagePicker = ImagePicker()
                 //self.imagePicker.showGallery(cHandler: { (response, data) in
                 //let response = URLResponse.init(url: URL(string: "https://www.orf.at")!)
-                if let data = "helloo" as Data? {
+                if let data = "hellooo".data(using: .utf8) {
                 let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/plain", expectedContentLength: data.count, textEncodingName: nil)
                 //completionHandler!(response,data)
                 urlSchemeTask.didReceive(response!)
