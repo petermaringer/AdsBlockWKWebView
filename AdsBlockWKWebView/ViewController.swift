@@ -1993,6 +1993,7 @@ downloadTask.resume()
       webView.load(URLRequest(url: URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)")!))
       DispatchQueue.main.async {
         //self.showAlert(message: "\(iwashere)")
+        self.showAlert(message: "\(wkscheme)")
         self.showAlert(message: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)")
         self.showAlert(message: "restoreIndexLast: \(self.restoreIndexLast) webViewRestorePref: \(webViewRestorePref)")
       }
