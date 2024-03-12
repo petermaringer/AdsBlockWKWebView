@@ -2602,7 +2602,7 @@ downloadTask.resume()
       restoreIndex += 1
       //webView.load(URLRequest(url: URL(string: restoreUrls[restoreIndex])!))
       let movingDot = String(repeating: ".", count: restoreIndex)
-      webView3.evaluateJavaScript("document.getElementById('"'a'"').innerHTML = '"'Loading last Session\(movingDot) <span style='position:absolute;left:320px;'>\(restoreIndex+1+restoreIndexLast+1-4)/\(restoreIndexLast+1)</span>'"';", completionHandler: nil)
+      webView3.evaluateJavaScript("document.getElementById(\"a\").innerHTML = \"Loading last Session\(movingDot) <span style='position:absolute;left:320px;'>\(restoreIndex+1+restoreIndexLast+1-4)/\(restoreIndexLast+1)</span>\";", completionHandler: nil)
     }
     
     //let urlss = UserDefaults.standard.array(forKey: "urls") as? [URL] ?? [URL]()
