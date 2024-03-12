@@ -2011,7 +2011,8 @@ downloadTask.resume()
       webView.load(URLRequest(url: URL(string: "https://www.google.com/")!))
     }
     func restoreStart() {
-      webView.load(URLRequest(url: URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)")!))
+      //webView.load(URLRequest(url: URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)")!))
+      webView.load(URLRequest(url: URL(string: "internal://local/restore?history=\(restoreUrlsJson!)")!))
       DispatchQueue.main.async {
         //self.showAlert(message: "\(iwashere)")
         self.showAlert(message: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)")
