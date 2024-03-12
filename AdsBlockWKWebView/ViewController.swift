@@ -1205,7 +1205,8 @@ player.play()*/
   }
   */
   
-  private func showAlert(message: String? = nil) {
+  //private func showAlert(message: String? = nil) {
+  private func showAlert(message: String) {
     if let message = message {
       messages.append(message)
     }
