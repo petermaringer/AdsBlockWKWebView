@@ -1721,7 +1721,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
     //view.addSubview(webView2)
     
     webView3 = WebView(frame: CGRect.zero, history: WebViewHistory())
-    webView3.loadHTMLString("<body style='background-color:transparent;color:white;margin:5px;'><h1 id='a' style='position:relative;top:30px;background-color:white;color:rgba(66,46,151,1.0);'>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br><div id='b' style='position:relative;top:30px;overflow:scroll;' onclick='copy()'>\(bflist)<br><br>AddressBar: \(origArray.count)<br><br>\(origArray)</div><script>function copy() { var range = document.createRange(); range.selectNode(document.getElementById('b')); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); window.getSelection().removeAllRanges(); }</script></body>", baseURL: nil)
+    webView3.loadHTMLString("<body style='background-color:transparent;color:white;margin:10px;'><h1 id='a' style='position:relative;top:30px;background-color:white;color:rgba(66,46,151,1.0);'>Loading last Session... <span style='position:relative;left:150px;'>\(restoreIndex+1)/\(restoreIndexLast+1)</span></h1><div id='b' style='position:relative;top:25px;overflow:scroll;' onclick='copy()'>\(bflist)<br><br>AddressBar: \(origArray.count)<br><br>\(origArray)</div><script>function copy() { var range = document.createRange(); range.selectNode(document.getElementById('b')); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); window.getSelection().removeAllRanges(); }</script></body>", baseURL: nil)
     webView3.isOpaque = false
     //webView3.backgroundColor = .orange
     //webView3.scrollView.backgroundColor = .orange
@@ -1780,7 +1780,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
       
       DispatchQueue.main.asyncAfter(deadline: .now() + 7.0) {
         self.topNavBgView.backgroundColor = .viewBgColor
-        self.webView3.removeFromSuperview()
+        //self.webView3.removeFromSuperview()
       }
       
       lb.text! += " restoreD"
