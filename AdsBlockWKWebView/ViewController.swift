@@ -248,9 +248,10 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
         var urlBegin: String = ""
         urlBegin = "internal://local/restore?url="
         if url.absoluteString.hasPrefix(urlBegin) {
+          //internal://local/restore?url=http://localhost:6571/errors/error.html?url=https://orf.at
           let newUrl = url.absoluteString.replacingOccurrences(of: urlBegin, with: "")
           wkscheme += "\n\(newUrl)"
-          if let data = "<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>hellooö<br><br>\(wkscheme)</body></html>".data(using: .utf8) {
+          if let data = "<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head></html>".data(using: .utf8) {
           let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
           urlSchemeTask.didReceive(response)
           urlSchemeTask.didReceive(data)
@@ -259,11 +260,9 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
         }
         urlBegin = "internal://local/restore?history="
         if url.absoluteString.hasPrefix(urlBegin) {
-          //webView.load(URLRequest(url: URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)")!))
+          
           //let url1 = Bundle.main.url(forResource: "SessionRestore", withExtension: "html")!
           //let url2 = URL(string: "?history=\(restoreUrlsJson!)", relativeTo: url1)!
-          //let url2 = URL(string: "?history=", relativeTo: url1)!
-          //webView.loadRequest(NSURLRequest(url: url2))
           //webView.load(URLRequest(url: url2))
           
           guard let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore2", ofType: "html"), let html = try? String(contentsOfFile: sessionRestorePath), let data = html.data(using: .utf8) else { return }
@@ -274,15 +273,14 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
         }
         urlBegin = "internal://path?type="
         if url.absoluteString.hasPrefix(urlBegin) {
+          //internal://path?type=remote&url=https://www.orf.at&text=bla
         if let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: true)?.queryItems {
           for queryParams in queryItems {
-            //internal://path?type=remote&url=https://www.orf.at&text=bla
             if queryParams.name == "type" && queryParams.value == "remote" {
               let queryItem = queryItems.filter({ $0.name == "url" })
-              wkscheme += "\n\(queryItem)\n"
-              wkscheme += "\(queryItem[0].value!)"
+              wkscheme += "\n(\(queryItem[0].value!))"
               //DispatchQueue.main.async {
-                if let data = "hellooö\n\n\(restoreUrlsJson!)\n\n\(wkscheme)".data(using: .utf8) {
+                if let data = "Hellooö\n\n\(restoreUrlsJson!)\n\n\(wkscheme)".data(using: .utf8) {
                 let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/plain", expectedContentLength: data.count, textEncodingName: "utf-8")
                 urlSchemeTask.didReceive(response)
                 urlSchemeTask.didReceive(data)
@@ -1671,9 +1669,10 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         
         restoreIndexLast = restoreUrls.count - 1
         
-        try? WebServer.instance.start()
-        WebServer.instance.registerDefaultHandler()
-        SessionRestoreHandler.register(WebServer.instance)
+        //try? WebServer.instance.start()
+        //WebServer.instance.registerDefaultHandler()
+        //SessionRestoreHandler.register(WebServer.instance)
+        
         if (UserDefaults.standard.object(forKey: "urlsJson") != nil) {
         //restoreUrlsJson = UserDefaults.standard.string(forKey: "urlsJson")!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         restoreUrlsJson = UserDefaults.standard.string(forKey: "urlsJson")
@@ -2621,7 +2620,7 @@ downloadTask.resume()
   }
   
   func webViewDidFinish() {
-    if webView.url!.absoluteString.hasPrefix("http://localhost:6571/errors/error.html") == false {
+    if webView.url!.absoluteString.hasPrefix("http://localhost:6571/errors/error.html") == false && webView.url!.absoluteString.hasPrefix("internal://local/restore") == false {
       urlField.text = webView.url!.absoluteString
       if webView.hasOnlySecureContent {
         urlField.textColor = .successFgColor
