@@ -249,8 +249,8 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
         urlBegin = "internal://local/restore?url="
         if url.absoluteString.hasPrefix(urlBegin) {
           let newUrl = url.absoluteString.replacingOccurrences(of: urlBegin, with: "")
-          wkscheme += "\n<br>\(newUrl)"
-          if let data = "<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>hellooo<br><br>\(wkscheme)</body></html>".data(using: .utf8) {
+          wkscheme += "\n\(newUrl)"
+          if let data = "<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>hellooö<br><br>\(wkscheme)</body></html>".data(using: .utf8) {
           let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
           urlSchemeTask.didReceive(response)
           urlSchemeTask.didReceive(data)
@@ -266,7 +266,7 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
           //webView.loadRequest(NSURLRequest(url: url2))
           //webView.load(URLRequest(url: url2))
           
-          guard let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore", ofType: "html"), let html = try? String(contentsOfFile: sessionRestorePath), let data = html.data(using: .utf8) else { return }
+          guard let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore2", ofType: "html"), let html = try? String(contentsOfFile: sessionRestorePath), let data = html.data(using: .utf8) else { return }
           let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
           urlSchemeTask.didReceive(response)
           urlSchemeTask.didReceive(data)
