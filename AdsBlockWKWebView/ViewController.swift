@@ -1205,8 +1205,8 @@ player.play()*/
   }
   */
   
-  //private func showAlert(message: String? = nil) {
-  private func showAlert(message: String) {
+  private func showAlert(message: String? = nil) {
+  //private func showAlert(message: String) {
     if let message = message {
       messages.append(message)
     }
@@ -2018,7 +2018,7 @@ downloadTask.resume()
       DispatchQueue.main.async {
         //self.showAlert(message: "\(iwashere)")
         //self.showAlert(message: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)")
-        self.showAlert("restoreIndexLast: \(self.restoreIndexLast)\nwebViewRestorePref: \(webViewRestorePref)")
+        self.showAlert(message: "restoreIndexLast: \(self.restoreIndexLast)\nwebViewRestorePref: \(webViewRestorePref)")
       }
     }
     if webViewRestorePref == "never" {
