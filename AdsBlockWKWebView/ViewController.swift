@@ -652,7 +652,7 @@ player.play()*/
     showAlert(message: "\(navlist) \(blitem) \(blcount1)/\(blcount2) \(appVersion!) \(text!)")
     */
     
-    showAlert(message: "\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\(webViewStartPagePref)\(goBackOnEditPref)")
+    showAlert(message: "\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\(webViewStartPagePref)|\(goBackOnEditPref)\nwebserv: \(webserv)")
     
   }
   
@@ -1205,7 +1205,7 @@ player.play()*/
   }
   */
   
-  private func showAlert(message: String? = nil) {
+  private func showAlert(_ message: String? = nil) {
     if let message = message {
       messages.append(message)
     }
@@ -1545,7 +1545,8 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         
         topNavBgView = UIView(frame: CGRect.zero)
         //topNavBgView.backgroundColor = UIColor.viewBgColor.withAlphaComponent(0.85)
-        topNavBgView.backgroundColor = .viewBgColor
+        //topNavBgView.backgroundColor = .viewBgColor
+        topNavBgView.backgroundColor = .appBgColor
         //topNavBgView = UIVisualEffectView(frame: CGRect.zero)
         //topNavBgView.effect = UIBlurEffect(style: UIBlurEffect.Style.regular)
         //topNavBgView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -1777,6 +1778,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
     if message.body as? String == "restore" {
       
       DispatchQueue.main.asyncAfter(deadline: .now() + 7.0) {
+        self.topNavBgView.backgroundColor = .viewBgColor
         self.webView3.removeFromSuperview()
       }
       
@@ -2598,7 +2600,7 @@ downloadTask.resume()
     if restoreIndex < restoreIndexLast {
       restoreIndex += 1
       //webView.load(URLRequest(url: URL(string: restoreUrls[restoreIndex])!))
-      webView3.evaluateJavaScript("document.getElementById('a').innerHTML = 'Loading last Session... \(restoreIndex+1+restoreIndexLast+1-3)/\(restoreIndexLast+1)';", completionHandler: nil)
+      webView3.evaluateJavaScript("document.getElementById('a').innerHTML = 'Loading last Session... \(restoreIndex+1+restoreIndexLast+1-4)/\(restoreIndexLast+1)';", completionHandler: nil)
     }
     
     //let urlss = UserDefaults.standard.array(forKey: "urls") as? [URL] ?? [URL]()
