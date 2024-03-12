@@ -251,7 +251,7 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
           //internal://local/restore?url=http://localhost:6571/errors/error.html?url=https://orf.at
           let newUrl = url.absoluteString.replacingOccurrences(of: urlBegin, with: "")
           wkscheme += "\n\(newUrl)"
-          if let data = "<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head></html>".data(using: .utf8) {
+          if let data = "<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>Loading...</body></html>".data(using: .utf8) {
           let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
           urlSchemeTask.didReceive(response)
           urlSchemeTask.didReceive(data)
@@ -2014,8 +2014,8 @@ downloadTask.resume()
       webView.load(URLRequest(url: URL(string: "internal://local/restore?history=\(restoreUrlsJson!)")!))
       DispatchQueue.main.async {
         //self.showAlert(message: "\(iwashere)")
-        self.showAlert(message: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)")
-        self.showAlert(message: "restoreIndexLast: \(self.restoreIndexLast) webViewRestorePref: \(webViewRestorePref)")
+        //self.showAlert(message: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)")
+        self.showAlert(message: "restoreIndexLast: \(self.restoreIndexLast)\nwebViewRestorePref: \(webViewRestorePref)\nwebserv: \(webserv)")
       }
     }
     if webViewRestorePref == "never" {
