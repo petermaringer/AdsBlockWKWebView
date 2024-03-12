@@ -1721,7 +1721,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
     //view.addSubview(webView2)
     
     webView3 = WebView(frame: CGRect.zero, history: WebViewHistory())
-    webView3.loadHTMLString("<body style='background-color:transparent;color:white;'><h1 id='a' style='position:relative;top:30px;background-color:white;color:black;'>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br><div id='b' style='position:relative;top:70px;' onclick='copy()'>\(bflist)<br><br>AddressBar: \(origArray.count)<br><br>\(origArray)</div><script>function copy() { var range = document.createRange(); range.selectNode(document.getElementById('b')); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); window.getSelection().removeAllRanges(); }</script></body>", baseURL: nil)
+    webView3.loadHTMLString("<body style='background-color:transparent;color:white;margin:5px;'><h1 id='a' style='position:relative;top:30px;background-color:white;color:rgba(66,46,151,1.0);'>Loading last Session... \(restoreIndex+1)/\(restoreIndexLast+1)</h1><br><br><div id='b' style='position:relative;top:30px;overflow:scroll;' onclick='copy()'>\(bflist)<br><br>AddressBar: \(origArray.count)<br><br>\(origArray)</div><script>function copy() { var range = document.createRange(); range.selectNode(document.getElementById('b')); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); window.getSelection().removeAllRanges(); }</script></body>", baseURL: nil)
     webView3.isOpaque = false
     //webView3.backgroundColor = .orange
     //webView3.scrollView.backgroundColor = .orange
@@ -2601,7 +2601,8 @@ downloadTask.resume()
     if restoreIndex < restoreIndexLast {
       restoreIndex += 1
       //webView.load(URLRequest(url: URL(string: restoreUrls[restoreIndex])!))
-      webView3.evaluateJavaScript("document.getElementById('a').innerHTML = 'Loading last Session... \(restoreIndex+1+restoreIndexLast+1-4)/\(restoreIndexLast+1)';", completionHandler: nil)
+      let movingDot = String(repeating: ".", count: restoreIndex)
+      webView3.evaluateJavaScript("document.getElementById('a').innerHTML = 'Loading last Session\(movingDot) \(restoreIndex+1+restoreIndexLast+1-4)/\(restoreIndexLast+1)';", completionHandler: nil)
     }
     
     //let urlss = UserDefaults.standard.array(forKey: "urls") as? [URL] ?? [URL]()
