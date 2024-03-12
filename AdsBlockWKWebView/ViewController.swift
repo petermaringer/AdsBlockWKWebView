@@ -690,6 +690,7 @@ player.play()*/
               tableView.removeFromSuperview()
             }
           }
+          textField.textColor = .appBgColor
         }
       default:
         break
@@ -1721,7 +1722,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
     //view.addSubview(webView2)
     
     webView3 = WebView(frame: CGRect.zero, history: WebViewHistory())
-    webView3.loadHTMLString("<body style='background-color:transparent;color:white;margin:10px;'><h1 id='a' style='position:relative;top:30px;background-color:white;color:rgba(66,46,151,1.0);'>Loading last Session... <span style='position:absolute;left:320px;'>\(restoreIndex+1)/\(restoreIndexLast+1)</span></h1><div id='b' style='position:relative;top:50px;overflow:scroll;' onclick='copy()'>\(bflist)<br><br>AddressBar: \(origArray.count)<br><br>\(origArray)</div><script>function copy() { var range = document.createRange(); range.selectNode(document.getElementById('b')); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); window.getSelection().removeAllRanges(); }</script></body>", baseURL: nil)
+    webView3.loadHTMLString("<body style='background-color:transparent;color:white;margin:10px;'><h1 id='a' style='position:relative;top:30px;background-color:white;color:rgba(66,46,151,1.0);'>Loading last Session... <span style='position:absolute;left:310px;'>\(restoreIndex+1)/\(restoreIndexLast+1)</span></h1><div id='b' style='position:relative;top:50px;overflow:scroll;' onclick='copy()'>\(bflist)<br><br>AddressBar: \(origArray.count)<br><br>\(origArray)</div><script>function copy() { var range = document.createRange(); range.selectNode(document.getElementById('b')); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); window.getSelection().removeAllRanges(); }</script></body>", baseURL: nil)
     webView3.isOpaque = false
     //webView3.backgroundColor = .orange
     //webView3.scrollView.backgroundColor = .orange
@@ -2602,7 +2603,7 @@ downloadTask.resume()
       restoreIndex += 1
       //webView.load(URLRequest(url: URL(string: restoreUrls[restoreIndex])!))
       let movingDot = String(repeating: ".", count: restoreIndex)
-      webView3.evaluateJavaScript("document.getElementById(\"a\").innerHTML = \"Loading last Session\(movingDot) <span style='position:absolute;left:320px;'>\(restoreIndex+1+restoreIndexLast+1-4)/\(restoreIndexLast+1)</span>\";", completionHandler: nil)
+      webView3.evaluateJavaScript("document.getElementById(\"a\").innerHTML = \"Loading last Session\(movingDot) <span style='position:absolute;left:310px;'>\(restoreIndex+1+restoreIndexLast+1-4)/\(restoreIndexLast+1)</span>\";", completionHandler: nil)
     }
     
     //let urlss = UserDefaults.standard.array(forKey: "urls") as? [URL] ?? [URL]()
