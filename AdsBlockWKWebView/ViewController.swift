@@ -252,7 +252,8 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
           let newUrl = url.absoluteString.replacingOccurrences(of: urlBegin, with: "")
           wkscheme += "\n\(newUrl)"
           if let data = "<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>Loading...</body></html>".data(using: .utf8) {
-          let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
+          //let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
+          let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
           urlSchemeTask.didReceive(response)
           urlSchemeTask.didReceive(data)
           urlSchemeTask.didFinish()
