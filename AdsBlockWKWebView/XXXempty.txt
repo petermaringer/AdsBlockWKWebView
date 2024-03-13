@@ -1,1 +1,3 @@
 internal://local/restore?history=%7B%22currentPage%22:%200,%20%22history%22:%20%5B%22internal://local/restore?url=https://filebin.net/%22,%20%22internal://local/restore?url=https://orf.at/%22%5D%7D
+
+javascript: alert(JSON.stringify(history.state));

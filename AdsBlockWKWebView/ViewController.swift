@@ -260,7 +260,8 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
           if let data = "<!DOCTYPE html><html><head><script>//location.replace('\(newUrl)');</script></head><body>Loading... \(newUrl)</body></html>".data(using: .utf8) {
           //let data = try Data("<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>Loading...</body></html>".utf8)
           //let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
-          let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
+          //let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
+          let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type" : "text/html; charset=UTF-8", "ETag" : "12345678"])!
           urlSchemeTask.didReceive(response)
           urlSchemeTask.didReceive(data)
           urlSchemeTask.didFinish()
