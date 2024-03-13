@@ -241,12 +241,13 @@ class SessionRestoreHandler {
 
 var wkscheme = "hi"
 @available(iOS 11.0, *)
-class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
+//class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
+extension ViewController: WKURLSchemeHandler {
   enum CustomSchemeHandlerError: Error {
     case noIdea
   }
   func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
-    DispatchQueue.global().async {
+    //DispatchQueue.global().async {
     wkscheme += "\nhi1"
       if let url = urlSchemeTask.request.url, url.scheme == "internal" {
         wkscheme += "\nhi2"
@@ -305,7 +306,7 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
         }
         }
       }
-    }//
+    //}//
   }
   func webView(_ webView: WKWebView, stop urlSchemeTask: WKURLSchemeTask) {
     wkscheme += "\nerror"
@@ -1500,7 +1501,8 @@ player.play()*/
         webViewConfig.userContentController.add(self, name: "iosListener")
         
         if #available(iOS 11.0, *) {
-          webViewConfig.setURLSchemeHandler(CustomSchemeHandler(), forURLScheme: "internal")
+          //webViewConfig.setURLSchemeHandler(CustomSchemeHandler(), forURLScheme: "internal")
+          webViewConfig.setURLSchemeHandler(self, forURLScheme: "internal")
         }
         
         webView = WKWebView(frame: view.bounds, configuration: webViewConfig)
