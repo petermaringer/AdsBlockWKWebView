@@ -24,7 +24,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>adsblockwkwebview</string>
-				<string>httpxxx</string>
+				<string>adxxx</string>
 			</array>
 			<key>CFBundleURLName</key>
 			<string>at.co.weinmann.adsblockwkwebview</string>
@@ -32,7 +32,7 @@
 	</array>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-		<string>internal</string>
+		<string>placeholder</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
