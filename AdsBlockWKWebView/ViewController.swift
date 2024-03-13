@@ -254,12 +254,17 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
           //internal://local/restore?url=http://localhost:6571/errors/error.html?url=https://orf.at
           let newUrl = url.absoluteString.replacingOccurrences(of: urlBegin, with: "")
           wkscheme += "\n\(newUrl)"
+          do {
           if let data = "<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>Loading...</body></html>".data(using: .utf8) {
           //let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
           let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
           urlSchemeTask.didReceive(response)
           urlSchemeTask.didReceive(data)
           urlSchemeTask.didFinish()
+          }
+          } catch {
+          wkscheme += "\n\(error)"
+          urlSchemeTask.didFailWithError(error)
           }
         }
         urlBegin = "internal://local/restore?history="
