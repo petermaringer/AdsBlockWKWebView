@@ -242,6 +242,9 @@ class SessionRestoreHandler {
 var wkscheme = "hi"
 @available(iOS 11.0, *)
 class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
+  enum CustomSchemeHandlerError: Error {
+    case noIdea
+  }
   func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
     //DispatchQueue.global().async {
       if let url = urlSchemeTask.request.url, url.scheme == "internal" {
@@ -295,7 +298,9 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
       }
     //}
   }
-  func webView(_ webView: WKWebView, stop urlSchemeTask: WKURLSchemeTask) { }
+  func webView(_ webView: WKWebView, stop urlSchemeTask: WKURLSchemeTask) {
+    urlSchemeTask.didFailWithError(error)
+  }
 }
 
 
