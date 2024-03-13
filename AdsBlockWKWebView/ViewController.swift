@@ -257,11 +257,11 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
           let newUrl = url.absoluteString.replacingOccurrences(of: urlBegin, with: "")
           wkscheme += "\n\(newUrl)"
           //do {
-          if let data = "<!DOCTYPE html><html><head><script>//location.replace('\(newUrl)');</script></head><body>Loading... \(newUrl)<script>const valueofc = ('; '+document.cookie).split('; hellooo=').pop().split(';')[0];document.write('<h1>Main title</h1><br>'+valueofc);</script></body></html>".data(using: .utf8) {
+          if let data = "<!DOCTYPE html><html><head><script>//location.replace('\(newUrl)');</script></head><body>Loading... ö:\(newUrl)<script>const valueofc = ('; '+document.cookie).split('; hellooo=').pop().split(';')[0];document.write('<h1>Main title</h1><br>'+valueofc+'<br>'+Math.random());</script></body></html>".data(using: .utf8) {
           //let data = try Data("<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>Loading...</body></html>".utf8)
           //let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
           //let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
-          let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type" : "text/html; charset=UTF-8", "Set-Cookie" : "<hellooo>=<yes>"])!
+          let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type" : "text/html; charset=UTF-8", "Cache-Control" : "no-store", "Set-Cookie" : "hellooo=yes"])!
           urlSchemeTask.didReceive(response)
           urlSchemeTask.didReceive(data)
           urlSchemeTask.didFinish()
