@@ -2291,10 +2291,12 @@ downloadTask.resume()
     }
     
     
+    if navigationAction.request.url!.scheme != "internal" {
     if navigationAction.request.url!.absoluteString != "about:blank" && navigationAction.navigationType != .linkActivated {
     if UIApplication.shared.canOpenURL(navigationAction.request.url!) && navigationAction.request.url! != webView.url! {
       //lb.text! += " cO:\(navigationAction.request.url!.absoluteString) \(webView.url!.absoluteString)"
       lb.text! += " cO:" + String(String(describing: navigationAction.request.url!.absoluteString).prefix(15))
+    }
     }
     }
     
