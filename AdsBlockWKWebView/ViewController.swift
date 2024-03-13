@@ -299,7 +299,7 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
     //}
   }
   func webView(_ webView: WKWebView, stop urlSchemeTask: WKURLSchemeTask) {
-    urlSchemeTask.didFailWithError(error)
+    urlSchemeTask.didFailWithError(CustomSchemeHandlerError.noIdea)
   }
 }
 
