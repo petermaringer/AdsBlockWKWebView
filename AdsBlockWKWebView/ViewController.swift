@@ -257,7 +257,7 @@ class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
           let newUrl = url.absoluteString.replacingOccurrences(of: urlBegin, with: "")
           wkscheme += "\n\(newUrl)"
           //do {
-          if let data = "<!DOCTYPE html><html><head><script>//location.replace('\(newUrl)');</script></head><body>Loading... ö:\(newUrl)<script>const valueofc = ('; '+document.cookie).split('; hellooo=').pop().split(';')[0];document.write('<h1>Main title</h1><br>'+valueofc+'<br>'+Math.random());</script></body></html>".data(using: .utf8) {
+          if let data = "<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>Loading... ö:\(newUrl)<script>const valueofc = ('; '+document.cookie).split('; hellooo=').pop().split(';')[0];document.write('<h1>Main title</h1><br>'+valueofc+'<br>'+Math.random());</script></body></html>".data(using: .utf8) {
           //let data = try Data("<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>Loading...</body></html>".utf8)
           //let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
           //let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
@@ -1849,7 +1849,7 @@ downloadTask.resume()
       
       if keyPath == "URL" {
         //webView.evaluateJavaScript("var el = document.querySelector('input[type=file]'); if (el !== null) { window.webkit.messageHandlers.iosListener.postMessage('iF' + el.getAttribute('accept')); el.removeAttribute('accept'); el.removeAttribute('capture'); el.removeAttribute('onclick'); el.click(); }", completionHandler: nil)
-        lb.text! += " oV:" + String(String(describing: key).prefix(15))
+        lb.text! += " oV:" + String(String(describing: key).prefix(50))
       }
       
       if keyPath == "title" {
