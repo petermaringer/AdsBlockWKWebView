@@ -24,7 +24,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>adsblockwkwebview</string>
-				<string>http</string>
+				<string>httpxxx</string>
 			</array>
 			<key>CFBundleURLName</key>
 			<string>at.co.weinmann.adsblockwkwebview</string>
