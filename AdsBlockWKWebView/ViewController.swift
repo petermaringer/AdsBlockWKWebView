@@ -288,8 +288,8 @@ extension ViewController: WKURLSchemeHandler {
           urlSchemeTask.didReceive(data)
           urlSchemeTask.didFinish()
         }
-        urlBegin = "internal://path?type="
-        else if url.absoluteString.hasPrefix(urlBegin) {
+        //urlBegin = "internal://path?type="
+        else if url.absoluteString.hasPrefix("internal://path?type=") {
           //internal://path?type=remote&url=https://www.orf.at&text=bla
           wkscheme += " case3"
         if let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: true)?.queryItems {
