@@ -239,22 +239,23 @@ class SessionRestoreHandler {
 }
 
 
-var wkscheme = "hi"
+var wkscheme = "wks"
 @available(iOS 11.0, *)
 //class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
 extension ViewController: WKURLSchemeHandler {
-  enum CustomSchemeHandlerError: Error {
+  enum schemeError: Error {
     case noIdea
   }
   func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
     //DispatchQueue.global().async {
-    wkscheme += "\nhi1"
+    wkscheme += "\nstart"
       if let url = urlSchemeTask.request.url, url.scheme == "internal" {
-        wkscheme += "\nhi2"
+        wkscheme += " internal"
         var urlBegin: String = ""
         urlBegin = "internal://local/restore?url="
         if url.absoluteString.hasPrefix(urlBegin) {
           //internal://local/restore?url=http://localhost:6571/errors/error.html?url=https://orf.at
+          wkscheme += " case1"
           let newUrl = url.absoluteString.replacingOccurrences(of: urlBegin, with: "")
           wkscheme += "\n\(newUrl)"
           //do {
@@ -273,12 +274,14 @@ extension ViewController: WKURLSchemeHandler {
           //}
         }
         urlBegin = "internal://local/restore?history="
-        if url.absoluteString.hasPrefix(urlBegin) {
+        else if url.absoluteString.hasPrefix(urlBegin) {
           
           //let url1 = Bundle.main.url(forResource: "SessionRestore", withExtension: "html")!
           //let url2 = URL(string: "?history=\(restoreUrlsJson!)", relativeTo: url1)!
           //webView.load(URLRequest(url: url2))
           
+          wkscheme += " case2"
+          wkscheme += "\n\(url)"
           guard let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore2", ofType: "html"), let html = try? String(contentsOfFile: sessionRestorePath), let data = html.data(using: .utf8) else { return }
           let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
           urlSchemeTask.didReceive(response)
@@ -286,8 +289,9 @@ extension ViewController: WKURLSchemeHandler {
           urlSchemeTask.didFinish()
         }
         urlBegin = "internal://path?type="
-        if url.absoluteString.hasPrefix(urlBegin) {
+        else if url.absoluteString.hasPrefix(urlBegin) {
           //internal://path?type=remote&url=https://www.orf.at&text=bla
+          wkscheme += " case3"
         if let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: true)?.queryItems {
           for queryParams in queryItems {
             if queryParams.name == "type" && queryParams.value == "remote" {
@@ -295,7 +299,7 @@ extension ViewController: WKURLSchemeHandler {
               wkscheme += "\n(\(queryItem[0].value!))"
               //DispatchQueue.main.async {
                 if let data = "Hellooö\n\n\(restoreUrlsJson!)\n\n\(wkscheme)".data(using: .utf8) {
-                let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/plain", expectedContentLength: data.count, textEncodingName: "utf-8")
+                let response = URLResponse(url: url, mimeType: "text/plain", expectedContentLength: data.count, textEncodingName: "utf-8")
                 urlSchemeTask.didReceive(response)
                 urlSchemeTask.didReceive(data)
                 urlSchemeTask.didFinish()
@@ -304,13 +308,19 @@ extension ViewController: WKURLSchemeHandler {
             }
           }
         }
+        } else {
+          wkscheme += "\nerror noCase"
+          urlSchemeTask.didFailWithError(schemeError.noIdea)
         }
+      } else {
+        wkscheme += "\nerror notInternal"
+        urlSchemeTask.didFailWithError(schemeError.noIdea)
       }
     //}//
   }
   func webView(_ webView: WKWebView, stop urlSchemeTask: WKURLSchemeTask) {
-    wkscheme += "\nerror"
-    urlSchemeTask.didFailWithError(CustomSchemeHandlerError.noIdea)
+    wkscheme += "\nerror stopTask"
+    urlSchemeTask.didFailWithError(schemeError.noIdea)
   }
 }
 
