@@ -249,19 +249,19 @@ extension ViewController: WKURLSchemeHandler {
   }
   func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
     //DispatchQueue.global().async {
-    wkscheme += "\n\nstart"
+    wkscheme += "<br><br>start"
       if let url = urlSchemeTask.request.url, url.scheme == "internal" {
         wkscheme += " internal"
         if url.absoluteString.hasPrefix("internal://local/restore?url=") {
           //internal://local/restore?url=http://localhost:6571/errors/error.html?url=https://orf.at
-          wkscheme += " case1\n\(url)"
+          wkscheme += " case1<br>\(url)"
           let newUrl = url.absoluteString.replacingOccurrences(of: "internal://local/restore?url=", with: "")
-          wkscheme += "\nredirect: \(newUrl)"
+          wkscheme += "<br>redirect: \(newUrl)"
           if let data = "<!DOCTYPE html><html><head><script>//location.replace('\(newUrl)');</script></head><body>Loading... \(newUrl)<script>const valueofc = ('; '+document.cookie).split('; hellooo=').pop().split(';')[0];document.write('<h1>Main title ö</h1><br>'+valueofc+'<br>'+Math.random());</script></body></html>".data(using: .utf8) {
           //"<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>Loading...</body></html>"
           //let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
-          //let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type" : "text/html; charset=UTF-8", "Cache-Control" : "no-store", "Set-Cookie" : "hellooo=yes"])!
-          let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type" : "text/html", "Cache-Control" : "no-store", "Set-Cookie" : "hellooo=yes"])!
+          let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type" : "text/html; charset=UTF-8", "Cache-Control" : "no-store", "Set-Cookie" : "hellooo=yes"])!
+          //let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type" : "text/html", "Cache-Control" : "no-store", "Set-Cookie" : "hellooo=yes"])!
           urlSchemeTask.didReceive(response)
           urlSchemeTask.didReceive(data)
           urlSchemeTask.didFinish()
@@ -272,7 +272,7 @@ extension ViewController: WKURLSchemeHandler {
           //let url2 = URL(string: "?history=\(restoreUrlsJson!)", relativeTo: url1)!
           //webView.load(URLRequest(url: url2))
           
-          wkscheme += " case2\n\(url)"
+          wkscheme += " case2<br>\(url)"
           guard let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore2", ofType: "html"), let html = try? String(contentsOfFile: sessionRestorePath), let data = html.data(using: .utf8) else { return }
           let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
           urlSchemeTask.didReceive(response)
@@ -280,14 +280,14 @@ extension ViewController: WKURLSchemeHandler {
           urlSchemeTask.didFinish()
         } else if url.absoluteString.hasPrefix("internal://path?type=") {
           //internal://path?type=remote&url=https://www.orf.at&text=bla
-          wkscheme += " case3\n\(url)"
+          wkscheme += " case3<br>\(url)"
         if let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: true)?.queryItems {
           for queryParams in queryItems {
             if queryParams.name == "type" && queryParams.value == "remote" {
               let queryItem = queryItems.filter({ $0.name == "url" })
-              wkscheme += "\nparam: url=\(queryItem[0].value!)"
+              wkscheme += "<br>param: url=\(queryItem[0].value!)"
               //DispatchQueue.main.async {
-                if let data = "Hellooö\n\n\(wkscheme)\n\nend\n\n<script>const valueofc = ('; '+document.cookie).split('; hellooo=').pop().split(';')[0];document.write('<h1>ö</h1><br>'+valueofc+'<br>'+Math.random());</script>".data(using: .utf8) {
+                if let data = "<!DOCTYPE html><html><head></head><body><h1>Hellooö</h1><br><br><div style='overflow:scroll;'>\(wkscheme)<br><br>end<br><br></div><script>const valueofc = ('; '+document.cookie).split('; hellooo=').pop().split(';')[0];const cookieObj = new URLSearchParams(document.cookie.replaceAll('&', '%26').replaceAll('; ','&'));cookieObj.get('hellooo');document.write('cookie:<br>'+valueofc+JSON.stringify(cookieObj));</script></body></html>".data(using: .utf8) {
                 let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
                 urlSchemeTask.didReceive(response)
                 urlSchemeTask.didReceive(data)
@@ -298,17 +298,17 @@ extension ViewController: WKURLSchemeHandler {
           }
         }
         } else {
-          wkscheme += "\nstop error.nocase"
+          wkscheme += "<br>stop error.nocase"
           urlSchemeTask.didFailWithError(schemeError.nocase)
         }
       } else {
-        wkscheme += "\nstop error.wrongscheme"
+        wkscheme += "<br>stop error.wrongscheme"
         urlSchemeTask.didFailWithError(schemeError.wrongscheme)
       }
     //}//
   }
   func webView(_ webView: WKWebView, stop urlSchemeTask: WKURLSchemeTask) {
-    wkscheme += "\nstop error.general"
+    wkscheme += "<br>stop error.general"
     urlSchemeTask.didFailWithError(schemeError.general)
   }
 }
