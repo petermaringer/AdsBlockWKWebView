@@ -248,16 +248,16 @@ extension ViewController: WKURLSchemeHandler {
   }
   func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
     //DispatchQueue.global().async {
-    wkscheme += "\nstart"
+    wkscheme += "\n\nstart"
       if let url = urlSchemeTask.request.url, url.scheme == "internal" {
         wkscheme += " internal"
         var urlBegin: String = ""
         urlBegin = "internal://local/restore?url="
         if url.absoluteString.hasPrefix(urlBegin) {
           //internal://local/restore?url=http://localhost:6571/errors/error.html?url=https://orf.at
-          wkscheme += " case1"
+          wkscheme += " case1\n\(url)"
           let newUrl = url.absoluteString.replacingOccurrences(of: urlBegin, with: "")
-          wkscheme += "\n\(newUrl)"
+          wkscheme += "\nredirect: \(newUrl)"
           //do {
           if let data = "<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>Loading... ö:\(newUrl)<script>const valueofc = ('; '+document.cookie).split('; hellooo=').pop().split(';')[0];document.write('<h1>Main title</h1><br>'+valueofc+'<br>'+Math.random());</script></body></html>".data(using: .utf8) {
           //let data = try Data("<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>Loading...</body></html>".utf8)
@@ -280,8 +280,7 @@ extension ViewController: WKURLSchemeHandler {
           //let url2 = URL(string: "?history=\(restoreUrlsJson!)", relativeTo: url1)!
           //webView.load(URLRequest(url: url2))
           
-          wkscheme += " case2"
-          wkscheme += "\n\(url)"
+          wkscheme += " case2\n\(url)"
           guard let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore2", ofType: "html"), let html = try? String(contentsOfFile: sessionRestorePath), let data = html.data(using: .utf8) else { return }
           let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
           urlSchemeTask.didReceive(response)
@@ -291,14 +290,14 @@ extension ViewController: WKURLSchemeHandler {
         //urlBegin = "internal://path?type="
         else if url.absoluteString.hasPrefix("internal://path?type=") {
           //internal://path?type=remote&url=https://www.orf.at&text=bla
-          wkscheme += " case3"
+          wkscheme += " case3\n\(url)"
         if let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: true)?.queryItems {
           for queryParams in queryItems {
             if queryParams.name == "type" && queryParams.value == "remote" {
               let queryItem = queryItems.filter({ $0.name == "url" })
-              wkscheme += "\n(\(queryItem[0].value!))"
+              wkscheme += "\nparam: url=\(queryItem[0].value!)"
               //DispatchQueue.main.async {
-                if let data = "Hellooö\n\n\(restoreUrlsJson!)\n\n\(wkscheme)".data(using: .utf8) {
+                if let data = "Hellooö\n\n\(wkscheme)\n\n".data(using: .utf8) {
                 let response = URLResponse(url: url, mimeType: "text/plain", expectedContentLength: data.count, textEncodingName: "utf-8")
                 urlSchemeTask.didReceive(response)
                 urlSchemeTask.didReceive(data)
@@ -309,17 +308,17 @@ extension ViewController: WKURLSchemeHandler {
           }
         }
         } else {
-          wkscheme += "\nerror noCase"
+          wkscheme += "\nstop error.nocase"
           urlSchemeTask.didFailWithError(schemeError.noIdea)
         }
       } else {
-        wkscheme += "\nerror notInternal"
+        wkscheme += "\nstop error.notinternal"
         urlSchemeTask.didFailWithError(schemeError.noIdea)
       }
     //}//
   }
   func webView(_ webView: WKWebView, stop urlSchemeTask: WKURLSchemeTask) {
-    wkscheme += "\nerror stopTask"
+    wkscheme += "\nstop error.general"
     urlSchemeTask.didFailWithError(schemeError.noIdea)
   }
 }

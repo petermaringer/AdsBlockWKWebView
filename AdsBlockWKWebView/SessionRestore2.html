@@ -18,7 +18,7 @@
     var sessionRestoreComponents = JSON.parse(unescape(document.location.href.substring(index + 'history='.length)));
     var urlList = sessionRestoreComponents['history'];
     var currentPage = sessionRestoreComponents['currentPage'];
-    var restoreLog = div.innerHTML;
+    var restoreLog = 'Script Restore Log:';
     history.replaceState({}, '', getRestoreURL(urlList[0]));
     restoreLog += '\n\n0:\n' + urlList[0] + '\n' + getRestoreURL(urlList[0]);
     for (var i = 1; i < urlList.length; i++) {
