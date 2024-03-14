@@ -273,8 +273,8 @@ extension ViewController: WKURLSchemeHandler {
           //urlSchemeTask.didFailWithError(error)
           //}
         }
-        urlBegin = "internal://local/restore?history="
-        else if url.absoluteString.hasPrefix(urlBegin) {
+        //urlBegin = "internal://local/restore?history="
+        else if url.absoluteString.hasPrefix("internal://local/restore?history=") {
           
           //let url1 = Bundle.main.url(forResource: "SessionRestore", withExtension: "html")!
           //let url2 = URL(string: "?history=\(restoreUrlsJson!)", relativeTo: url1)!
