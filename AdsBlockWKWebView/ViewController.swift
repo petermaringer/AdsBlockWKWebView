@@ -241,40 +241,32 @@ class SessionRestoreHandler {
 
 var wkscheme = "wks"
 @available(iOS 11.0, *)
-//class CustomSchemeHandler: NSObject, WKURLSchemeHandler {
 extension ViewController: WKURLSchemeHandler {
   enum schemeError: Error {
-    case noIdea
+    case general
+    case wrongscheme
+    case nocase
   }
   func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
     //DispatchQueue.global().async {
     wkscheme += "\n\nstart"
       if let url = urlSchemeTask.request.url, url.scheme == "internal" {
         wkscheme += " internal"
-        var urlBegin: String = ""
-        urlBegin = "internal://local/restore?url="
-        if url.absoluteString.hasPrefix(urlBegin) {
+        if url.absoluteString.hasPrefix("internal://local/restore?url=") {
           //internal://local/restore?url=http://localhost:6571/errors/error.html?url=https://orf.at
           wkscheme += " case1\n\(url)"
-          let newUrl = url.absoluteString.replacingOccurrences(of: urlBegin, with: "")
+          let newUrl = url.absoluteString.replacingOccurrences(of: "internal://local/restore?url=", with: "")
           wkscheme += "\nredirect: \(newUrl)"
-          //do {
-          if let data = "<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>Loading... ö:\(newUrl)<script>const valueofc = ('; '+document.cookie).split('; hellooo=').pop().split(';')[0];document.write('<h1>Main title</h1><br>'+valueofc+'<br>'+Math.random());</script></body></html>".data(using: .utf8) {
-          //let data = try Data("<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>Loading...</body></html>".utf8)
-          //let response = URLResponse(url: URL(string: "internal://")!, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
+          if let data = "<!DOCTYPE html><html><head><script>//location.replace('\(newUrl)');</script></head><body>Loading... \(newUrl)<script>const valueofc = ('; '+document.cookie).split('; hellooo=').pop().split(';')[0];document.write('<h1>Main title ö</h1><br>'+valueofc+'<br>'+Math.random());</script></body></html>".data(using: .utf8) {
+          //"<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>Loading...</body></html>"
           //let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
-          let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type" : "text/html; charset=UTF-8", "Cache-Control" : "no-store", "Set-Cookie" : "hellooo=yes"])!
+          //let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type" : "text/html; charset=UTF-8", "Cache-Control" : "no-store", "Set-Cookie" : "hellooo=yes"])!
+          let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type" : "text/html", "Cache-Control" : "no-store", "Set-Cookie" : "hellooo=yes"])!
           urlSchemeTask.didReceive(response)
           urlSchemeTask.didReceive(data)
           urlSchemeTask.didFinish()
           }
-          //} catch {
-          //wkscheme += "\n\(error)"
-          //urlSchemeTask.didFailWithError(error)
-          //}
-        }
-        //urlBegin = "internal://local/restore?history="
-        else if url.absoluteString.hasPrefix("internal://local/restore?history=") {
+        } else if url.absoluteString.hasPrefix("internal://local/restore?history=") {
           
           //let url1 = Bundle.main.url(forResource: "SessionRestore", withExtension: "html")!
           //let url2 = URL(string: "?history=\(restoreUrlsJson!)", relativeTo: url1)!
@@ -286,9 +278,7 @@ extension ViewController: WKURLSchemeHandler {
           urlSchemeTask.didReceive(response)
           urlSchemeTask.didReceive(data)
           urlSchemeTask.didFinish()
-        }
-        //urlBegin = "internal://path?type="
-        else if url.absoluteString.hasPrefix("internal://path?type=") {
+        } else if url.absoluteString.hasPrefix("internal://path?type=") {
           //internal://path?type=remote&url=https://www.orf.at&text=bla
           wkscheme += " case3\n\(url)"
         if let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: true)?.queryItems {
@@ -297,8 +287,8 @@ extension ViewController: WKURLSchemeHandler {
               let queryItem = queryItems.filter({ $0.name == "url" })
               wkscheme += "\nparam: url=\(queryItem[0].value!)"
               //DispatchQueue.main.async {
-                if let data = "Hellooö\n\n\(wkscheme)\n\n".data(using: .utf8) {
-                let response = URLResponse(url: url, mimeType: "text/plain", expectedContentLength: data.count, textEncodingName: "utf-8")
+                if let data = "Hellooö\n\n\(wkscheme)\n\nend\n\n<script>const valueofc = ('; '+document.cookie).split('; hellooo=').pop().split(';')[0];document.write('<h1>ö</h1><br>'+valueofc+'<br>'+Math.random());</script>".data(using: .utf8) {
+                let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
                 urlSchemeTask.didReceive(response)
                 urlSchemeTask.didReceive(data)
                 urlSchemeTask.didFinish()
@@ -309,17 +299,17 @@ extension ViewController: WKURLSchemeHandler {
         }
         } else {
           wkscheme += "\nstop error.nocase"
-          urlSchemeTask.didFailWithError(schemeError.noIdea)
+          urlSchemeTask.didFailWithError(schemeError.nocase)
         }
       } else {
-        wkscheme += "\nstop error.notinternal"
-        urlSchemeTask.didFailWithError(schemeError.noIdea)
+        wkscheme += "\nstop error.wrongscheme"
+        urlSchemeTask.didFailWithError(schemeError.wrongscheme)
       }
     //}//
   }
   func webView(_ webView: WKWebView, stop urlSchemeTask: WKURLSchemeTask) {
     wkscheme += "\nstop error.general"
-    urlSchemeTask.didFailWithError(schemeError.noIdea)
+    urlSchemeTask.didFailWithError(schemeError.general)
   }
 }
 
