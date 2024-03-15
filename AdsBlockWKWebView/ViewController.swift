@@ -257,11 +257,11 @@ extension ViewController: WKURLSchemeHandler {
           wkscheme += " case1<br>\(url)"
           let newUrl = url.absoluteString.replacingOccurrences(of: "internal://local/restore?url=", with: "")
           wkscheme += "<br>redirect: \(newUrl)"
-          if let data = "<!DOCTYPE html><html><head><!--<script>location.replace('\(newUrl)');</script>--></head><body>Loading... \(newUrl)<br><br><a href='javascript:location.reload()'>RELOAD</a><br><script>const valueofc = ('; '+document.cookie).split('; hellooo=').pop().split(';')[0];document.write('<h1>Main title ö</h1><br>'+valueofc+'<br>'+Math.random());</script></body></html>".data(using: .utf8) {
+          if let data = "<!DOCTYPE html><html><head><!--<script>location.replace('\(newUrl)');</script>--></head><body>Loading... \(newUrl)<br><br><a href='javascript:location.reload()'>RELOAD</a><br><script>document.write('ö '+Math.random());</script></body></html>".data(using: .utf8) {
           //"<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>Loading...</body></html>"
           //let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
           //let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type" : "text/html; charset=UTF-8", "Cache-Control" : "no-store", "Set-Cookie" : "hellooo=yes"])!
-          let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Cache-Control" : "no-store", "Set-Cookie" : "hellooo=yes; Domain=local", "Content-Type" : "text/html"])!
+          let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Cache-Control" : "no-cache", "Content-Type" : "text/html"])!
           urlSchemeTask.didReceive(response)
           urlSchemeTask.didReceive(data)
           urlSchemeTask.didFinish()
@@ -279,7 +279,7 @@ extension ViewController: WKURLSchemeHandler {
           urlSchemeTask.didReceive(data)
           urlSchemeTask.didFinish()
         } else if url.absoluteString.hasPrefix("internal://local/path?type=") {
-          //internal://path?type=remote&url=https://www.orf.at&text=bla
+          //internal://local/path?type=remote&url=https://www.orf.at&text=bla
           wkscheme += " case3<br>\(url)"
         if let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: true)?.queryItems {
           for queryParams in queryItems {
@@ -287,7 +287,7 @@ extension ViewController: WKURLSchemeHandler {
               let queryItem = queryItems.filter({ $0.name == "url" })
               wkscheme += "<br>param: url=\(queryItem[0].value!)"
               //DispatchQueue.main.async {
-                if let data = "<!DOCTYPE html><html><head></head><body style='margin:30px;'><h1>Hellooö</h1><br><div style='overflow:scroll;'>\(wkscheme)<br><br>end<br><br><br></div><script>const valueofc = ('; '+document.cookie).split('; hellooo=').pop().split(';')[0];const cookieObj = new URLSearchParams(document.cookie.replaceAll('&', '%26').replaceAll('; ','&'));cookieObj.get('hellooo');document.write('cookie:<br>'+valueofc+JSON.stringify(cookieObj));</script></body></html>".data(using: .utf8) {
+                if let data = "<!DOCTYPE html><html><head></head><body style='margin:30px;'><h1>Hellooö</h1><br><div style='overflow:scroll;'>\(wkscheme)<br><br>end<br><br><br></div></body></html>".data(using: .utf8) {
                 let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
                 urlSchemeTask.didReceive(response)
                 urlSchemeTask.didReceive(data)
@@ -2460,6 +2460,7 @@ downloadTask.resume()
       default:
         showAlert(message: "Error: \(err.code) \(err.localizedDescription)")
     }
+    progressView.progress = Float(0)
     lb.text! += " err:\(err.code)"
   }
   
