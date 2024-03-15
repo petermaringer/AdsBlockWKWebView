@@ -19,6 +19,9 @@ import StoreKit
 fileprivate let ruleId1 = "MyRuleID 001"
 fileprivate let ruleId2 = "MyRuleID 002"
 
+let userDefStand = UserDefaults.standard
+let userDefGroup = UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")!
+
 
 ////////// USERPREFS //////////
 let tableMaxLinesPref: Int = 6 //6
@@ -74,11 +77,9 @@ let processPool1: WKProcessPool
 if let pool: WKProcessPool = getData(key: "pool") {
   processPool1 = pool
   iwashere += "yes2"
-  //setData(processPool1, key: "pool")
-}
-else {
+} else {
   processPool1 = WKProcessPool()
-  //setData(processPool1, key: "pool")
+  setData(processPool1, key: "pool")
   iwashere += "no"
 }
 return processPool1
@@ -87,7 +88,7 @@ let processPool: WKProcessPool = initPool()
 
 func setData(_ value: Any, key: String) {
   let archivedPool = NSKeyedArchiver.archivedData(withRootObject: value)
-  UserDefaults.standard.set(archivedPool, forKey: key)
+  //UserDefaults.standard.set(archivedPool, forKey: key)
   UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")?.set(archivedPool, forKey: key)
 }
 func getData<T>(key: String) -> T? {
@@ -646,7 +647,7 @@ player.play()*/
     //adjustLabel()
     
     let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
-    UserDefaults.standard.set(appVersion, forKey: "versionInfo")
+    userDefStand.set(appVersion, forKey: "versionInfo")
     
     //let file = Bundle.main.path(forResource: "Info", ofType: "plist")!
     //let p = URL(fileURLWithPath: file)
@@ -2017,9 +2018,9 @@ downloadTask.resume()
         }
         }
         
-        if let incomingURL = UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")?.value(forKey: "incomingURL") as? String {
+        if let incomingURL = userDefGroup.value(forKey: "incomingURL") as? String {
           urlField.text = incomingURL
-          UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")?.removeObject(forKey: "incomingURL")
+          userDefGroup.removeObject(forKey: "incomingURL")
         }
     
     lb.text! += " bAc"
