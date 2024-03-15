@@ -257,7 +257,7 @@ extension ViewController: WKURLSchemeHandler {
           wkscheme += " case1<br>\(url)"
           let newUrl = url.absoluteString.replacingOccurrences(of: "internal://local/restore?url=", with: "")
           wkscheme += "<br>redirect: \(newUrl)"
-          if let data = "<!DOCTYPE html><html><head><!--<script>location.replace('\(newUrl)');</script>--></head><body>Loading... \(newUrl)<br><br><a href='javascript:location.reload()'>RELOAD</a><br><script>document.write('ö '+Math.random());</script></body></html>".data(using: .utf8) {
+          if let data = "<!DOCTYPE html><html><head><!--<script>location.replace('\(newUrl)');</script>--></head><body>Loading... \(newUrl)<br><br><a href='javascript:location.reload()'>RELOAD</a><br><br><br><script>document.write('ö '+Math.random());</script></body></html>".data(using: .utf8) {
           //"<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>Loading...</body></html>"
           //let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
           //let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type" : "text/html; charset=UTF-8", "Cache-Control" : "no-store", "Set-Cookie" : "hellooo=yes"])!
@@ -667,6 +667,12 @@ player.play()*/
     let blcount2 = webView2.backForwardList.backList.count
     showAlert(message: "\(navlist) \(blitem) \(blcount1)/\(blcount2) \(appVersion!) \(text!)")
     */
+    
+    let webViewBlitem = webView.backForwardList.item(at: 0)!.url.absoluteString
+    webView3.history.backlist = [webViewBlitem, webViewBlitem, webViewBlitem]
+    let webView3Blitem = webView3.history.item(at: 0)!.url.absoluteString
+    view.addSubview(webView3)
+    showAlert(message: "haha: \(webView3Blitem)")
     
     showAlert(message: "\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\(webViewStartPagePref)|\(goBackOnEditPref)\nwebserv: \(webserv)")
     
