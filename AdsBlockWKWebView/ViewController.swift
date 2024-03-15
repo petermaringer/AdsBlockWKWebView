@@ -74,11 +74,11 @@ let processPool1: WKProcessPool
 if let pool: WKProcessPool = getData(key: "pool") {
   processPool1 = pool
   iwashere += "yes2"
-  setData(processPool1, key: "pool")
+  //setData(processPool1, key: "pool")
 }
 else {
   processPool1 = WKProcessPool()
-  setData(processPool1, key: "pool")
+  //setData(processPool1, key: "pool")
   iwashere += "no"
 }
 return processPool1
@@ -91,7 +91,8 @@ func setData(_ value: Any, key: String) {
   UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")?.set(archivedPool, forKey: key)
 }
 func getData<T>(key: String) -> T? {
-if let val = UserDefaults.standard.value(forKey: key) as? Data,
+//if let val = UserDefaults.standard.value(forKey: key) as? Data,
+if let val = UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")?.value(forKey: key) as? Data,
   let obj = NSKeyedUnarchiver.unarchiveObject(with: val) as? T {
     iwashere += " yes1"
     return obj
@@ -674,7 +675,7 @@ player.play()*/
     //webView3.history.backList = [webViewBlitem, webViewBlitem, webViewBlitem]
     //let webView3Blitem = webView3.history.item(at: 0)!.url.absoluteString
     view.addSubview(webView3)
-    showAlert(message: "haha: \(webViewBlitem)")
+    showAlert(message: "haha: \(webViewBlitem)\n\n\(iwashere)")
     
     showAlert(message: "\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\(webViewStartPagePref)|\(goBackOnEditPref)\nwebserv: \(webserv)")
     
