@@ -668,7 +668,7 @@ player.play()*/
     showAlert(message: "\(navlist) \(blitem) \(blcount1)/\(blcount2) \(appVersion!) \(text!)")
     */
     
-    let webViewBlitem = webView.backForwardList.item(at: 0)!.url.absoluteString
+    let webViewBlitem = webView.backForwardList.item(at: 0)!
     webView3.history.backList = [webViewBlitem, webViewBlitem, webViewBlitem]
     let webView3Blitem = webView3.history.item(at: 0)!.url.absoluteString
     view.addSubview(webView3)
