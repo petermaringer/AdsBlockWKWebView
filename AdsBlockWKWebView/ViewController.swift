@@ -674,7 +674,7 @@ player.play()*/
     
     let webView3Blitem = webView3.history.item(at: 0)!
     let webViewBlitem = webView.backForwardList.item(at: 0)!
-    webView3.history.backList = [webView3Blitem, webViewBlitem]
+    //webView3.history.backList = [webView3Blitem, webViewBlitem]
     //let webView3Blitem = webView3.history.item(at: 0)!.url.absoluteString
     view.addSubview(webView3)
     showAlert(message: "haha:\n\n\(webView3Blitem)\n\n\(webViewBlitem)\n\n\(iwashere)")
