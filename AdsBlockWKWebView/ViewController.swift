@@ -287,7 +287,7 @@ extension ViewController: WKURLSchemeHandler {
               let queryItem = queryItems.filter({ $0.name == "url" })
               wkscheme += "<br>param: url=\(queryItem[0].value!)"
               //DispatchQueue.main.async {
-                if let data = "<!DOCTYPE html><html><head></head><body style='margin:30px;'><h1>Hellooö</h1><br><div style='overflow:scroll;'>\(wkscheme)<br><br>end<br><br></div><script>const valueofc = ('; '+document.cookie).split('; hellooo=').pop().split(';')[0];const cookieObj = new URLSearchParams(document.cookie.replaceAll('&', '%26').replaceAll('; ','&'));cookieObj.get('hellooo');document.write('cookie:<br>'+valueofc+JSON.stringify(cookieObj));</script></body></html>".data(using: .utf8) {
+                if let data = "<!DOCTYPE html><html><head></head><body style='margin:30px;'><h1>Hellooö</h1><br><div style='overflow:scroll;'>\(wkscheme)<br><br>end<br><br><br></div><script>const valueofc = ('; '+document.cookie).split('; hellooo=').pop().split(';')[0];const cookieObj = new URLSearchParams(document.cookie.replaceAll('&', '%26').replaceAll('; ','&'));cookieObj.get('hellooo');document.write('cookie:<br>'+valueofc+JSON.stringify(cookieObj));</script></body></html>".data(using: .utf8) {
                 let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
                 urlSchemeTask.didReceive(response)
                 urlSchemeTask.didReceive(data)
@@ -302,13 +302,13 @@ extension ViewController: WKURLSchemeHandler {
           urlSchemeTask.didFailWithError(schemeError.nocase)
         }
       } else {
-        wkscheme += "<br>\(url)<br>stop error.wrongscheme"
+        wkscheme += "<br>\(urlSchemeTask.request.url!)<br>stop error.wrongscheme"
         urlSchemeTask.didFailWithError(schemeError.wrongscheme)
       }
     //}//
   }
   func webView(_ webView: WKWebView, stop urlSchemeTask: WKURLSchemeTask) {
-    wkscheme += "<br>\(url)<br>stop error.general"
+    wkscheme += "<br>\(urlSchemeTask.request.url!)<br>stop error.general"
     urlSchemeTask.didFailWithError(schemeError.general)
   }
 }
