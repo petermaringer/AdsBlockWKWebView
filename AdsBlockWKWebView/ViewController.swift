@@ -265,7 +265,7 @@ extension ViewController: WKURLSchemeHandler {
           //"<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>Loading...</body></html>"
           //let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
           //let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type" : "text/html; charset=UTF-8", "Cache-Control" : "no-store", "Set-Cookie" : "hellooo=yes"])!
-          let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Cache-Control" : "no-cache", "Content-Type" : "text/html"])!
+          let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: ["Cache-Control" : "no-cache", "Content-Type" : "text/html; charset=UTF-8"])!
           urlSchemeTask.didReceive(response)
           urlSchemeTask.didReceive(data)
           urlSchemeTask.didFinish()
@@ -676,8 +676,8 @@ player.play()*/
     let webViewBlitem = webView.backForwardList.item(at: 0)!
     webView3.backForwardList.backList = [webViewBlitem, webViewBlitem]
     //let webView3Blitem = webView3.history.item(at: 0)!.url.absoluteString
-    //view.addSubview(webView3)
-    showAlert(message: "haha:\n\n\(webViewBlitem)\n\n\(iwashere)")
+    view.addSubview(webView3)
+    showAlert(message: "haha:\n\n\(webView3.backForwardList.backList)\n\n\(webViewBlitem)\n\n\(iwashere)")
     
     showAlert(message: "\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\(webViewStartPagePref)|\(goBackOnEditPref)\nwebserv: \(webserv)")
     
