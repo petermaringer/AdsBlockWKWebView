@@ -675,9 +675,9 @@ player.play()*/
     //let webView3Blitem = webView3.backForwardList.item(at: 0)!
     let webViewBlitem = webView.backForwardList.item(at: 0)!
     webView3.backForwardList.backList = [webViewBlitem, webViewBlitem]
-    //let webView3Blitem = webView3.history.item(at: 0)!.url.absoluteString
+    let webView3Blitem = webView3.backForwardList.item(at: 0)!.url.absoluteString
     view.addSubview(webView3)
-    showAlert(message: "haha:\n\n\(webView3.backForwardList.backList)\n\n\(webViewBlitem)\n\n\(iwashere)")
+    showAlert(message: "haha:\n\n\(webView3.backForwardList.backList)\n\n\(webView3Blitem)\n\n\(iwashere)")
     
     showAlert(message: "\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\(webViewStartPagePref)|\(goBackOnEditPref)\nwebserv: \(webserv)")
     
