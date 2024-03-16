@@ -9,37 +9,32 @@
   <script>
   (function () {
     function getRestoreURL(url) {
-      if (url.indexOf(document.location.origin + '/errors/error.html') === 0) {
-        //return url;
-        //return url.replaceAll('&amp;', '&');
-        //return url.replace(/amp;/g, '');
-        //return unescape(url);
-        return url.replace('&amp;', '&');
+      if (url.indexOf(document.location.origin + '/restore?url1=') === 0) {
+        return url;
       }
-      //return '/errors/error.html?url=' + escape(url);
-      //return document.location.origin + '/errors/error.html?url=' + escape(url);
-      //return document.location.origin + '/errors/error.html?url=' + encodeURIComponent(url).replace('%25', '%');
-      //return document.location.origin + '/errors/error.html?url=' + encodeURIComponent(url);
-      return document.location.origin + '/errors/error.html?url=' + url;
+      if (url.indexOf(document.location.origin + '/restore?url2=') === 0) {
+        return url.replace('?url2=', '?url1=');
+      }
+      return document.location.origin + '/restore?url1=' + url;
     }
     var index = document.location.href.search('history');
     var sessionRestoreComponents = JSON.parse(unescape(document.location.href.substring(index + 'history='.length)));
     var urlList = sessionRestoreComponents['history'];
     var currentPage = sessionRestoreComponents['currentPage'];
-    history.replaceState({}, '', getRestoreURL(urlList[0]));
-    div.innerHTML += '\n\n0\n' + urlList[0] + '\n' + getRestoreURL(urlList[0]);
+    var restoreLog = 'Script Restore Log:';
+    history.replaceState({name: 'object0'}, 'title0', getRestoreURL(urlList[0]));
+    restoreLog += '\n\n0:\n' + urlList[0] + '\n' + getRestoreURL(urlList[0]);
     for (var i = 1; i < urlList.length; i++) {
-      history.pushState({}, '', getRestoreURL(urlList[i]));
-      div.innerHTML += '\n\n' + i + '\n' + urlList[i] + '\n' + getRestoreURL(urlList[i]);
+      history.pushState({name: 'object' + i}, 'title' + i, getRestoreURL(urlList[i]));
+      restoreLog += '\n\n' + i + ':\n' + urlList[i] + '\n' + getRestoreURL(urlList[i]);
     }
+    restoreLog += '\n\ncP: ' + currentPage;
+    div.innerHTML = '';
     history.go(currentPage);
     setTimeout(function () {
-      div.innerHTML += '\n\n' + currentPage;
-      //div.innerHTML = '';
       window.location.reload();
       webkit.messageHandlers.iosListener.postMessage('restore');
-      webkit.messageHandlers.iosListener.postMessage(div.innerHTML);
-      div.innerHTML = '';
+      webkit.messageHandlers.iosListener.postMessage(restoreLog);
     }, 0);
   })();
   </script>
