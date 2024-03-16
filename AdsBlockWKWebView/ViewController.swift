@@ -259,12 +259,23 @@ extension ViewController: WKURLSchemeHandler {
         if url.absoluteString.hasPrefix("internal://local/restore?url=") {
           //internal://local/restore?url=http://localhost:6571/errors/error.html?url=https://orf.at
           wkscheme += " case1<br>\(url)"
-          let newUrl = url.absoluteString.replacingOccurrences(of: "internal://local/restore?url=", with: "")
+          //let newUrl = url.absoluteString.replacingOccurrences(of: "internal://local/restore?url=", with: "")
+          let newUrl = url.absoluteString.replacingOccurrences(of: "internal://local/restore?url=", with: "internal://local/wolfi?url=")
           wkscheme += "<br>redirect: \(newUrl)"
           if let data = "<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>Loading... \(newUrl)<br><br><a href='javascript:location.reload()'>RELOAD</a><br><br><br><script>document.write('ö '+Math.random());</script></body></html>".data(using: .utf8) {
           //"<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>Loading...</body></html>"
           //let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
           //let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type" : "text/html; charset=UTF-8", "Cache-Control" : "no-store", "Set-Cookie" : "hellooo=yes"])!
+          let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: ["Cache-Control" : "no-cache", "Content-Type" : "text/html; charset=UTF-8"])!
+          urlSchemeTask.didReceive(response)
+          urlSchemeTask.didReceive(data)
+          urlSchemeTask.didFinish()
+          }
+        } else if url.absoluteString.hasPrefix("internal://local/wolfi?url=") {
+          wkscheme += " case4<br>\(url)"
+          let newUrl = url.absoluteString.replacingOccurrences(of: "internal://local/wolfi?url=", with: "")
+          wkscheme += "<br>redirect: \(newUrl)"
+          if let data = "<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>Loading... \(newUrl)<br><br><a href='javascript:location.reload()'>RELOAD</a><br><br><br><script>document.write('ö '+Math.random());</script></body></html>".data(using: .utf8) {
           let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: ["Cache-Control" : "no-cache", "Content-Type" : "text/html; charset=UTF-8"])!
           urlSchemeTask.didReceive(response)
           urlSchemeTask.didReceive(data)
