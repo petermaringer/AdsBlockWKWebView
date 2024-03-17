@@ -5,7 +5,7 @@ platform :ios, '10.0'
 
 target 'AdsBlockWKWebView' do
   use_frameworks!
-  pod 'GCDWebServer', '~> 3.0'
+  #pod 'GCDWebServer', '~> 3.0'
   pod 'OpenSSL-Universal', '~> 1.1'
   pod 'CertificateSigningRequest', '~> 1.27'
   #pod 'SwCrypt', '~> 5.1'

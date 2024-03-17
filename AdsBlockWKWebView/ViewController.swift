@@ -161,7 +161,6 @@ func debugLog(_ text: String) {
     }
   }
 }
-//debugLog("Test1234")
 
 
 var restoreUrlsJson: String!
@@ -280,6 +279,7 @@ extension ViewController: WKURLSchemeHandler {
           if let data = "<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>Loading... \(newUrl)<br><br><a href='javascript:location.reload()'>RELOAD</a><br><br><br></body></html>".data(using: .utf8) {
             let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type": "text/html; charset=utf-8", "Content-Length": "\(data.count)", "Cache-Control": "no-store"])!
             //httpVersion: nil
+            debugLog("Test1234")
             urlSchemeTask.didReceive(response)
             urlSchemeTask.didReceive(data)
             urlSchemeTask.didFinish()
