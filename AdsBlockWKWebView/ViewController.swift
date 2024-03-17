@@ -161,7 +161,7 @@ func debugLog(_ text: String) {
     }
   }
 }
-debugLog("Test1234")
+//debugLog("Test1234")
 
 
 var restoreUrlsJson: String!
