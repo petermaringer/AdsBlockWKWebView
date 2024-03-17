@@ -151,12 +151,15 @@ extension URL {
 
 func debugLog(_ text: String) {
   let logFileName = "debug3.txt"
+  let formatter = DateFormatter()
+  formatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
+  let timestamp = formatter.string(from: Date())
   if URL.docDir.appendingPathComponent(logFileName).checkFileExist() == false {
-    try! "\(text)\n\n".write(to: URL.docDir.appendingPathComponent(logFileName), atomically: true, encoding: .utf8)
+    try! "\(timestamp) \(text)\n\n".write(to: URL.docDir.appendingPathComponent(logFileName), atomically: true, encoding: .utf8)
   } else {
     if let fileUpdater = try? FileHandle(forUpdating: URL.docDir.appendingPathComponent(logFileName)) {
       fileUpdater.seekToEndOfFile()
-      fileUpdater.write("\(text)\n\n".data(using: .utf8)!)
+      fileUpdater.write("\(timestamp) \(text)\n\n".data(using: .utf8)!)
       fileUpdater.closeFile()
     }
   }
@@ -1882,7 +1885,7 @@ downloadTask.resume()
       }
       
       if keyPath == "estimatedProgress" {
-        
+        if webView.url!.absoluteString.hasPrefix("internal://local/restore?") == false {
         progressView.progress = Float(webView.estimatedProgress)
         if webView.estimatedProgress == 1 {
           DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -1891,7 +1894,7 @@ downloadTask.resume()
           webViewDidFinish()
         }
         lb.text! += " oV:" + String(String(describing: key).prefix(4))
-        
+        }
       }
       
       if keyPath == "themeColor" {
