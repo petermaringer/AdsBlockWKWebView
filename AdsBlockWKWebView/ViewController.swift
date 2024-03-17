@@ -257,28 +257,25 @@ extension ViewController: WKURLSchemeHandler {
       if let url = urlSchemeTask.request.url, url.scheme == "internal" {
         wkscheme += " internal"
         if url.absoluteString.hasPrefix("internal://local/restore?url1=") {
-          //internal://local/restore?url=http://localhost:6571/errors/error.html?url=https://orf.at
           wkscheme += " case1<br>\(url)"
-          //let newUrl = url.absoluteString.replacingOccurrences(of: "internal://local/restore?url=", with: "")
           let newUrl = url.absoluteString.replacingOccurrences(of: "internal://local/restore?url1=", with: "internal://local/restore?url2=")
           wkscheme += "<br>redirect: \(newUrl)"
           if let data = "<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>Loading... \(newUrl)<br><br><a href='javascript:location.reload()'>RELOAD</a><br><br><br></body></html>".data(using: .utf8) {
-          //<body>Loading...</body>
-          let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type": "text/html; charset=UTF-8", "Cache-Control": "no-store"])!
-          //httpVersion: nil + Content-Length
-          urlSchemeTask.didReceive(response)
-          urlSchemeTask.didReceive(data)
-          urlSchemeTask.didFinish()
+            let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type": "text/html; charset=utf-8", "Content-Length": "\(data.count)", "Cache-Control": "no-store"])!
+            //httpVersion: nil
+            urlSchemeTask.didReceive(response)
+            urlSchemeTask.didReceive(data)
+            urlSchemeTask.didFinish()
           }
         } else if url.absoluteString.hasPrefix("internal://local/restore?url2=") {
           wkscheme += " case2<br>\(url)"
           let newUrl = url.absoluteString.replacingOccurrences(of: "internal://local/restore?url2=", with: "")
           wkscheme += "<br>redirect: \(newUrl)"
           if let data = "<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>Loading... \(newUrl)<br><br><a href='javascript:location.reload()'>RELOAD</a><br><br><br></body></html>".data(using: .utf8) {
-          let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type": "text/html; charset=UTF-8", "Cache-Control": "no-store"])!
-          urlSchemeTask.didReceive(response)
-          urlSchemeTask.didReceive(data)
-          urlSchemeTask.didFinish()
+            let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type": "text/html; charset=utf-8", "Content-Length": "\(data.count)", "Cache-Control": "no-store"])!
+            urlSchemeTask.didReceive(response)
+            urlSchemeTask.didReceive(data)
+            urlSchemeTask.didFinish()
           }
         } else if url.absoluteString.hasPrefix("internal://local/restore?history=") {
           
@@ -292,25 +289,24 @@ extension ViewController: WKURLSchemeHandler {
           urlSchemeTask.didReceive(response)
           urlSchemeTask.didReceive(data)
           urlSchemeTask.didFinish()
-        } else if url.absoluteString.hasPrefix("internal://local/restore?log=") {
-          //internal://local/path?type=remote&url=https://www.orf.at&text=bla
+        } else if url.absoluteString.hasPrefix("internal://local/restorelog") {
           wkscheme += " case4<br>\(url)"
-        //if let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: true)?.queryItems {
+          
+          //if let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: true)?.queryItems {
           //for queryParams in queryItems {
-            //if queryParams.name == "log" && queryParams.value == "show" {
-              //let queryItem = queryItems.filter({ $0.name == "url" })
-              //wkscheme += "<br>param: url=\(queryItem[0].value!)"
-              //DispatchQueue.main.async {
-                if let data = "<!DOCTYPE html><html><head></head><body style='margin:30px;'><h1>Hellooö</h1><br><div style='overflow:scroll;'>\(wkscheme)<br><br>end<br><br><br></div></body></html>".data(using: .utf8) {
-                let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
-                urlSchemeTask.didReceive(response)
-                urlSchemeTask.didReceive(data)
-                urlSchemeTask.didFinish()
-                }
-              //}
-            //}
+          //if queryParams.name == "log" && queryParams.value == "show" {
+          //let queryItem = queryItems.filter({ $0.name == "url" })
+          //wkscheme += "\(queryItem[0].value!)"
+          
+          //DispatchQueue.main.async {
+          if let data = "<!DOCTYPE html><html><head></head><body style='margin:30px;'><h1>Restore Log Hellooö</h1><br><div style='overflow:scroll;'>\(wkscheme)<br><br>end<br><br><br></div></body></html>".data(using: .utf8) {
+            //let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
+            let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type": "text/html; charset=utf-8", "Content-Length": "\(data.count)", "Cache-Control": "no-store"])!
+            urlSchemeTask.didReceive(response)
+            urlSchemeTask.didReceive(data)
+            urlSchemeTask.didFinish()
+          }
           //}
-        //}
         } else {
           wkscheme += "<br>\(url)<br>stop error.nocase"
           urlSchemeTask.didFailWithError(schemeError.nocase)
@@ -682,7 +678,7 @@ player.play()*/
     showAlert(message: "\(navlist) \(blitem) \(blcount1)/\(blcount2) \(appVersion!) \(text!)")
     */
     
-    showAlert(message: "\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\(webViewStartPagePref)|\(goBackOnEditPref)\nwebserv: \(webserv)")
+    showAlert(message: "\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\(webViewStartPagePref) \(goBackOnEditPref)")
     
   }
   
@@ -1514,7 +1510,6 @@ player.play()*/
         webViewConfig.userContentController.add(self, name: "iosListener")
         
         if #available(iOS 11.0, *) {
-          //webViewConfig.setURLSchemeHandler(CustomSchemeHandler(), forURLScheme: "internal")
           webViewConfig.setURLSchemeHandler(self, forURLScheme: "internal")
         }
         
@@ -1795,8 +1790,6 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
             }
             group.notify(queue: .main, execute: { [weak self] in
                 //self?.startLoading()
-                //self?.showAlert(message: "gn")
-                //self?.button.setTitle("Canc11", for: .normal)
                 self?.askRestore()
             })
         } else {
@@ -1812,7 +1805,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
       
       DispatchQueue.main.asyncAfter(deadline: .now() + 7.0) {
         self.topNavBgView.backgroundColor = .viewBgColor
-        //self.webView3.removeFromSuperview()
+        self.webView3.removeFromSuperview()
       }
       
       lb.text! += " restoreD"
@@ -1847,12 +1840,10 @@ downloadTask.resume()
     
     if (message.body as! String).hasPrefix("Script") {
     //webView.loadHTMLString("<body>\(message.body)</body>", baseURL: nil)
-    //NSLog("NSLog: \(message.body)")
     try! (message.body as! String).write(to: URL.docDir.appendingPathComponent("debug.txt"), atomically: true, encoding: .utf8)
     }
     
     lb.text! += " m:\(message.body)"
-    //adjustLabel()
   }
   
   override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -1874,6 +1865,7 @@ downloadTask.resume()
       }
       
       if keyPath == "estimatedProgress" {
+        
         progressView.progress = Float(webView.estimatedProgress)
         if webView.estimatedProgress == 1 {
           DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -1882,6 +1874,7 @@ downloadTask.resume()
           webViewDidFinish()
         }
         lb.text! += " oV:" + String(String(describing: key).prefix(4))
+        
       }
       
       if keyPath == "themeColor" {
@@ -2043,15 +2036,16 @@ downloadTask.resume()
   private func askRestore() {
     func cleanStart() {
       webView.load(URLRequest(url: URL(string: "https://www.google.com/")!))
+      //topnavcolorresetten
     }
     func restoreStart() {
       //webView.load(URLRequest(url: URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)")!))
       webView.load(URLRequest(url: URL(string: "internal://local/restore?history=\(restoreUrlsJson!)")!))
-      DispatchQueue.main.async {
+      //DispatchQueue.main.async {
         //self.showAlert(message: "\(iwashere)")
         //self.showAlert(message: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)")
-        self.showAlert(message: "restoreIndexLast: \(self.restoreIndexLast)\nwebViewRestorePref: \(webViewRestorePref)")
-      }
+        //self.showAlert(message: "restoreIndexLast: \(self.restoreIndexLast)\nwebViewRestorePref: \(webViewRestorePref)")
+      //}
     }
     if webViewRestorePref == "never" {
       cleanStart()
@@ -2637,7 +2631,7 @@ downloadTask.resume()
       restoreIndex += 1
       //webView.load(URLRequest(url: URL(string: restoreUrls[restoreIndex])!))
       let movingDot = String(repeating: ".", count: restoreIndex)
-      webView3.evaluateJavaScript("document.getElementById(\"a\").innerHTML = \"Loading last Session\(movingDot) <span style='position:absolute;left:310px;'>\(restoreIndex+1+restoreIndexLast+1-4)/\(restoreIndexLast+1)</span>\";", completionHandler: nil)
+      webView3.evaluateJavaScript("document.getElementById(\"a\").innerHTML = \"Loading last Session\(movingDot) <span style='position:absolute;left:310px;'>\(restoreIndex+1+restoreIndexLast+1-5)/\(restoreIndexLast+1)</span>\";", completionHandler: nil)
     }
     
     //let urlss = UserDefaults.standard.array(forKey: "urls") as? [URL] ?? [URL]()
@@ -2659,10 +2653,12 @@ downloadTask.resume()
   }
   
   func webViewDidFinish() {
-    if webView.url!.absoluteString.hasPrefix("http://localhost:6571/errors/error.html") == false && webView.url!.absoluteString.hasPrefix("internal://local/restore") == false {
+    if webView.url!.absoluteString.hasPrefix("http://localhost:6571/errors/error.html") == false && webView.url!.absoluteString.hasPrefix("internal://local/restore?") == false {
       urlField.text = webView.url!.absoluteString
       if webView.hasOnlySecureContent {
         urlField.textColor = .successFgColor
+      } else if webView.url!.scheme == "internal" {
+        urlField.textColor = .appBgColor
       } else {
         urlField.textColor = .errorFgColor
       }
