@@ -149,10 +149,17 @@ extension URL {
 }
 
 
+func debugLog() {
+  
+}
+
+
+var restoreUrlsJson: String!
+/*
 //import Foundation
 import GCDWebServer
 var webserv = "hi1"
-var restoreUrlsJson: String!
+//var restoreUrlsJson: String!
 class WebServer {
   static let instance = WebServer()
   let server = GCDWebServer()
@@ -195,7 +202,6 @@ class WebServer {
     server.addHandler(forMethod: method, path: "/\(module)/\(resource)", request: GCDWebServerRequest.self, processBlock: wrappedHandler)
   }
 }
-
 
 class SessionRestoreHandler {
   static func register(_ webServer: WebServer) {
@@ -241,6 +247,7 @@ class SessionRestoreHandler {
     }
   }
 }
+*/
 
 
 var wkscheme = "wks"
@@ -2614,8 +2621,8 @@ downloadTask.resume()
         //self.lb.text! += " \(restoreUrl.absoluteString)"
       //}
       //lb.text! += " \(webserv) \(restoreUrlPart)"
-      lb.text! += " \(webserv)"
-      //adjustLabel()
+      
+      //lb.text! += " \(webserv)"
       
       //webView.go(to: webView.backForwardList.item(at: restorePosition * -1)!)
       //##webView3.removeFromSuperview()
