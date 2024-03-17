@@ -149,9 +149,19 @@ extension URL {
 }
 
 
-func debugLog() {
-  
+func debugLog(_ text: String) {
+  let logFileName = "debug3.txt"
+  if URL.docDir.appendingPathComponent(logFileName).checkFileExist() == false {
+    try! "\(text)\n\n".write(to: URL.docDir.appendingPathComponent(logFileName), atomically: true, encoding: .utf8)
+  } else {
+    if let fileUpdater = try? FileHandle(forUpdating: URL.docDir.appendingPathComponent(logFileName)) {
+      fileUpdater.seekToEndOfFile()
+      fileUpdater.write("\(text)\n\n".data(using: .utf8)!)
+      fileUpdater.closeFile()
+    }
+  }
 }
+debugLog("Test1234")
 
 
 var restoreUrlsJson: String!
