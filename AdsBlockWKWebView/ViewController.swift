@@ -150,7 +150,7 @@ extension URL {
 
 
 func debugLog(_ text: String) {
-  let logFileName = "debug3.txt"
+  let logFileName = "debugLog.txt"
   let formatter = DateFormatter()
   formatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
   let timestamp = formatter.string(from: Date())
@@ -2484,7 +2484,7 @@ downloadTask.resume()
           fallthrough
         }
       case 25001, 25002, 25003:
-        urlField.text = webView.url!.absoluteString
+        urlField.text = webView.url!.absoluteString.replacingOccurrences(of: "internal://local/restore?url2=", with: "")
         urlField.textColor = .appBgColor
         fallthrough
       default:
@@ -2493,6 +2493,7 @@ downloadTask.resume()
     progressView.progress = Float(0)
     lb.text! += " err:\(err.code)"
   }
+  
   
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
     /*->WDF
