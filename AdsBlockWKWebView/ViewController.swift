@@ -265,8 +265,8 @@ class SessionRestoreHandler {
 var wkscheme = "wks"
 @available(iOS 11.0, *)
 extension ViewController: WKURLSchemeHandler {
-  enum schemeError: Error {
-    case general, wrongscheme, nocase(code: Int)
+  enum schemeError: Int, Error {
+    case general = 25001, wrongscheme, nocase
     //case wrongscheme
     //case nocase
   }
@@ -329,7 +329,7 @@ extension ViewController: WKURLSchemeHandler {
           //}
         } else {
           wkscheme += "<br>\(url)<br>stop error.nocase"
-          urlSchemeTask.didFailWithError(schemeError.nocase(code: 25003))
+          urlSchemeTask.didFailWithError(schemeError.nocase)
         }
       } else {
         wkscheme += "<br>\(urlSchemeTask.request.url!)<br>stop error.wrongscheme"
