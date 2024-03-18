@@ -163,7 +163,7 @@ func debugLog(_ text: String) {
   //let formatter = DateFormatter()
   //formatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
   //let timestamp = formatter.string(from: Date())
-  let timestamp = Date.formati("dd.MM.yyyy HH:mm:ss")
+  let timestamp = Date().formati("dd.MM.yyyy HH:mm:ss")
   if URL.docDir.appendingPathComponent(logFileName).checkFileExist() == false {
     try! "\(timestamp) \(text)\n\n".write(to: URL.docDir.appendingPathComponent(logFileName), atomically: true, encoding: .utf8)
   } else {
