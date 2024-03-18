@@ -266,7 +266,7 @@ var wkscheme = "wks"
 @available(iOS 11.0, *)
 extension ViewController: WKURLSchemeHandler {
   enum schemeError: Error {
-    case general, wrongscheme, nocase(errorCode: 25003)
+    case general, wrongscheme, nocase(errorCode: Int = 25003)
     //case wrongscheme
     //case nocase
   }
