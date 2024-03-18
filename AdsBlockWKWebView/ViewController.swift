@@ -266,9 +266,9 @@ var wkscheme = "wks"
 @available(iOS 11.0, *)
 extension ViewController: WKURLSchemeHandler {
   enum schemeError: Error {
-    case general
-    case wrongscheme
-    case nocase
+    case general, wrongscheme, nocase(errorCode: 25003)
+    //case wrongscheme
+    //case nocase
   }
   func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
     //DispatchQueue.global().async {

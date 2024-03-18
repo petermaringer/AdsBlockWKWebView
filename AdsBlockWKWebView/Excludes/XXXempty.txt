@@ -3,3 +3,4 @@ internal://local/restore?history=%7B%22currentPage%22:%200,%20%22history%22:%20%
 javascript: alert(JSON.stringify(history.state));
 
 javascript: history.pushState({name: 'object' + '5'}, 'content' + '6', 'internal://local/asdfgh');
+
