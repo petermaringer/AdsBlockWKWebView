@@ -286,7 +286,7 @@ extension ViewController: WKURLSchemeHandler {
           wkscheme += "<br>redirect: \(newUrl)"
           if let data = "<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>Loading... \(newUrl)<br><br><a href='javascript:location.reload()'>RELOAD</a><br><br><br></body></html>".data(using: .utf8) {
             let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type": "text/html; charset=utf-8", "Content-Length": "\(data.count)", "Cache-Control": "no-store"])!
-            debugLog("Test1234")
+            //debugLog("Test1234")
             urlSchemeTask.didReceive(response)
             urlSchemeTask.didReceive(data)
             urlSchemeTask.didFinish()
@@ -695,6 +695,16 @@ player.play()*/
     if gesture.state == .began {
       urlField.endEditing(true)
       changeUserAgent()
+    }
+  }
+  
+  @objc func kvButtonClicked() {
+    if kvButton.backgroundColor == .appBgColor {
+      webView.evaluateJavaScript("document.body.style.zoom = 0.5;", completionHandler: nil)
+      kvButton.backgroundColor = .gray
+    } else {
+      webView.evaluateJavaScript("document.body.style.zoom = 1.0;", completionHandler: nil)
+      kvButton.backgroundColor = .appBgColor
     }
   }
   
@@ -1624,7 +1634,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         kvButton.clipsToBounds = true
         kvButton.setTitle("Test", for: .normal)
         kvButton.setTitleColor(.buttonFgColor, for: .normal)
-        kvButton.addTarget(self, action: #selector(self.buttonClicked), for: .touchUpInside)
+        kvButton.addTarget(self, action: #selector(self.kvButtonClicked), for: .touchUpInside)
         keyboardView.addSubview(kvButton)
         
         urlField.keyboardType = UIKeyboardType.webSearch
