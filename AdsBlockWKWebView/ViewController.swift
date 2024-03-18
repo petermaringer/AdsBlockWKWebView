@@ -149,11 +149,21 @@ extension URL {
 }
 
 
+extension Date {
+  func format(_ format: String) -> String {
+    let dateFormatter: DateFormatter = DateFormatter()
+    dateFormatter.dateFormat = format
+    return dateFormatter.string(from: self as Date)
+  }
+}
+
+
 func debugLog(_ text: String) {
   let logFileName = "debugLog.txt"
-  let formatter = DateFormatter()
-  formatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
-  let timestamp = formatter.string(from: Date())
+  //let formatter = DateFormatter()
+  //formatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
+  //let timestamp = formatter.string(from: Date())
+  let timestamp = Date.format("dd.MM.yyyy HH:mm:ss")
   if URL.docDir.appendingPathComponent(logFileName).checkFileExist() == false {
     try! "\(timestamp) \(text)\n\n".write(to: URL.docDir.appendingPathComponent(logFileName), atomically: true, encoding: .utf8)
   } else {
@@ -279,7 +289,6 @@ extension ViewController: WKURLSchemeHandler {
           wkscheme += "<br>redirect: \(newUrl)"
           if let data = "<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>Loading... \(newUrl)<br><br><a href='javascript:location.reload()'>RELOAD</a><br><br><br></body></html>".data(using: .utf8) {
             let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type": "text/html; charset=utf-8", "Content-Length": "\(data.count)", "Cache-Control": "no-store"])!
-            //httpVersion: nil
             debugLog("Test1234")
             urlSchemeTask.didReceive(response)
             urlSchemeTask.didReceive(data)
@@ -296,11 +305,6 @@ extension ViewController: WKURLSchemeHandler {
             urlSchemeTask.didFinish()
           }
         } else if url.absoluteString.hasPrefix("internal://local/restore?history=") {
-          
-          //let url1 = Bundle.main.url(forResource: "SessionRestore", withExtension: "html")!
-          //let url2 = URL(string: "?history=\(restoreUrlsJson!)", relativeTo: url1)!
-          //webView.load(URLRequest(url: url2))
-          
           wkscheme += " case3<br>\(url)"
           guard let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore", ofType: "html"), let html = try? String(contentsOfFile: sessionRestorePath), let data = html.data(using: .utf8) else { return }
           let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
@@ -309,22 +313,12 @@ extension ViewController: WKURLSchemeHandler {
           urlSchemeTask.didFinish()
         } else if url.absoluteString.hasPrefix("internal://local/restorelog") {
           wkscheme += " case4<br>\(url)"
-          
-          //if let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: true)?.queryItems {
-          //for queryParams in queryItems {
-          //if queryParams.name == "log" && queryParams.value == "show" {
-          //let queryItem = queryItems.filter({ $0.name == "url" })
-          //wkscheme += "\(queryItem[0].value!)"
-          
-          //DispatchQueue.main.async {
-          if let data = "<!DOCTYPE html><html><head></head><body style='margin:30px;'><h1>Restore Log Hellooö</h1><br><div style='overflow:scroll;'>\(wkscheme)<br><br>end<br><br><br></div></body></html>".data(using: .utf8) {
-            //let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
+          if let data = "<!DOCTYPE html><html><head></head><body style='margin:30px;'><h1>Restore Log:</h1><br><div style='overflow:scroll;'>\(wkscheme)<br><br>end<br><br><br></div></body></html>".data(using: .utf8) {
             let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type": "text/html; charset=utf-8", "Content-Length": "\(data.count)", "Cache-Control": "no-store"])!
             urlSchemeTask.didReceive(response)
             urlSchemeTask.didReceive(data)
             urlSchemeTask.didFinish()
           }
-          //}
         } else {
           wkscheme += "<br>\(url)<br>stop error.nocase"
           urlSchemeTask.didFailWithError(schemeError.nocase)

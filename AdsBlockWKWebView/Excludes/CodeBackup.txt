@@ -1,0 +1,13 @@
+//let url1 = Bundle.main.url(forResource: "SessionRestore", withExtension: "html")!
+//let url2 = URL(string: "?history=\(restoreUrlsJson!)", relativeTo: url1)!
+//webView.load(URLRequest(url: url2))
+
+
+//if let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: true)?.queryItems {
+//for queryParams in queryItems {
+//if queryParams.name == "log" && queryParams.value == "show" {
+//let queryItem = queryItems.filter({ $0.name == "url" })
+//wkscheme += "url=\(queryItem[0].value!)"
+
+
+
