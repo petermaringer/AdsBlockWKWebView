@@ -160,9 +160,6 @@ extension Date {
 
 func debugLog(_ text: String) {
   let logFileName = "debugLog.txt"
-  //let formatter = DateFormatter()
-  //formatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
-  //let timestamp = formatter.string(from: Date())
   let timestamp = Date().format("dd.MM.yyyy HH:mm:ss")
   if URL.docDir.appendingPathComponent(logFileName).checkFileExist() == false {
     try! "\(timestamp) \(text)\n\n".write(to: URL.docDir.appendingPathComponent(logFileName), atomically: true, encoding: .utf8)
@@ -1734,11 +1731,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         
     //webView.load(URLRequest(url: URL(string: restoreUrls[restoreIndex])!))
     
-    let currentDateTime = Date()
-    let formatter = DateFormatter()
-    formatter.dateFormat = "dd.MM.yyyy HH:mm"
-    let timestamp = formatter.string(from: currentDateTime)
-    
+    let timestamp = Date().format("dd.MM.yyyy HH:mm")
     var bflist = "\(timestamp) LASTbflist:"
     for (index, url) in restoreUrls.enumerated() {
       //self.webView.load(URLRequest(url: url))
