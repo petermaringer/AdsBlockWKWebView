@@ -266,7 +266,7 @@ var wkscheme = "wks"
 @available(iOS 11.0, *)
 extension ViewController: WKURLSchemeHandler {
   enum schemeError: Error {
-    case general, wrongscheme, nocase(errorCode: Int = 25003)
+    case general, wrongscheme, nocase(errorCode: Int)
     //case wrongscheme
     //case nocase
   }
@@ -329,7 +329,7 @@ extension ViewController: WKURLSchemeHandler {
           //}
         } else {
           wkscheme += "<br>\(url)<br>stop error.nocase"
-          urlSchemeTask.didFailWithError(schemeError.nocase)
+          urlSchemeTask.didFailWithError(schemeError.nocase(25003))
         }
       } else {
         wkscheme += "<br>\(urlSchemeTask.request.url!)<br>stop error.wrongscheme"
