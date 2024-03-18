@@ -150,10 +150,10 @@ extension URL {
 
 
 extension Date {
-  func format(_ format: String) -> String {
+  func format(_ formato: String) -> String {
     let dateFormatter: DateFormatter = DateFormatter()
-    dateFormatter.dateFormat = format
-    return dateFormatter.string(from: self as Date)
+    dateFormatter.dateFormat = formato
+    return dateFormatter.string(from: self)
   }
 }
 
