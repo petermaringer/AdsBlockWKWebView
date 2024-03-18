@@ -267,8 +267,6 @@ var wkscheme = "wks"
 extension ViewController: WKURLSchemeHandler {
   enum schemeError: Int, Error {
     case general = 25001, wrongscheme, nocase
-    //case wrongscheme
-    //case nocase
   }
   func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
     //DispatchQueue.global().async {
@@ -2485,6 +2483,10 @@ downloadTask.resume()
         } else {
           fallthrough
         }
+      case 25001, 25002, 25003:
+        urlField.text = webView.url!.absoluteString
+        urlField.textColor = .appBgColor
+        fallthrough
       default:
         showAlert(message: "Error: \(err.code) \(err.localizedDescription)")
     }
