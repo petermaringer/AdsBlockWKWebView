@@ -459,6 +459,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   
   var urlField: UITextField!
   var button: UIButton!
+  var kvButton: UIButton!
   //var lb: UITextView!
   var lb: UILabel!
   var lbcounter: Int = 0
@@ -1627,7 +1628,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         let keyboardView = UIInputView(frame: CGRect(x: 0, y: view.frame.height - 40, width: view.frame.width, height: 40), inputViewStyle: .keyboard)
         //keyboardView.backgroundColor = .gray
         urlField.inputAccessoryView = keyboardView
-        let kvButton = UIButton(frame: CGRect.zero)
+        kvButton = UIButton(frame: CGRect.zero)
         kvButton.frame = CGRect(x: 5, y: 5, width: 80, height: 30)
         kvButton.backgroundColor = .appBgColor
         kvButton.layer.cornerRadius = 5
