@@ -329,7 +329,7 @@ extension ViewController: WKURLSchemeHandler {
           //}
         } else {
           wkscheme += "<br>\(url)<br>stop error.nocase"
-          urlSchemeTask.didFailWithError(schemeError.nocase(25003))
+          urlSchemeTask.didFailWithError(schemeError.nocase(errorCode: 25003))
         }
       } else {
         wkscheme += "<br>\(urlSchemeTask.request.url!)<br>stop error.wrongscheme"
