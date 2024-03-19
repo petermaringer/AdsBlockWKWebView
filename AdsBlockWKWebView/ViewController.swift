@@ -701,10 +701,14 @@ player.play()*/
   
   @objc func kvButtonClicked() {
     if kvButton.backgroundColor == .appBgColor {
-      webView.evaluateJavaScript("document.body.style.zoom = 0.5;", completionHandler: nil)
+      //webView.evaluateJavaScript("document.body.style.zoom = 0.5;", completionHandler: nil)
+      
+      webView.evaluateJavaScript("var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=1500, initial-scale=1.0, minimum-scale=0.1, maximum-scale=15.0, user-scalable=yes'); } else { var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=1500, initial-scale=1.0, minimum-scale=0.1, maximum-scale=15.0, user-scalable=yes'); document.getElementsByTagName('head')[0].appendChild(meta); }", completionHandler: nil)
+      
       kvButton.backgroundColor = .gray
     } else {
-      webView.evaluateJavaScript("document.body.style.zoom = 1.0;", completionHandler: nil)
+      //webView.evaluateJavaScript("document.body.style.zoom = 1.0;", completionHandler: nil)
+      
       kvButton.backgroundColor = .appBgColor
     }
   }
@@ -907,19 +911,14 @@ player.play()*/
     if #available(iOS 11, *) {
       if editButtonBgColor == .appBgColor {
         resetContentRuleList()
-        webView.evaluateJavaScript("document.body.style.zoom = 0.5", completionHandler: nil)
         editButtonBgColor = .gray
       } else {
         setupContentBlockFromStringLiteral() { }
         setupContentBlockFromFile() { }
-        webView.evaluateJavaScript("document.body.style.zoom = 1.0", completionHandler: nil)
         editButtonBgColor = .appBgColor
       }
     }
-    
     //showAlert(message: "E:\(url)")
-    //lb.text! += " E"
-    //adjustLabel()
   }
   
   @objc func devButtonClicked(url: String) {
@@ -1667,9 +1666,9 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         //let tapGesture = UITapGestureRecognizer(target: self, action: #selector(buttonClicked))
         //tapGesture.numberOfTapsRequired = 1
         //button.addGestureRecognizer(tapGesture)
-        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(buttonPressed(gesture:)))
-        //longPress.minimumPressDuration = 3
-        button.addGestureRecognizer(longPress)
+        let buttonLongPress = UILongPressGestureRecognizer(target: self, action: #selector(buttonPressed(gesture:)))
+        //buttonLongPress.minimumPressDuration = 3
+        button.addGestureRecognizer(buttonLongPress)
         
         tableView = UITableView(frame: CGRect.zero)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
