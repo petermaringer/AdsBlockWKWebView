@@ -703,7 +703,8 @@ player.play()*/
     if kvButton.backgroundColor == .appBgColor {
       //webView.evaluateJavaScript("document.body.style.zoom = 0.5;", completionHandler: nil)
       
-      webView.evaluateJavaScript("var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=1280, initial-scale=1, minimum-scale=0.1, maximum-scale=10, user-scalable=yes, shrink-to-fit=yes'); } else { var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=1280, initial-scale=1, minimum-scale=0.1, maximum-scale=10, user-scalable=yes, shrink-to-fit=yes'); document.getElementsByTagName('head')[0].appendChild(meta); }", completionHandler: nil)
+      //webView.evaluateJavaScript("var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=1280, initial-scale=1, minimum-scale=0.1, maximum-scale=10, user-scalable=yes'); } else { var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=1280, initial-scale=1, minimum-scale=0.1, maximum-scale=10, user-scalable=yes'); document.getElementsByTagName('head')[0].appendChild(meta); }", completionHandler: nil)
+      webView.evaluateJavaScript("var el = document.querySelector('meta[name=viewport]'); if (el === null) { var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta); } el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=1280, minimum-scale=0.1, maximum-scale=10, user-scalable=yes'); }", completionHandler: nil)
       
       kvButton.backgroundColor = .gray
     } else {
