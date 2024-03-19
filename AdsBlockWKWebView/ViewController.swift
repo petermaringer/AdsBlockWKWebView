@@ -704,7 +704,7 @@ player.play()*/
       //webView.evaluateJavaScript("document.body.style.zoom = 0.5;", completionHandler: nil)
       
       //webView.evaluateJavaScript("var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=1280, initial-scale=1, minimum-scale=0.1, maximum-scale=10, user-scalable=yes'); } else { var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=1280, initial-scale=1, minimum-scale=0.1, maximum-scale=10, user-scalable=yes'); document.getElementsByTagName('head')[0].appendChild(meta); }", completionHandler: nil)
-      let pageWidth: Int = 1280
+      let pageWidth: CGFloat = 1280
       webView.evaluateJavaScript("var el = document.querySelector('meta[name=viewport]'); if (el === null) { var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta); alert('1'); } el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=\(pageWidth), initial-scale=\(webView.frame.size.width / pageWidth), minimum-scale=0.1, maximum-scale=10, user-scalable=yes'); alert('2'); }", completionHandler: nil)
       //showAlert(message: "\(webView.frame.size.width)\n\(webView.frame.size.width / 1280)")
       
