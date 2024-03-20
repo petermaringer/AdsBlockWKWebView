@@ -19,7 +19,7 @@ import StoreKit
 fileprivate let ruleId1 = "MyRuleID 001"
 fileprivate let ruleId2 = "MyRuleID 002"
 
-let userDefStand = UserDefaults.standard
+let userDefaults = UserDefaults.standard
 let userDefGroup = UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")!
 
 
@@ -54,19 +54,35 @@ var alertCounter: Int = 0
 let hapticFB = UINotificationFeedbackGenerator()
 
 func loadUserPrefs() {
-  if (UserDefaults.standard.object(forKey: "webViewStartPagePref") != nil) {
-    webViewStartPagePref = UserDefaults.standard.string(forKey: "webViewStartPagePref")!
-  }
-  webViewRestorePref = UserDefaults.standard.string(forKey: "webViewRestorePref") ?? webViewRestorePref
-  if (UserDefaults.standard.object(forKey: "webViewSearchUrlPref") != nil) {
-    webViewSearchUrlPref = UserDefaults.standard.string(forKey: "webViewSearchUrlPref")!
-  }
-  if (UserDefaults.standard.object(forKey: "goBackOnEditPref") != nil) {
-    goBackOnEditPref = UserDefaults.standard.integer(forKey: "goBackOnEditPref")
-  }
-  if (UserDefaults.standard.object(forKey: "autoVideoDownloadPref") != nil) {
-    autoVideoDownloadPref = UserDefaults.standard.bool(forKey: "autoVideoDownloadPref")
-  }
+  //if (UserDefaults.standard.object(forKey: "webViewStartPagePref") != nil) {
+    //webViewStartPagePref = UserDefaults.standard.string(forKey: "webViewStartPagePref")!
+  //}
+  
+  userDefaults.removeObject(forKey: "webViewStartPagePref")
+  userDefaults.removeObject(forKey: "webViewRestorePref")
+  userDefaults.removeObject(forKey: "webViewSearchUrlPref")
+  userDefaults.removeObject(forKey: "goBackOnEditPref")
+  userDefaults.removeObject(forKey: "autoVideoDownloadPref")
+  
+  webViewStartPagePref = userDefaults.string(forKey: "webViewStartPagePref") ?? webViewStartPagePref
+  
+  webViewRestorePref = userDefaults.string(forKey: "webViewRestorePref") ?? webViewRestorePref
+  
+  webViewSearchUrlPref = userDefaults.string(forKey: "webViewSearchUrlPref") ?? webViewSearchUrlPref
+  
+  goBackOnEditPref = userDefaults.integer(forKey: "goBackOnEditPref") ?? goBackOnEditPref
+  
+  autoVideoDownloadPref = userDefaults.bool(forKey: "autoVideoDownloadPref") ?? autoVideoDownloadPref
+  
+  //if (UserDefaults.standard.object(forKey: "webViewSearchUrlPref") != nil) {
+    //webViewSearchUrlPref = UserDefaults.standard.string(forKey: "webViewSearchUrlPref")!
+  //}
+  //if (UserDefaults.standard.object(forKey: "goBackOnEditPref") != nil) {
+    //goBackOnEditPref = UserDefaults.standard.integer(forKey: "goBackOnEditPref")
+  //}
+  //if (UserDefaults.standard.object(forKey: "autoVideoDownloadPref") != nil) {
+    //autoVideoDownloadPref = UserDefaults.standard.bool(forKey: "autoVideoDownloadPref")
+  //}
 }
 ////////// USERPREFS //////////
 
@@ -663,7 +679,7 @@ player.play()*/
     //adjustLabel()
     
     let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
-    userDefStand.set(appVersion, forKey: "versionInfo")
+    userDefaults.set(appVersion, forKey: "versionInfo")
     
     //let file = Bundle.main.path(forResource: "Info", ofType: "plist")!
     //let p = URL(fileURLWithPath: file)
