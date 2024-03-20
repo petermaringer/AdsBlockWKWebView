@@ -33,7 +33,7 @@ var webViewRestorePref: String = "ask"
 //AlleSeitenHinzuStatt+
 //IdleTimerEinAus
 var goBackOnEditPref: Int = 2
-var autoVideoDownloadPref: Bool = false
+var autoVideoDownloadPref: Bool = true
 var messages: [String] = []
 /*
 class alertObj {
@@ -59,7 +59,13 @@ extension UserDefaults {
       return (userDefaults.string(forKey: key) ?? value as! String) as! T
     }
     if type(of: value) == Int.self {
-      return (userDefaults.integer(forKey: key) as Int? ?? value as! Int) as! T
+      
+      if (userDefaults.object(forKey: key) != nil) {
+        return userDefaults.integer(forKey: key) as! T
+      }
+      return value as! Int as! T
+      
+      //return (userDefaults.integer(forKey: key) as Int? ?? value as! Int) as! T
     }
     if type(of: value) == Bool.self {
       return (userDefaults.bool(forKey: key) as Bool? ?? value as! Bool) as! T
