@@ -70,13 +70,13 @@ extension UserDefaults {
 
 func loadUserPrefs() {
   
-  /*
+  
   userDefaults.removeObject(forKey: "webViewStartPagePref")
   userDefaults.removeObject(forKey: "webViewRestorePref")
   userDefaults.removeObject(forKey: "webViewSearchUrlPref")
   userDefaults.removeObject(forKey: "goBackOnEditPref")
   userDefaults.removeObject(forKey: "autoVideoDownloadPref")
-  */
+  
   
   webViewStartPagePref = userDefaults.fetch(key: "webViewStartPagePref", or: webViewStartPagePref)
   webViewRestorePref = userDefaults.fetch(key: "webViewRestorePref", or: webViewRestorePref)
@@ -720,7 +720,7 @@ player.play()*/
     showAlert(message: "\(navlist) \(blitem) \(blcount1)/\(blcount2) \(appVersion!) \(text!)")
     */
     
-    showAlert(message: "\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\(webViewStartPagePref) \(goBackOnEditPref) \(webViewRestorePref)")
+    showAlert(message: "\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref)")
   }
   
   @objc func buttonPressed(gesture: UILongPressGestureRecognizer) {
