@@ -63,8 +63,6 @@ extension UserDefaults {
   }
 }
 
-//var webViewTestPref: String = "hallo"
-
 func loadUserPrefs() {
   
   /*
@@ -721,8 +719,7 @@ player.play()*/
     showAlert(message: "\(navlist) \(blitem) \(blcount1)/\(blcount2) \(appVersion!) \(text!)")
     */
     
-    showAlert(message: "\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\(webViewStartPagePref) \(goBackOnEditPref) \(webViewTestPref)")
-    
+    showAlert(message: "\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\(webViewStartPagePref) \(goBackOnEditPref) \(webViewRestorePref)")
   }
   
   @objc func buttonPressed(gesture: UILongPressGestureRecognizer) {
