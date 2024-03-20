@@ -61,8 +61,10 @@ extension UserDefaults {
     if type(of: value) == Int.self {
       return (userDefaults.integer(forKey: key) as Int? ?? value as! Int) as! T
     }
-    
-    return "no" as! T
+    if type(of: value) == Bool.self {
+      return (userDefaults.bool(forKey: key) as Bool? ?? value as! Bool) as! T
+    }
+    return "error" as! T
   }
 }
 
@@ -76,29 +78,27 @@ func loadUserPrefs() {
   userDefaults.removeObject(forKey: "autoVideoDownloadPref")
   */
   
-  //webViewStartPagePref = userDefaults.value(forKey: "webViewStartPagePref") ?? webViewStartPagePref
-  
+  webViewStartPagePref = userDefaults.fetch(key: "webViewStartPagePref", or: webViewStartPagePref)
   webViewRestorePref = userDefaults.fetch(key: "webViewRestorePref", or: webViewRestorePref)
-  
-  //webViewSearchUrlPref = userDefaults.value(forKey: "webViewSearchUrlPref") ?? webViewSearchUrlPref
+  webViewSearchUrlPref = userDefaults.fetch(key: "webViewSearchUrlPref", or: webViewSearchUrlPref)
   
   goBackOnEditPref = userDefaults.fetch(key: "goBackOnEditPref", or: goBackOnEditPref)
   
-  //autoVideoDownloadPref = userDefaults.value(forKey: "autoVideoDownloadPref") ?? autoVideoDownloadPref
+  autoVideoDownloadPref = userDefaults.fetch(key: "autoVideoDownloadPref", or: autoVideoDownloadPref)
   
-  if (UserDefaults.standard.object(forKey: "webViewStartPagePref") != nil) {
-    webViewStartPagePref = UserDefaults.standard.string(forKey: "webViewStartPagePref")!
-  }
+  //if (UserDefaults.standard.object(forKey: "webViewStartPagePref") != nil) {
+    //webViewStartPagePref = UserDefaults.standard.string(forKey: "webViewStartPagePref")!
+  //}
   
-  if (UserDefaults.standard.object(forKey: "webViewSearchUrlPref") != nil) {
-    webViewSearchUrlPref = UserDefaults.standard.string(forKey: "webViewSearchUrlPref")!
-  }
+  //if (UserDefaults.standard.object(forKey: "webViewSearchUrlPref") != nil) {
+    //webViewSearchUrlPref = UserDefaults.standard.string(forKey: "webViewSearchUrlPref")!
+  //}
   //if (UserDefaults.standard.object(forKey: "goBackOnEditPref") != nil) {
     //goBackOnEditPref = UserDefaults.standard.integer(forKey: "goBackOnEditPref")
   //}
-  if (UserDefaults.standard.object(forKey: "autoVideoDownloadPref") != nil) {
-    autoVideoDownloadPref = UserDefaults.standard.bool(forKey: "autoVideoDownloadPref")
-  }
+  //if (UserDefaults.standard.object(forKey: "autoVideoDownloadPref") != nil) {
+    //autoVideoDownloadPref = UserDefaults.standard.bool(forKey: "autoVideoDownloadPref")
+  //}
 }
 ////////// USERPREFS //////////
 
