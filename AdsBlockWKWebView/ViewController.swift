@@ -57,26 +57,17 @@ extension UserDefaults {
   func exists(key: String) -> Bool {
     return object(forKey: key) != nil
   }
-  
   func fetch<T>(key: String, or value: Any) -> T {
-    if type(of: value) == String.self {
-      if userDefaults.exists(key: key) {
+    if userDefaults.exists(key: key) {
+      if type(of: value) == String.self {
         return userDefaults.string(forKey: key) as! T
       }
-      //return value as! String as! T
-    }
-    if type(of: value) == Int.self {
-      if userDefaults.exists(key: key) {
+      if type(of: value) == Int.self {
         return userDefaults.integer(forKey: key) as! T
       }
-      //return value as! Int as! T
-      //return value as! T
-    }
-    if type(of: value) == Bool.self {
-      if userDefaults.exists(key: key) {
+      if type(of: value) == Bool.self {
         return userDefaults.bool(forKey: key) as! T
       }
-      //return value as! Bool as! T
     }
     return value as! T
   }
@@ -84,13 +75,11 @@ extension UserDefaults {
 
 func loadUserPrefs() {
   
-  
   userDefaults.removeObject(forKey: "webViewStartPagePref")
   userDefaults.removeObject(forKey: "webViewRestorePref")
   userDefaults.removeObject(forKey: "webViewSearchUrlPref")
   userDefaults.removeObject(forKey: "goBackOnEditPref")
   userDefaults.removeObject(forKey: "autoVideoDownloadPref")
-  
   
   webViewStartPagePref = userDefaults.fetch(key: "webViewStartPagePref", or: webViewStartPagePref)
   webViewRestorePref = userDefaults.fetch(key: "webViewRestorePref", or: webViewRestorePref)
