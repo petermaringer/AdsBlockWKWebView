@@ -54,11 +54,12 @@ var alertCounter: Int = 0
 let hapticFB = UINotificationFeedbackGenerator()
 
 extension UserDefaults {
-  func testi<T>(_ value: Any) -> T {
+  func fetch<T>(_ value: Any) -> T {
     if type(of: value) == String.self {
-      let newval = userDefaults.string(forKey: "webViewRestorePref") ?? value as! String
-      return newval as! T
+      return (userDefaults.string(forKey: "webViewRestorePref") ?? value as! String) as! T
+      //return newval as! T
     }
+    
     return "no" as! T
   }
 }
@@ -79,7 +80,7 @@ func loadUserPrefs() {
   
   webViewRestorePref = userDefaults.string(forKey: "webViewRestorePref") ?? webViewRestorePref
   
-  webViewTestPref = userDefaults.testi(webViewTestPref)
+  webViewTestPref = userDefaults.fetch(webViewTestPref)
   
   //webViewSearchUrlPref = userDefaults.value(forKey: "webViewSearchUrlPref") ?? webViewSearchUrlPref
   
