@@ -64,7 +64,7 @@ func loadUserPrefs() {
   userDefaults.removeObject(forKey: "goBackOnEditPref")
   userDefaults.removeObject(forKey: "autoVideoDownloadPref")
   
-  func testi(value: String) -> Self? {
+  func testi(_ value: String) -> Self? {
     return value
   }
   webViewRestorePref = testi("webViewRestorePref")
