@@ -56,9 +56,9 @@ let hapticFB = UINotificationFeedbackGenerator()
 extension UserDefaults {
   func testi<T>(_ value: Any) -> T {
     if type(of: value) == String.self {
-     return userDefaults.string(forKey: "webViewRestorePref") ?? value
+     return userDefaults.string(forKey: "webViewRestorePref") ?? value as? T
     }
-    return "no"
+    return "no" as? T
   }
 }
 
