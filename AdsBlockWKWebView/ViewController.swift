@@ -53,6 +53,12 @@ var alertObjArray = [alertObj]()
 var alertCounter: Int = 0
 let hapticFB = UINotificationFeedbackGenerator()
 
+extension UserDefaults {
+  func testi(_ value: String) -> Self? {
+    return value
+  }
+}
+
 func loadUserPrefs() {
   //if (UserDefaults.standard.object(forKey: "webViewStartPagePref") != nil) {
     //webViewStartPagePref = UserDefaults.standard.string(forKey: "webViewStartPagePref")!
@@ -64,10 +70,7 @@ func loadUserPrefs() {
   userDefaults.removeObject(forKey: "goBackOnEditPref")
   userDefaults.removeObject(forKey: "autoVideoDownloadPref")
   
-  func testi(_ value: String) -> Self? {
-    return value
-  }
-  webViewRestorePref = testi("webViewRestorePref")
+  webViewRestorePref = userDefaults.testi("webViewRestorePref")
   
   //webViewStartPagePref = userDefaults.value(forKey: "webViewStartPagePref") ?? webViewStartPagePref
   
