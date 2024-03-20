@@ -55,7 +55,7 @@ let hapticFB = UINotificationFeedbackGenerator()
 
 extension UserDefaults {
   func testi(_ value: Any) -> String {
-    if type(of: value) == String {
+    if type(of: value) == String.self {
      return "hey"
     }
     return "no"
