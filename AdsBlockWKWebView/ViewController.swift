@@ -62,10 +62,12 @@ extension UserDefaults {
   }
 }
 
+var webViewTestPref: String = "hallo"
+
 func loadUserPrefs() {
-  //if (UserDefaults.standard.object(forKey: "webViewStartPagePref") != nil) {
-    //webViewStartPagePref = UserDefaults.standard.string(forKey: "webViewStartPagePref")!
-  //}
+  if (UserDefaults.standard.object(forKey: "webViewStartPagePref") != nil) {
+    webViewStartPagePref = UserDefaults.standard.string(forKey: "webViewStartPagePref")!
+  }
   
   userDefaults.removeObject(forKey: "webViewStartPagePref")
   userDefaults.removeObject(forKey: "webViewRestorePref")
@@ -73,22 +75,21 @@ func loadUserPrefs() {
   userDefaults.removeObject(forKey: "goBackOnEditPref")
   userDefaults.removeObject(forKey: "autoVideoDownloadPref")
   
-  var webViewTestPref: String = "hallo"
   webViewTestPref = userDefaults.testi(webViewTestPref)
   
-  webViewStartPagePref = userDefaults.value(forKey: "webViewStartPagePref") ?? webViewStartPagePref
+  //webViewStartPagePref = userDefaults.value(forKey: "webViewStartPagePref") ?? webViewStartPagePref
   
-  webViewRestorePref = userDefaults.value(forKey: "webViewRestorePref") ?? webViewRestorePref
+  webViewRestorePref = userDefaults.string(forKey: "webViewRestorePref") ?? webViewRestorePref
   
-  webViewSearchUrlPref = userDefaults.value(forKey: "webViewSearchUrlPref") ?? webViewSearchUrlPref
+  //webViewSearchUrlPref = userDefaults.value(forKey: "webViewSearchUrlPref") ?? webViewSearchUrlPref
   
   //goBackOnEditPref = userDefaults.value(forKey: "goBackOnEditPref") ?? goBackOnEditPref
   
   //autoVideoDownloadPref = userDefaults.value(forKey: "autoVideoDownloadPref") ?? autoVideoDownloadPref
   
-  //if (UserDefaults.standard.object(forKey: "webViewSearchUrlPref") != nil) {
-    //webViewSearchUrlPref = UserDefaults.standard.string(forKey: "webViewSearchUrlPref")!
-  //}
+  if (UserDefaults.standard.object(forKey: "webViewSearchUrlPref") != nil) {
+    webViewSearchUrlPref = UserDefaults.standard.string(forKey: "webViewSearchUrlPref")!
+  }
   if (UserDefaults.standard.object(forKey: "goBackOnEditPref") != nil) {
     goBackOnEditPref = UserDefaults.standard.integer(forKey: "goBackOnEditPref")
   }
