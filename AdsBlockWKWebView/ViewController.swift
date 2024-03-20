@@ -58,6 +58,9 @@ extension UserDefaults {
     if type(of: value) == String.self {
       return (userDefaults.string(forKey: key) ?? value as! String) as! T
     }
+    if type(of: value) == Int.self {
+      return (userDefaults.integer(forKey: key) ?? value as! Int) as! T
+    }
     
     return "no" as! T
   }
@@ -75,13 +78,11 @@ func loadUserPrefs() {
   
   //webViewStartPagePref = userDefaults.value(forKey: "webViewStartPagePref") ?? webViewStartPagePref
   
-  //webViewRestorePref = userDefaults.string(forKey: "webViewRestorePref") ?? webViewRestorePref
-  
   webViewRestorePref = userDefaults.fetch(key: "webViewRestorePref", or: webViewRestorePref)
   
   //webViewSearchUrlPref = userDefaults.value(forKey: "webViewSearchUrlPref") ?? webViewSearchUrlPref
   
-  //goBackOnEditPref = userDefaults.value(forKey: "goBackOnEditPref") ?? goBackOnEditPref
+  goBackOnEditPref = userDefaults.fetch(key: "goBackOnEditPref", or: goBackOnEditPref)
   
   //autoVideoDownloadPref = userDefaults.value(forKey: "autoVideoDownloadPref") ?? autoVideoDownloadPref
   
@@ -92,9 +93,9 @@ func loadUserPrefs() {
   if (UserDefaults.standard.object(forKey: "webViewSearchUrlPref") != nil) {
     webViewSearchUrlPref = UserDefaults.standard.string(forKey: "webViewSearchUrlPref")!
   }
-  if (UserDefaults.standard.object(forKey: "goBackOnEditPref") != nil) {
-    goBackOnEditPref = UserDefaults.standard.integer(forKey: "goBackOnEditPref")
-  }
+  //if (UserDefaults.standard.object(forKey: "goBackOnEditPref") != nil) {
+    //goBackOnEditPref = UserDefaults.standard.integer(forKey: "goBackOnEditPref")
+  //}
   if (UserDefaults.standard.object(forKey: "autoVideoDownloadPref") != nil) {
     autoVideoDownloadPref = UserDefaults.standard.bool(forKey: "autoVideoDownloadPref")
   }
