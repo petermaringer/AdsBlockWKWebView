@@ -70,9 +70,9 @@ func loadUserPrefs() {
   
   webViewSearchUrlPref = userDefaults.string(forKey: "webViewSearchUrlPref") ?? webViewSearchUrlPref
   
-  goBackOnEditPref = userDefaults.integer(forKey: "goBackOnEditPref") as? Int ?? goBackOnEditPref
+  goBackOnEditPref = userDefaults.integer(forKey: "goBackOnEditPref") == goBackOnEditPref
   
-  autoVideoDownloadPref = userDefaults.bool(forKey: "autoVideoDownloadPref") as? Bool ?? autoVideoDownloadPref
+  autoVideoDownloadPref = userDefaults.bool(forKey: "autoVideoDownloadPref") == autoVideoDownloadPref
   
   //if (UserDefaults.standard.object(forKey: "webViewSearchUrlPref") != nil) {
     //webViewSearchUrlPref = UserDefaults.standard.string(forKey: "webViewSearchUrlPref")!
