@@ -67,11 +67,13 @@ var webViewTestPref: String = "hallo"
 
 func loadUserPrefs() {
   
+  /*
   userDefaults.removeObject(forKey: "webViewStartPagePref")
   userDefaults.removeObject(forKey: "webViewRestorePref")
   userDefaults.removeObject(forKey: "webViewSearchUrlPref")
   userDefaults.removeObject(forKey: "goBackOnEditPref")
   userDefaults.removeObject(forKey: "autoVideoDownloadPref")
+  */
   
   //webViewStartPagePref = userDefaults.value(forKey: "webViewStartPagePref") ?? webViewStartPagePref
   
