@@ -59,7 +59,7 @@ extension UserDefaults {
       return (userDefaults.string(forKey: key) ?? value as! String) as! T
     }
     if type(of: value) == Int.self {
-      return (userDefaults.integer(forKey: key) ?? value as! Int) as! T
+      return (userDefaults.integer(forKey: key) as Int? ?? value as! Int) as! T
     }
     
     return "no" as! T
