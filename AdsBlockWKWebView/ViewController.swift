@@ -64,15 +64,20 @@ func loadUserPrefs() {
   userDefaults.removeObject(forKey: "goBackOnEditPref")
   userDefaults.removeObject(forKey: "autoVideoDownloadPref")
   
-  webViewStartPagePref = userDefaults.value(forKey: "webViewStartPagePref") ?? webViewStartPagePref
+  func testi(value: String) -> Self? {
+    return value
+  }
+  webViewRestorePref = testi("webViewRestorePref")
   
-  webViewRestorePref = userDefaults.value(forKey: "webViewRestorePref") ?? webViewRestorePref
+  //webViewStartPagePref = userDefaults.value(forKey: "webViewStartPagePref") ?? webViewStartPagePref
   
-  webViewSearchUrlPref = userDefaults.value(forKey: "webViewSearchUrlPref") ?? webViewSearchUrlPref
+  //webViewRestorePref = userDefaults.value(forKey: "webViewRestorePref") ?? webViewRestorePref
   
-  goBackOnEditPref = userDefaults.value(forKey: "goBackOnEditPref") ?? goBackOnEditPref
+  //webViewSearchUrlPref = userDefaults.value(forKey: "webViewSearchUrlPref") ?? webViewSearchUrlPref
   
-  autoVideoDownloadPref = userDefaults.value(forKey: "autoVideoDownloadPref") ?? autoVideoDownloadPref
+  //goBackOnEditPref = userDefaults.value(forKey: "goBackOnEditPref") ?? goBackOnEditPref
+  
+  //autoVideoDownloadPref = userDefaults.value(forKey: "autoVideoDownloadPref") ?? autoVideoDownloadPref
   
   //if (UserDefaults.standard.object(forKey: "webViewSearchUrlPref") != nil) {
     //webViewSearchUrlPref = UserDefaults.standard.string(forKey: "webViewSearchUrlPref")!
