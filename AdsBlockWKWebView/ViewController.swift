@@ -26,14 +26,14 @@ let userDefGroup = UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebVi
 ////////// USERPREFS //////////
 let tableMaxLinesPref: Int = 6 //6
 let tableMoveTopPref: Bool = false //true
-var webViewSearchUrlPref: String = "https://www.google.com/search?q="
-//StartseiteStattGoogle
 var webViewStartPagePref: String = "https://www.google.com/"
 var webViewRestorePref: String = "ask"
+var webViewSearchUrlPref: String = "https://www.google.com/search?q="
+var goBackOnEditPref: Int = 2
+var autoVideoDownloadPref: Bool = false
 //AlleSeitenHinzuStatt+
 //IdleTimerEinAus
-var goBackOnEditPref: Int = 2
-var autoVideoDownloadPref: Bool = true
+
 var messages: [String] = []
 /*
 class alertObj {
@@ -74,13 +74,6 @@ extension UserDefaults {
 }
 
 func loadUserPrefs() {
-  
-  userDefaults.removeObject(forKey: "webViewStartPagePref")
-  userDefaults.removeObject(forKey: "webViewRestorePref")
-  userDefaults.removeObject(forKey: "webViewSearchUrlPref")
-  userDefaults.removeObject(forKey: "goBackOnEditPref")
-  userDefaults.removeObject(forKey: "autoVideoDownloadPref")
-  
   webViewStartPagePref = userDefaults.fetch(key: "webViewStartPagePref", or: webViewStartPagePref)
   webViewRestorePref = userDefaults.fetch(key: "webViewRestorePref", or: webViewRestorePref)
   webViewSearchUrlPref = userDefaults.fetch(key: "webViewSearchUrlPref", or: webViewSearchUrlPref)
