@@ -54,9 +54,9 @@ var alertCounter: Int = 0
 let hapticFB = UINotificationFeedbackGenerator()
 
 extension UserDefaults {
-  func testi(_ value: Any) -> Any? {
+  func testi(_ value: Any) -> String {
     if value is String {
-     return value as String?
+     return value
     }
   }
 }
