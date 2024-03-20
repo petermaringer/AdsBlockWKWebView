@@ -54,7 +54,6 @@ var alertCounter: Int = 0
 let hapticFB = UINotificationFeedbackGenerator()
 
 extension UserDefaults {
-  
   func exists(key: String) -> Bool {
     return object(forKey: key) != nil
   }
@@ -64,23 +63,22 @@ extension UserDefaults {
       if userDefaults.exists(key: key) {
         return userDefaults.string(forKey: key) as! T
       }
-      return value as! String as! T
-      //return (userDefaults.string(forKey: key) ?? value as! String) as! T
+      //return value as! String as! T
     }
     if type(of: value) == Int.self {
       if userDefaults.exists(key: key) {
         return userDefaults.integer(forKey: key) as! T
       }
       //return value as! Int as! T
-      return value as! T
+      //return value as! T
     }
     if type(of: value) == Bool.self {
       if userDefaults.exists(key: key) {
         return userDefaults.bool(forKey: key) as! T
       }
-      return value as! Bool as! T
+      //return value as! Bool as! T
     }
-    return "error" as! T
+    return value as! T
   }
 }
 
@@ -97,24 +95,8 @@ func loadUserPrefs() {
   webViewStartPagePref = userDefaults.fetch(key: "webViewStartPagePref", or: webViewStartPagePref)
   webViewRestorePref = userDefaults.fetch(key: "webViewRestorePref", or: webViewRestorePref)
   webViewSearchUrlPref = userDefaults.fetch(key: "webViewSearchUrlPref", or: webViewSearchUrlPref)
-  
   goBackOnEditPref = userDefaults.fetch(key: "goBackOnEditPref", or: goBackOnEditPref)
-  
   autoVideoDownloadPref = userDefaults.fetch(key: "autoVideoDownloadPref", or: autoVideoDownloadPref)
-  
-  //if (UserDefaults.standard.object(forKey: "webViewStartPagePref") != nil) {
-    //webViewStartPagePref = UserDefaults.standard.string(forKey: "webViewStartPagePref")!
-  //}
-  
-  //if (UserDefaults.standard.object(forKey: "webViewSearchUrlPref") != nil) {
-    //webViewSearchUrlPref = UserDefaults.standard.string(forKey: "webViewSearchUrlPref")!
-  //}
-  //if (UserDefaults.standard.object(forKey: "goBackOnEditPref") != nil) {
-    //goBackOnEditPref = UserDefaults.standard.integer(forKey: "goBackOnEditPref")
-  //}
-  //if (UserDefaults.standard.object(forKey: "autoVideoDownloadPref") != nil) {
-    //autoVideoDownloadPref = UserDefaults.standard.bool(forKey: "autoVideoDownloadPref")
-  //}
 }
 ////////// USERPREFS //////////
 
