@@ -519,9 +519,9 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     //return true
   }
   
-  var shouldAutorotate = true
+  var allowAutorotate = true
   override func shouldAutorotate() -> Bool {
-    return shouldAutorotate
+    return allowAutorotate
   }
   
   func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -734,7 +734,7 @@ player.play()*/
   
   @objc func kvButtonPressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
-      shouldAutorotate = false
+      allowAutorotate = false
     }
   }
   
