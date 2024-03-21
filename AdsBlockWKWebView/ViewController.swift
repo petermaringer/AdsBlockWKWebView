@@ -524,8 +524,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     return allowAutorotate
   }
   //if #available(iOS 16, *) {
-  @available(iOS 16, *)
-    var allowedOrientations = .all
+  //@available(iOS 16, *)
+    var allowedOrientations: UIInterfaceOrientationMask = .all
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
       return allowedOrientations
     }
@@ -742,8 +742,8 @@ player.play()*/
   @objc func kvButtonPressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
       allowAutorotate = false
+      allowedOrientations = .portrait
       if #available(iOS 16, *) {
-        allowedOrientations = .portrait
         setNeedsUpdateOfSupportedInterfaceOrientations()
       }
       showAlert(message: "Done")
