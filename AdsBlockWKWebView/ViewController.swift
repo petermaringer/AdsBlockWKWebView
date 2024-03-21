@@ -520,7 +520,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   }
   
   var allowAutorotate = true
-  override func shouldAutorotate() -> Bool {
+  //override func shouldAutorotate() -> Bool {
+  override var shouldAutorotate: Bool {
     return allowAutorotate
   }
   
