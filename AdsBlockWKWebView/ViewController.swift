@@ -1,5 +1,4 @@
-// ViewController.swift
-// AdsBlockWKWebView
+// AdsBlockWKWebView/ViewController.swift
 // Created by Wolfgang Weinmann on 2019/12/31.
 // Copyright © 2019 Wolfgang Weinmann.
 
@@ -9,11 +8,11 @@ import WebKit
 import AVFoundation
 import AVKit
 import MediaPlayer
-import Security
 
+import Security
 import OpenSSL
 import CertificateSigningRequest
-//import SwCrypt
+
 import StoreKit
 
 fileprivate let ruleId1 = "MyRuleID 001"
@@ -24,8 +23,8 @@ let userDefGroup = UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebVi
 
 
 ////////// USERPREFS //////////
-let tableMaxLinesPref: Int = 6 //6
-let tableMoveTopPref: Bool = false //true
+var tableMaxLinesPref: Int = 6 //6
+var tableMoveTopPref: Bool = false //true
 var webViewStartPagePref: String = "https://www.google.com/"
 var webViewRestorePref: String = "ask"
 var webViewSearchUrlPref: String = "https://www.google.com/search?q="
@@ -58,18 +57,14 @@ extension UserDefaults {
     return object(forKey: key) != nil
   }
   func fetch<T>(key: String, or value: Any) -> T {
-    //if userDefaults.exists(key: key) {
     if exists(key: key) {
       if type(of: value) == String.self {
-        //return userDefaults.string(forKey: key) as! T
         return string(forKey: key) as! T
       }
       if type(of: value) == Int.self {
-        //return userDefaults.integer(forKey: key) as! T
         return integer(forKey: key) as! T
       }
       if type(of: value) == Bool.self {
-        //return userDefaults.bool(forKey: key) as! T
         return bool(forKey: key) as! T
       }
     }
@@ -78,6 +73,8 @@ extension UserDefaults {
 }
 
 func loadUserPrefs() {
+  tableMaxLinesPref = userDefaults.fetch(key: "tableMaxLinesPref", or: tableMaxLinesPref)
+  tableMoveTopPref = userDefaults.fetch(key: "tableMoveTopPref", or: tableMoveTopPref)
   webViewStartPagePref = userDefaults.fetch(key: "webViewStartPagePref", or: webViewStartPagePref)
   webViewRestorePref = userDefaults.fetch(key: "webViewRestorePref", or: webViewRestorePref)
   webViewSearchUrlPref = userDefaults.fetch(key: "webViewSearchUrlPref", or: webViewSearchUrlPref)
@@ -1000,6 +997,7 @@ player.play()*/
     
     /*
     //Get Key from Chain for swCrypt
+    import SwCrypt
     let queryTE: [String: Any] = [String(kSecClass): kSecClassKey, String(kSecAttrKeyType): kSecAttrKeyTypeRSA, String(kSecAttrApplicationTag): tagPrivate.data(using: .utf8)!, String(kSecReturnData): true]
     var dataTE: CFTypeRef?
     var _ = SecItemCopyMatching(queryTE as CFDictionary, &dataTE)
