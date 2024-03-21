@@ -58,15 +58,19 @@ extension UserDefaults {
     return object(forKey: key) != nil
   }
   func fetch<T>(key: String, or value: Any) -> T {
-    if userDefaults.exists(key: key) {
+    //if userDefaults.exists(key: key) {
+    if exists(key: key) {
       if type(of: value) == String.self {
-        return userDefaults.string(forKey: key) as! T
+        //return userDefaults.string(forKey: key) as! T
+        return string(forKey: key) as! T
       }
       if type(of: value) == Int.self {
-        return userDefaults.integer(forKey: key) as! T
+        //return userDefaults.integer(forKey: key) as! T
+        return integer(forKey: key) as! T
       }
       if type(of: value) == Bool.self {
-        return userDefaults.bool(forKey: key) as! T
+        //return userDefaults.bool(forKey: key) as! T
+        return bool(forKey: key) as! T
       }
     }
     return value as! T
