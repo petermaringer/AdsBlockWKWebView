@@ -85,11 +85,33 @@ extension UserDefaults {
 }
 
 
+func debugLog(_ text: String) {
+  let logFileName = "debugLog.txt"
+  let timestamp = Date().format("dd.MM.yyyy HH:mm:ss")
+  if URL.docDir.appendingPathComponent(logFileName).checkFileExist() == false {
+    try! "\(timestamp) \(text)\n\n".write(to: URL.docDir.appendingPathComponent(logFileName), atomically: true, encoding: .utf8)
+  } else {
+    if let fileUpdater = try? FileHandle(forUpdating: URL.docDir.appendingPathComponent(logFileName)) {
+      fileUpdater.seekToEndOfFile()
+      fileUpdater.write("\(timestamp) \(text)\n\n".data(using: .utf8)!)
+      fileUpdater.closeFile()
+    }
+  }
+}
+
+
 fileprivate let ruleId1 = "MyRuleID 001"
 fileprivate let ruleId2 = "MyRuleID 002"
 
 let userDefaults = UserDefaults.standard
 let userDefGroup = UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")!
+
+var messages: [String] = []
+var alertCounter: Int = 0
+let hapticFB = UINotificationFeedbackGenerator()
+
+let player = AVPlayer(url: URL(string: "http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.m3u")!)
+var restoreUrlsJson: String!
 
 
 ////////// USERPREFS //////////
@@ -103,7 +125,18 @@ var autoVideoDownloadPref: Bool = false
 //AlleSeitenHinzuStatt+
 //IdleTimerEinAus
 
-var messages: [String] = []
+func loadUserPrefs() {
+  tableMaxLinesPref = userDefaults.fetch(key: "tableMaxLinesPref", or: tableMaxLinesPref)
+  tableMoveTopPref = userDefaults.fetch(key: "tableMoveTopPref", or: tableMoveTopPref)
+  webViewStartPagePref = userDefaults.fetch(key: "webViewStartPagePref", or: webViewStartPagePref)
+  webViewRestorePref = userDefaults.fetch(key: "webViewRestorePref", or: webViewRestorePref)
+  webViewSearchUrlPref = userDefaults.fetch(key: "webViewSearchUrlPref", or: webViewSearchUrlPref)
+  goBackOnEditPref = userDefaults.fetch(key: "goBackOnEditPref", or: goBackOnEditPref)
+  autoVideoDownloadPref = userDefaults.fetch(key: "autoVideoDownloadPref", or: autoVideoDownloadPref)
+}
+////////// USERPREFS //////////
+
+
 /*
 class alertObj {
   var Style: String?
@@ -119,19 +152,6 @@ class alertObj {
 }
 var alertObjArray = [alertObj]()
 */
-var alertCounter: Int = 0
-let hapticFB = UINotificationFeedbackGenerator()
-
-func loadUserPrefs() {
-  tableMaxLinesPref = userDefaults.fetch(key: "tableMaxLinesPref", or: tableMaxLinesPref)
-  tableMoveTopPref = userDefaults.fetch(key: "tableMoveTopPref", or: tableMoveTopPref)
-  webViewStartPagePref = userDefaults.fetch(key: "webViewStartPagePref", or: webViewStartPagePref)
-  webViewRestorePref = userDefaults.fetch(key: "webViewRestorePref", or: webViewRestorePref)
-  webViewSearchUrlPref = userDefaults.fetch(key: "webViewSearchUrlPref", or: webViewSearchUrlPref)
-  goBackOnEditPref = userDefaults.fetch(key: "goBackOnEditPref", or: goBackOnEditPref)
-  autoVideoDownloadPref = userDefaults.fetch(key: "autoVideoDownloadPref", or: autoVideoDownloadPref)
-}
-////////// USERPREFS //////////
 
 
 var iwashere = "hi"
@@ -165,33 +185,10 @@ if let val = UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")?.
 }
 
 
-//let playerViewController = AVPlayerViewController()
-//let player = AVPlayer(url: URL(string: "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_adv_example_hevc/master.m3u8")!)
-let player = AVPlayer(url: URL(string: "http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.m3u")!)
-//let player = AVPlayer(url: URL(string: "")!)
-
-
-func debugLog(_ text: String) {
-  let logFileName = "debugLog.txt"
-  let timestamp = Date().format("dd.MM.yyyy HH:mm:ss")
-  if URL.docDir.appendingPathComponent(logFileName).checkFileExist() == false {
-    try! "\(timestamp) \(text)\n\n".write(to: URL.docDir.appendingPathComponent(logFileName), atomically: true, encoding: .utf8)
-  } else {
-    if let fileUpdater = try? FileHandle(forUpdating: URL.docDir.appendingPathComponent(logFileName)) {
-      fileUpdater.seekToEndOfFile()
-      fileUpdater.write("\(timestamp) \(text)\n\n".data(using: .utf8)!)
-      fileUpdater.closeFile()
-    }
-  }
-}
-
-
-var restoreUrlsJson: String!
 /*
 //import Foundation
 import GCDWebServer
 var webserv = "hi1"
-//var restoreUrlsJson: String!
 class WebServer {
   static let instance = WebServer()
   let server = GCDWebServer()
