@@ -727,6 +727,14 @@ player.play()*/
     }
   }
   
+  @objc func kvButtonPressed(gesture: UILongPressGestureRecognizer) {
+    if gesture.state == .began {
+      override func shouldAutorotate() -> Bool {
+        return false
+      }
+    }
+  }
+  
   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
     switch textField {
       case urlField:
@@ -1650,6 +1658,9 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         kvButton.setTitle("Test", for: .normal)
         kvButton.setTitleColor(.buttonFgColor, for: .normal)
         kvButton.addTarget(self, action: #selector(self.kvButtonClicked), for: .touchUpInside)
+        let kvButtonLongPress = UILongPressGestureRecognizer(target: self, action: #selector(kvButtonPressed(gesture:)))
+        //kvButtonLongPress.minimumPressDuration = 3
+        kvButton.addGestureRecognizer(kvButtonLongPress)
         keyboardView.addSubview(kvButton)
         
         urlField.keyboardType = UIKeyboardType.webSearch
