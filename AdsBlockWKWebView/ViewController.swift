@@ -2,6 +2,7 @@
 // Created by Wolfgang Weinmann on 2019/12/31.
 // Copyright © 2019 Wolfgang Weinmann.
 
+
 import UIKit
 import WebKit
 
@@ -14,6 +15,75 @@ import OpenSSL
 import CertificateSigningRequest
 
 import StoreKit
+
+
+extension Date {
+  func format(_ format: String) -> String {
+    let dateFormatter: DateFormatter = DateFormatter()
+    dateFormatter.dateFormat = format
+    return dateFormatter.string(from: self)
+  }
+}
+
+extension UIColor {
+  public convenience init(r: Int, g: Int, b: Int, a: Int) {
+    self.init(red: CGFloat(r) / 255.0, green: CGFloat(g) / 255.0, blue: CGFloat(b) / 255.0, alpha: CGFloat(a) / 255.0)
+  }
+  //static let colorName: UIColor = UIColor.gray.withAlphaComponent(0.75)
+  static let viewBgColor: UIColor = UIColor(white: 0.90, alpha: 1)
+  static let viewBgLightColor: UIColor = UIColor(white: 0.95, alpha: 1)
+  static let appBgColor: UIColor = UIColor(r: 66, g: 46, b: 151, a: 255)
+  static let appBgLightColor: UIColor = UIColor(r: 216, g: 213, b: 234, a: 255)
+  static let devBgColor: UIColor = .orange
+  static let fieldBgColor: UIColor = .white
+  static let buttonFgColor: UIColor = .white
+  //static let errorFgColor: UIColor = .red
+  static let errorFgColor: UIColor = UIColor(r: 200, g: 55, b: 60, a: 255)
+  static let successFgColor: UIColor = UIColor(r: 0, g: 102, b: 0, a: 255)
+}
+
+extension URL {
+  static var docDir: URL {
+    return try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+  }
+  func checkFileExist() -> Bool {
+    let path = self.path
+    if (FileManager.default.fileExists(atPath: path)) {
+      return true
+    } else {
+      return false
+    }
+  }
+  func rename(to: String) {
+    var fileUrl = self
+    if fileUrl.checkFileExist() {
+      var rv = URLResourceValues()
+      rv.name = to
+      try! fileUrl.setResourceValues(rv)
+    }
+  }
+}
+
+extension UserDefaults {
+  func exists(key: String) -> Bool {
+    return object(forKey: key) != nil
+  }
+  func fetch<T>(key: String, or value: Any) -> T {
+    if exists(key: key) {
+      if type(of: value) == String.self {
+        return string(forKey: key) as! T
+      }
+      if type(of: value) == Int.self {
+        return integer(forKey: key) as! T
+      }
+      if type(of: value) == Bool.self {
+        return bool(forKey: key) as! T
+      }
+    }
+    return value as! T
+  }
+}
+
 
 fileprivate let ruleId1 = "MyRuleID 001"
 fileprivate let ruleId2 = "MyRuleID 002"
@@ -51,26 +121,6 @@ var alertObjArray = [alertObj]()
 */
 var alertCounter: Int = 0
 let hapticFB = UINotificationFeedbackGenerator()
-
-extension UserDefaults {
-  func exists(key: String) -> Bool {
-    return object(forKey: key) != nil
-  }
-  func fetch<T>(key: String, or value: Any) -> T {
-    if exists(key: key) {
-      if type(of: value) == String.self {
-        return string(forKey: key) as! T
-      }
-      if type(of: value) == Int.self {
-        return integer(forKey: key) as! T
-      }
-      if type(of: value) == Bool.self {
-        return bool(forKey: key) as! T
-      }
-    }
-    return value as! T
-  }
-}
 
 func loadUserPrefs() {
   tableMaxLinesPref = userDefaults.fetch(key: "tableMaxLinesPref", or: tableMaxLinesPref)
@@ -119,56 +169,6 @@ if let val = UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")?.
 //let player = AVPlayer(url: URL(string: "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_adv_example_hevc/master.m3u8")!)
 let player = AVPlayer(url: URL(string: "http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.m3u")!)
 //let player = AVPlayer(url: URL(string: "")!)
-
-
-extension UIColor {
-  public convenience init(r: Int, g: Int, b: Int, a: Int) {
-    self.init(red: CGFloat(r) / 255.0, green: CGFloat(g) / 255.0, blue: CGFloat(b) / 255.0, alpha: CGFloat(a) / 255.0)
-  }
-  //static let colorName: UIColor = UIColor.gray.withAlphaComponent(0.75)
-  static let viewBgColor: UIColor = UIColor(white: 0.90, alpha: 1)
-  static let viewBgLightColor: UIColor = UIColor(white: 0.95, alpha: 1)
-  static let appBgColor: UIColor = UIColor(r: 66, g: 46, b: 151, a: 255)
-  static let appBgLightColor: UIColor = UIColor(r: 216, g: 213, b: 234, a: 255)
-  static let devBgColor: UIColor = .orange
-  static let fieldBgColor: UIColor = .white
-  static let buttonFgColor: UIColor = .white
-  //static let errorFgColor: UIColor = .red
-  static let errorFgColor: UIColor = UIColor(r: 200, g: 55, b: 60, a: 255)
-  static let successFgColor: UIColor = UIColor(r: 0, g: 102, b: 0, a: 255)
-}
-
-
-extension URL {
-  static var docDir: URL {
-    return try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-  }
-  func checkFileExist() -> Bool {
-    let path = self.path
-    if (FileManager.default.fileExists(atPath: path)) {
-      return true
-    } else {
-      return false
-    }
-  }
-  func rename(to: String) {
-    var fileUrl = self
-    if fileUrl.checkFileExist() {
-      var rv = URLResourceValues()
-      rv.name = to
-      try! fileUrl.setResourceValues(rv)
-    }
-  }
-}
-
-
-extension Date {
-  func format(_ format: String) -> String {
-    let dateFormatter: DateFormatter = DateFormatter()
-    dateFormatter.dateFormat = format
-    return dateFormatter.string(from: self)
-  }
-}
 
 
 func debugLog(_ text: String) {
