@@ -523,12 +523,13 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   override var shouldAutorotate: Bool {
     return allowAutorotate
   }
-  if #available(iOS 16, *) {
+  //if #available(iOS 16, *) {
+  @available(iOS 16, *)
     var allowedOrientations = .all
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
       return allowedOrientations
     }
-  }
+  //}
   
   func textFieldDidBeginEditing(_ textField: UITextField) {
     switch textField {
