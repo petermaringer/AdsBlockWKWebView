@@ -741,12 +741,17 @@ player.play()*/
   
   @objc func kvButtonPressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
+      if allowAutorotate == true {
       allowAutorotate = false
       allowedOrientations = .portrait
+      } else {
+      allowAutorotate = true
+      allowedOrientations = .all
+      }
       if #available(iOS 16, *) {
         setNeedsUpdateOfSupportedInterfaceOrientations()
       }
-      showAlert(message: "Done")
+      showAlert(message: "allowAutorotate=\(allowAutorotate)")
     }
   }
   
