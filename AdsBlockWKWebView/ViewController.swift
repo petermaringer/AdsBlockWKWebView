@@ -510,6 +510,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var insetR: CGFloat = 0
   
   var lastDeviceOrientation: String = "initial"
+  var allowAutorotate: Bool = true
+  var allowedOrientations: UIInterfaceOrientationMask = .all
   
   var counter: Int = 0
   
@@ -519,11 +521,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     //return true
   }
   
-  var allowAutorotate = true
-  //override var shouldAutorotate: Bool {
-    //return allowAutorotate
-  //}
-  var allowedOrientations: UIInterfaceOrientationMask = .all
   override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
     return allowedOrientations
   }
@@ -738,21 +735,18 @@ player.play()*/
   
   @objc func kvButtonPressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
+      hapticFB.notificationOccurred(.success)
       if allowAutorotate == true {
-      if lastDeviceOrientation == "pt" {
-      allowedOrientations = .portrait
-      }
-      if lastDeviceOrientation == "ls" {
-      allowedOrientations = .landscape
-      }
-      allowAutorotate = false
+        if lastDeviceOrientation == "ls" {
+          allowedOrientations = .landscape
+        } else {
+          allowedOrientations = .portrait
+        }
+        allowAutorotate = false
       } else {
-      allowedOrientations = .all
-      allowAutorotate = true
+        allowedOrientations = .all
+        allowAutorotate = true
       }
-      //if #available(iOS 16, *) {
-        //setNeedsUpdateOfSupportedInterfaceOrientations()
-      //}
       showAlert(message: "\(lastDeviceOrientation)\nallowAutorotate=\(allowAutorotate)")
     }
   }
