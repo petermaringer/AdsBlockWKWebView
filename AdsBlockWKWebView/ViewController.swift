@@ -285,10 +285,10 @@ extension ViewController: WKURLSchemeHandler {
   //enum schemeError: Int, Error {
     //case general = 25001, wrongscheme, nocase
   //}
-  enum schemeError: Int, Error {
+  enum schemeError: Int, Error, LocalizedError {
     case general = 25001, wrongscheme, nocase
-  }
-  /*extension schemeError: LocalizedError {
+  //}
+  //extension schemeError: LocalizedError {
     var errorDescription: String? {
       switch self {
       case .general:
@@ -299,7 +299,7 @@ extension ViewController: WKURLSchemeHandler {
       return NSLocalizedString("I failed 3", comment: "")
       }
     }
-  }*/
+  }
   func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
     //DispatchQueue.global().async {
     wkscheme += "<br><br>start"
