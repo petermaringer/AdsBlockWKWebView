@@ -288,7 +288,7 @@ extension ViewController: WKURLSchemeHandler {
   enum schemeError: Int, Error {
     case general = 25001, wrongscheme, nocase
   }
-  extension schemeError: LocalizedError {
+  /*extension schemeError: LocalizedError {
     var errorDescription: String? {
       switch self {
       case .general:
@@ -299,7 +299,7 @@ extension ViewController: WKURLSchemeHandler {
       return NSLocalizedString("I failed 3", comment: "")
       }
     }
-  }
+  }*/
   func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
     //DispatchQueue.global().async {
     wkscheme += "<br><br>start"
@@ -2550,7 +2550,7 @@ downloadTask.resume()
         presentAlert = true
     }
     if presentAlert == true {
-      showAlert(message: "Error: \(err.code) \(err.localizedDescription)")
+      showAlert(message: "Error: \(err.code) \(err.localizedDescription)\n\n\(error.errorCode) \(error.errorDescription)")
     }
     progressView.progress = Float(0)
     lb.text! += " err:\(err.code)"
