@@ -282,8 +282,22 @@ class SessionRestoreHandler {
 var wkscheme = "wks"
 @available(iOS 11.0, *)
 extension ViewController: WKURLSchemeHandler {
-  enum schemeError: Int, Error {
+  //enum schemeError: Int, Error {
+    //case general = 25001, wrongscheme, nocase
+  //}
+  enum schemeError: Int, LocalizedError {
     case general = 25001, wrongscheme, nocase
+    
+    var errorDescription: String? {
+      switch self {
+      case .general:
+      return NSLocalizedString("I failed 1", comment: "")
+      case .wrongscheme:
+      return NSLocalizedString("I failed 2", comment: "")
+      case .nocase:
+      return NSLocalizedString("I failed 3", comment: "")
+      }
+    }
   }
   func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
     //DispatchQueue.global().async {
@@ -2505,6 +2519,7 @@ downloadTask.resume()
   
   
   func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+    var presentAlert: Bool = false
     let err = error as NSError
     switch err.code {
       case -999: break
@@ -2520,14 +2535,21 @@ downloadTask.resume()
           //showFrameLoadError = true
           break
         } else {
-          fallthrough
+          //fallthrough
+          presentAlert = true
+          continue
         }
       case 25001, 25002, 25003:
         urlField.text = webView.url!.absoluteString.replacingOccurrences(of: "internal://local/restore?url2=", with: "")
         urlField.textColor = .appBgColor
-        fallthrough
+        //fallthrough
+        presentAlert = true
       default:
-        showAlert(message: "Error: \(err.code) \(err.localizedDescription)")
+        //showAlert(message: "Error: \(err.code) \(err.localizedDescription)")
+        presentAlert = true
+    }
+    if presentAlert == true {
+      showAlert(message: "Error: \(err.code) \(err.localizedDescription)")
     }
     progressView.progress = Float(0)
     lb.text! += " err:\(err.code)"
