@@ -520,16 +520,13 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   }
   
   var allowAutorotate = true
-  override var shouldAutorotate: Bool {
-    return allowAutorotate
-  }
-  //if #available(iOS 16, *) {
-  //@available(iOS 16, *)
-    var allowedOrientations: UIInterfaceOrientationMask = .all
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-      return allowedOrientations
-    }
+  //override var shouldAutorotate: Bool {
+    //return allowAutorotate
   //}
+  var allowedOrientations: UIInterfaceOrientationMask = .all
+  override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+    return allowedOrientations
+  }
   
   func textFieldDidBeginEditing(_ textField: UITextField) {
     switch textField {
@@ -742,16 +739,21 @@ player.play()*/
   @objc func kvButtonPressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
       if allowAutorotate == true {
-      allowAutorotate = false
+      if lastDeviceOrientation == "pt" {
       allowedOrientations = .portrait
+      }
+      if lastDeviceOrientation == "ls" {
+      allowedOrientations = .landscape
+      }
+      allowAutorotate = false
       } else {
-      allowAutorotate = true
       allowedOrientations = .all
+      allowAutorotate = true
       }
-      if #available(iOS 16, *) {
-        setNeedsUpdateOfSupportedInterfaceOrientations()
-      }
-      showAlert(message: "allowAutorotate=\(allowAutorotate)")
+      //if #available(iOS 16, *) {
+        //setNeedsUpdateOfSupportedInterfaceOrientations()
+      //}
+      showAlert(message: "\(lastDeviceOrientation)\nallowAutorotate=\(allowAutorotate)")
     }
   }
   
