@@ -2550,7 +2550,7 @@ downloadTask.resume()
         presentAlert = true
     }
     if presentAlert == true {
-      showAlert(message: "Error: \(err.code) \(err.localizedDescription)\n\n\(error.errorCode) \(error.errorDescription)")
+      showAlert(message: "Error: \(err.code) \(err.localizedDescription)\n\n\(error._code) \(error.errorDescription)")
     }
     progressView.progress = Float(0)
     lb.text! += " err:\(err.code)"
