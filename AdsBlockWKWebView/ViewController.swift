@@ -285,18 +285,22 @@ extension ViewController: WKURLSchemeHandler {
   //enum schemeError: Int, Error {
     //case general = 25001, wrongscheme, nocase
   //}
-  enum schemeError: Int, Error, LocalizedError {
+  enum schemeError: Int, CustomNSError {
     case general = 25001, wrongscheme, nocase
   //}
   //extension schemeError: LocalizedError {
-    var errorDescription: String? {
+    //var errorDescription: String? {
+    var errorUserInfo: [String : Any] {
       switch self {
       case .general:
-      return NSLocalizedString("I failed 1", comment: "")
+      //return NSLocalizedString("I failed 1", comment: "")
+      return [NSLocalizedDescriptionKey: "F1"]
       case .wrongscheme:
-      return NSLocalizedString("I failed 2", comment: "")
+      //return NSLocalizedString("I failed 2", comment: "")
+      return [NSLocalizedDescriptionKey: "F2"]
       case .nocase:
-      return NSLocalizedString("I failed 3", comment: "")
+      //return NSLocalizedString("I failed 3", comment: "")
+      return [NSLocalizedDescriptionKey: "F3"]
       }
     }
   }
