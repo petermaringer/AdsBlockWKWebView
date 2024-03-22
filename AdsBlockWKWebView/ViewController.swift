@@ -287,20 +287,14 @@ extension ViewController: WKURLSchemeHandler {
   //}
   enum schemeError: Int, CustomNSError {
     case general = 25001, wrongscheme, nocase
-  //}
-  //extension schemeError: LocalizedError {
-    //var errorDescription: String? {
-    var errorUserInfo: [String : Any] {
+    var errorUserInfo: [String: Any] {
       switch self {
-      case .general:
-      //return NSLocalizedString("I failed 1", comment: "")
-      return [NSLocalizedDescriptionKey: "F1"]
-      case .wrongscheme:
-      //return NSLocalizedString("I failed 2", comment: "")
-      return [NSLocalizedDescriptionKey: "F2"]
-      case .nocase:
-      //return NSLocalizedString("I failed 3", comment: "")
-      return [NSLocalizedDescriptionKey: "F3"]
+        case .general:
+          return [NSLocalizedDescriptionKey: "F1"]
+        case .wrongscheme:
+          return [NSLocalizedDescriptionKey: "F2"]
+        case .nocase:
+          return [NSLocalizedDescriptionKey: "F3"]
       }
     }
   }
@@ -754,6 +748,7 @@ player.play()*/
   
   @objc func kvButtonPressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
+      //urlField.endEditing(true)
       hapticFB.notificationOccurred(.success)
       if allowAutorotate == true {
         if lastDeviceOrientation == "ls" {
@@ -766,7 +761,7 @@ player.play()*/
         allowedOrientations = .all
         allowAutorotate = true
       }
-      showAlert(message: "\(lastDeviceOrientation)\nallowAutorotate=\(allowAutorotate)")
+      //showAlert(message: "\(lastDeviceOrientation)\nallowAutorotate=\(allowAutorotate)")
     }
   }
   
@@ -2535,26 +2530,23 @@ downloadTask.resume()
           url = "\(webViewSearchUrlPref)\(url!)"
           startLoading()
         }
-      case 102:
-        if showFrameLoadError == false {
-          //showFrameLoadError = true
-          break
-        } else {
-          //fallthrough
-          presentAlert = true
-          //continue
-        }
+      case 102 where showFrameLoadError == false:
+            //if showFrameLoadError == false {
+        //showFrameLoadError = true
+        break
+            //} else {
+            //presentAlert = true
+            //}
       case 25001, 25002, 25003:
         urlField.text = webView.url!.absoluteString.replacingOccurrences(of: "internal://local/restore?url2=", with: "")
         urlField.textColor = .appBgColor
-        //fallthrough
         presentAlert = true
       default:
         //showAlert(message: "Error: \(err.code) \(err.localizedDescription)")
         presentAlert = true
     }
     if presentAlert == true {
-      showAlert(message: "Error: \(err.code) \(err.localizedDescription)\n\n\(error._code) \(error.localizedDescription)")
+      showAlert(message: "Error: \(err.code) \(err.localizedDescription)\n\n\(error.code) \(error.localizedDescription)")
     }
     progressView.progress = Float(0)
     lb.text! += " err:\(err.code)"
