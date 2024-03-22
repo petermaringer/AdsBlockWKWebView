@@ -2537,7 +2537,7 @@ downloadTask.resume()
         } else {
           //fallthrough
           presentAlert = true
-          continue
+          //continue
         }
       case 25001, 25002, 25003:
         urlField.text = webView.url!.absoluteString.replacingOccurrences(of: "internal://local/restore?url2=", with: "")
