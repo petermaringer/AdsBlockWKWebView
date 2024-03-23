@@ -290,11 +290,11 @@ extension ViewController: WKURLSchemeHandler {
     var errorUserInfo: [String: Any] {
       switch self {
         case .general:
-          return [NSLocalizedDescriptionKey: "F1"]
+          return [NSLocalizedDescriptionKey: "A general error has occurred in context with the URL scheme."]
         case .wrongscheme:
-          return [NSLocalizedDescriptionKey: "F2"]
+          return [NSLocalizedDescriptionKey: "The URL scheme could not be recognized, or is not supported."]
         case .nocase:
-          return [NSLocalizedDescriptionKey: "F3"]
+          return [NSLocalizedDescriptionKey: "The requested URL does not exist in the current context."]
       }
     }
   }
@@ -748,8 +748,8 @@ player.play()*/
   
   @objc func kvButtonPressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
-      //urlField.endEditing(true)
-      hapticFB.notificationOccurred(.success)
+      urlField.endEditing(true)
+      //hapticFB.notificationOccurred(.success)
       if allowAutorotate == true {
         if lastDeviceOrientation == "ls" {
           allowedOrientations = .landscape
@@ -761,7 +761,7 @@ player.play()*/
         allowedOrientations = .all
         allowAutorotate = true
       }
-      //showAlert(message: "\(lastDeviceOrientation)\nallowAutorotate=\(allowAutorotate)")
+      showAlert(message: "\(lastDeviceOrientation)\nallowAutorotate=\(allowAutorotate)")
     }
   }
   
@@ -1257,6 +1257,7 @@ player.play()*/
         button.removeFromSuperview()
         button.frame.origin.x += 85
         textField.frame.size.width += 85
+        progressView.frame.size.width += 85
       default:
         break
     }
@@ -2542,11 +2543,11 @@ downloadTask.resume()
         urlField.textColor = .appBgColor
         presentAlert = true
       default:
-        //showAlert(message: "Error: \(err.code) \(err.localizedDescription)")
         presentAlert = true
     }
     if presentAlert == true {
-      showAlert(message: "Error: \(err.code) \(err.localizedDescription)\n\n\(error._code) \(error.localizedDescription)")
+      showAlert(message: "Error \(err.code): \(err.localizedDescription)")
+      //error._code error.localizedDescription
     }
     progressView.progress = Float(0)
     lb.text! += " err:\(err.code)"
