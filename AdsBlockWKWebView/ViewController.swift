@@ -286,8 +286,6 @@ extension ViewController: WKURLSchemeHandler {
   enum schemeError: Int, Error {
     case general = 25001, wrongscheme, wrongurl
   }
-  */
-  
   enum schemeError: Int, CustomNSError {
     case general = 25001, wrongscheme, wrongurl
     var errorUserInfo: [String: Any] {
@@ -301,7 +299,8 @@ extension ViewController: WKURLSchemeHandler {
       }
     }
   }
-  /*
+  */
+  
   enum schemeError: CustomNSError {
     case general
     case wrongscheme
@@ -321,7 +320,7 @@ extension ViewController: WKURLSchemeHandler {
       }
     }
   }
-  */
+  
   func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
     //DispatchQueue.global().async {
     wkscheme += "<br><br>start"
@@ -365,7 +364,7 @@ extension ViewController: WKURLSchemeHandler {
           }
         } else {
           wkscheme += "<br>\(url)<br>stop error.wrongurl"
-          urlSchemeTask.didFailWithError(schemeError.wrongurl)
+          urlSchemeTask.didFailWithError(schemeError.wrongurl(url.scheme))
         }
       } else {
         wkscheme += "<br>\(urlSchemeTask.request.url!)<br>stop error.wrongscheme"
