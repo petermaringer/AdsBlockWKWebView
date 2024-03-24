@@ -282,29 +282,10 @@ class SessionRestoreHandler {
 var wkscheme = "wks"
 @available(iOS 11.0, *)
 extension ViewController: WKURLSchemeHandler {
-  /*
-  enum schemeError: Int, Error {
-    case general = 25001, wrongscheme, wrongurl
-  }
-  enum schemeError: Int, CustomNSError {
-    case general = 25001, wrongscheme, wrongurl
-    var errorUserInfo: [String: Any] {
-      switch self {
-        case .general:
-          return [NSLocalizedDescriptionKey: "A general error has occurred in context with the URL scheme."]
-        case .wrongscheme:
-          return [NSLocalizedDescriptionKey: "The URL scheme could not be recognized, or is not supported."]
-        case .wrongurl:
-          return [NSLocalizedDescriptionKey: "The requested URL does not exist in the current context."]
-      }
-    }
-  }
-  */
-  
   enum schemeError: CustomNSError {
     case general
     case wrongscheme
-    case wrongurl(_ scheme: String)
+    case wrongurl(scheme: String)
     var errorCode: Int {
       switch self {
         case .general: return 25001
@@ -316,26 +297,35 @@ extension ViewController: WKURLSchemeHandler {
       switch self {
         case .general: return [NSLocalizedDescriptionKey: "A general error has occurred in context with the URL scheme."]
         case .wrongscheme: return [NSLocalizedDescriptionKey: "The URL scheme could not be recognized, or is not supported."]
-        case .wrongurl(let scheme): return [NSLocalizedDescriptionKey: "The requested URL does not exist in the current context.\(scheme)"]
+        //case .wrongurl(let scheme): return [NSLocalizedDescriptionKey: "The requested URL does not exist in the current context.\(scheme)"]
+        case .wrongurl(let scheme): return [NSLocalizedDescriptionKey: "The requested URL does not exist in the context of \"\(scheme)://\"."]
       }
     }
   }
-  
   func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
     //DispatchQueue.global().async {
     wkscheme += "<br><br>start"
       if let url = urlSchemeTask.request.url, url.scheme == "internal" {
         wkscheme += " internal"
+        
+        func sendResponse(data: Data) {
+          let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type": "text/html; charset=utf-8", "Content-Length": "\(data.count)", "Cache-Control": "no-store"])!
+          urlSchemeTask.didReceive(response)
+          urlSchemeTask.didReceive(data)
+          urlSchemeTask.didFinish()
+        }
+        
         if url.absoluteString.hasPrefix("internal://local/restore?url1=") {
           wkscheme += " case1<br>\(url)"
           let newUrl = url.absoluteString.replacingOccurrences(of: "internal://local/restore?url1=", with: "internal://local/restore?url2=")
           wkscheme += "<br>redirect: \(newUrl)"
           if let data = "<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>Loading... \(newUrl)<br><br><a href='javascript:location.reload()'>RELOAD</a><br><br><br></body></html>".data(using: .utf8) {
-            let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type": "text/html; charset=utf-8", "Content-Length": "\(data.count)", "Cache-Control": "no-store"])!
+            sendResponse(data: data)
+            /*let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type": "text/html; charset=utf-8", "Content-Length": "\(data.count)", "Cache-Control": "no-store"])!
             //debugLog("Test1234")
             urlSchemeTask.didReceive(response)
             urlSchemeTask.didReceive(data)
-            urlSchemeTask.didFinish()
+            urlSchemeTask.didFinish()*/
           }
         } else if url.absoluteString.hasPrefix("internal://local/restore?url2=") {
           wkscheme += " case2<br>\(url)"
@@ -364,7 +354,7 @@ extension ViewController: WKURLSchemeHandler {
           }
         } else {
           wkscheme += "<br>\(url)<br>stop error.wrongurl"
-          urlSchemeTask.didFailWithError(schemeError.wrongurl(url.scheme!))
+          urlSchemeTask.didFailWithError(schemeError.wrongurl(scheme: url.scheme!))
         }
       } else {
         wkscheme += "<br>\(urlSchemeTask.request.url!)<br>stop error.wrongscheme"

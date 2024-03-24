@@ -10,4 +10,24 @@
 //wkscheme += "url=\(queryItem[0].value!)"
 
 
-
+/*
+  enum schemeError: Int, Error {
+    case general = 25001, wrongscheme, wrongurl
+  }
+  enum schemeError: Int, CustomNSError {
+    case general = 25001, wrongscheme, wrongurl
+    var errorUserInfo: [String: Any] {
+      switch self {
+        case .general:
+          return [NSLocalizedDescriptionKey: "A general error has occurred in context with the URL scheme."]
+        case .wrongscheme:
+          return [NSLocalizedDescriptionKey: "The URL scheme could not be recognized, or is not supported."]
+        case .wrongurl:
+          return [NSLocalizedDescriptionKey: "The requested URL does not exist in the current context."]
+      }
+    }
+  }
+  */
+  
+  
+  
