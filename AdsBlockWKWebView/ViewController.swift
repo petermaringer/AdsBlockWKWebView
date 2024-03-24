@@ -2443,7 +2443,6 @@ downloadTask.resume()
     if urlSchemesStop == true {
       UIApplication.shared.open(URL(string: navigationAction.request.url!.absoluteString.components(separatedBy: " //")[0])!, options: [:], completionHandler: nil)
       //UIApplication.shared.open(navigationAction.request.url!, options: [:], completionHandler: nil)
-      webView.url = navigationAction.request.url!
       decisionHandler(.cancel)
       return
     }
