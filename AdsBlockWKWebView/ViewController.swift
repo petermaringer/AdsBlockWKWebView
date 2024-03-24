@@ -286,15 +286,15 @@ extension ViewController: WKURLSchemeHandler {
     //case general = 25001, wrongscheme, nocase
   //}
   enum schemeError: Int, CustomNSError {
-    case general = 25001, wrongscheme, nocase
+    case general = 25001, wrongscheme, nocase(_ scheme: String)
     var errorUserInfo: [String: Any] {
       switch self {
         case .general:
           return [NSLocalizedDescriptionKey: "A general error has occurred in context with the URL scheme."]
         case .wrongscheme:
           return [NSLocalizedDescriptionKey: "The URL scheme could not be recognized, or is not supported."]
-        case .nocase:
-          return [NSLocalizedDescriptionKey: "The requested URL does not exist in the current context."]
+        case .nocase(let scheme):
+          return [NSLocalizedDescriptionKey: "The requested URL does not exist in the current context.\(scheme)"]
       }
     }
   }
@@ -341,7 +341,7 @@ extension ViewController: WKURLSchemeHandler {
           }
         } else {
           wkscheme += "<br>\(url)<br>stop error.nocase"
-          urlSchemeTask.didFailWithError(schemeError.nocase)
+          urlSchemeTask.didFailWithError(schemeError.nocase(url.scheme))
         }
       } else {
         wkscheme += "<br>\(urlSchemeTask.request.url!)<br>stop error.wrongscheme"
@@ -2521,8 +2521,9 @@ downloadTask.resume()
   
   func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
     var presentAlert: Bool = false
-    let err = error as NSError
-    switch err.code {
+    //let err = error as NSError
+    //switch err.code {
+    switch error._code {
       case -999: break
       case 101, -1003:
         if webViewSearchUrlPref.contains("openai.com") {
@@ -2538,7 +2539,7 @@ downloadTask.resume()
             //} else {
             //presentAlert = true
             //}
-      case 25001, 25002, 25003:
+      case 25001...25003:
         urlField.text = webView.url!.absoluteString.replacingOccurrences(of: "internal://local/restore?url2=", with: "")
         urlField.textColor = .appBgColor
         presentAlert = true
@@ -2546,11 +2547,13 @@ downloadTask.resume()
         presentAlert = true
     }
     if presentAlert == true {
-      showAlert(message: "Error \(err.code): \(err.localizedDescription)")
+      //showAlert(message: "Error \(err.code): \(err.localizedDescription)")
+      showAlert(message: "Error \(error._code): \(error.localizedDescription)")
       //error._code error.localizedDescription
     }
     progressView.progress = Float(0)
-    lb.text! += " err:\(err.code)"
+    //lb.text! += " err:\(err.code)"
+    lb.text! += " err:\(error._code)"
   }
   
   
