@@ -364,7 +364,7 @@ extension ViewController: WKURLSchemeHandler {
           }
         } else {
           wkscheme += "<br>\(url)<br>stop error.wrongurl"
-          urlSchemeTask.didFailWithError(schemeError.wrongurl(url.scheme))
+          urlSchemeTask.didFailWithError(schemeError.wrongurl(url.scheme!))
         }
       } else {
         wkscheme += "<br>\(urlSchemeTask.request.url!)<br>stop error.wrongscheme"
