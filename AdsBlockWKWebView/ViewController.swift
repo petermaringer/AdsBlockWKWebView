@@ -282,22 +282,46 @@ class SessionRestoreHandler {
 var wkscheme = "wks"
 @available(iOS 11.0, *)
 extension ViewController: WKURLSchemeHandler {
-  //enum schemeError: Int, Error {
-    //case general = 25001, wrongscheme, nocase
-  //}
+  /*
+  enum schemeError: Int, Error {
+    case general = 25001, wrongscheme, wrongurl
+  }
+  */
+  
   enum schemeError: Int, CustomNSError {
-    case general = 25001, wrongscheme, nocase(_ scheme: String)
+    case general = 25001, wrongscheme, wrongurl
     var errorUserInfo: [String: Any] {
       switch self {
         case .general:
           return [NSLocalizedDescriptionKey: "A general error has occurred in context with the URL scheme."]
         case .wrongscheme:
           return [NSLocalizedDescriptionKey: "The URL scheme could not be recognized, or is not supported."]
-        case .nocase(let scheme):
-          return [NSLocalizedDescriptionKey: "The requested URL does not exist in the current context.\(scheme)"]
+        case .wrongurl:
+          return [NSLocalizedDescriptionKey: "The requested URL does not exist in the current context."]
       }
     }
   }
+  /*
+  enum schemeError: CustomNSError {
+    case general
+    case wrongscheme
+    case wrongurl(_ scheme: String)
+    var errorCode: Int {
+      switch self {
+        case .general: return 25001
+        case .wrongscheme: return 25002
+        case .wrongurl: return 25003
+      }
+    }
+    var errorUserInfo: [String: Any] {
+      switch self {
+        case .general: return [NSLocalizedDescriptionKey: "A general error has occurred in context with the URL scheme."]
+        case .wrongscheme: return [NSLocalizedDescriptionKey: "The URL scheme could not be recognized, or is not supported."]
+        case .wrongurl(let scheme): return [NSLocalizedDescriptionKey: "The requested URL does not exist in the current context.\(scheme)"]
+      }
+    }
+  }
+  */
   func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
     //DispatchQueue.global().async {
     wkscheme += "<br><br>start"
@@ -340,8 +364,8 @@ extension ViewController: WKURLSchemeHandler {
             urlSchemeTask.didFinish()
           }
         } else {
-          wkscheme += "<br>\(url)<br>stop error.nocase"
-          urlSchemeTask.didFailWithError(schemeError.nocase(url.scheme))
+          wkscheme += "<br>\(url)<br>stop error.wrongurl"
+          urlSchemeTask.didFailWithError(schemeError.wrongurl)
         }
       } else {
         wkscheme += "<br>\(urlSchemeTask.request.url!)<br>stop error.wrongscheme"
