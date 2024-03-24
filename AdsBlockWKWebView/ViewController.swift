@@ -332,25 +332,28 @@ extension ViewController: WKURLSchemeHandler {
           let newUrl = url.absoluteString.replacingOccurrences(of: "internal://local/restore?url2=", with: "")
           wkscheme += "<br>redirect: \(newUrl)"
           if let data = "<!DOCTYPE html><html><head><script>location.replace('\(newUrl)');</script></head><body>Loading... \(newUrl)<br><br><a href='javascript:location.reload()'>RELOAD</a><br><br><br></body></html>".data(using: .utf8) {
-            let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type": "text/html; charset=utf-8", "Content-Length": "\(data.count)", "Cache-Control": "no-store"])!
+            sendResponse(data: data)
+            /*let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type": "text/html; charset=utf-8", "Content-Length": "\(data.count)", "Cache-Control": "no-store"])!
             urlSchemeTask.didReceive(response)
             urlSchemeTask.didReceive(data)
-            urlSchemeTask.didFinish()
+            urlSchemeTask.didFinish()*/
           }
         } else if url.absoluteString.hasPrefix("internal://local/restore?history=") {
           wkscheme += " case3<br>\(url)"
           guard let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore", ofType: "html"), let html = try? String(contentsOfFile: sessionRestorePath), let data = html.data(using: .utf8) else { return }
-          let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
+          sendResponse(data: data)
+          /*let response = URLResponse(url: url, mimeType: "text/html", expectedContentLength: data.count, textEncodingName: "utf-8")
           urlSchemeTask.didReceive(response)
           urlSchemeTask.didReceive(data)
-          urlSchemeTask.didFinish()
+          urlSchemeTask.didFinish()*/
         } else if url.absoluteString.hasPrefix("internal://local/restorelog") {
           wkscheme += " case4<br>\(url)"
           if let data = "<!DOCTYPE html><html><head></head><body style='margin:30px;'><h1>Restore Log:</h1><br><div style='overflow:scroll;'>\(wkscheme)<br><br>end<br><br><br></div></body></html>".data(using: .utf8) {
-            let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type": "text/html; charset=utf-8", "Content-Length": "\(data.count)", "Cache-Control": "no-store"])!
+            sendResponse(data: data)
+            /*let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type": "text/html; charset=utf-8", "Content-Length": "\(data.count)", "Cache-Control": "no-store"])!
             urlSchemeTask.didReceive(response)
             urlSchemeTask.didReceive(data)
-            urlSchemeTask.didFinish()
+            urlSchemeTask.didFinish()*/
           }
         } else {
           wkscheme += "<br>\(url)<br>stop error.wrongurl"
