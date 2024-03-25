@@ -547,7 +547,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   }
   
   @objc internal func onMenu1(sender: UIMenuItem) {
-    UIPasteboard.generalPasteboard().items = []
+    UIPasteboard.general.items = []
     showAlert(message: "Clipboard was cleared.")
   }
   
