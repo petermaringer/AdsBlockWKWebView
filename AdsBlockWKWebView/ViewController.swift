@@ -541,7 +541,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     switch textField {
       case urlField:
         textField.frame.size.width -= 85
-        button.frame.origin.x -= 85
+        //button.frame.origin.x -= 85
         view.addSubview(button)
         //textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
         //textField.selectAll(nil)
@@ -1254,7 +1254,7 @@ player.play()*/
         }
         textField.selectedTextRange = nil
         button.removeFromSuperview()
-        button.frame.origin.x += 85
+        //button.frame.origin.x += 85
         textField.frame.size.width += 85
         //progressView.frame.size.width += 85
       default:
@@ -1441,7 +1441,7 @@ player.play()*/
       
       let defaultM: CGFloat = 5
       var insetTM: CGFloat = insetT
-      var insetBM: CGFloat = insetB
+      //var insetBM: CGFloat = insetB
       var insetLM: CGFloat = insetL
       var insetRM: CGFloat = insetR
       if insetTM == 0 { insetTM = defaultM }
@@ -1455,7 +1455,7 @@ player.play()*/
         urlField.frame.size.width = view.frame.width - insetLM - insetRM - elementW - defaultM
       }
       
-      button.frame = CGRect(x: insetLM + view.frame.width - insetLM - insetRM + defaultM, y: insetTM, width: elementW, height: elementH)
+      button.frame = CGRect(x: insetLM + view.frame.width - insetLM - insetRM - elementW, y: insetTM, width: elementW, height: elementH)
       
       topNavBgView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: insetTM + elementH + defaultM)
       
