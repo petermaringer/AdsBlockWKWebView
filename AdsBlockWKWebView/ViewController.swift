@@ -537,6 +537,20 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     return allowedOrientations
   }
   
+  override func canPerformAction(_ action: Selector, withSender sender: Any!) -> Bool {
+    //if [#selector(onMenu1(sender:)), #selector(onMenu2(sender:)), #selector(onMenu3(sender:))].contains(action) {
+    if [#selector(onMenu1(sender:))].contains(action) {
+      return true
+    } else {
+      return false
+    }
+  }
+  
+  @objc internal func onMenu1(sender: UIMenuItem) {
+    //print("onMenu1")
+    showAlert(message: "Cleared Clipboard")
+  }
+  
   func textFieldDidBeginEditing(_ textField: UITextField) {
     switch textField {
       case urlField:
@@ -1737,8 +1751,19 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
     //urlField.rightAnchor.constraint(equalTo: view.safeRightAnchor, constant: -5.0).isActive = true
     //urlField.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 5.0).isActive = true
     //urlField.bottomAnchor.constraint(equalTo: urlField.topAnchor, constant: 30.0).isActive = true
-    
-    
+        
+        let menuController: UIMenuController = UIMenuController.shared
+        menuController.isMenuVisible = true
+        menuController.arrowDirection = UIMenuControllerArrowDirection.down
+        menuController.setTargetRect(CGRect.zero, in: self.view)
+        let menuItem_1: UIMenuItem = UIMenuItem(title: "Menu1", action: #selector(onMenu1(sender:)))
+        //let menuItem_2: UIMenuItem = UIMenuItem(title: "Menu2", action: #selector(onMenu2(sender:)))
+        //let menuItem_3: UIMenuItem = UIMenuItem(title: "Menu3", action: #selector(onMenu3(sender:)))
+        //let myMenuItems: [UIMenuItem] = [menuItem_1, menuItem_2, menuItem_3]
+        let myMenuItems: [UIMenuItem] = [menuItem_1]
+        menuController.menuItems = myMenuItems
+        
+        
         button = UIButton(frame: CGRect.zero)
         //button.frame = CGRectMake(15, -50, 300, 500)
         //button.frame = CGRect(x: 100, y: 400, width: 100, height: 50)
