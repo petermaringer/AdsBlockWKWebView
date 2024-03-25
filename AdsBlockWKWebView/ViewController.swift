@@ -547,8 +547,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   }
   
   @objc internal func onMenu1(sender: UIMenuItem) {
-    //print("onMenu1")
-    showAlert(message: "Cleared Clipboard")
+    UIPasteboard.generalPasteboard().items = []
+    showAlert(message: "Clipboard was cleared.")
   }
   
   func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -1756,7 +1756,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         menuController.isMenuVisible = true
         menuController.arrowDirection = UIMenuControllerArrowDirection.down
         menuController.setTargetRect(CGRect.zero, in: self.view)
-        let menuItem_1: UIMenuItem = UIMenuItem(title: "Menu1", action: #selector(onMenu1(sender:)))
+        let menuItem_1: UIMenuItem = UIMenuItem(title: "Clear", action: #selector(onMenu1(sender:)))
         //let menuItem_2: UIMenuItem = UIMenuItem(title: "Menu2", action: #selector(onMenu2(sender:)))
         //let menuItem_3: UIMenuItem = UIMenuItem(title: "Menu3", action: #selector(onMenu3(sender:)))
         //let myMenuItems: [UIMenuItem] = [menuItem_1, menuItem_2, menuItem_3]
