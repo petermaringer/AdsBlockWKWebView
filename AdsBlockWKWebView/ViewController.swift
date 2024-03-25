@@ -1438,6 +1438,37 @@ player.play()*/
         }
       }
       
+      
+      let defaultM: CGFloat = 5
+      var insetTM: CGFloat = insetT
+      var insetBM: CGFloat = insetB
+      var insetLM: CGFloat = insetL
+      var insetRM: CGFloat = insetR
+      if insetTM == 0 { insetTM = defaultM }
+      if insetLM == 0 { insetLM = defaultM }
+      if insetRM == 0 { insetRM = defaultM }
+      let elementH: CGFloat = 30
+      let elementW: CGFloat = 80
+      
+      urlField.frame = CGRect(x: insetLM, y: insetTM, width: view.frame.width - insetLM - insetRM, height: elementH)
+      if button.isDescendant(of: view) {
+        urlField.frame.size.width = view.frame.width - insetLM - insetRM - elementW - defaultM
+      }
+      
+      button.frame = CGRect(x: insetLM + view.frame.width - insetLM - insetRM + defaultM, y: insetTM, width: elementW, height: elementH)
+      
+      topNavBgView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: insetTM + elementH + defaultM)
+      
+      progressView.frame = CGRect(x: insetLM, y: insetTM + elementH + 2, width: view.frame.width - insetLM - insetRM, height: 2)
+      progressView.transform = progressView.transform.scaledBy(x: 1, y: 0.5)
+      
+      tableView.frame = CGRect(x: insetL, y: insetTM + elementH + defaultM, width: view.frame.width - insetL - insetR, height: 0)
+      tableView.reloadData()
+      
+      webView.frame = CGRect(x: insetL, y: insetTM + elementH + defaultM, width: view.frame.width - insetL - insetR, height: view.frame.height - insetTM - elementH - defaultM)
+      
+      
+      /*
       urlField.frame.origin.x = insetL
       urlField.frame.origin.y = insetT
       urlField.frame.size.width = view.frame.width - insetL - insetR
@@ -1488,6 +1519,7 @@ player.play()*/
       
       //webView.frame.origin.y = 0
       //webView.frame.size.height = view.frame.height
+      */
       
       if webView2.isDescendant(of: view) {
         webView.frame.origin.y += 200
