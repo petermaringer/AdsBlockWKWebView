@@ -1256,7 +1256,7 @@ player.play()*/
         button.removeFromSuperview()
         button.frame.origin.x += 85
         textField.frame.size.width += 85
-        progressView.frame.size.width += 85
+        //progressView.frame.size.width += 85
       default:
         break
     }
