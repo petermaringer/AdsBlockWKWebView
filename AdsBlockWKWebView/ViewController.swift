@@ -539,7 +539,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   
   override func canPerformAction(_ action: Selector, withSender sender: Any!) -> Bool {
     //if [#selector(onMenu1(sender:)), #selector(onMenu2(sender:)), #selector(onMenu3(sender:))].contains(action) {
-    if [#selector(onMenu1(sender:))].contains(action) {
+    if [#selector(onMenu1(sender:))].contains(action) && UIPasteboard.general.numberOfItems > 0 {
       return true
     } else {
       return false
@@ -1452,7 +1452,6 @@ player.play()*/
         }
       }
       
-      
       let defaultM: CGFloat = 5
       var insetTM: CGFloat = insetT
       //var insetBM: CGFloat = insetB
@@ -1480,6 +1479,15 @@ player.play()*/
       tableView.reloadData()
       
       webView.frame = CGRect(x: insetL, y: insetTM + elementH + defaultM, width: view.frame.width - insetL - insetR, height: view.frame.height - insetTM - elementH - defaultM)
+      if webView2.isDescendant(of: view) {
+        webView.frame.origin.y = insetTM + elementH + defaultM + 200
+        webView.frame.size.height = view.frame.height - insetTM - elementH - defaultM - 200
+      }
+      
+      webView3.frame = CGRect(x: insetL, y: insetTM + elementH + defaultM, width: view.frame.width - insetL - insetR, height: view.frame.height - insetTM - elementH - defaultM)
+      
+      lb.frame = CGRect(x: insetL + 21, y: 0, width: view.frame.width - insetL - insetR - 42, height: 0)
+      adjustLabel()
       
       
       /*
@@ -1533,12 +1541,12 @@ player.play()*/
       
       //webView.frame.origin.y = 0
       //webView.frame.size.height = view.frame.height
-      */
       
       if webView2.isDescendant(of: view) {
         webView.frame.origin.y += 200
         webView.frame.size.height -= 200
       }
+      */
       
       //webView.scrollView.contentSize = CGSize(width: self.view.frame.width - insetL - insetR, height: self.view.frame.height - insetT - urlField.frame.size.height - 10)
       //webView.scrollView.contentInset = UIEdgeInsets(top: insetT + urlField.frame.size.height + 10, left: 0, bottom: 0, right: 0)
@@ -1559,6 +1567,7 @@ player.play()*/
       webView.scrollView.scrollIndicatorInsets = UIEdgeInsets(top: urlField.frame.size.height + 10, left: 0, bottom: 0, right: 0)
       */
       
+      /*
       webView3.frame.origin.x = insetL
       //webView3.frame.origin.y = urlField.frame.origin.y
       webView3.frame.origin.y = urlField.frame.origin.y + urlField.frame.size.height + 5
@@ -1569,10 +1578,10 @@ player.play()*/
       lb.frame.origin.x = insetL + 21
       lb.frame.size.width = view.frame.width - insetL - insetR - 42
       adjustLabel()
+      */
       
       lastDeviceOrientation = deviceOrientation
       lb.text! += " \(insetT) \(insetB) \(insetL) \(insetR) \(deviceOrientation)"
-      //adjustLabel()
     }
   }
   
