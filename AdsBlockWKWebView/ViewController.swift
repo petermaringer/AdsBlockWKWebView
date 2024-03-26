@@ -2152,9 +2152,13 @@ downloadTask.resume()
         }
         }
         
-        if let incomingURL = userDefGroup.value(forKey: "incomingURL") as? String {
-          urlField.text = incomingURL
-          userDefGroup.removeObject(forKey: "incomingURL")
+        if let incomingUrl = userDefGroup.value(forKey: "incomingUrl") as? String {
+          urlField.text = incomingUrl
+          userDefGroup.removeObject(forKey: "incomingUrl")
+        }
+        if let incomingText = userDefGroup.value(forKey: "incomingText") as? String {
+          urlField.text = incomingText
+          userDefGroup.removeObject(forKey: "incomingText")
         }
     
     lb.text! += " bAc"

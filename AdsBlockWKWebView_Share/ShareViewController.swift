@@ -31,6 +31,10 @@ class ShareViewController: UIViewController {
             handleIncomingUrl(itemProvider: itemProvider)
             return
           }
+          if itemProvider.hasItemConformingToTypeIdentifier("public.text") {
+            handleIncomingText(itemProvider: itemProvider)
+            return
+          }
         }
       }
     }
@@ -57,15 +61,24 @@ class ShareViewController: UIViewController {
   private func handleIncomingUrl(itemProvider: NSItemProvider) {
     itemProvider.loadItem(forTypeIdentifier: "public.url", options: nil) { (item, error) in
       if let url = item as? NSURL, let urlString = url.absoluteString {
-        UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")?.set(urlString, forKey: "incomingURL")
+        UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")?.set(urlString, forKey: "incomingUrl")
         self.incomingItemType = "Url"
+      }
+    }
+  }
+  
+  private func handleIncomingText(itemProvider: NSItemProvider) {
+    itemProvider.loadItem(forTypeIdentifier: "public.text", options: nil) { (item, error) in
+      if let text = item as? String {
+        UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")?.set(text, forKey: "incomingText")
+        self.incomingItemType = "Text"
       }
     }
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    if incomingItemType == "Url" {
+    if incomingItemType == "Url" || incomingItemType == "Text" {
       self.extensionContext?.completeRequest(returningItems: nil, completionHandler: { _ in
         guard let url = URL(string: "adsblockwkwebview://") else { return }
         _ = self.openURL(url)
