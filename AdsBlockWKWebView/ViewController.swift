@@ -526,7 +526,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var lastDeviceOrientation: String = "initial"
   //var allowAutorotate: Bool = true
   //var allowedOrientations: UIInterfaceOrientationMask = .all
-  var allowedOrientations: UIInterfaceOrientationMask = init(rawValue: 30)
+  var allowedOrientations: UIInterfaceOrientationMask = .init(rawValue: 30)
   
   var counter: Int = 0
   
