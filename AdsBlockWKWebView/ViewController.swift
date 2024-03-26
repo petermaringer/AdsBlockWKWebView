@@ -526,7 +526,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var lastDeviceOrientation: String = "initial"
   //var allowAutorotate: Bool = true
   //var allowedOrientations: UIInterfaceOrientationMask = .all
-  var allowedOrientations: UIInterfaceOrientationMask = .init(rawValue: 24)
+  var allowedOrientations: UIInterfaceOrientationMask = .init(rawValue: 30)
   
   var counter: Int = 0
   
@@ -766,19 +766,21 @@ player.play()*/
     if gesture.state == .began {
       urlField.endEditing(true)
       //hapticFB.notificationOccurred(.success)
-      if allowAutorotatePref == true {
+      //if allowAutorotatePref == true {
+      if allowedOrientations == .all.rawValue {
         if lastDeviceOrientation == "ls" {
-          allowedOrientations = .landscape
+          allowedOrientations = .landscape.rawValue
         } else {
-          allowedOrientations = .portrait
+          allowedOrientations = .portrait.rawValue
         }
-        allowAutorotatePref = false
+        //allowAutorotatePref = false
       } else {
-        allowedOrientations = .all
-        allowAutorotatePref = true
+        allowedOrientations = .all.rawValue
+        //allowAutorotatePref = true
       }
-      userDefaults.set(allowAutorotatePref, forKey: "allowAutorotatePref")
-      showAlert(message: "\(lastDeviceOrientation)\nallowAutorotatePref=\(allowAutorotatePref)")
+      //userDefaults.set(allowAutorotatePref, forKey: "allowAutorotatePref")
+      //showAlert(message: "\(lastDeviceOrientation)\nallowAutorotatePref=\(allowAutorotatePref)")
+      showAlert(message: "\(lastDeviceOrientation)\nallowedOrientations=\(allowedOrientations)")
     }
   }
   
