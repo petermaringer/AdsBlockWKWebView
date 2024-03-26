@@ -767,15 +767,15 @@ player.play()*/
       urlField.endEditing(true)
       //hapticFB.notificationOccurred(.success)
       //if allowAutorotatePref == true {
-      if allowedOrientations == .all.rawValue {
+      if allowedOrientations == .init(rawValue: 30) {
         if lastDeviceOrientation == "ls" {
-          allowedOrientations = .landscape.rawValue
+          allowedOrientations = .init(rawValue: 24)
         } else {
-          allowedOrientations = .portrait.rawValue
+          allowedOrientations = .init(rawValue: 2)
         }
         //allowAutorotatePref = false
       } else {
-        allowedOrientations = .all.rawValue
+        allowedOrientations = .init(rawValue: 30)
         //allowAutorotatePref = true
       }
       //userDefaults.set(allowAutorotatePref, forKey: "allowAutorotatePref")
