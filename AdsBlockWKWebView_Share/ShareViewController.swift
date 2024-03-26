@@ -35,6 +35,10 @@ class ShareViewController: UIViewController {
             handleIncomingText(itemProvider: itemProvider)
             return
           }
+          if itemProvider.hasItemConformingToTypeIdentifier("public.file-url") {
+            //handleIncomingFile(itemProvider: itemProvider)
+            //return
+          }
         }
       }
     }

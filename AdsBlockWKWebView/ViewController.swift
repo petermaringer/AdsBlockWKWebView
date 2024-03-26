@@ -115,6 +115,7 @@ var restoreUrlsJson: String!
 
 
 ////////// USERPREFS //////////
+var allowAutorotatePref: Bool = true
 var tableMaxLinesPref: Int = 6 //6
 var tableMoveTopPref: Bool = false //true
 var webViewStartPagePref: String = "https://www.google.com/"
@@ -126,6 +127,7 @@ var autoVideoDownloadPref: Bool = false
 //IdleTimerEinAus
 
 func loadUserPrefs() {
+  allowAutorotatePref = userDefaults.fetch(key: "allowAutorotatePref", or: allowAutorotatePref)
   tableMaxLinesPref = userDefaults.fetch(key: "tableMaxLinesPref", or: tableMaxLinesPref)
   tableMoveTopPref = userDefaults.fetch(key: "tableMoveTopPref", or: tableMoveTopPref)
   webViewStartPagePref = userDefaults.fetch(key: "webViewStartPagePref", or: webViewStartPagePref)
@@ -522,8 +524,9 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var insetR: CGFloat = 0
   
   var lastDeviceOrientation: String = "initial"
-  var allowAutorotate: Bool = true
-  var allowedOrientations: UIInterfaceOrientationMask = .all
+  //var allowAutorotate: Bool = true
+  //var allowedOrientations: UIInterfaceOrientationMask = .all
+  var allowedOrientations: UIInterfaceOrientationMask = init(rawValue: 30)
   
   var counter: Int = 0
   
@@ -763,18 +766,19 @@ player.play()*/
     if gesture.state == .began {
       urlField.endEditing(true)
       //hapticFB.notificationOccurred(.success)
-      if allowAutorotate == true {
+      if allowAutorotatePref == true {
         if lastDeviceOrientation == "ls" {
           allowedOrientations = .landscape
         } else {
           allowedOrientations = .portrait
         }
-        allowAutorotate = false
+        allowAutorotatePref = false
       } else {
         allowedOrientations = .all
-        allowAutorotate = true
+        allowAutorotatePref = true
       }
-      showAlert(message: "\(lastDeviceOrientation)\nallowAutorotate=\(allowAutorotate)")
+      userDefaults.set(allowAutorotatePref, forKey: "allowAutorotatePref")
+      showAlert(message: "\(lastDeviceOrientation)\nallowAutorotatePref=\(allowAutorotatePref)")
     }
   }
   
