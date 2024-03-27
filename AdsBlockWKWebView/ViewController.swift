@@ -764,20 +764,21 @@ player.play()*/
     if gesture.state == .began {
       urlField.endEditing(true)
       //hapticFB.notificationOccurred(.success)
-      var autoRotateInfo: String = "enabled"
+      var autoRotateInfo: String = "Enabled"
       if allowedOrientations == .all {
         if lastDeviceOrientation == "ls" {
           allowedOrientations = .landscape
         } else {
           allowedOrientations = .portrait
         }
-        autoRotateInfo = "disabled"
+        autoRotateInfo = "Disabled"
       } else {
         allowedOrientations = .all
       }
       userDefaults.set(Int(allowedOrientations.rawValue), forKey: "allowedOrientationsRaw")
-      showAlert(message: "\(lastDeviceOrientation)\nallowedOrientations=\(allowedOrientations)\nautoRotate: \(autoRotateInfo)")
-      lb.text! += " OR:\(lastDeviceOrientation)" + String(String(describing: allowedOrientations).suffix(3))
+      showAlert(message: "\(lastDeviceOrientation)\nallowedOrientations=\(allowedOrientations)\nAutoRotate: \(autoRotateInfo)")
+      lb.text! += " OR:\(lastDeviceOrientation)\(Int(allowedOrientations.rawValue))"
+      // + String(String(describing: allowedOrientations).suffix(3))
     }
   }
   
