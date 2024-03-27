@@ -779,7 +779,7 @@ player.play()*/
         allowedOrientations = .all
         //allowAutorotatePref = true
       }
-      userDefaults.set(allowedOrientations.rawValue, forKey: "allowAutorotatePref")
+      userDefaults.set(Int(allowedOrientations.rawValue), forKey: "allowAutorotatePref")
       //showAlert(message: "\(lastDeviceOrientation)\nallowAutorotatePref=\(allowAutorotatePref)")
       showAlert(message: "\(lastDeviceOrientation)\nallowedOrientations=\(allowedOrientations)")
     }
@@ -1600,7 +1600,7 @@ player.play()*/
         
         loadUserPrefs()
         if userDefaults.exists(key: "allowAutorotatePref") {
-          allowedOrientations = .init(rawValue: UInt(userDefaults.integer(forKey: "allowAutorotatePref")))
+          //allowedOrientations = .init(rawValue: UInt(userDefaults.integer(forKey: "allowAutorotatePref")))
         }
         
         if (UserDefaults.standard.object(forKey: "origArray") != nil) {
