@@ -115,7 +115,7 @@ var restoreUrlsJson: String!
 
 
 ////////// USERPREFS //////////
-var allowAutorotatePref: Bool = true
+//var allowAutorotatePref: Bool = true
 var tableMaxLinesPref: Int = 6 //6
 var tableMoveTopPref: Bool = false //true
 var webViewStartPagePref: String = "https://www.google.com/"
@@ -127,7 +127,7 @@ var autoVideoDownloadPref: Bool = false
 //IdleTimerEinAus
 
 func loadUserPrefs() {
-  allowAutorotatePref = userDefaults.fetch(key: "allowAutorotatePref", or: allowAutorotatePref)
+  //allowAutorotatePref = userDefaults.fetch(key: "allowAutorotatePref", or: allowAutorotatePref)
   tableMaxLinesPref = userDefaults.fetch(key: "tableMaxLinesPref", or: tableMaxLinesPref)
   tableMoveTopPref = userDefaults.fetch(key: "tableMoveTopPref", or: tableMoveTopPref)
   webViewStartPagePref = userDefaults.fetch(key: "webViewStartPagePref", or: webViewStartPagePref)
@@ -525,8 +525,9 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   
   var lastDeviceOrientation: String = "initial"
   //var allowAutorotate: Bool = true
-  //var allowedOrientations: UIInterfaceOrientationMask = .all
-  var allowedOrientations: UIInterfaceOrientationMask = .init(rawValue: 30)
+  var allowAutorotatePref: Int = 30
+  var allowedOrientations: UIInterfaceOrientationMask = .all
+  //var allowedOrientations: UIInterfaceOrientationMask = .init(rawValue: 30)
   
   var counter: Int = 0
   
@@ -767,18 +768,18 @@ player.play()*/
       urlField.endEditing(true)
       //hapticFB.notificationOccurred(.success)
       //if allowAutorotatePref == true {
-      if allowedOrientations == .init(rawValue: 30) {
+      if allowedOrientations == .all {
         if lastDeviceOrientation == "ls" {
-          allowedOrientations = .init(rawValue: 24)
+          allowedOrientations = .landscape
         } else {
-          allowedOrientations = .init(rawValue: 2)
+          allowedOrientations = .portrait
         }
         //allowAutorotatePref = false
       } else {
-        allowedOrientations = .init(rawValue: 30)
+        allowedOrientations = .all
         //allowAutorotatePref = true
       }
-      //userDefaults.set(allowAutorotatePref, forKey: "allowAutorotatePref")
+      userDefaults.set(allowedOrientations.rawValue, forKey: "allowAutorotatePref")
       //showAlert(message: "\(lastDeviceOrientation)\nallowAutorotatePref=\(allowAutorotatePref)")
       showAlert(message: "\(lastDeviceOrientation)\nallowedOrientations=\(allowedOrientations)")
     }
@@ -1598,6 +1599,9 @@ player.play()*/
         UIApplication.shared.isIdleTimerDisabled = true
         
         loadUserPrefs()
+        if userDefaults.exists(key: "allowAutorotatePref") {
+          allowedOrientations = .init(rawValue: userDefaults.integer(forKey: "allowAutorotatePref"))
+        }
         
         if (UserDefaults.standard.object(forKey: "origArray") != nil) {
           origArray = UserDefaults.standard.stringArray(forKey: "origArray") ?? [String]()
