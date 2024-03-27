@@ -524,10 +524,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var insetR: CGFloat = 0
   
   var lastDeviceOrientation: String = "initial"
-  //var allowAutorotate: Bool = true
-  var allowAutorotatePref: Int = 30
   var allowedOrientations: UIInterfaceOrientationMask = .all
-  //var allowedOrientations: UIInterfaceOrientationMask = .init(rawValue: 30)
   
   var counter: Int = 0
   
@@ -767,21 +764,20 @@ player.play()*/
     if gesture.state == .began {
       urlField.endEditing(true)
       //hapticFB.notificationOccurred(.success)
-      //if allowAutorotatePref == true {
+      var autoRotateInfo: String = "enabled"
       if allowedOrientations == .all {
         if lastDeviceOrientation == "ls" {
           allowedOrientations = .landscape
         } else {
           allowedOrientations = .portrait
         }
-        //allowAutorotatePref = false
+        autoRotateInfo = "disabled"
       } else {
         allowedOrientations = .all
-        //allowAutorotatePref = true
       }
-      userDefaults.set(Int(allowedOrientations.rawValue), forKey: "allowAutorotatePref")
-      //showAlert(message: "\(lastDeviceOrientation)\nallowAutorotatePref=\(allowAutorotatePref)")
-      showAlert(message: "\(lastDeviceOrientation)\nallowedOrientations=\(allowedOrientations)")
+      userDefaults.set(Int(allowedOrientations.rawValue), forKey: "allowedOrientationsRaw")
+      showAlert(message: "\(lastDeviceOrientation)\nallowedOrientations=\(allowedOrientations)\nautoRotate: \(autoRotateInfo)")
+      lb.text! += " OR:\(lastDeviceOrientation)" + String(String(describing: allowedOrientations).suffix(3))
     }
   }
   
@@ -1599,8 +1595,9 @@ player.play()*/
         UIApplication.shared.isIdleTimerDisabled = true
         
         loadUserPrefs()
-        if userDefaults.exists(key: "allowAutorotatePref") {
-          allowedOrientations = .init(rawValue: UInt(userDefaults.integer(forKey: "allowAutorotatePref")))
+        
+        if userDefaults.exists(key: "allowedOrientationsRaw") {
+          allowedOrientations = .init(rawValue: UInt(userDefaults.integer(forKey: "allowedOrientationsRaw")))
         }
         
         if (UserDefaults.standard.object(forKey: "origArray") != nil) {
