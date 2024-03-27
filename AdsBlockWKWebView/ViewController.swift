@@ -115,7 +115,6 @@ var restoreUrlsJson: String!
 
 
 ////////// USERPREFS //////////
-//var allowAutorotatePref: Bool = true
 var tableMaxLinesPref: Int = 6 //6
 var tableMoveTopPref: Bool = false //true
 var webViewStartPagePref: String = "https://www.google.com/"
@@ -127,7 +126,6 @@ var autoVideoDownloadPref: Bool = false
 //IdleTimerEinAus
 
 func loadUserPrefs() {
-  //allowAutorotatePref = userDefaults.fetch(key: "allowAutorotatePref", or: allowAutorotatePref)
   tableMaxLinesPref = userDefaults.fetch(key: "tableMaxLinesPref", or: tableMaxLinesPref)
   tableMoveTopPref = userDefaults.fetch(key: "tableMoveTopPref", or: tableMoveTopPref)
   webViewStartPagePref = userDefaults.fetch(key: "webViewStartPagePref", or: webViewStartPagePref)
@@ -776,9 +774,8 @@ player.play()*/
         allowedOrientations = .all
       }
       userDefaults.set(Int(allowedOrientations.rawValue), forKey: "allowedOrientationsRaw")
-      showAlert(message: "\(lastDeviceOrientation)\nallowedOrientations=\(allowedOrientations)\nAutoRotate: \(autoRotateInfo)")
+      showAlert(message: "AutoRotate: \(autoRotateInfo)")
       lb.text! += " OR:\(lastDeviceOrientation)\(Int(allowedOrientations.rawValue))"
-      // + String(String(describing: allowedOrientations).suffix(3))
     }
   }
   
