@@ -1471,6 +1471,8 @@ player.play()*/
       
       button.frame = CGRect(x: insetLM + view.frame.width - insetLM - insetRM - elementW, y: insetTM, width: elementW, height: elementH)
       
+      kvButton.frame = CGRect(x: insetLM, y: defaultM, width: elementW, height: elementH)
+      
       topNavBgView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: insetTM + elementH + defaultM)
       
       progressView.frame = CGRect(x: insetLM, y: insetTM + elementH + 2, width: view.frame.width - insetLM - insetRM, height: 2)
@@ -1741,7 +1743,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         //keyboardView.backgroundColor = .gray
         urlField.inputAccessoryView = keyboardView
         kvButton = UIButton(frame: CGRect.zero)
-        kvButton.frame = CGRect(x: 5, y: 5, width: 80, height: 30)
+        //kvButton.frame = CGRect(x: 5, y: 5, width: 80, height: 30)
         kvButton.backgroundColor = .appBgColor
         kvButton.layer.cornerRadius = 5
         kvButton.clipsToBounds = true
