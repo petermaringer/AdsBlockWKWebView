@@ -68,6 +68,21 @@ extension UserDefaults {
   func exists(key: String) -> Bool {
     return object(forKey: key) != nil
   }
+  
+  func setData(_ value: Any, key: String) {
+    let archivedObj = NSKeyedArchiver.archivedData(withRootObject: value)
+    set(archivedObj, forKey: key)
+  }
+  
+  func getData<T>(key: String) -> T? {
+    //if let value = value(forKey: key) as? Data, 
+    if let value = data(forKey: key), 
+    let obj = NSKeyedUnarchiver.unarchiveObject(with: value) as? T {
+      return obj
+    }
+    return nil
+  }
+  
   func fetch<T>(key: String, or value: Any) -> T {
     if exists(key: key) {
       if type(of: value) == String.self {
@@ -546,6 +561,12 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   }
   
   @objc internal func onMenu1(sender: UIMenuItem) {
+    
+    let testio = userDefGroup.getData(key: "testkey")
+    showAlert(message: "t: \(testio!)")
+    userDefGroup.setData(Int(arc4random_uniform(999999) + 1), key: "testkey")
+    
+    
     UIPasteboard.general.items = []
     showAlert(message: "Clipboard was cleared.")
   }
