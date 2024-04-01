@@ -73,13 +73,9 @@ extension UserDefaults {
     let archivedObj = NSKeyedArchiver.archivedData(withRootObject: value)
     set(archivedObj, forKey: key)
   }
-  
   func getData<T>(key: String) -> T? {
-    if let value = value(forKey: key) as? Data, 
-    //if let value = data(forKey: key), 
-    let obj = NSKeyedUnarchiver.unarchiveObject(with: value) as? T {
-      return obj
-    }
+    //if let value = value(forKey: key) as? Data, 
+    if let value = data(forKey: key), let obj = NSKeyedUnarchiver.unarchiveObject(with: value) as? T { return obj }
     return nil
   }
   
@@ -169,20 +165,21 @@ var alertObjArray = [alertObj]()
 */
 
 
-var iwashere = "hi"
+var wkpool = "wkp"
 func initPool() -> WKProcessPool {
-let processPool1: WKProcessPool
-if let pool: WKProcessPool = getData(key: "pool") {
-  processPool1 = pool
-  iwashere += "yes2"
-} else {
-  processPool1 = WKProcessPool()
-  setData(processPool1, key: "pool")
-  iwashere += "no"
-}
-return processPool1
+  let processPool: WKProcessPool
+  if let pool: WKProcessPool = userDefGroup.getData(key: "pool") {
+    processPool = pool
+    wkpool += " old"
+  } else {
+    processPool = WKProcessPool()
+    userDefGroup.setData(processPool, key: "pool")
+    wkpool += " new"
+  }
+  return processPool
 }
 let processPool: WKProcessPool = initPool()
+
 
 func setData(_ value: Any, key: String) {
   let archivedPool = NSKeyedArchiver.archivedData(withRootObject: value)
@@ -193,7 +190,7 @@ func getData<T>(key: String) -> T? {
 //if let val = UserDefaults.standard.value(forKey: key) as? Data,
 if let val = UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")?.value(forKey: key) as? Data,
   let obj = NSKeyedUnarchiver.unarchiveObject(with: val) as? T {
-    iwashere += " yes1"
+    //iwashere += " yes1"
     return obj
   }
   return nil
@@ -561,14 +558,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   }
   
   @objc internal func onMenu1(sender: UIMenuItem) {
-    
-    if let testio: WKProcessPool = userDefGroup.getData(key: "testkey") {
-    showAlert(message: "t: \(testio)")
-    }
-    userDefGroup.setData(processPool, key: "testkey")
-    //userDefGroup.setData(Int(arc4random_uniform(999999) + 1), key: "testkey")
-    
-    
     UIPasteboard.general.items = []
     showAlert(message: "Clipboard was cleared.")
   }
@@ -752,7 +741,7 @@ player.play()*/
     showAlert(message: "\(navlist) \(blitem) \(blcount1)/\(blcount2) \(appVersion!) \(text!)")
     */
     
-    showAlert(message: "\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref)")
+    showAlert(message: "\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref) \(wkpool)")
   }
   
   @objc func buttonPressed(gesture: UILongPressGestureRecognizer) {
