@@ -1419,7 +1419,7 @@ player.play()*/
   }
   
   
-  @available(iOS 11.0, *)
+  @available(iOS 11, *)
   override func viewSafeAreaInsetsDidChange() {
     super.viewSafeAreaInsetsDidChange()
     insetT = self.view.safeAreaInsets.top
@@ -1427,7 +1427,6 @@ player.play()*/
     insetL = self.view.safeAreaInsets.left
     insetR = self.view.safeAreaInsets.right
     lb.text! += " dc"
-    //adjustLabel()
   }
   
   
@@ -1441,24 +1440,13 @@ player.play()*/
     
     if !(deviceOrientation == lastDeviceOrientation) {
       
-      if !(lastDeviceOrientation == "initial") {
-        if deviceOrientation == "pt" {
-          shouldHideHomeIndicator = false
-          //shouldHideHomeIndicator = true
-        } else {
-          shouldHideHomeIndicator = true
-        }
-        if #available(iOS 11, *) {
-          setNeedsUpdateOfHomeIndicatorAutoHidden()
-        }
-      }
-      
       let defaultM: CGFloat = 5
       var insetTM: CGFloat = insetT
       //var insetBM: CGFloat = insetB
       var insetLM: CGFloat = insetL
       var insetRM: CGFloat = insetR
       if insetTM == 0 { insetTM = defaultM }
+      //if insetBM == 0 { insetBM = defaultM }
       if insetLM == 0 { insetLM = defaultM }
       if insetRM == 0 { insetRM = defaultM }
       let elementH: CGFloat = 30
@@ -1488,68 +1476,11 @@ player.play()*/
       }
       
       webView3.frame = CGRect(x: insetL, y: insetTM + elementH + defaultM, width: view.frame.width - insetL - insetR, height: view.frame.height - insetTM - elementH - defaultM)
+      //webView3.frame = CGRect(x: insetL, y: insetTM, width: view.frame.width - insetL - insetR, height: view.frame.height - insetTM)
       
       lb.frame = CGRect(x: insetL + 21, y: 0, width: view.frame.width - insetL - insetR - 42, height: 0)
       adjustLabel()
       
-      
-      /*
-      urlField.frame.origin.x = insetL
-      urlField.frame.origin.y = insetT
-      urlField.frame.size.width = view.frame.width - insetL - insetR
-      urlField.frame.size.height = 30
-      if insetT == 0 {
-        urlField.frame.origin.y += 5
-      }
-      if insetL == 0 {
-        urlField.frame.origin.x += 5
-        urlField.frame.size.width -= 5
-      }
-      if insetR == 0 {
-        urlField.frame.size.width -= 5
-      }
-      if button.isDescendant(of: view) {
-        urlField.frame.size.width -= 85
-      }
-      
-      button.frame.origin.x = urlField.frame.origin.x + urlField.frame.size.width + 5
-      button.frame.origin.y = urlField.frame.origin.y
-      button.frame.size.width = 80
-      button.frame.size.height = urlField.frame.size.height
-      
-      topNavBgView.frame.origin.x = 0
-      topNavBgView.frame.origin.y = 0
-      topNavBgView.frame.size.width = view.frame.width
-      topNavBgView.frame.size.height = urlField.frame.origin.y + urlField.frame.size.height + 5
-      
-      //progressView.frame.origin.x = insetL
-      progressView.frame.origin.x = urlField.frame.origin.x
-      progressView.frame.origin.y = urlField.frame.origin.y + urlField.frame.size.height + 2
-      //progressView.frame.size.width = view.frame.width - insetL - insetR
-      progressView.frame.size.width = urlField.frame.size.width
-      progressView.frame.size.height = 2
-      progressView.transform = progressView.transform.scaledBy(x: 1, y: 0.5)
-      
-      tableView.frame.origin.x = insetL
-      tableView.frame.origin.y = urlField.frame.origin.y + urlField.frame.size.height + 5
-      tableView.frame.size.width = view.frame.width - insetL - insetR
-      tableView.frame.size.height = 185
-      tableView.reloadData()
-      
-      webView.frame.origin.x = insetL
-      webView.frame.origin.y = urlField.frame.origin.y + urlField.frame.size.height + 5
-      webView.frame.size.width = view.frame.width - insetL - insetR
-      //webView.frame.size.height = view.frame.height - urlField.frame.origin.y - urlField.frame.size.height - 5 - insetB
-      webView.frame.size.height = view.frame.height - urlField.frame.origin.y - urlField.frame.size.height - 5
-      
-      //webView.frame.origin.y = 0
-      //webView.frame.size.height = view.frame.height
-      
-      if webView2.isDescendant(of: view) {
-        webView.frame.origin.y += 200
-        webView.frame.size.height -= 200
-      }
-      */
       
       //webView.scrollView.contentSize = CGSize(width: self.view.frame.width - insetL - insetR, height: self.view.frame.height - insetT - urlField.frame.size.height - 10)
       //webView.scrollView.contentInset = UIEdgeInsets(top: insetT + urlField.frame.size.height + 10, left: 0, bottom: 0, right: 0)
@@ -1570,18 +1501,18 @@ player.play()*/
       webView.scrollView.scrollIndicatorInsets = UIEdgeInsets(top: urlField.frame.size.height + 10, left: 0, bottom: 0, right: 0)
       */
       
-      /*
-      webView3.frame.origin.x = insetL
-      //webView3.frame.origin.y = urlField.frame.origin.y
-      webView3.frame.origin.y = urlField.frame.origin.y + urlField.frame.size.height + 5
-      webView3.frame.size.width = view.frame.width - insetL - insetR
-      //webView3.frame.size.height = view.frame.height - urlField.frame.origin.y
-      webView3.frame.size.height = view.frame.height - urlField.frame.origin.y - urlField.frame.size.height - 5
       
-      lb.frame.origin.x = insetL + 21
-      lb.frame.size.width = view.frame.width - insetL - insetR - 42
-      adjustLabel()
-      */
+      if !(lastDeviceOrientation == "initial") {
+        if deviceOrientation == "pt" {
+          shouldHideHomeIndicator = false
+          //shouldHideHomeIndicator = true
+        } else {
+          shouldHideHomeIndicator = true
+        }
+        if #available(iOS 11, *) {
+          setNeedsUpdateOfHomeIndicatorAutoHidden()
+        }
+      }
       
       lastDeviceOrientation = deviceOrientation
       lb.text! += " \(insetT) \(insetB) \(insetL) \(insetR) \(deviceOrientation)"
@@ -1589,7 +1520,7 @@ player.play()*/
   }
   
   
-    override func viewDidLoad() {
+  override func viewDidLoad() {
         super.viewDidLoad()
         
         UIApplication.shared.isIdleTimerDisabled = true
