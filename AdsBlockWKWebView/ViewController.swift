@@ -68,7 +68,6 @@ extension UserDefaults {
   func exists(key: String) -> Bool {
     return object(forKey: key) != nil
   }
-  
   func setData(_ value: Any, key: String) {
     let archivedObj = NSKeyedArchiver.archivedData(withRootObject: value)
     set(archivedObj, forKey: key)
@@ -78,7 +77,6 @@ extension UserDefaults {
     if let value = data(forKey: key), let obj = NSKeyedUnarchiver.unarchiveObject(with: value) as? T { return obj }
     return nil
   }
-  
   func fetch<T>(key: String, or value: Any) -> T {
     if exists(key: key) {
       if type(of: value) == String.self {
@@ -181,6 +179,7 @@ func initPool() -> WKProcessPool {
 let processPool: WKProcessPool = initPool()
 
 
+/*
 func setData(_ value: Any, key: String) {
   let archivedPool = NSKeyedArchiver.archivedData(withRootObject: value)
   //UserDefaults.standard.set(archivedPool, forKey: key)
@@ -195,6 +194,7 @@ if let val = UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")?.
   }
   return nil
 }
+*/
 
 
 /*
@@ -2022,7 +2022,7 @@ downloadTask.resume()
         }
         }
         //if !sessionCookies.isEmpty {
-        setData(sessionCookies, key: "cookies")
+        userDefGroup.setData(sessionCookies, key: "cookies")
         //}
         //self.lb.text! += " c:\(cookies.count)"
         self.lb.text! += " cS:\(sessionCookies.count)/\(cookies.count)"
@@ -2089,7 +2089,7 @@ downloadTask.resume()
   @objc private func becomeActive() {
     
         if #available(iOS 11, *) {
-        if let cookies: [HTTPCookie] = getData(key: "cookies") {
+        if let cookies: [HTTPCookie] = userDefGroup.getData(key: "cookies") {
         for (index, cookie) in cookies.enumerated() {
         webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
         //iwashere += "\n\ncookie \(index+1)/\(cookies.count):\n\(cookie)"
@@ -2117,7 +2117,7 @@ downloadTask.resume()
   @objc private func willTerminate() {
     if #available(iOS 11, *) {
       let sessionCookies: [HTTPCookie] = []
-      setData(sessionCookies, key: "cookies")
+      userDefGroup.setData(sessionCookies, key: "cookies")
       NSLog("cS:X")
     }
     NSLog("wTe")
