@@ -75,8 +75,8 @@ extension UserDefaults {
   }
   
   func getData<T>(key: String) -> T? {
-    //if let value = value(forKey: key) as? Data, 
-    if let value = data(forKey: key), 
+    if let value = value(forKey: key) as? Data, 
+    //if let value = data(forKey: key), 
     let obj = NSKeyedUnarchiver.unarchiveObject(with: value) as? T {
       return obj
     }
