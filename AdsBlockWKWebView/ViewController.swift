@@ -562,8 +562,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   
   @objc internal func onMenu1(sender: UIMenuItem) {
     
-    let testio: Int = userDefGroup.getData(key: "testkey")
-    showAlert(message: "t: \(testio!)")
+    let testio = userDefGroup.getData(key: "testkey") as! Int
+    showAlert(message: "t: \(testio)")
     userDefGroup.setData(Int(arc4random_uniform(999999) + 1), key: "testkey")
     
     
