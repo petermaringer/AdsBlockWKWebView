@@ -559,7 +559,10 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   
   @objc internal func onMenu1(sender: UIMenuItem) {
     UIPasteboard.general.items = []
-    showAlert(message: "Clipboard was cleared.")
+    //showAlert(message: "Clipboard was cleared.")
+    showJSAlert(type: "alert", title: "Alert", message: "Clipboard was cleared.") { (response) in
+      self.lb.text! += " RES:\(response!)"
+    }
   }
   
   func textFieldDidBeginEditing(_ textField: UITextField) {
