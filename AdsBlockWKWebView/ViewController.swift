@@ -576,9 +576,10 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   @objc internal func onMenu1(sender: UIMenuItem) {
     UIPasteboard.general.items = []
     //showAlert(message: "Clipboard was cleared.")
-    //showJSAlert(type: "alert", title: "Alert", message: "Clipboard was cleared.") { (response) in
-      //self.lb.text! += " RES:\(response!)"
-    //}
+    showNewAlert(title: "Important", "wert")
+    showNewAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response) in
+      self.lb.text! += " RES:\(response!)"
+    }
     showNewAlert("2nd")
   }
   
@@ -1440,7 +1441,7 @@ player.play()*/
     let alert = UIAlertController(title: alertObjArray.first!.title, message: alertObjArray.first!.message, preferredStyle: .alert)
     if alertObjArray.first!.type == "alert" {
       alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-        completionHandler("\(alertObjArray.count):\(alertObjArray.first!.message)")
+        completionHandler("\(alertObjArray.count):\(alertObjArray.first!.message!)")
         alertObjArray.removeFirst()
         self.showNewAlert()
       }))
