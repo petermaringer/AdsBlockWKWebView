@@ -152,7 +152,7 @@ class alertObj {
   var Title: String?
   var Message: String
   var Handler: ((Any) -> Void)?
-  init (Style: String? = nil, Title: String? = nil, Message: String, Handler: ((Any) -> Void)? = nil) {
+  init(Style: String? = nil, Title: String? = nil, Message: String, Handler: ((Any) -> Void)? = nil) {
     self.Style? = Style!
     self.Title? = Title!
     self.Message = Message
@@ -166,12 +166,13 @@ class alertObj {
   var title: String?
   var message: String?
   var input: String?
-  var completionHandler: @escaping (Any?) -> Void
-  init (type: String? = nil, title: String? = nil, message: String? = nil, input: String? = nil, completionHandler: @escaping (Any?) -> Void = { _ in }) {
-    self.type? = type!
-    self.title? = title!
-    self.message? = message!
-    self.input? = input!
+  var completionHandler: (Any?) -> Void
+  //init(type: String? = nil, title: String? = nil, message: String? = nil, input: String? = nil, completionHandler: @escaping (Any?) -> Void = { _ in }) {
+  init(type: String?, title: String?, message: String?, input: String?, completionHandler: @escaping (Any?) -> Void) {
+    self.type = type
+    self.title = title
+    self.message = message
+    self.input = input
     self.completionHandler = completionHandler
   }
 }
