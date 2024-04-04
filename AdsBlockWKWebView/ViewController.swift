@@ -161,6 +161,21 @@ class alertObj {
 }
 var alertObjArray = [alertObj]()
 */
+class alertObj {
+  var type: String?
+  var title: String?
+  var message: String?
+  var input: String?
+  var completionHandler: (Any?) -> Void
+  init (type: String? = nil, title: String? = nil, message: String? = nil, input: String? = nil, completionHandler: @escaping (Any?) -> Void = { _ in }) {
+    self.type? = type!
+    self.title? = title!
+    self.message? = message!
+    self.input? = input!
+    self.completionHandler = completionHandler
+  }
+}
+var alertObjArray = [alertObj]()
 
 
 var wkpool = "wkp"
@@ -563,7 +578,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     //showJSAlert(type: "alert", title: "Alert", message: "Clipboard was cleared.") { (response) in
       //self.lb.text! += " RES:\(response!)"
     //}
-    showJSAlert(message: "2nd.")
+    showNewAlert("2nd")
   }
   
   func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -1416,6 +1431,47 @@ player.play()*/
     self.present(alert, animated: true) { hapticFB.notificationOccurred(.success) }
   }
   */
+  private func showNewAlert(type: String? = "alert", title: String? = nil, _ message: String? = nil, input: String? = nil, completionHandler: @escaping (Any?) -> Void = { _ in }) {
+    if let message = message {
+      alertObjArray.append(alertObj(type: type, title: title, message: message, input: input, completionHandler: completionHandler))
+    }
+    guard alertObjArray.count > 0 else { return }
+    let alert = UIAlertController(title: alertObjArray.first!.title, message: alertObjArray.first!.message, preferredStyle: .alert)
+    if alertObjArray.first!.type == "alert" {
+      alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+        completionHandler("\(alertObjArray.count):\(alertObjArray.first!.message)")
+        alertObjArray.removeFirst()
+        self.showNewAlert()
+      }))
+    }
+    /*
+    if type == "confirm" {
+      alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+        completionHandler(true)
+      }))
+      alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
+        completionHandler(false)
+      }))
+    }
+    if type == "prompt" {
+      alert.addTextField { (textField) in
+        textField.text = input
+      }
+      alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+        if let text = alert.textFields?.first?.text {
+          completionHandler(text)
+        } else {
+          completionHandler(input)
+        }
+      }))
+      alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
+        completionHandler(nil)
+      }))
+    }
+    */
+    hapticFB.notificationOccurred(.success)
+    present(alert, animated: true, completion: nil)
+  }
   
   
   private func adjustLabel() {
