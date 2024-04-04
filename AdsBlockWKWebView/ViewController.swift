@@ -166,7 +166,7 @@ class alertObj {
   var title: String?
   var message: String?
   var input: String?
-  var completionHandler: (Any?) -> Void
+  var completionHandler: @escaping (Any?) -> Void
   init (type: String? = nil, title: String? = nil, message: String? = nil, input: String? = nil, completionHandler: @escaping (Any?) -> Void = { _ in }) {
     self.type? = type!
     self.title? = title!
