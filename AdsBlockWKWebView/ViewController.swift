@@ -1435,14 +1435,15 @@ player.play()*/
   */
   private func showNewAlert(type: String? = "alert", title: String? = nil, _ message: String? = nil, input: String? = nil, completionHandler: @escaping (Any?) -> Void = { _ in }) {
     if let message = message {
-      //alertObjArray.append(alertObj(type: type, title: title, message: message, input: input, completionHandler: completionHandler))
-      alertObjArray.append(alertObj(type: type, title: title, message: message, input: input) { res in completionHandler(res) })
+      alertObjArray.append(alertObj(type: type, title: title, message: message, input: input, completionHandler: completionHandler))
+      //alertObjArray.append(alertObj(type: type, title: title, message: message, input: input) { res in completionHandler(res) })
     }
     guard alertObjArray.count > 0 else { return }
     let alert = UIAlertController(title: alertObjArray.first!.title, message: alertObjArray.first!.message, preferredStyle: .alert)
     if alertObjArray.first!.type == "alert" {
       alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-        completionHandler("\(alertObjArray.count):\(alertObjArray.first!.message!)")
+        //completionHandler("\(alertObjArray.count):\(alertObjArray.first!.message!)")
+        alertObjArray.first!.completionHandler("\(alertObjArray.count):\(alertObjArray.first!.message!)")
         alertObjArray.removeFirst()
         self.showNewAlert()
       }))
