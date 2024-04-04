@@ -563,7 +563,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     showJSAlert(type: "alert", title: "Alert", message: "Clipboard was cleared.") { (response) in
       self.lb.text! += " RES:\(response!)"
     }
-    showJSAlert("2nd.") { }
+    showJSAlert(message: "2nd.") { }
   }
   
   func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -1353,7 +1353,7 @@ player.play()*/
   
   
   //private func showJSAlert(type: String, title: String? = nil, message: String, input: String? = nil, completionHandler: @escaping (Any?) -> Void) {
-  private func showJSAlert(type: String? = "alert", title: String? = nil, _ message: String, input: String? = nil, completionHandler: @escaping (Any?) -> Void) {
+  private func showJSAlert(type: String? = "alert", title: String? = nil, message: String, input: String? = nil, completionHandler: @escaping (Any?) -> Void = { _ in }) {
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
     if type == "alert" {
       alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
