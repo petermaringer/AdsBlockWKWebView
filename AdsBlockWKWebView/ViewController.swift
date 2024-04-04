@@ -563,7 +563,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     showJSAlert(type: "alert", title: "Alert", message: "Clipboard was cleared.") { (response) in
       self.lb.text! += " RES:\(response!)"
     }
-    showJSAlert(message: "2nd.") { }
+    showJSAlert(message: "2nd.")
   }
   
   func textFieldDidBeginEditing(_ textField: UITextField) {
