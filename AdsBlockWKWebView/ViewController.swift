@@ -2852,7 +2852,7 @@ downloadTask.resume()
   //func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo) async {
     if alertCounter < 5 {
       alertCounter += 1
-      showNewAlert(type: "alert", title: "Alert", message: message) { (response) in
+      showNewAlert(type: "alert", title: "Alert", message) { (response) in
         self.lb.text! += " RES:\(response!)/\(alertCounter)"
         completionHandler()
       }
@@ -2869,7 +2869,7 @@ downloadTask.resume()
   func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
     if alertCounter < 5 {
       alertCounter += 1
-      showNewAlert(type: "confirm", title: "Alert", message: message) { (response) in
+      showNewAlert(type: "confirm", title: "Alert", message) { (response) in
         self.lb.text! += " RES:\(response!)/\(alertCounter)"
         completionHandler(response as! Bool)
       }
@@ -2889,7 +2889,7 @@ downloadTask.resume()
   func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
     if alertCounter < 5 {
       alertCounter += 1
-      showNewAlert(type: "prompt", title: "Alert", message: prompt, input: defaultText) { (response) in
+      showNewAlert(type: "prompt", title: "Alert", prompt, input: defaultText) { (response) in
         self.lb.text! += " RES:\(response ?? "nil")/\(alertCounter)"
         completionHandler(response as? String)
       }
