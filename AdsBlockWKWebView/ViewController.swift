@@ -163,13 +163,14 @@ var alertObjArray = [alertObj]()
 */
 class alertObj {
   var type: String?
+  var style: UIAlertController.Style?
   var title: String?
   var message: String?
   var input: String?
   var completionHandler: (Any?) -> Void
-  //init(type: String? = nil, title: String? = nil, message: String? = nil, input: String? = nil, completionHandler: @escaping (Any?) -> Void = { _ in }) {
-  init(type: String?, title: String?, message: String?, input: String?, completionHandler: @escaping (Any?) -> Void) {
+  init(type: String?, style: UIAlertController.Style?, title: String?, message: String?, input: String?, completionHandler: @escaping (Any?) -> Void) {
     self.type = type
+    self.style = style
     self.title = title
     self.message = message
     self.input = input
@@ -581,6 +582,9 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
       self.lb.text! += " RES:\(response!)"
     }
     showNewAlert(type: "confirm", title: "Alert2", "Want to die?") { (response) in
+      self.lb.text! += " RES:\(response!)"
+    }
+    showNewAlert(type: "prompt", style: .actionSheet, title: "Alert4", "How do you want to die?", input: "accident") { (response) in
       self.lb.text! += " RES:\(response!)"
     }
     showNewAlert("2nd")
@@ -1436,12 +1440,12 @@ player.play()*/
     self.present(alert, animated: true) { hapticFB.notificationOccurred(.success) }
   }
   */
-  private func showNewAlert(type: String? = "alert", title: String? = nil, _ message: String? = nil, input: String? = nil, completionHandler: @escaping (Any?) -> Void = { _ in }) {
+  private func showNewAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, completionHandler: @escaping (Any?) -> Void = { _ in }) {
     if let message = message {
-      alertObjArray.append(alertObj(type: type, title: title, message: message, input: input, completionHandler: completionHandler))
+      alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, completionHandler: completionHandler))
     }
     guard alertObjArray.count > 0 else { return }
-    let alert = UIAlertController(title: alertObjArray.first!.title, message: alertObjArray.first!.message, preferredStyle: .alert)
+    let alert = UIAlertController(title: alertObjArray.first!.title, message: alertObjArray.first!.message, preferredStyle: alertObjArray.first!.style)
     if alertObjArray.first!.type == "alert" {
       alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
         alertObjArray.first!.completionHandler("\(alertObjArray.first!.message!)")
