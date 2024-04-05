@@ -1462,23 +1462,25 @@ player.play()*/
         self.showNewAlert()
       }))
     }
-    /*
-    if type == "prompt" {
+    if alertObjArray.first!.type == "prompt" {
       alert.addTextField { (textField) in
-        textField.text = input
+        textField.text = alertObjArray.first!.input
       }
       alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
         if let text = alert.textFields?.first?.text {
-          completionHandler(text)
+          alertObjArray.first!.completionHandler(text)
         } else {
-          completionHandler(input)
+          alertObjArray.first!.completionHandler(input)
         }
+        alertObjArray.removeFirst()
+        self.showNewAlert()
       }))
       alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
-        completionHandler(nil)
+        alertObjArray.first!.completionHandler(nil)
+        alertObjArray.removeFirst()
+        self.showNewAlert()
       }))
     }
-    */
     hapticFB.notificationOccurred(.success)
     present(alert, animated: true, completion: nil)
   }
@@ -2850,7 +2852,7 @@ downloadTask.resume()
   //func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo) async {
     if alertCounter < 5 {
       alertCounter += 1
-      showJSAlert(type: "alert", title: "Alert", message: message) { (response) in
+      showNewAlert(type: "alert", title: "Alert", message: message) { (response) in
         self.lb.text! += " RES:\(response!)/\(alertCounter)"
         completionHandler()
       }
@@ -2867,7 +2869,7 @@ downloadTask.resume()
   func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
     if alertCounter < 5 {
       alertCounter += 1
-      showJSAlert(type: "confirm", title: "Alert", message: message) { (response) in
+      showNewAlert(type: "confirm", title: "Alert", message: message) { (response) in
         self.lb.text! += " RES:\(response!)/\(alertCounter)"
         completionHandler(response as! Bool)
       }
@@ -2887,7 +2889,7 @@ downloadTask.resume()
   func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
     if alertCounter < 5 {
       alertCounter += 1
-      showJSAlert(type: "prompt", title: "Alert", message: prompt, input: defaultText) { (response) in
+      showNewAlert(type: "prompt", title: "Alert", message: prompt, input: defaultText) { (response) in
         self.lb.text! += " RES:\(response ?? "nil")/\(alertCounter)"
         completionHandler(response as? String)
       }
