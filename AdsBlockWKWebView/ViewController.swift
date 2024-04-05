@@ -580,6 +580,9 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     showNewAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response) in
       self.lb.text! += " RES:\(response!)"
     }
+    showNewAlert(type: "confirm", title: "Alert2", "Want to die?") { (response) in
+      self.lb.text! += " RES:\(response!)"
+    }
     showNewAlert("2nd")
   }
   
@@ -1436,27 +1439,30 @@ player.play()*/
   private func showNewAlert(type: String? = "alert", title: String? = nil, _ message: String? = nil, input: String? = nil, completionHandler: @escaping (Any?) -> Void = { _ in }) {
     if let message = message {
       alertObjArray.append(alertObj(type: type, title: title, message: message, input: input, completionHandler: completionHandler))
-      //alertObjArray.append(alertObj(type: type, title: title, message: message, input: input) { res in completionHandler(res) })
+      //...put) { res in completionHandler(res) })
     }
     guard alertObjArray.count > 0 else { return }
     let alert = UIAlertController(title: alertObjArray.first!.title, message: alertObjArray.first!.message, preferredStyle: .alert)
     if alertObjArray.first!.type == "alert" {
       alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-        //completionHandler("\(alertObjArray.count):\(alertObjArray.first!.message!)")
-        alertObjArray.first!.completionHandler("\(alertObjArray.count):\(alertObjArray.first!.message!)")
+        alertObjArray.first!.completionHandler("\(alertObjArray.count)/\(alertObjArray.first!.message!)")
+        alertObjArray.removeFirst()
+        self.showNewAlert()
+      }))
+    }
+    if alertObjArray.first!.type == "confirm" {
+      alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+        alertObjArray.first!.completionHandler(true)
+        alertObjArray.removeFirst()
+        self.showNewAlert()
+      }))
+      alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
+        alertObjArray.first!.completionHandler(false)
         alertObjArray.removeFirst()
         self.showNewAlert()
       }))
     }
     /*
-    if type == "confirm" {
-      alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-        completionHandler(true)
-      }))
-      alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
-        completionHandler(false)
-      }))
-    }
     if type == "prompt" {
       alert.addTextField { (textField) in
         textField.text = input
