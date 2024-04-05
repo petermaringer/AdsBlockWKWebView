@@ -1445,7 +1445,7 @@ player.play()*/
       alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, completionHandler: completionHandler))
     }
     guard alertObjArray.count > 0 else { return }
-    let alert = UIAlertController(title: alertObjArray.first!.title, message: alertObjArray.first!.message, preferredStyle: alertObjArray.first!.style)
+    let alert = UIAlertController(title: alertObjArray.first!.title, message: alertObjArray.first!.message, preferredStyle: alertObjArray.first!.style!)
     if alertObjArray.first!.type == "alert" {
       alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
         alertObjArray.first!.completionHandler("\(alertObjArray.first!.message!)")
