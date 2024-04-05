@@ -584,10 +584,10 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     showNewAlert(type: "confirm", title: "Alert2", "Want to die?") { (response) in
       self.lb.text! += " RES:\(response!)"
     }
-    showNewAlert(type: "prompt", style: .actionSheet, title: "Alert4", "How do you want to die?", input: "accident") { (response) in
+    showNewAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident") { (response) in
       self.lb.text! += " RES:\(response!)"
     }
-    showNewAlert("2nd")
+    showNewAlert(style: .actionSheet, "2nd")
   }
   
   func textFieldDidBeginEditing(_ textField: UITextField) {
