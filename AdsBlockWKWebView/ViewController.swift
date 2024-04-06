@@ -577,7 +577,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   @objc internal func onMenu1(sender: UIMenuItem) {
     UIPasteboard.general.items = []
     //showAlert(message: "Clipboard was cleared.")
-    showNewAlert(title: "Important", "wert")
+    showNewAlert(title: "Important")
     showNewAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response) in
       self.lb.text! += " RES:\(response!)"
     }
