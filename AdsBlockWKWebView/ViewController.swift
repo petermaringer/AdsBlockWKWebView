@@ -1441,7 +1441,8 @@ player.play()*/
   }
   */
   private func showNewAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, completionHandler: @escaping (Any?) -> Void = { _ in }) {
-    if let message = message {
+    //if let message = message {
+    if message != "nextAlertObj" {
       alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, completionHandler: completionHandler))
     }
     guard alertObjArray.count > 0 else { return }
@@ -1450,19 +1451,19 @@ player.play()*/
       alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
         alertObjArray.first!.completionHandler("\(alertObjArray.first!.message!)")
         alertObjArray.removeFirst()
-        self.showNewAlert()
+        self.showNewAlert("nextAlertObj")
       }))
     }
     if alertObjArray.first!.type == "confirm" {
       alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
         alertObjArray.first!.completionHandler(true)
         alertObjArray.removeFirst()
-        self.showNewAlert()
+        self.showNewAlert("nextAlertObj")
       }))
       alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
         alertObjArray.first!.completionHandler(false)
         alertObjArray.removeFirst()
-        self.showNewAlert()
+        self.showNewAlert("nextAlertObj")
       }))
     }
     if alertObjArray.first!.type == "prompt" {
@@ -1476,12 +1477,12 @@ player.play()*/
           alertObjArray.first!.completionHandler(input)
         }
         alertObjArray.removeFirst()
-        self.showNewAlert()
+        self.showNewAlert("nextAlertObj")
       }))
       alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
         alertObjArray.first!.completionHandler(nil)
         alertObjArray.removeFirst()
-        self.showNewAlert()
+        self.showNewAlert("nextAlertObj")
       }))
     }
     hapticFB.notificationOccurred(.success)
