@@ -1449,7 +1449,7 @@ player.play()*/
     let alert = UIAlertController(title: alertObjArray.first!.title, message: alertObjArray.first!.message, preferredStyle: alertObjArray.first!.style!)
     if alertObjArray.first!.type == "alert" {
       alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-        alertObjArray.first!.completionHandler("\(alertObjArray.first!.message!)")
+        alertObjArray.first!.completionHandler("\(alertObjArray.first!.message ?? "")")
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
       }))
