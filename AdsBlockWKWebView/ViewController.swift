@@ -1510,7 +1510,7 @@ player.play()*/
         guard let userId = alert.textFields?.first?.text else { return }
         guard let password = alert.textFields?.last?.text else { return }
         let credential = URLCredential(user: userId, password: password, persistence: .forSession)
-        alertObjArray.first!.completionHandler(.useCredential, credential)
+        alertObjArray.first!.completionHandler(.useCredential as URLSession.AuthChallengeDisposition, credential)
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
       }))
