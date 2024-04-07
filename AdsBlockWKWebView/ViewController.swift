@@ -25,6 +25,18 @@ extension Date {
   }
 }
 
+extension String {
+  var localized: String {
+    return NSLocalizedString(self, comment: "\(self)_comment")
+  }
+  func localized(_ args: [CVarArg]) -> String {
+    return localized(args)
+  }
+  func localized(_ args: CVarArg...) -> String {
+    return String(format: localized, args)
+  }
+}
+
 extension UIColor {
   public convenience init(r: Int, g: Int, b: Int, a: Int) {
     self.init(red: CGFloat(r) / 255.0, green: CGFloat(g) / 255.0, blue: CGFloat(b) / 255.0, alpha: CGFloat(a) / 255.0)
