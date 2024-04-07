@@ -597,7 +597,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     showNewAlert(type: "confirm", title: "Alert2", "Want to die?") { (response, _) in
       self.lb.text! += " RES:\(response!)"
     }
-    showNewAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident") { (response) in
+    showNewAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident") { (response, _) in
       self.lb.text! += " RES:\(response ?? "nil")"
     }
     showNewAlert(style: .actionSheet, title: nil, "2nd")
@@ -1485,15 +1485,15 @@ player.play()*/
       }
       alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
         if let text = alert.textFields?.first?.text {
-          alertObjArray.first!.completionHandler(text)
+          alertObjArray.first!.completionHandler(text, nil)
         } else {
-          alertObjArray.first!.completionHandler(input)
+          alertObjArray.first!.completionHandler(input, nil)
         }
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
       }))
       alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
-        alertObjArray.first!.completionHandler(nil)
+        alertObjArray.first!.completionHandler(nil, nil)
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
       }))
@@ -2915,7 +2915,7 @@ downloadTask.resume()
   func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
     if alertCounter < 5 {
       alertCounter += 1
-      showNewAlert(type: "prompt", title: "Alert", prompt, input: defaultText) { (response) in
+      showNewAlert(type: "prompt", title: "Alert", prompt, input: defaultText) { (response, _) in
         self.lb.text! += " RES:\(response ?? "nil")/\(alertCounter)"
         completionHandler(response as? String)
       }
