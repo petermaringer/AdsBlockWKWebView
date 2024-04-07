@@ -1498,6 +1498,28 @@ player.play()*/
         self.showNewAlert("nextAlertObj")
       }))
     }
+    if alertObjArray.first!.type == "auth" {
+      alert.addTextField(configurationHandler: { (textField) in
+        textField.placeholder = "USER_ID".localized
+      })
+      alert.addTextField(configurationHandler: { (textField) in
+        textField.placeholder = "PASSWORD".localized
+        textField.isSecureTextEntry = true
+      })
+      alert.addAction(UIAlertAction(title: "BUTTON_OK".localized, style: .default, handler: { (action) in
+        guard let userId = alert.textFields?.first?.text else { return }
+        guard let password = alert.textFields?.last?.text else { return }
+        let credential = URLCredential(user: userId, password: password, persistence: .forSession)
+        alertObjArray.first!.completionHandler(.useCredential, credential)
+        alertObjArray.removeFirst()
+        self.showNewAlert("nextAlertObj")
+      }))
+      alert.addAction(UIAlertAction(title: "BUTTON_CANCEL".localized, style: .cancel, handler: { _ in
+        alertObjArray.first!.completionHandler(.cancelAuthenticationChallenge, nil)
+        alertObjArray.removeFirst()
+        self.showNewAlert("nextAlertObj")
+      }))
+    }
     hapticFB.notificationOccurred(.success)
     present(alert, animated: true, completion: nil)
   }
@@ -2906,6 +2928,18 @@ downloadTask.resume()
     guard let hostname = webView.url?.host else { return }
     let authenticationMethod = challenge.protectionSpace.authenticationMethod
     if authenticationMethod == NSURLAuthenticationMethodDefault || authenticationMethod == NSURLAuthenticationMethodHTTPBasic || authenticationMethod == NSURLAuthenticationMethodHTTPDigest {
+      
+      if alertCounter < 5 {
+      alertCounter += 1
+      showNewAlert(type: "auth", title: "Authentication", "Login at \(hostname):") { (response, credential) in
+        self.lb.text! += " RES:\(response!)"
+        completionHandler(response as! URLSession.AuthChallengeDisposition, credential as? URLCredential)
+      }
+      } else {
+      completionHandler(.cancelAuthenticationChallenge, nil)
+      }
+      
+      /*
       let av = UIAlertController(title: webView.title, message: String(format: "AUTH_CHALLENGE_REQUIRE_PASSWORD".localized, hostname), preferredStyle: .alert)
       av.addTextField(configurationHandler: { (textField) in
         textField.placeholder = "USER_ID".localized
@@ -2918,12 +2952,13 @@ downloadTask.resume()
         guard let userId = av.textFields?.first?.text else { return }
         guard let password = av.textFields?.last?.text else { return }
         let credential = URLCredential(user: userId, password: password, persistence: .none)
-        completionHandler(.useCredential,credential)
+        completionHandler(.useCredential, credential)
       }))
       av.addAction(UIAlertAction(title: "BUTTON_CANCEL".localized, style: .cancel, handler: { _ in
         completionHandler(.cancelAuthenticationChallenge, nil)
       }))
       present(av, animated: true, completion: nil)
+      */
     } else if authenticationMethod == NSURLAuthenticationMethodServerTrust {
       //needs this handling on iOS 9
       completionHandler(.performDefaultHandling, nil)
