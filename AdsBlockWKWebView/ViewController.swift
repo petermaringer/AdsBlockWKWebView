@@ -1515,7 +1515,7 @@ player.play()*/
         self.showNewAlert("nextAlertObj")
       }))
       alert.addAction(UIAlertAction(title: "BUTTON_CANCEL".localized, style: .cancel, handler: { _ in
-        alertObjArray.first!.completionHandler(.cancelAuthenticationChallenge, nil)
+        alertObjArray.first!.completionHandler(.cancelAuthenticationChallenge as URLSession.AuthChallengeDisposition, nil)
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
       }))
