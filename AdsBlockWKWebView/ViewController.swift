@@ -594,7 +594,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     showNewAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response, _) in
       self.lb.text! += " RES:\(response!)"
     }
-    showNewAlert(type: "confirm", title: "Alert2", "Want to die?") { (response) in
+    showNewAlert(type: "confirm", title: "Alert2", "Want to die?") { (response, _) in
       self.lb.text! += " RES:\(response!)"
     }
     showNewAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident") { (response) in
@@ -1469,12 +1469,12 @@ player.play()*/
     }
     if alertObjArray.first!.type == "confirm" {
       alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-        alertObjArray.first!.completionHandler(true)
+        alertObjArray.first!.completionHandler(true, nil)
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
       }))
       alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
-        alertObjArray.first!.completionHandler(false)
+        alertObjArray.first!.completionHandler(false, nil)
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
       }))
@@ -2903,7 +2903,7 @@ downloadTask.resume()
   func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
     if alertCounter < 5 {
       alertCounter += 1
-      showNewAlert(type: "confirm", title: "Alert", message) { (response) in
+      showNewAlert(type: "confirm", title: "Alert", message) { (response, _) in
         self.lb.text! += " RES:\(response!)/\(alertCounter)"
         completionHandler(response as! Bool)
       }
