@@ -30,7 +30,8 @@ extension String {
     return NSLocalizedString(self, comment: "\(self)_comment")
   }
   func localized(_ args: [CVarArg]) -> String {
-    return localized(args)
+    //return localized(args)
+    return String(format: localized, args)
   }
   func localized(_ args: CVarArg...) -> String {
     return String(format: localized, args)
@@ -2922,7 +2923,6 @@ downloadTask.resume()
       av.addAction(UIAlertAction(title: "BUTTON_CANCEL".localized, style: .cancel, handler: { _ in
         completionHandler(.cancelAuthenticationChallenge, nil)
       }))
-      //self.parent?.present(av, animated: true, completion: nil)
       present(av, animated: true, completion: nil)
     } else if authenticationMethod == NSURLAuthenticationMethodServerTrust {
       //needs this handling on iOS 9
