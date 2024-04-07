@@ -591,7 +591,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     UIPasteboard.general.items = []
     //showAlert(message: "Clipboard was cleared.")
     showNewAlert(title: "Important")
-    showNewAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response) in
+    showNewAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response, _) in
       self.lb.text! += " RES:\(response!)"
     }
     showNewAlert(type: "confirm", title: "Alert2", "Want to die?") { (response) in
@@ -1462,7 +1462,7 @@ player.play()*/
     let alert = UIAlertController(title: alertObjArray.first!.title, message: alertObjArray.first!.message, preferredStyle: alertObjArray.first!.style!)
     if alertObjArray.first!.type == "alert" {
       alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-        alertObjArray.first!.completionHandler("\(alertObjArray.first!.message ?? "")")
+        alertObjArray.first!.completionHandler("\(alertObjArray.first!.message ?? "")", nil)
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
       }))
@@ -2891,7 +2891,7 @@ downloadTask.resume()
   //func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo) async {
     if alertCounter < 5 {
       alertCounter += 1
-      showNewAlert(type: "alert", title: "Alert", message) { (response) in
+      showNewAlert(type: "alert", title: "Alert", message) { (response, _) in
         self.lb.text! += " RES:\(response!)/\(alertCounter)"
         completionHandler()
       }
