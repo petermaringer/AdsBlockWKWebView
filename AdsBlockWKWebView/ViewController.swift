@@ -180,8 +180,8 @@ class alertObj {
   var title: String?
   var message: String?
   var input: String?
-  var completionHandler: (Any?) -> Void
-  init(type: String?, style: UIAlertController.Style?, title: String?, message: String?, input: String?, completionHandler: @escaping (Any?) -> Void) {
+  var completionHandler: (Any?, Any?) -> Void
+  init(type: String?, style: UIAlertController.Style?, title: String?, message: String?, input: String?, completionHandler: @escaping (Any?, Any?) -> Void) {
     self.type = type
     self.style = style
     self.title = title
@@ -1453,7 +1453,7 @@ player.play()*/
     self.present(alert, animated: true) { hapticFB.notificationOccurred(.success) }
   }
   */
-  private func showNewAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, completionHandler: @escaping (Any?) -> Void = { _ in }) {
+  private func showNewAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, completionHandler: @escaping (Any?, Any?) -> Void = { _ in }) {
     //if let message = message {
     if message != "nextAlertObj" {
       alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, completionHandler: completionHandler))
