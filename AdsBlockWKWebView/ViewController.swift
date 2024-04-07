@@ -2922,7 +2922,7 @@ downloadTask.resume()
       av.addAction(UIAlertAction(title: "BUTTON_CANCEL".localized, style: .cancel, handler: { _ in
         completionHandler(.cancelAuthenticationChallenge, nil)
       }))
-      self.parentViewController?.present(av, animated: true, completion: nil)
+      self.parent?.present(av, animated: true, completion: nil)
     } else if authenticationMethod == NSURLAuthenticationMethodServerTrust {
       //needs this handling on iOS 9
       completionHandler(.performDefaultHandling, nil)
