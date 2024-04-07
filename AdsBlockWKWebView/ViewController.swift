@@ -2863,11 +2863,6 @@ downloadTask.resume()
     } else {
       completionHandler()
     }
-    //let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-    //alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-      //completionHandler()
-    //}))
-    //present(alertController, animated: true, completion: nil)
   }
   
   func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
@@ -2880,14 +2875,6 @@ downloadTask.resume()
     } else {
       completionHandler(false)
     }
-    //let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-    //alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-      //completionHandler(true)
-    //}))
-    //alertController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
-      //completionHandler(false)
-    //}))
-    //present(alertController, animated: true, completion: nil)
   }
   
   func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
@@ -2900,21 +2887,36 @@ downloadTask.resume()
     } else {
       completionHandler(nil)
     }
-    //let alertController = UIAlertController(title: nil, message: prompt, preferredStyle: .alert)
-    //alertController.addTextField { (textField) in
-      //textField.text = defaultText
-    //}
-    //alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-      //if let text = alertController.textFields?.first?.text {
-        //completionHandler(text)
-      //} else {
-        //completionHandler(defaultText)
-      //}
-    //}))
-    //alertController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
-      //completionHandler(nil)
-    //}))
-    //present(alertController, animated: true, completion: nil)
+  }
+  
+  func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+    guard let hostname = webView.url?.host else { return }
+    let authenticationMethod = challenge.protectionSpace.authenticationMethod
+    if authenticationMethod == NSURLAuthenticationMethodDefault || authenticationMethod == NSURLAuthenticationMethodHTTPBasic || authenticationMethod == NSURLAuthenticationMethodHTTPDigest {
+      let av = UIAlertController(title: webView.title, message: String(format: "AUTH_CHALLENGE_REQUIRE_PASSWORD".localized, hostname), preferredStyle: .alert)
+      av.addTextField(configurationHandler: { (textField) in
+        textField.placeholder = "USER_ID".localized
+      })
+      av.addTextField(configurationHandler: { (textField) in
+        textField.placeholder = "PASSWORD".localized
+        textField.isSecureTextEntry = true
+      })
+      av.addAction(UIAlertAction(title: "BUTTON_OK".localized, style: .default, handler: { (action) in
+        guard let userId = av.textFields?.first?.text else { return }
+        guard let password = av.textFields?.last?.text else { return }
+        let credential = URLCredential(user: userId, password: password, persistence: .none)
+        completionHandler(.useCredential,credential)
+      }))
+      av.addAction(UIAlertAction(title: "BUTTON_CANCEL".localized, style: .cancel, handler: { _ in
+        completionHandler(.cancelAuthenticationChallenge, nil)
+      }))
+      self.parentViewController?.present(av, animated: true, completion: nil)
+    } else if authenticationMethod == NSURLAuthenticationMethodServerTrust {
+      //needs this handling on iOS 9
+      completionHandler(.performDefaultHandling, nil)
+    } else {
+      completionHandler(.cancelAuthenticationChallenge, nil)
+    }
   }
   
   
