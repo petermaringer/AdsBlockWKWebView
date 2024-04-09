@@ -1465,8 +1465,8 @@ player.play()*/
     self.present(alert, animated: true) { hapticFB.notificationOccurred(.success) }
   }
   */
-  //private func showNewAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
-  private func showNewAlert(type: String?, style: UIAlertController.Style?, title: String?, _ message: String?, input: String?, buttonTitles: [String]?, buttonStyles: [UIAlertAction.Style]?, completionHandler: @escaping (Any?, Any?) -> Void) {
+  private func showNewAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
+  //private func showNewAlert(type: String?, style: UIAlertController.Style?, title: String?, _ message: String?, input: String?, buttonTitles: [String]?, buttonStyles: [UIAlertAction.Style]?, completionHandler: @escaping (Any?, Any?) -> Void) {
     if message != "nextAlertObj" {
       alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, completionHandler: completionHandler))
     }
@@ -1474,7 +1474,7 @@ player.play()*/
     let alert = UIAlertController(title: alertObjArray.first!.title, message: alertObjArray.first!.message, preferredStyle: alertObjArray.first!.style!)
     if alertObjArray.first!.type == "alert" {
       //alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-      alert.addAction(UIAlertAction(title: buttonTitles![0], style: buttonStyles![0], handler: { (action) in
+      alert.addAction(UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { (action) in
         alertObjArray.first!.completionHandler("\(alertObjArray.first!.message ?? "")", nil)
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
