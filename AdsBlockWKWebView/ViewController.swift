@@ -174,7 +174,8 @@ class alertObj {
 }
 var alertObjArray = [alertObj]()
 */
-class alertObj {
+//class alertObj {
+struct alertObj {
   /*var type: String?
   var style: UIAlertController.Style?
   var title: String?
