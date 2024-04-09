@@ -180,15 +180,17 @@ class alertObj {
   var title: String?
   var message: String?
   var input: String?
+  var buttonTitles: [String]?
+  var buttonStyles: [UIAlertAction.Style]?
   var completionHandler: (Any?, Any?) -> Void
-  init(type: String?, style: UIAlertController.Style?, title: String?, message: String?, input: String?, completionHandler: @escaping (Any?, Any?) -> Void) {
+  /*init(type: String?, style: UIAlertController.Style?, title: String?, message: String?, input: String?, completionHandler: @escaping (Any?, Any?) -> Void) {
     self.type = type
     self.style = style
     self.title = title
     self.message = message
     self.input = input
     self.completionHandler = completionHandler
-  }
+  }*/
 }
 var alertObjArray = [alertObj]()
 
@@ -1453,15 +1455,15 @@ player.play()*/
     self.present(alert, animated: true) { hapticFB.notificationOccurred(.success) }
   }
   */
-  private func showNewAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
-    //{ _ in }
+  private func showNewAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
     if message != "nextAlertObj" {
-      alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, completionHandler: completionHandler))
+      alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, completionHandler: completionHandler))
     }
     guard alertObjArray.count > 0 else { return }
     let alert = UIAlertController(title: alertObjArray.first!.title, message: alertObjArray.first!.message, preferredStyle: alertObjArray.first!.style!)
     if alertObjArray.first!.type == "alert" {
-      alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+      //alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+      alert.addAction(UIAlertAction(title: buttonTitles[0], style: buttonStyles[0], handler: { (action) in
         alertObjArray.first!.completionHandler("\(alertObjArray.first!.message ?? "")", nil)
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
@@ -2928,37 +2930,15 @@ downloadTask.resume()
     guard let hostname = webView.url?.host else { return }
     let authenticationMethod = challenge.protectionSpace.authenticationMethod
     if authenticationMethod == NSURLAuthenticationMethodDefault || authenticationMethod == NSURLAuthenticationMethodHTTPBasic || authenticationMethod == NSURLAuthenticationMethodHTTPDigest {
-      
       if alertCounter < 5 {
-      alertCounter += 1
-      showNewAlert(type: "auth", title: "Authentication", "Login at \(hostname):") { (response, credential) in
-        self.lb.text! += " RES:\(response!)"
-        completionHandler(response as! URLSession.AuthChallengeDisposition, credential as? URLCredential)
-      }
+        alertCounter += 1
+        showNewAlert(type: "auth", title: "Authentication", "Login at \(hostname):") { (response, credential) in
+          self.lb.text! += " RES:\(response!)"
+          completionHandler(response as! URLSession.AuthChallengeDisposition, credential as? URLCredential)
+        }
       } else {
-      completionHandler(.cancelAuthenticationChallenge, nil)
-      }
-      
-      /*
-      let av = UIAlertController(title: webView.title, message: String(format: "AUTH_CHALLENGE_REQUIRE_PASSWORD".localized, hostname), preferredStyle: .alert)
-      av.addTextField(configurationHandler: { (textField) in
-        textField.placeholder = "USER_ID".localized
-      })
-      av.addTextField(configurationHandler: { (textField) in
-        textField.placeholder = "PASSWORD".localized
-        textField.isSecureTextEntry = true
-      })
-      av.addAction(UIAlertAction(title: "BUTTON_OK".localized, style: .default, handler: { (action) in
-        guard let userId = av.textFields?.first?.text else { return }
-        guard let password = av.textFields?.last?.text else { return }
-        let credential = URLCredential(user: userId, password: password, persistence: .none)
-        completionHandler(.useCredential, credential)
-      }))
-      av.addAction(UIAlertAction(title: "BUTTON_CANCEL".localized, style: .cancel, handler: { _ in
         completionHandler(.cancelAuthenticationChallenge, nil)
-      }))
-      present(av, animated: true, completion: nil)
-      */
+      }
     } else if authenticationMethod == NSURLAuthenticationMethodServerTrust {
       //needs this handling on iOS 9
       completionHandler(.performDefaultHandling, nil)
