@@ -185,7 +185,8 @@ struct alertObj {
   var buttonStyles: [UIAlertAction.Style]?
   var completionHandler: (Any?, Any?) -> Void
   */
-  var type: String? = "alert"
+  var type: String?
+  //var type: String? = "alert"
   var style: UIAlertController.Style? = .alert
   var title: String? = "Alert"
   var message: String? = nil
@@ -603,7 +604,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   @objc internal func onMenu1(sender: UIMenuItem) {
     UIPasteboard.general.items = []
     //showAlert(message: "Clipboard was cleared.")
-    showNewAlert(title: "Important")
+    showNewAlert(title: "Important", buttonTitles: ["Acknowledge"])
     showNewAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response, _) in
       self.lb.text! += " RES:\(response!)"
     }
