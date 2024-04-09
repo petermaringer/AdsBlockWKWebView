@@ -191,7 +191,7 @@ class alertObj {
   var input: String? = nil
   var buttonTitles: [String]? = ["OK", "Cancel", "3rd"]
   var buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default]
-  var completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }
+  var completionHandler: (Any?, Any?) -> Void = { _, _ in }
   
   /*init(type: String?, style: UIAlertController.Style?, title: String?, message: String?, input: String?, completionHandler: @escaping (Any?, Any?) -> Void) {
     self.type = type
@@ -1474,7 +1474,7 @@ player.play()*/
     let alert = UIAlertController(title: alertObjArray.first!.title, message: alertObjArray.first!.message, preferredStyle: alertObjArray.first!.style!)
     if alertObjArray.first!.type == "alert" {
       //alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-      alert.addAction(UIAlertAction(title: buttonTitles[0]!, style: buttonStyles[0]!, handler: { (action) in
+      alert.addAction(UIAlertAction(title: buttonTitles![0], style: buttonStyles![0], handler: { (action) in
         alertObjArray.first!.completionHandler("\(alertObjArray.first!.message ?? "")", nil)
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
