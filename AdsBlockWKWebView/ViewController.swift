@@ -176,7 +176,7 @@ var alertObjArray = [alertObj]()
 */
 //class alertObj {
 struct alertObj {
-  /*var type: String?
+  var type: String?
   var style: UIAlertController.Style?
   var title: String?
   var message: String?
@@ -184,9 +184,8 @@ struct alertObj {
   var buttonTitles: [String]?
   var buttonStyles: [UIAlertAction.Style]?
   var completionHandler: (Any?, Any?) -> Void
-  */
-  var type: String?
-  //var type: String? = "alert"
+  
+  /*var type: String? = "alert"
   var style: UIAlertController.Style? = .alert
   var title: String? = "Alert"
   var message: String? = nil
@@ -194,7 +193,7 @@ struct alertObj {
   var buttonTitles: [String]? = ["OK", "Cancel", "3rd"]
   var buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default]
   var completionHandler: (Any?, Any?) -> Void = { _, _ in }
-  
+  */
   /*init(type: String?, style: UIAlertController.Style?, title: String?, message: String?, input: String?, completionHandler: @escaping (Any?, Any?) -> Void) {
     self.type = type
     self.style = style
