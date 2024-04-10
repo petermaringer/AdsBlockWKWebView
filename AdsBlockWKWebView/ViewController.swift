@@ -1536,6 +1536,7 @@ player.play()*/
       }))
     }
     //PreferredButton
+    alert.preferredAction = alert.actions[0]
     hapticFB.notificationOccurred(.success)
     //Dispatch
     present(alert, animated: true, completion: nil)
