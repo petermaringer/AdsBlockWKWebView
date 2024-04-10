@@ -1537,7 +1537,7 @@ player.play()*/
       }))
     }
     if alert.actions.count > 1 {
-      alert.preferredAction = alert.actions[alertObjArray.first!.defaultButton]
+      alert.preferredAction = alert.actions[alertObjArray.first!.defaultButton!]
     }
     hapticFB.notificationOccurred(.success)
     //Dispatch
