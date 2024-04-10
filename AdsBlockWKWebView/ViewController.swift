@@ -613,7 +613,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     showNewAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident") { (response, _) in
       self.lb.text! += " RES:\(response ?? "nil")"
     }
-    showNewAlert(style: .actionSheet, title: nil, "2nd")
+    showNewAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive])
   }
   
   func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -1474,7 +1474,6 @@ player.play()*/
     guard alertObjArray.count > 0 else { return }
     let alert = UIAlertController(title: alertObjArray.first!.title, message: alertObjArray.first!.message, preferredStyle: alertObjArray.first!.style!)
     if alertObjArray.first!.type == "alert" {
-      //alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
       alert.addAction(UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { (action) in
         alertObjArray.first!.completionHandler("\(alertObjArray.first!.message ?? "")", nil)
         alertObjArray.removeFirst()
@@ -1482,12 +1481,12 @@ player.play()*/
       }))
     }
     if alertObjArray.first!.type == "confirm" {
-      alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+      alert.addAction(UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { (action) in
         alertObjArray.first!.completionHandler(true, nil)
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
       }))
-      alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
+      alert.addAction(UIAlertAction(title: alertObjArray.first!.buttonTitles![1], style: alertObjArray.first!.buttonStyles![1], handler: { (action) in
         alertObjArray.first!.completionHandler(false, nil)
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
@@ -1497,7 +1496,7 @@ player.play()*/
       alert.addTextField { (textField) in
         textField.text = alertObjArray.first!.input
       }
-      alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+      alert.addAction(UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { (action) in
         if let text = alert.textFields?.first?.text {
           alertObjArray.first!.completionHandler(text, nil)
         } else {
@@ -1506,7 +1505,7 @@ player.play()*/
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
       }))
-      alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
+      alert.addAction(UIAlertAction(title: alertObjArray.first!.buttonTitles![1], style: alertObjArray.first!.buttonStyles![1], handler: { (action) in
         alertObjArray.first!.completionHandler(nil, nil)
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
@@ -1520,7 +1519,8 @@ player.play()*/
         textField.placeholder = "PASSWORD".localized
         textField.isSecureTextEntry = true
       })
-      alert.addAction(UIAlertAction(title: "BUTTON_OK".localized, style: .default, handler: { (action) in
+      //title: "BUTTON_OK".localized
+      alert.addAction(UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { (action) in
         guard let userId = alert.textFields?.first?.text else { return }
         guard let password = alert.textFields?.last?.text else { return }
         let credential = URLCredential(user: userId, password: password, persistence: .forSession)
@@ -1528,13 +1528,16 @@ player.play()*/
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
       }))
-      alert.addAction(UIAlertAction(title: "BUTTON_CANCEL".localized, style: .cancel, handler: { _ in
+      //title: "BUTTON_CANCEL".localized, handler: { _ in
+      alert.addAction(UIAlertAction(title: alertObjArray.first!.buttonTitles![1], style: alertObjArray.first!.buttonStyles![1], handler: { (action) in
         alertObjArray.first!.completionHandler(.cancelAuthenticationChallenge as URLSession.AuthChallengeDisposition, nil)
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
       }))
     }
+    //PreferredButton
     hapticFB.notificationOccurred(.success)
+    //Dispatch
     present(alert, animated: true, completion: nil)
   }
   
@@ -2945,7 +2948,7 @@ downloadTask.resume()
       if alertCounter < 5 {
         alertCounter += 1
         showNewAlert(type: "auth", title: "Authentication", "Login at \(hostname):") { (response, credential) in
-          self.lb.text! += " RES:\(response!)"
+          self.lb.text! += " RES:\(response!)/\(alertCounter)"
           completionHandler(response as! URLSession.AuthChallengeDisposition, credential as? URLCredential)
         }
       } else {
