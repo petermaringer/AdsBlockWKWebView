@@ -183,6 +183,7 @@ struct alertObj {
   var input: String?
   var buttonTitles: [String]?
   var buttonStyles: [UIAlertAction.Style]?
+  var defaultButton: Int?
   var completionHandler: (Any?, Any?) -> Void
   
   /*var type: String? = "alert"
@@ -1466,10 +1467,10 @@ player.play()*/
     self.present(alert, animated: true) { hapticFB.notificationOccurred(.success) }
   }
   */
-  private func showNewAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
+  private func showNewAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], defaultButton: Int? = 0, completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
   //private func showNewAlert(type: String?, style: UIAlertController.Style?, title: String?, _ message: String?, input: String?, buttonTitles: [String]?, buttonStyles: [UIAlertAction.Style]?, completionHandler: @escaping (Any?, Any?) -> Void) {
     if message != "nextAlertObj" {
-      alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, completionHandler: completionHandler))
+      alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, defaultButton: defaultButton, completionHandler: completionHandler))
     }
     guard alertObjArray.count > 0 else { return }
     let alert = UIAlertController(title: alertObjArray.first!.title, message: alertObjArray.first!.message, preferredStyle: alertObjArray.first!.style!)
@@ -1535,8 +1536,9 @@ player.play()*/
         self.showNewAlert("nextAlertObj")
       }))
     }
-    //PreferredButton
-    alert.preferredAction = alert.actions[0]
+    if alert.actions.count > 1 {
+      alert.preferredAction = alert.actions[alertObjArray.first!.defaultButton]
+    }
     hapticFB.notificationOccurred(.success)
     //Dispatch
     present(alert, animated: true, completion: nil)
