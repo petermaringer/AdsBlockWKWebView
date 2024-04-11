@@ -1474,12 +1474,23 @@ player.play()*/
     }
     guard alertObjArray.count > 0 else { return }
     let alert = UIAlertController(title: alertObjArray.first!.title, message: alertObjArray.first!.message, preferredStyle: alertObjArray.first!.style!)
+    var button1, button2, button3: UIAlertAction
+    //var button1: UIAlertAction
+    //var button2: UIAlertAction
+    //var button3: UIAlertAction
     if alertObjArray.first!.type == "alert" {
-      alert.addAction(UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { (action) in
+      /*alert.addAction(UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { (action) in
         alertObjArray.first!.completionHandler("\(alertObjArray.first!.message ?? "")", nil)
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
       }))
+      */
+      button1 = UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { _ in
+        alertObjArray.first!.completionHandler("\(alertObjArray.first!.message ?? "")", nil)
+        alertObjArray.removeFirst()
+        self.showNewAlert("nextAlertObj")
+      })
+      alert.addAction(button1)
       alertObjArray[0].defaultButton = nil
     }
     if alertObjArray.first!.type == "confirm" {
@@ -1494,12 +1505,12 @@ player.play()*/
         self.showNewAlert("nextAlertObj")
       }))
       */
-      let button1 = UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { _ in
+      button1 = UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { _ in
         alertObjArray.first!.completionHandler(true, nil)
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
       })
-      let button2 = UIAlertAction(title: alertObjArray.first!.buttonTitles![1], style: alertObjArray.first!.buttonStyles![1], handler: { _ in
+      button2 = UIAlertAction(title: alertObjArray.first!.buttonTitles![1], style: alertObjArray.first!.buttonStyles![1], handler: { _ in
         alertObjArray.first!.completionHandler(false, nil)
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
