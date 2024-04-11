@@ -1480,7 +1480,8 @@ player.play()*/
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
       }))
-      alertObjArray.first!.defaultButton = nil
+      //alertObjArray.first!.defaultButton = nil
+      alertObjArray[0].defaultButton = nil
     }
     if alertObjArray.first!.type == "confirm" {
       alert.addAction(UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { (action) in
