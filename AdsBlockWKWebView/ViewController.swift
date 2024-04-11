@@ -608,7 +608,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     showNewAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response, _) in
       self.lb.text! += " RES:\(response!)"
     }
-    showNewAlert(type: "confirm", title: "Alert2", "Want to die?") { (response, _) in
+    showNewAlert(type: "confirm", title: "Alert2", "Want to die?", defaultButton: 1) { (response, _) in
       self.lb.text! += " RES:\(response!)"
     }
     showNewAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident") { (response, _) in
@@ -1480,6 +1480,7 @@ player.play()*/
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
       }))
+      alertObjArray.first!.defaultButton = nil
     }
     if alertObjArray.first!.type == "confirm" {
       alert.addAction(UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { (action) in
@@ -1536,7 +1537,8 @@ player.play()*/
         self.showNewAlert("nextAlertObj")
       }))
     }
-    if alert.actions.count > 1 {
+    //if alert.actions.count > 1 {
+    if alertObjArray.first!.defaultButton != nil {
       alert.preferredAction = alert.actions[alertObjArray.first!.defaultButton!]
     }
     hapticFB.notificationOccurred(.success)
@@ -2923,7 +2925,7 @@ downloadTask.resume()
   func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
     if alertCounter < 5 {
       alertCounter += 1
-      showNewAlert(type: "confirm", title: "Alert", message) { (response, _) in
+      showNewAlert(type: "confirm", title: "Alert", message, defaultButton: nil) { (response, _) in
         self.lb.text! += " RES:\(response!)/\(alertCounter)"
         completionHandler(response as! Bool)
       }
