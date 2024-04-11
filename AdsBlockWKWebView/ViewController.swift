@@ -2926,7 +2926,8 @@ downloadTask.resume()
   func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
     if alertCounter < 5 {
       alertCounter += 1
-      showNewAlert(type: "confirm", title: "Alert", message, defaultButton: nil) { (response, _) in
+      //showNewAlert(type: "confirm", title: "Alert", message, defaultButton: nil) { (response, _) in
+      showNewAlert(type: "confirm", title: "Alert", message, buttonStyles: [.default, .default]) { (response, _) in
         self.lb.text! += " RES:\(response!)/\(alertCounter)"
         completionHandler(response as! Bool)
       }
