@@ -1475,9 +1475,6 @@ player.play()*/
     guard alertObjArray.count > 0 else { return }
     let alert = UIAlertController(title: alertObjArray.first!.title, message: alertObjArray.first!.message, preferredStyle: alertObjArray.first!.style!)
     var button1, button2, button3: UIAlertAction
-    //var button1: UIAlertAction
-    //var button2: UIAlertAction
-    //var button3: UIAlertAction
     if alertObjArray.first!.type == "alert" {
       /*alert.addAction(UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { (action) in
         alertObjArray.first!.completionHandler("\(alertObjArray.first!.message ?? "")", nil)
@@ -1522,7 +1519,7 @@ player.play()*/
       alert.addTextField { (textField) in
         textField.text = alertObjArray.first!.input
       }
-      alert.addAction(UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { (action) in
+      /*alert.addAction(UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { (action) in
         if let text = alert.textFields?.first?.text {
           alertObjArray.first!.completionHandler(text, nil)
         } else {
@@ -1536,6 +1533,23 @@ player.play()*/
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
       }))
+      */
+      button1 = UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { _ in
+        if let text = alert.textFields?.first?.text {
+          alertObjArray.first!.completionHandler(text, nil)
+        } else {
+          alertObjArray.first!.completionHandler(input, nil)
+        }
+        alertObjArray.removeFirst()
+        self.showNewAlert("nextAlertObj")
+      })
+      button2 = UIAlertAction(title: alertObjArray.first!.buttonTitles![1], style: alertObjArray.first!.buttonStyles![1], handler: { _ in
+        alertObjArray.first!.completionHandler(nil, nil)
+        alertObjArray.removeFirst()
+        self.showNewAlert("nextAlertObj")
+      })
+      alert.addAction(button2)
+      alert.addAction(button1)
     }
     if alertObjArray.first!.type == "auth" {
       alert.addTextField(configurationHandler: { (textField) in
@@ -1545,7 +1559,7 @@ player.play()*/
         textField.placeholder = "PASSWORD".localized
         textField.isSecureTextEntry = true
       })
-      //title: "BUTTON_OK".localized
+      /*//title: "BUTTON_OK".localized
       alert.addAction(UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { (action) in
         guard let userId = alert.textFields?.first?.text else { return }
         guard let password = alert.textFields?.last?.text else { return }
@@ -1560,6 +1574,24 @@ player.play()*/
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
       }))
+      */
+      //title: "BUTTON_OK".localized
+      button1 = UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { _ in
+        guard let userId = alert.textFields?.first?.text else { return }
+        guard let password = alert.textFields?.last?.text else { return }
+        let credential = URLCredential(user: userId, password: password, persistence: .forSession)
+        alertObjArray.first!.completionHandler(.useCredential as URLSession.AuthChallengeDisposition, credential)
+        alertObjArray.removeFirst()
+        self.showNewAlert("nextAlertObj")
+      })
+      //title: "BUTTON_CANCEL".localized, handler: { _ in
+      button2 = UIAlertAction(title: alertObjArray.first!.buttonTitles![1], style: alertObjArray.first!.buttonStyles![1], handler: { _ in
+        alertObjArray.first!.completionHandler(.cancelAuthenticationChallenge as URLSession.AuthChallengeDisposition, nil)
+        alertObjArray.removeFirst()
+        self.showNewAlert("nextAlertObj")
+      })
+      alert.addAction(button2)
+      alert.addAction(button1)
     }
     if alertObjArray.first!.defaultButton != nil {
       //alert.preferredAction = alert.actions[alertObjArray.first!.defaultButton!]
