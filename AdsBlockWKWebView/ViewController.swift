@@ -1480,7 +1480,6 @@ player.play()*/
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
       }))
-      //alertObjArray.first!.defaultButton = nil
       alertObjArray[0].defaultButton = nil
     }
     if alertObjArray.first!.type == "confirm" {
@@ -1551,9 +1550,9 @@ player.play()*/
         self.showNewAlert("nextAlertObj")
       }))
     }
-    //if alert.actions.count > 1 {
     if alertObjArray.first!.defaultButton != nil {
-      alert.preferredAction = alert.actions[alertObjArray.first!.defaultButton!]
+      //alert.preferredAction = alert.actions[alertObjArray.first!.defaultButton!]
+      alert.preferredAction = alert.actions[abs(alertObjArray.first!.defaultButton! - alert.actions.count + 1)]
     }
     hapticFB.notificationOccurred(.success)
     //Dispatch
