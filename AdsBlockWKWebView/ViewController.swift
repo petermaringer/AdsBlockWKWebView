@@ -2927,7 +2927,7 @@ downloadTask.resume()
     if alertCounter < 5 {
       alertCounter += 1
       //showNewAlert(type: "confirm", title: "Alert", message, defaultButton: nil) { (response, _) in
-      showNewAlert(type: "confirm", title: "Alert", message, buttonStyles: [.cancel, .cancel]) { (response, _) in
+      showNewAlert(type: "confirm", title: "Alert", message, buttonStyles: [.default, .default], defaultButton: nil) { (response, _) in
         self.lb.text! += " RES:\(response!)/\(alertCounter)"
         completionHandler(response as! Bool)
       }
