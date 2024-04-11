@@ -1484,7 +1484,7 @@ player.play()*/
       alertObjArray[0].defaultButton = nil
     }
     if alertObjArray.first!.type == "confirm" {
-      alert.addAction(UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { (action) in
+      /*alert.addAction(UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { (action) in
         alertObjArray.first!.completionHandler(true, nil)
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
@@ -1494,6 +1494,19 @@ player.play()*/
         alertObjArray.removeFirst()
         self.showNewAlert("nextAlertObj")
       }))
+      */
+      let button1 = UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { _ in
+        alertObjArray.first!.completionHandler(true, nil)
+        alertObjArray.removeFirst()
+        self.showNewAlert("nextAlertObj")
+      })
+      let button2 = UIAlertAction(title: alertObjArray.first!.buttonTitles![1], style: alertObjArray.first!.buttonStyles![1], handler: { _ in
+        alertObjArray.first!.completionHandler(false, nil)
+        alertObjArray.removeFirst()
+        self.showNewAlert("nextAlertObj")
+      })
+      alert.addAction(button2)
+      alert.addAction(button1)
     }
     if alertObjArray.first!.type == "prompt" {
       alert.addTextField { (textField) in
