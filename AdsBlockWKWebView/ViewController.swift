@@ -191,114 +191,7 @@ let processPool: WKProcessPool = initPool()
 
 
 /*
-func setData(_ value: Any, key: String) {
-  let archivedPool = NSKeyedArchiver.archivedData(withRootObject: value)
-  //UserDefaults.standard.set(archivedPool, forKey: key)
-  UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")?.set(archivedPool, forKey: key)
-}
-func getData<T>(key: String) -> T? {
-//if let val = UserDefaults.standard.value(forKey: key) as? Data,
-if let val = UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")?.value(forKey: key) as? Data,
-  let obj = NSKeyedUnarchiver.unarchiveObject(with: val) as? T {
-    //iwashere += " yes1"
-    return obj
-  }
-  return nil
-}
-*/
-
-
-/*
-//import Foundation
-import GCDWebServer
-var webserv = "hi1"
-class WebServer {
-  static let instance = WebServer()
-  let server = GCDWebServer()
-  var base: String {
-    return "http://localhost:\(self.server.port)"
-  }
-  func start() throws {
-    webserv = "hi2:\(self.server.port)"
-    guard !self.server.isRunning else {
-      return
-    }
-    try self.server.start(
-      options: [GCDWebServerOption_Port: 6571, GCDWebServerOption_BindToLocalhost: true, GCDWebServerOption_AutomaticallySuspendInBackground: true]
-    )
-    webserv = "hi3:\(self.server.port)"
-  }
-  
-  func registerDefaultHandler() {
-    server.addDefaultHandler(forMethod: "GET", request: GCDWebServerRequest.self, processBlock: { request in
-      return GCDWebServerDataResponse(html: "hi:default")
-    })
-  }
-  
-  func registerHandlerForMethod(_ method: String, module: String, resource: String, handler: @escaping (_ request: GCDWebServerRequest?) -> GCDWebServerResponse?) {
-    webserv += " hi4"
-    // Prevent serving content if the requested host isn't a whitelisted local host.
-    let wrappedHandler = {(request: GCDWebServerRequest?) -> GCDWebServerResponse? in
-      //guard let request = request, request.url.isLocal else {
-        //return GCDWebServerResponse(statusCode: 403)
-      //}
-      
-      if request?.url.absoluteString.hasPrefix("http://localhost:6571") == false {
-        return GCDWebServerResponse(statusCode: 403)
-        //return GCDWebServerDataResponse(html: "hi:nonlocal")
-      }
-      //webserv += " hi5"
-      
-      return handler(request)
-    }
-    server.addHandler(forMethod: method, path: "/\(module)/\(resource)", request: GCDWebServerRequest.self, processBlock: wrappedHandler)
-  }
-}
-
-class SessionRestoreHandler {
-  static func register(_ webServer: WebServer) {
-    webServer.registerHandlerForMethod("GET", module: "errors", resource: "restore") { _ in
-      guard let sessionRestorePath = Bundle.main.path(forResource: "SessionRestore", ofType: "html"), let sessionRestoreString = try? String(contentsOfFile: sessionRestorePath) else {
-        return GCDWebServerResponse(statusCode: 404)
-      }
-      return GCDWebServerDataResponse(html: sessionRestoreString)
-    }
-    webServer.registerHandlerForMethod("GET", module: "errors", resource: "error.html") { request in
-      if let range = request?.url.absoluteString.range(of: "=") {
-        let phoneTest1 = request?.url.absoluteString[range.upperBound...]
-        if let fileUpdater = try? FileHandle(forUpdating: URL.docDir.appendingPathComponent("debug2.txt")) {
-          fileUpdater.seekToEndOfFile()
-          fileUpdater.write("pt0\n\(phoneTest1!)\n\n".data(using: .utf8)!)
-          fileUpdater.closeFile()
-        }
-        //var phoneTest = request?.url.absoluteString[range.upperBound...].replacingOccurrences(of: "%25", with: "%")
-        var phoneTest = request?.url.absoluteString[range.upperBound...].removingPercentEncoding!
-        //try! "\(phoneTest!)\n\n".write(to: URL.docDir.appendingPathComponent("debug2.txt"), atomically: true, encoding: .utf8)
-        if let fileUpdater = try? FileHandle(forUpdating: URL.docDir.appendingPathComponent("debug2.txt")) {
-          fileUpdater.seekToEndOfFile()
-          fileUpdater.write("pt2\n\(phoneTest!)\n\n".data(using: .utf8)!)
-          fileUpdater.closeFile()
-        }
-        phoneTest = phoneTest!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-        NSLog("NSLog: pT3|\(phoneTest!)")
-        //let phone = request?.url.absoluteString[range.upperBound...].removingPercentEncoding!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-        //let phone = request?.url.absoluteString[range.upperBound...].removingPercentEncoding!
-        let phone = request?.url.absoluteString[range.upperBound...]
-        NSLog("NSLog: \(phone!)")
-        //return GCDWebServerDataResponse(html: "hi:\(phone!)")
-        //return GCDWebServerDataResponse(redirect: URL(string: phone!)!, permanent: false)
-        return GCDWebServerDataResponse(redirect: URL(string: "\(phone!)")!, permanent: false)
-      }
-      //return GCDWebServerDataResponse(html: "hi:error")
-      return GCDWebServerResponse(statusCode: 404)
-      
-      //guard let url = request?.url.originalURLFromErrorURL else {
-        //return GCDWebServerResponse(statusCode: 404)
-      //}
-      //return GCDWebServerDataResponse(redirect: url, permanent: false)
-    }
-  }
-}
+//let phone = request?.url.absoluteString[range.upperBound...].removingPercentEncoding!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
 */
 
 
@@ -576,6 +469,9 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
       self.lb.text! += " RES:\(response!)"
     }
     showNewAlert(type: "confirm", title: "Alert2", "Want to die?", defaultButton: 1) { (response, _) in
+      self.lb.text! += " RES:\(response!)"
+    }
+    showNewAlert(type: "select", title: "Select", "How do you want to die?") { (response, _) in
       self.lb.text! += " RES:\(response!)"
     }
     showNewAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident") { (response, _) in
@@ -1392,6 +1288,28 @@ player.play()*/
       alert.addAction(button2)
       alert.addAction(button1)
     }
+    
+    if alertObjArray.first!.type == "select" {
+      button1 = UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { _ in
+        alertObjArray.first!.completionHandler(1, nil)
+        alertObjArray.removeFirst()
+        self.showNewAlert("nextAlertObj")
+      })
+      button2 = UIAlertAction(title: alertObjArray.first!.buttonTitles![1], style: alertObjArray.first!.buttonStyles![1], handler: { _ in
+        alertObjArray.first!.completionHandler(2, nil)
+        alertObjArray.removeFirst()
+        self.showNewAlert("nextAlertObj")
+      })
+      button3 = UIAlertAction(title: alertObjArray.first!.buttonTitles![2], style: alertObjArray.first!.buttonStyles![2], handler: { _ in
+        alertObjArray.first!.completionHandler(3, nil)
+        alertObjArray.removeFirst()
+        self.showNewAlert("nextAlertObj")
+      })
+      alert.addAction(button3)
+      alert.addAction(button2)
+      alert.addAction(button1)
+    }
+    
     if alertObjArray.first!.type == "prompt" {
       alert.addTextField { (textField) in
         textField.text = alertObjArray.first!.input
