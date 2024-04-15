@@ -468,10 +468,10 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     showNewAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response, _) in
       self.lb.text! += " RES:\(response!)"
     }
-    showNewAlert(type: "confirm", title: "Alert2", "Want to die?", defaultButton: 1) { (response, _) in
+    showNewAlert(type: "confirm", title: "Alert2", "Want to die?") { (response, _) in
       self.lb.text! += " RES:\(response!)"
-    }
-    showNewAlert(type: "select", title: "Select", "How do you want to die?") { (response, _) in
+    } //, defaultButton: 1
+    showNewAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["1", "2", "3"], buttonStyles: [.default, .default, .default]) { (response, _) in
       self.lb.text! += " RES:\(response!)"
     }
     showNewAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident") { (response, _) in
