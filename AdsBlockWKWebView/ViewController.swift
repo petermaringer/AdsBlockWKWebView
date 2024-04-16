@@ -2108,7 +2108,7 @@ downloadTask.resume()
     if webViewRestorePref == "ask" {
       
       showNewAlert(type: "confirm", title: "Alert", "Restore last session?\n\nThe last session contains \(restoreIndexLast+1) pages.") { (response, _) in
-        if response == true {
+        if response as! Bool == true {
           if self.restoreIndexLast > 0 {
             restoreStart()
           } else {
