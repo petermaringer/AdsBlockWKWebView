@@ -1362,7 +1362,9 @@ player.play()*/
     }
     hapticFB.notificationOccurred(.success)
     //Dispatch
-    present(alert, animated: true, completion: nil)
+    DispatchQueue.main.async { [unowned self] in
+      self.present(alert, animated: true, completion: nil)
+    }
   }
   
   
