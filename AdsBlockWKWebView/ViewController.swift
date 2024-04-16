@@ -2083,6 +2083,7 @@ downloadTask.resume()
     func cleanStart() {
       webView.load(URLRequest(url: URL(string: "https://www.google.com/")!))
       //topnavcolorresetten
+      //webView3.removeFromSuperview()
     }
     func restoreStart() {
       //webView.load(URLRequest(url: URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)")!))
@@ -2105,6 +2106,20 @@ downloadTask.resume()
     }
     
     if webViewRestorePref == "ask" {
+      
+      showNewAlert(type: "confirm", title: "Alert", "Restore last session?\n\nThe last session contains \(restoreIndexLast+1) pages.") { (response, _) in
+        if response == true {
+          if self.restoreIndexLast > 0 {
+            restoreStart()
+          } else {
+            cleanStart()
+          }
+        } else {
+          cleanStart()
+        }
+        self.lb.text! += " RES:\(response!)"
+      }
+      /*
     let alert = UIAlertController(title: "Alert", message: "Restore last session?\n\nThe last session contains \(restoreIndexLast+1) pages.", preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
       if self.restoreIndexLast > 0 {
@@ -2121,6 +2136,7 @@ downloadTask.resume()
     DispatchQueue.main.async { [unowned self] in
       self.present(alert, animated: true, completion: nil)
     }
+    */
     }
     
   }
