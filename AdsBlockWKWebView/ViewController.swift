@@ -366,7 +366,7 @@ extension ViewController: WKDownloadDelegate {
       let fileName = documentsDir + "/" + suggestedFilename
       let url = URL(fileURLWithPath: fileName)
       lb.text! += " wkD:\(url)"
-      showAlert(message: "\(url)")
+      showAlert("\(url)")
       completionHandler(url)
     }
   }
@@ -374,14 +374,14 @@ extension ViewController: WKDownloadDelegate {
   func download(_ download: WKDownload, didFailWithError error: Error, resumeData: Data?) {
     let err = error as NSError
     
-    showAlert(message: "\(lbcounter) Error: \(err.code) \(err.localizedDescription)")
+    showAlert("\(lbcounter) Error: \(err.code) \(err.localizedDescription)")
     lb.text! += " STOP err:\(err.code)"
     
-    //showAlert(message: "Download failed \(error)")
+    //showAlert("Download failed \(error)")
   }
   
   func downloadDidFinish(_ download: WKDownload) {
-    showAlert(message: "Download finished")
+    showAlert("Download finished")
   }
   
 }
@@ -463,21 +463,21 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   
   @objc internal func onMenu1(sender: UIMenuItem) {
     UIPasteboard.general.items = []
-    //showAlert(message: "Clipboard was cleared.")
-    showNewAlert(title: "Important", buttonTitles: ["Acknowledge"])
-    showNewAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response, _) in
+    //showAlert("Clipboard was cleared.")
+    showAlert(title: "Important", buttonTitles: ["Acknowledge"])
+    showAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response, _) in
       self.lb.text! += " RES:\(response!)"
     }
-    showNewAlert(type: "confirm", title: "Alert2", "Want to die?", defaultButton: 1) { (response, _) in
+    showAlert(type: "confirm", title: "Alert2", "Want to die?", defaultButton: 1) { (response, _) in
       self.lb.text! += " RES:\(response!)"
     }
-    showNewAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default]) { (response, _) in
+    showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default]) { (response, _) in
       self.lb.text! += " RES:\(response!)"
     }
-    showNewAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident") { (response, _) in
+    showAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident") { (response, _) in
       self.lb.text! += " RES:\(response ?? "nil")"
     }
-    showNewAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive])
+    showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive])
   }
   
   func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -626,7 +626,7 @@ player.play()*/
       lb.text! += " aX"
       //adjustLabel()
     }
-    showAlert(message: viewlist)*/
+    showAlert(viewlist)*/
     
     
     let deviceToken = delegate.sesscat
@@ -656,10 +656,10 @@ player.play()*/
     let blcount1 = webView2.backForwardList.backList.count
     webView2.backForwardList.backList.removeAll()
     let blcount2 = webView2.backForwardList.backList.count
-    showAlert(message: "\(navlist) \(blitem) \(blcount1)/\(blcount2) \(appVersion!) \(text!)")
+    showAlert("\(navlist) \(blitem) \(blcount1)/\(blcount2) \(appVersion!) \(text!)")
     */
     
-    showAlert(message: "\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref) \(wkpool)")
+    showAlert("\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref) \(wkpool)")
   }
   
   @objc func buttonPressed(gesture: UILongPressGestureRecognizer) {
@@ -676,7 +676,7 @@ player.play()*/
       //webView.evaluateJavaScript("var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=1280, initial-scale=1, minimum-scale=0.1, maximum-scale=10, user-scalable=yes'); } else { var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=1280, initial-scale=1, minimum-scale=0.1, maximum-scale=10, user-scalable=yes'); document.getElementsByTagName('head')[0].appendChild(meta); }", completionHandler: nil)
       let pageWidth: CGFloat = 1280
       webView.evaluateJavaScript("var el = document.querySelector('meta[name=viewport]'); if (el === null) { var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta); alert('1'); } el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=\(pageWidth), initial-scale=\(webView.frame.size.width / pageWidth), minimum-scale=0.1, maximum-scale=10, user-scalable=yes'); alert('2'); }", completionHandler: nil)
-      //showAlert(message: "\(webView.frame.size.width)\n\(webView.frame.size.width / 1280)")
+      //showAlert("\(webView.frame.size.width)\n\(webView.frame.size.width / 1280)")
       
       kvButton.backgroundColor = .gray
     } else {
@@ -704,7 +704,7 @@ player.play()*/
         allowedOrientations = .all
       }
       userDefaults.set(Int(allowedOrientations.rawValue), forKey: "allowedOrientationsRaw")
-      showAlert(message: "AutoRotate: \(autoRotateInfo)")
+      showAlert("AutoRotate: \(autoRotateInfo)")
       lb.text! += " OR:\(lastDeviceOrientation)\(Int(allowedOrientations.rawValue))"
     }
   }
@@ -820,7 +820,7 @@ player.play()*/
     origArray.insert(mover, at: moveToIndex)
     UserDefaults.standard.set(origArray, forKey: "origArray")
     tableView.isEditing = false
-    //showAlert(message: "mTI:\(moveToIndex)/\(origArray.count - 1) oA:\(origArray)")
+    //showAlert("mTI:\(moveToIndex)/\(origArray.count - 1) oA:\(origArray)")
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -829,7 +829,7 @@ player.play()*/
       
       alertCounter = 0
       if array[indexPath.row].hasPrefix("javascript:") {
-        //showAlert(title: "Interfer1", message: "he")
+        //showAlert(title: "Interfer1", "he")
         webView.evaluateJavaScript(String(array[indexPath.row].dropFirst(11)), completionHandler: nil)
       } else {
         url = array[indexPath.row]
@@ -914,7 +914,7 @@ player.play()*/
         editButtonBgColor = .appBgColor
       }
     }
-    //showAlert(message: "E:\(url)")
+    //showAlert("E:\(url)")
   }
   
   @objc func devButtonClicked(url: String) {
@@ -984,13 +984,13 @@ player.play()*/
     //Convert Key to PKCS1 with swCrypt
     let privKeyPKCS1 = SwKeyConvert.PrivateKey.derToPKCS1PEM(derKeyAsDataTE!)
     try! privKeyPKCS1.write(to: URL.docDir.appendingPathComponent("KEYPKCS1.pem"), atomically: true, encoding: .utf8)
-    showAlert(message: "KEYPKCS1:\n\n\(privKeyPKCS1)")
+    showAlert("KEYPKCS1:\n\n\(privKeyPKCS1)")
     //Convert Key to PKCS8 with swCrypt
     let privKeyPKCS8der = PKCS8.PublicKey.addHeader(derKeyAsDataTE!)
     let privKeyPKCS8str = PEM.PublicKey.toPEM(privKeyPKCS8der)
     let privKeyPKCS8 = privKeyPKCS8str.replacingOccurrences(of: "PUBLIC", with: "RSA PRIVATE")
     try! privKeyPKCS8.write(to: URL.docDir.appendingPathComponent("KEYPKCS8.pem"), atomically: true, encoding: .utf8)
-    showAlert(message: "KEYPKCS8:\n\n\(privKeyPKCS8)")
+    showAlert("KEYPKCS8:\n\n\(privKeyPKCS8)")
     */
     
     
@@ -1010,7 +1010,7 @@ player.play()*/
     let finalPemString = data.base64EncodedString(options: [.lineLength64Characters, .endLineWithLineFeed])
     let clientPrivateKeyString = "-----BEGIN RSA PRIVATE KEY-----\n\(finalPemString)\n-----END RSA PRIVATE KEY-----"
     try! clientPrivateKeyString.write(to: URL.docDir.appendingPathComponent("KEYNext.pem"), atomically: true, encoding: .utf8)
-    showAlert(message: "KEYNext:\n\n\(clientPrivateKeyString)")
+    showAlert("KEYNext:\n\n\(clientPrivateKeyString)")
     
     deleteRSAKeyFromKeychain(tagName: tagPrivate)
     deleteRSAKeyFromKeychain(tagName: tagPublic)
@@ -1161,13 +1161,13 @@ player.play()*/
     } else {
       message += "3-load: \(status)"
     }
-    showAlert(message: message)
+    showAlert(message)
     
     //SecAddSharedWebCredential(server as CFString, account as CFString, "test12" as CFString) { (error) in
-      //self.showAlert(message: "fail2 \(error)")
+      //self.showAlert("fail2 \(error)")
     //}
     
-    //showAlert(message: "D:\(url)")
+    //showAlert("D:\(url)")
     //lb.text! += " D"
     lb.text! += " \(defaultUserAgent) \(server)"
     //adjustLabel()
@@ -1242,7 +1242,7 @@ player.play()*/
   }
   
   
-  private func showAlert(message: String? = nil) {
+  private func showAlertOld(message: String? = nil) {
     if let message = message {
       messages.append(message)
     }
@@ -1251,14 +1251,14 @@ player.play()*/
     let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "OK", style: .default) { (action) in
       messages.removeFirst()
-      self.showAlert()
+      self.showAlertOld()
     })
     hapticFB.notificationOccurred(.success)
     present(alert, animated: true, completion: nil)
     //present(alert, animated: true) { hapticFB.notificationOccurred(.success) }
   }
   
-  private func showNewAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], defaultButton: Int? = 0, completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
+  private func showAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], defaultButton: Int? = 0, completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
     if message != "nextAlertObj" {
       alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, defaultButton: defaultButton, completionHandler: completionHandler))
     }
@@ -1269,7 +1269,7 @@ player.play()*/
       button1 = UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { _ in
         alertObjArray.first!.completionHandler("\(alertObjArray.first!.message ?? "")", nil)
         alertObjArray.removeFirst()
-        self.showNewAlert("nextAlertObj")
+        self.showAlert("nextAlertObj")
       })
       alert.addAction(button1)
       alertObjArray[0].defaultButton = nil
@@ -1278,12 +1278,12 @@ player.play()*/
       button1 = UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { _ in
         alertObjArray.first!.completionHandler(true, nil)
         alertObjArray.removeFirst()
-        self.showNewAlert("nextAlertObj")
+        self.showAlert("nextAlertObj")
       })
       button2 = UIAlertAction(title: alertObjArray.first!.buttonTitles![1], style: alertObjArray.first!.buttonStyles![1], handler: { _ in
         alertObjArray.first!.completionHandler(false, nil)
         alertObjArray.removeFirst()
-        self.showNewAlert("nextAlertObj")
+        self.showAlert("nextAlertObj")
       })
       alert.addAction(button2)
       alert.addAction(button1)
@@ -1293,17 +1293,17 @@ player.play()*/
       button1 = UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { _ in
         alertObjArray.first!.completionHandler(1, nil)
         alertObjArray.removeFirst()
-        self.showNewAlert("nextAlertObj")
+        self.showAlert("nextAlertObj")
       })
       button2 = UIAlertAction(title: alertObjArray.first!.buttonTitles![1], style: alertObjArray.first!.buttonStyles![1], handler: { _ in
         alertObjArray.first!.completionHandler(2, nil)
         alertObjArray.removeFirst()
-        self.showNewAlert("nextAlertObj")
+        self.showAlert("nextAlertObj")
       })
       button3 = UIAlertAction(title: alertObjArray.first!.buttonTitles![2], style: alertObjArray.first!.buttonStyles![2], handler: { _ in
         alertObjArray.first!.completionHandler(3, nil)
         alertObjArray.removeFirst()
-        self.showNewAlert("nextAlertObj")
+        self.showAlert("nextAlertObj")
       })
       alert.addAction(button3)
       alert.addAction(button2)
@@ -1321,12 +1321,12 @@ player.play()*/
           alertObjArray.first!.completionHandler(input, nil)
         }
         alertObjArray.removeFirst()
-        self.showNewAlert("nextAlertObj")
+        self.showAlert("nextAlertObj")
       })
       button2 = UIAlertAction(title: alertObjArray.first!.buttonTitles![1], style: alertObjArray.first!.buttonStyles![1], handler: { _ in
         alertObjArray.first!.completionHandler(nil, nil)
         alertObjArray.removeFirst()
-        self.showNewAlert("nextAlertObj")
+        self.showAlert("nextAlertObj")
       })
       alert.addAction(button2)
       alert.addAction(button1)
@@ -1346,13 +1346,13 @@ player.play()*/
         let credential = URLCredential(user: userId, password: password, persistence: .forSession)
         alertObjArray.first!.completionHandler(.useCredential as URLSession.AuthChallengeDisposition, credential)
         alertObjArray.removeFirst()
-        self.showNewAlert("nextAlertObj")
+        self.showAlert("nextAlertObj")
       })
       //title: "BUTTON_CANCEL".localized
       button2 = UIAlertAction(title: alertObjArray.first!.buttonTitles![1], style: alertObjArray.first!.buttonStyles![1], handler: { _ in
         alertObjArray.first!.completionHandler(.cancelAuthenticationChallenge as URLSession.AuthChallengeDisposition, nil)
         alertObjArray.removeFirst()
-        self.showNewAlert("nextAlertObj")
+        self.showAlert("nextAlertObj")
       })
       alert.addAction(button2)
       alert.addAction(button1)
@@ -1779,7 +1779,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
     }
     bflist += "<br><br>RestorePosition: \(restorePosition)"
     //DispatchQueue.main.async {
-      //self.showAlert(message: "\(bflist)")
+      //self.showAlert("\(bflist)")
     //}
     
     webView2 = WebView(frame: CGRect.zero, history: WebViewHistory())
@@ -1855,7 +1855,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
     
     if (message.body as! String).hasPrefix("vs") && (message.body as! String).count > 2 && autoVideoDownloadPref == true {
       
-      showAlert(message: "Download started")
+      showAlert("Download started")
       let downloadUrl = URL(string: String((message.body as! String).dropFirst(2)))!
       let downloadTask = URLSession.shared.downloadTask(with: downloadUrl) {
     urlOrNil, responseOrNil, errorOrNil in
@@ -1869,7 +1869,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         //let savedURL = documentsURL.appendingPathComponent(fileURL.lastPathComponent)
         try FileManager.default.moveItem(at: fileURL, to: savedURL)
         DispatchQueue.main.async {
-          self.showAlert(message: "Download finished")
+          self.showAlert("Download finished")
         }
     } catch {
         //print ("file error: \(error)")
@@ -1956,7 +1956,7 @@ downloadTask.resume()
       //lb.text! += " fNW\(UIApplication.shared.windows.count) \(UIApplication.shared.windows[0].isHidden) \(UIApplication.shared.windows[1].isHidden) \(UIApplication.shared.windows[2].isHidden) \(UIApplication.shared.windows[3].isHidden)"
       lb.text! += " fNW\(UIApplication.shared.windows.count)\(UIApplication.shared.windows[2].isHidden) \(navUrl!)"
       //adjustLabel()
-      //showAlert(message: "navUrl: \(navUrl!)")
+      //showAlert("navUrl: \(navUrl!)")
       //navUrlArray.removeAll()
       //UIApplication.shared.windows[0].makeKeyAndVisible()
     }
@@ -1992,7 +1992,7 @@ downloadTask.resume()
     avPVC.player = player
     lb.text! += " eFg"
     
-    //DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { /*AppCrashes self.showAlert(message: iwashere)*/ }
+    //DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { /*AppCrashes self.showAlert(iwashere)*/ }
     
     func setTopNavBgViewColor(_ input: Any?) -> Bool {
       if input == nil { return false }
@@ -2089,9 +2089,9 @@ downloadTask.resume()
       //webView.load(URLRequest(url: URL(string: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)")!))
       webView.load(URLRequest(url: URL(string: "internal://local/restore?history=\(restoreUrlsJson!)")!))
       //DispatchQueue.main.async {
-        //self.showAlert(message: "\(iwashere)")
-        //self.showAlert(message: "\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)")
-        //self.showAlert(message: "restoreIndexLast: \(self.restoreIndexLast)\nwebViewRestorePref: \(webViewRestorePref)")
+        //self.showAlert("\(iwashere)")
+        //self.showAlert("\(WebServer.instance.base)/errors/restore?history=\(restoreUrlsJson!)")
+        //self.showAlert("restoreIndexLast: \(self.restoreIndexLast)\nwebViewRestorePref: \(webViewRestorePref)")
       //}
     }
     if webViewRestorePref == "never" {
@@ -2107,7 +2107,7 @@ downloadTask.resume()
     
     if webViewRestorePref == "ask" {
       
-      showNewAlert(type: "confirm", title: "Alert", "Restore last session?\n\nThe last session contains \(restoreIndexLast+1) pages.") { (response, _) in
+      showAlert(type: "confirm", title: "Alert", "Restore last session?\n\nThe last session contains \(restoreIndexLast+1) pages.") { (response, _) in
         if response as! Bool == true {
           if self.restoreIndexLast > 0 {
             restoreStart()
@@ -2207,7 +2207,7 @@ downloadTask.resume()
   //if url.rangeOfCharacter(from: characterset.inverted) != nil {}
   //let characterset = CharacterSet(charactersIn: " ")
   //if url.rangeOfCharacter(from: characterset) != nil {
-  //showAlert(message: "has special chars")
+  //showAlert("has special chars")
   //}
   //let regEx = "((https|http)://)((\\w|-)+)(([.]|[/])((\\w|-)+))+"
   //let regEx = "((?:http|https)://)?(?:www\\.)?[\\w\\d\\-_]+\\.\\w{2,3}(\\.\\w{2})?(/(?<=/)(?:[\\w\\d\\-./_]+)?)?"
@@ -2241,7 +2241,7 @@ downloadTask.resume()
     var allowed = CharacterSet.alphanumerics
     allowed.insert(charactersIn: "-._~:/?#[]@!$&'()*+,;=%")
     url = url.addingPercentEncoding(withAllowedCharacters: allowed)
-    //showAlert(message: url)
+    //showAlert(url)
     var urlobj = URL(string: url)
     if let regularExpression = try? NSRegularExpression(pattern: "^.{1,10}://") {
       let matchedNumber = regularExpression.numberOfMatches(in: url, options: [], range: NSRange(location: 0, length: url.count))
@@ -2537,8 +2537,8 @@ downloadTask.resume()
         presentAlert = true
     }
     if presentAlert == true {
-      //showAlert(message: "Error \(err.code): \(err.localizedDescription)")
-      showAlert(message: "Error \(error._code): \(error.localizedDescription)")
+      //showAlert("Error \(err.code): \(err.localizedDescription)")
+      showAlert("Error \(error._code): \(error.localizedDescription)")
       //error._code error.localizedDescription
     }
     progressView.progress = Float(0)
@@ -2559,12 +2559,12 @@ downloadTask.resume()
       }
       //if #available(iOS 14, *) {
         //let mediaType = webView.mediaType
-        //showAlert(message: "mT:\(mediaType)!")
+        //showAlert("mT:\(mediaType)!")
       //}
       
     }
     */
-    //showAlert(message: defaultUserAgent)
+    //showAlert(defaultUserAgent)
     
     alertCounter = 0
     lb.text! += " w:dF"
@@ -2592,7 +2592,7 @@ downloadTask.resume()
     //bfarray.forEach { item in
       //bflist = bflist + " \(item)"
     //}
-    //showAlert(message: bflist)
+    //showAlert(bflist)
     
     guard let currentItem = self.webView.backForwardList.currentItem else {
     return
@@ -2608,7 +2608,7 @@ downloadTask.resume()
       bflist = bflist + " " + url
     }
     bflist = bflist + " \(currentIndexButLast)"
-    //showAlert(message: "\(bflist)")
+    //showAlert("\(bflist)")
     
     var urlsJson = "{\"currentPage\": \(currentIndexButLast * -1), \"history\": ["
     urls.forEach { url in
@@ -2750,7 +2750,7 @@ downloadTask.resume()
   //func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo) async {
     if alertCounter < 5 {
       alertCounter += 1
-      showNewAlert(type: "alert", title: "Alert", message) { (response, _) in
+      showAlert(type: "alert", title: "Alert", message) { (response, _) in
         self.lb.text! += " RES:\(response!)/\(alertCounter)"
         completionHandler()
       }
@@ -2762,7 +2762,7 @@ downloadTask.resume()
   func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
     if alertCounter < 5 {
       alertCounter += 1
-      showNewAlert(type: "confirm", title: "Alert", message, buttonStyles: [.default, .default], defaultButton: nil) { (response, _) in
+      showAlert(type: "confirm", title: "Alert", message, buttonStyles: [.default, .default], defaultButton: nil) { (response, _) in
         self.lb.text! += " RES:\(response!)/\(alertCounter)"
         completionHandler(response as! Bool)
       }
@@ -2774,7 +2774,7 @@ downloadTask.resume()
   func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
     if alertCounter < 5 {
       alertCounter += 1
-      showNewAlert(type: "prompt", title: "Alert", prompt, input: defaultText) { (response, _) in
+      showAlert(type: "prompt", title: "Alert", prompt, input: defaultText) { (response, _) in
         self.lb.text! += " RES:\(response ?? "nil")/\(alertCounter)"
         completionHandler(response as? String)
       }
@@ -2789,7 +2789,7 @@ downloadTask.resume()
     if authenticationMethod == NSURLAuthenticationMethodDefault || authenticationMethod == NSURLAuthenticationMethodHTTPBasic || authenticationMethod == NSURLAuthenticationMethodHTTPDigest {
       if alertCounter < 5 {
         alertCounter += 1
-        showNewAlert(type: "auth", title: "Authentication", "Login at \(hostname):") { (response, credential) in
+        showAlert(type: "auth", title: "Authentication", "Login at \(hostname):") { (response, credential) in
           self.lb.text! += " RES:\(response!)/\(alertCounter)"
           completionHandler(response as! URLSession.AuthChallengeDisposition, credential as? URLCredential)
         }
