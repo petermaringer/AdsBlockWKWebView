@@ -587,10 +587,13 @@ player.play()*/
         lb.text! += " \(session.category)"
         //BackgroundAudioEnd
   
-  var navlist = "navlist:"
+  //var navlist = "navlist:"
+  var navlist = ""
   navUrlArray.forEach { url in
-    navlist = navlist + "\n\n" + url
+    //navlist = navlist + "\n\n" + url
+    navlist = "\n\n" + url + navlist
   }
+  navlist = "navlist(last20):" + navlist
     
     /*var viewlist = "list:"
     func findViewWithAVPlayerLayer(view: UIView) -> UIView? {
@@ -2286,11 +2289,20 @@ downloadTask.resume()
   
   func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
     if let urlStr = navigationAction.request.url?.absoluteString {
-      //Full path self.webView.url
       navUrl = urlStr
+      /*
+      //Full path self.webView.url
       navUrlArray.insert(navUrl, at: 0)
       if navUrl == "about:blank" {
         navUrlArray.insert("AB:" + self.webView.url!.absoluteString, at: 0)
+      }
+      */
+      navUrlArray.append("\(urlStr)")
+      if urlStr == "about:blank" {
+        navUrlArray.append("AB:\(webView.url!.absoluteString)")
+      }
+      if navUrlArray.count > 20 {
+        navUrlArray.removeFirst(navUrlArray.count - 20)
       }
     }
     
@@ -2463,7 +2475,8 @@ downloadTask.resume()
     
     if let urlStr = navigationResponse.response.url?.absoluteString {
       navUrl = urlStr
-      navUrlArray.insert("RE:" + navUrl, at: 0)
+      //navUrlArray.insert("RE:" + navUrl, at: 0)
+      navUrlArray.append("RE:\(urlStr)")
     }
     
     if let mimeType = navigationResponse.response.mimeType {
@@ -2960,14 +2973,12 @@ downloadTask.resume()
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
         
         lb.text! += " cwv"
-        //adjustLabel()
         
-        guard let url = navigationAction.request.url else {
-            return nil
-        }
+        guard let url = navigationAction.request.url else { return nil }
         guard let targetFrame = navigationAction.targetFrame, targetFrame.isMainFrame else {
             
-            navUrlArray.insert("NW:" + url.absoluteString, at: 0)
+            //navUrlArray.insert("NW:" + url.absoluteString, at: 0)
+            navUrlArray.append("NW:\(url.absoluteString)")
             
             webView.load(URLRequest(url: url))
             return nil
@@ -2975,5 +2986,5 @@ downloadTask.resume()
         return nil
     }
     
-
+    
 }
