@@ -193,6 +193,11 @@ let processPool: WKProcessPool = initPool()
 /*
 //let phone = request?.url.absoluteString[range.upperBound...].removingPercentEncoding!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
 */
+import Telegraph
+var server: Server! = Server()
+server.delegate = self
+server.route(.GET, "status") { (.ok, "Server is running") }
+try! server.start(port: 9000, interface: "localhost")
 
 
 var wkscheme = "wks"
