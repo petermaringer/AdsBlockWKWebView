@@ -194,11 +194,11 @@ let processPool: WKProcessPool = initPool()
 //let phone = request?.url.absoluteString[range.upperBound...].removingPercentEncoding!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
 */
 import Telegraph
-class WebServer {
-  var server: Server! = Server()
+//class WebServer {
+  //var server: Server! = Server()
   //server.delegate = self
-  server.route(.GET, "status") { (.ok, "Server is running") }
-}
+  //server.route(.GET, "status") { (.ok, "Server is running") }
+//}
 
 
 var wkscheme = "wks"
@@ -1756,7 +1756,10 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         //try? WebServer.instance.start()
         //WebServer.instance.registerDefaultHandler()
         //SessionRestoreHandler.register(WebServer.instance)
-        try! WebServer.server.start(port: 9000, interface: "localhost")
+        var server: Server! = Server()
+        //server.delegate = self
+        server.route(.GET, "status") { (.ok, "Server is running") }
+        try! server.start(port: 9000, interface: "localhost")
         
         if (UserDefaults.standard.object(forKey: "urlsJson") != nil) {
         //restoreUrlsJson = UserDefaults.standard.string(forKey: "urlsJson")!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
