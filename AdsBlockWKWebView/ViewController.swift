@@ -276,7 +276,7 @@ class HTTPAuthHandler: HTTPRequestHandler {
         if (authData == "Basic dGVzdDoxMjM=") {
           response = try nextHandler(request)
         } else {
-          response = HTTPResponse(.unauthorized, content: "Wrong credentials")?
+          response = HTTPResponse(.unauthorized, content: "Wrong credentials")
         }
       } else {
         response = HTTPResponse(.unauthorized, content: "Please provide credentials")
