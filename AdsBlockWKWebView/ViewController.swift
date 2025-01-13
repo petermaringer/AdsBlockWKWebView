@@ -211,16 +211,15 @@ class HttpServer: NSObject {
     server.httpConfig.requestHandlers.insert(HTTPAllHandler(), at: 0)
     server.route(.GET, "hi/:name", handleHi)
     server.route(.GET, "status") { (.ok, "Server is running ö") }
-    server.route(.GET, "auth//*") { (.unauthorized, "401 Unauthorized") }
+    server.route(.GET, "auth//*") { (.unauthorized, "401 Unauthorized ö") }
+    server.route(.GET, "/*") { (.forbidden, "403 Forbidden ö") }
     //server.route(.GET, "wallet.html", handleAuth)
-    
     //server.route(.POST,"/",handlePost)
     //server.route(.PUT,"/:name",handlePut)
     //server.route(.DELETE,"/:name/:age",handleDelete)
     let demoUrl = URL.docDir.appendingPathComponent("wallet", isDirectory: true)
     //Bundle.main.url(forResource: "Demo", withExtension: nil)!
     server.serveDirectory(demoUrl, "/")
-    server.route(.GET, "*") { (.forbidden, "403 Forbidden") }
     server.concurrency = 5
     do {
       //try server.start(port: 6571)
@@ -276,10 +275,10 @@ class HTTPAuthHandler: HTTPRequestHandler {
         if (authData == "Basic dGVzdDoxMjM=") {
           response = try nextHandler(request)
         } else {
-          response = HTTPResponse(.unauthorized, content: "Wrong credentials")
+          response = HTTPResponse(.unauthorized, content: "Wrong credentials ö")
         }
       } else {
-        response = HTTPResponse(.unauthorized, content: "Please provide credentials")
+        response = HTTPResponse(.unauthorized, content: "Please provide credentials ö")
       }
       response?.headers["WWW-Authenticate"] = "Basic realm=\"Dev\", charset=\"utf-8\""
       return response
