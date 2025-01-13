@@ -204,7 +204,7 @@ class HttpServer: NSObject {
     }
   }
   func setupServer() {
-    self.server = Server()
+    server = Server()
     server.delegate = self
     //server.webSocketDelegate = self
     server.route(.GET, "hi/:name", handleHi)
@@ -212,10 +212,13 @@ class HttpServer: NSObject {
     //server.route(.POST,"/",handlePost)
     //server.route(.PUT,"/:name",handlePut)
     //server.route(.DELETE,"/:name/:age",handleDelete)
+    let demoUrl = URL.docDir.appendingPathComponent("wallet", isDirectory: true)
+    //Bundle.main.url(forResource: "Demo", withExtension: nil)!
+    server.serveDirectory(demoUrl, "/")
     server.concurrency = 5
     do {
-      try server.start(port: 6571)
-      //try server.start(port: 6571, interface: "localhost")
+      //try server.start(port: 6571)
+      try server.start(port: 6571, interface: "localhost")
     } catch {
       debugLog("Error when starting server: \(error.localizedDescription)")
     }
@@ -429,7 +432,7 @@ extension ViewController: WKDownloadDelegate {
 class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
   
   var webView: WKWebView!
-  var httpServer: HttpServer!
+  //var httpServer: HttpServer!
   
   var topNavBgView: UIView!
   //var topNavBgView: UIVisualEffectView!
