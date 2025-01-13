@@ -207,8 +207,9 @@ class HttpServer: NSObject {
     server = Server()
     server.delegate = self
     //server.webSocketDelegate = self
+    server.httpConfig.requestHandlers.insert(HTTPAuthHandler(), at: 0)
     server.route(.GET, "hi/:name", handleHi)
-    server.route(.GET, "status") { (.ok, "Server is running") }
+    server.route(.GET, "status") { (.ok, "Server is running ö") }
     //server.route(.POST,"/",handlePost)
     //server.route(.PUT,"/:name",handlePut)
     //server.route(.DELETE,"/:name/:age",handleDelete)
@@ -227,12 +228,21 @@ class HttpServer: NSObject {
 //extension HttpServer {
   func handleHi(request: HTTPRequest) -> HTTPResponse {
     let name = request.params["name"] ?? "stranger"
-    return HTTPResponse(content: "Hi \(name.capitalized)")
+    return HTTPResponse(content: "Hi \(name.capitalized) ö")
   }
 }
 extension HttpServer: ServerDelegate {
   func serverDidStop(_ server: Telegraph.Server, error: (any Error)?) {
     debugLog("Server stopped: \(error?.localizedDescription ?? "Unknown")")
+  }
+}
+class HTTPAuthHandler: HTTPRequestHandler {
+  func respond(to request: HTTPRequest, nextHandler: HTTPRequest.Handler) throws -> HTTPResponse? {
+    let response = try nextHandler(request)
+    if (request.uri.path == "/status") {
+      response.headers["Content-Type"] = "text/html; charset=utf-8"
+    }
+    return response
   }
 }
 
