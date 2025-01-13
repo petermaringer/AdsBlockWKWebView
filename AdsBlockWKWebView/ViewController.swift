@@ -211,6 +211,8 @@ class HttpServer: NSObject {
     server.route(.GET, "hi/:name", handleHi)
     server.route(.GET, "status") { (.ok, "Server is running ö") }
     server.route(.GET, "auth/*") { .unauthorized }
+    server.route(.GET, "wallet.html", handleAuth)
+    server.route(.GET, "*") { (.forbidden, "403 Forbidden") }
     //server.route(.POST,"/",handlePost)
     //server.route(.PUT,"/:name",handlePut)
     //server.route(.DELETE,"/:name/:age",handleDelete)
@@ -230,6 +232,23 @@ class HttpServer: NSObject {
   func handleHi(request: HTTPRequest) -> HTTPResponse {
     let name = request.params["name"] ?? "stranger"
     return HTTPResponse(content: "Hi \(name.capitalized) ö")
+  }
+  func handleAuth(request: HTTPRequest) -> HTTPResponse {
+    if let authData = request.headers["Authorization"] {
+      if (authData == "Basic dGVzdDoxMjM=") {
+        let response = HTTPResponse(.ok, content: "Bingo")
+        response.headers["WWW-Authenticate"] = "Basic realm=\"Dev\", charset=\"utf-8\""
+        return response
+      } else {
+        let response = HTTPResponse(.unauthorized, content: "Wrong credentials")
+        response.headers["WWW-Authenticate"] = "Basic realm=\"Dev\", charset=\"utf-8\""
+        return response
+      }
+    } else {
+      let response = HTTPResponse(.unauthorized, content: "Please provide credentials")
+        response.headers["WWW-Authenticate"] = "Basic realm=\"Dev\", charset=\"utf-8\""
+        return response
+    }
   }
 }
 extension HttpServer: ServerDelegate {
