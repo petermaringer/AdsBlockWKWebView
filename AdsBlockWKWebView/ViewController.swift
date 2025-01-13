@@ -196,8 +196,8 @@ let processPool: WKProcessPool = initPool()
 import Telegraph
 class HttpServer: NSObject {
   var server: Server!
-}
-extension HttpServer {
+//}
+//extension HttpServer {
   func start() {
     DispatchQueue.global().async {
       self.setupServer()
@@ -207,34 +207,31 @@ extension HttpServer {
     self.server = Server()
     server.delegate = self
     //server.webSocketDelegate = self
-    server.route(.GET, "/:name", handleGet)
+    server.route(.GET, "hi/:name", handleHi)
+    server.route(.GET, "status") { (.ok, "Server is running") }
     //server.route(.POST,"/",handlePost)
     //server.route(.PUT,"/:name",handlePut)
     //server.route(.DELETE,"/:name/:age",handleDelete)
     server.concurrency = 5
     do {
-      try server.start(port: 3000)
+      try server.start(port: 6571)
+      //try server.start(port: 6571, interface: "localhost")
     } catch {
       debugLog("Error when starting server: \(error.localizedDescription)")
     }
   }
-}
-extension HttpServer {
-  func handleGet(request: HTTPRequest) -> HTTPResponse {
+//}
+//extension HttpServer {
+  func handleHi(request: HTTPRequest) -> HTTPResponse {
     let name = request.params["name"] ?? "stranger"
-    return HTTPResponse(content: "Hi \(name)!")
+    return HTTPResponse(content: "Hi \(name.capitalized)")
   }
 }
 extension HttpServer: ServerDelegate {
   func serverDidStop(_ server: Telegraph.Server, error: (any Error)?) {
-    debugLog("Server stopped: ")// + error?.localizedDescription ?? "Unknown")
-    }
+    debugLog("Server stopped: \(error?.localizedDescription ?? "Unknown")")
+  }
 }
-//class WebServer {
-  //var server: Server! = Server()
-  //server.delegate = self
-  //server.route(.GET, "status") { (.ok, "Server is running") }
-//}
 
 
 var wkscheme = "wks"
@@ -750,6 +747,7 @@ player.play()*/
         allowedOrientations = .all
       }
       userDefaults.set(Int(allowedOrientations.rawValue), forKey: "allowedOrientationsRaw")
+      HttpServer().start()
       showAlert("AutoRotate: \(autoRotateInfo)")
       lb.text! += " OR:\(lastDeviceOrientation)\(Int(allowedOrientations.rawValue))"
     }
@@ -1793,12 +1791,9 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         //try? WebServer.instance.start()
         //WebServer.instance.registerDefaultHandler()
         //SessionRestoreHandler.register(WebServer.instance)
-        self.httpServer = HttpServer()
-        self.httpServer.start()
-        //var server: Server! = Server()
-        //server.delegate = self
-        //server.route(.GET, "status") { (.ok, "Server is running") }
-        //try! server.start(port: 9000, interface: "localhost")
+        //self.httpServer = HttpServer()
+        //self.httpServer.start()
+        HttpServer().start()
         
         if (UserDefaults.standard.object(forKey: "urlsJson") != nil) {
         //restoreUrlsJson = UserDefaults.standard.string(forKey: "urlsJson")!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
