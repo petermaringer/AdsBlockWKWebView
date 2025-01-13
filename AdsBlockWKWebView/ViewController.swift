@@ -227,7 +227,7 @@ extension HttpServer {
 }
 extension HttpServer: ServerDelegate {
   func serverDidStop(_ server: Telegraph.Server, error: (any Error)?) {
-    debugLog("Server stopped: " + error?.localizedDescription ?? "Unknown")
+    debugLog("Server stopped: ")// + error?.localizedDescription ?? "Unknown")
     }
 }
 //class WebServer {
