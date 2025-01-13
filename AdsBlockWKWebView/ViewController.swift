@@ -210,6 +210,7 @@ class HttpServer: NSObject {
     server.httpConfig.requestHandlers.insert(HTTPAuthHandler(), at: 0)
     server.route(.GET, "hi/:name", handleHi)
     server.route(.GET, "status") { (.ok, "Server is running ö") }
+    server.route(.GET, "auth/*") { .unauthorized }
     //server.route(.POST,"/",handlePost)
     //server.route(.PUT,"/:name",handlePut)
     //server.route(.DELETE,"/:name/:age",handleDelete)
@@ -239,9 +240,10 @@ extension HttpServer: ServerDelegate {
 class HTTPAuthHandler: HTTPRequestHandler {
   func respond(to request: HTTPRequest, nextHandler: HTTPRequest.Handler) throws -> HTTPResponse? {
     let response = try nextHandler(request)
-    //if (request.uri.path == "/status") {
-      response!.headers["Content-Type"] = "text/html; charset=utf-8"
-    //}
+    response!.headers["Content-Type"] = "text/html; charset=utf-8"
+    if (request.uri.path == "/auth/1") {
+      response!.headers["WWW-Authenticate"] = "Basic realm=\"Dev\", charset=\"utf-8\""
+    }
     return response
   }
 }
