@@ -239,9 +239,9 @@ extension HttpServer: ServerDelegate {
 class HTTPAuthHandler: HTTPRequestHandler {
   func respond(to request: HTTPRequest, nextHandler: HTTPRequest.Handler) throws -> HTTPResponse? {
     let response = try nextHandler(request)
-    if (request.uri.path == "/status") {
+    //if (request.uri.path == "/status") {
       response!.headers["Content-Type"] = "text/html; charset=utf-8"
-    }
+    //}
     return response
   }
 }
