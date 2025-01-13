@@ -194,6 +194,42 @@ let processPool: WKProcessPool = initPool()
 //let phone = request?.url.absoluteString[range.upperBound...].removingPercentEncoding!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
 */
 import Telegraph
+class HttpServer: NSObject {
+  var server: Server!
+}
+extension HttpServer {
+  func start() {
+    DispatchQueue.global().async {
+      self.setupServer()
+    }
+  }
+  func setupServer() {
+    self.server = Server()
+    server.delegate = self
+    //server.webSocketDelegate = self
+    server.route(.GET, "/:name", handleGet)
+    //server.route(.POST,"/",handlePost)
+    //server.route(.PUT,"/:name",handlePut)
+    //server.route(.DELETE,"/:name/:age",handleDelete)
+    server.concurrency = 5
+    do {
+      try server.start(port: 3000)
+    } catch {
+      debugLog("Error when starting server: \(error.localizedDescription)")
+    }
+  }
+}
+extension HttpServer {
+  func handleGet(request: HTTPRequest) -> HTTPResponse {
+    let name = request.params["name"] ?? "stranger"
+    return HTTPResponse(content: "Hi \(name)!")
+  }
+}
+extension HttpServer: ServerDelegate {
+  func serverDidStop(_ server: Telegraph.Server, error: (any Error)?) {
+    debugLog("Server stopped: " + error?.localizedDescription ?? "Unknown")
+    }
+}
 //class WebServer {
   //var server: Server! = Server()
   //server.delegate = self
@@ -396,6 +432,7 @@ extension ViewController: WKDownloadDelegate {
 class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
   
   var webView: WKWebView!
+  var httpServer: HttpServer!
   
   var topNavBgView: UIView!
   //var topNavBgView: UIVisualEffectView!
@@ -1756,10 +1793,12 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         //try? WebServer.instance.start()
         //WebServer.instance.registerDefaultHandler()
         //SessionRestoreHandler.register(WebServer.instance)
-        var server: Server! = Server()
+        self.httpServer = HttpServer()
+        self.httpServer.start()
+        //var server: Server! = Server()
         //server.delegate = self
-        server.route(.GET, "status") { (.ok, "Server is running") }
-        try! server.start(port: 9000, interface: "localhost")
+        //server.route(.GET, "status") { (.ok, "Server is running") }
+        //try! server.start(port: 9000, interface: "localhost")
         
         if (UserDefaults.standard.object(forKey: "urlsJson") != nil) {
         //restoreUrlsJson = UserDefaults.standard.string(forKey: "urlsJson")!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
