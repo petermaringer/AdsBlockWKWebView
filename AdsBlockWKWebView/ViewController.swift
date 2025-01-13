@@ -208,10 +208,11 @@ class HttpServer: NSObject {
     server.delegate = self
     //server.webSocketDelegate = self
     server.httpConfig.requestHandlers.insert(HTTPAuthHandler(), at: 0)
+    server.httpConfig.requestHandlers.insert(HTTPAllHandler(), at: 0)
     server.route(.GET, "hi/:name", handleHi)
     server.route(.GET, "status") { (.ok, "Server is running ö") }
-    server.route(.GET, "auth//*") { .unauthorized }
-    server.route(.GET, "wallet.html", handleAuth)
+    server.route(.GET, "auth//*") { (.unauthorized, "401 Unauthorized") }
+    //server.route(.GET, "wallet.html", handleAuth)
     
     //server.route(.POST,"/",handlePost)
     //server.route(.PUT,"/:name",handlePut)
@@ -219,7 +220,7 @@ class HttpServer: NSObject {
     let demoUrl = URL.docDir.appendingPathComponent("wallet", isDirectory: true)
     //Bundle.main.url(forResource: "Demo", withExtension: nil)!
     server.serveDirectory(demoUrl, "/")
-    server.route(.GET, "/*") { (.forbidden, "403 Forbidden") }
+    server.route(.GET, "*") { (.forbidden, "403 Forbidden") }
     server.concurrency = 5
     do {
       //try server.start(port: 6571)
@@ -234,7 +235,7 @@ class HttpServer: NSObject {
     let name = request.params["name"] ?? "stranger"
     return HTTPResponse(content: "Hi \(name.capitalized) ö")
   }
-  func handleAuth(request: HTTPRequest) -> HTTPResponse {
+  /*func handleAuth(request: HTTPRequest) -> HTTPResponse {
     if let authData = request.headers["Authorization"] {
       if (authData == "Basic dGVzdDoxMjM=") {
         let response = HTTPResponse(.ok)
@@ -250,14 +251,14 @@ class HttpServer: NSObject {
         response.headers["WWW-Authenticate"] = "Basic realm=\"Dev\", charset=\"utf-8\""
         return response
     }
-  }
+  }*/
 }
 extension HttpServer: ServerDelegate {
   func serverDidStop(_ server: Telegraph.Server, error: (any Error)?) {
     debugLog("Server stopped: \(error?.localizedDescription ?? "Unknown")")
   }
 }
-class HTTPAuthHandler: HTTPRequestHandler {
+class HTTPAllHandler: HTTPRequestHandler {
   func respond(to request: HTTPRequest, nextHandler: HTTPRequest.Handler) throws -> HTTPResponse? {
     let response = try nextHandler(request)
     response!.headers["Content-Type"] = "text/html; charset=utf-8"
@@ -265,6 +266,26 @@ class HTTPAuthHandler: HTTPRequestHandler {
       response!.headers["WWW-Authenticate"] = "Basic realm=\"Dev\", charset=\"utf-8\""
     }
     return response
+  }
+}
+class HTTPAuthHandler: HTTPRequestHandler {
+  func respond(to request: HTTPRequest, nextHandler: HTTPRequest.Handler) throws -> HTTPResponse? {
+    if (request.uri.path == "/wallet.html") {
+      var response: HTTPResponse?
+      if let authData = request.headers["Authorization"] {
+        if (authData == "Basic dGVzdDoxMjM=") {
+          response = try nextHandler(request)
+        } else {
+          response = HTTPResponse(.unauthorized, content: "Wrong credentials")?
+        }
+      } else {
+        response = HTTPResponse(.unauthorized, content: "Please provide credentials")
+      }
+      response?.headers["WWW-Authenticate"] = "Basic realm=\"Dev\", charset=\"utf-8\""
+      return response
+    } else {
+      return try nextHandler(request)
+    }
   }
 }
 
