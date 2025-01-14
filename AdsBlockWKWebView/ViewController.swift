@@ -214,7 +214,7 @@ class HttpServer: NSObject {
     server.route(.GET, "status") { (.ok, "Server is running ö") }
     server.route(.GET, "auth//*") { (.unauthorized, "401 Unauthorized ö") }
     //server.route(.GET, "/*") { (.forbidden, "403 Forbidden ö") }
-    server.route(.GET, /^(?!wallet).*$/) { (.forbidden, "403 Forbidden ö") }
+    server.route(.GET, "^(?!wallet).*$") { (.forbidden, "403 Forbidden ö") }
     //server.route(.GET, "wallet.html", handleAuth)
     //server.route(.POST,"/",handlePost)
     //server.route(.PUT,"/:name",handlePut)
