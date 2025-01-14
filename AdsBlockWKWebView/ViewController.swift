@@ -217,7 +217,7 @@ class HttpServer: NSObject {
     //server.route(.GET, ".*\\.(txt|js)$") { (.forbidden, "403 Forbidden ö1") }
     server.route(.GET, "test/$") { (.forbidden, "403 Forbidden ö2") }
     server.route(.GET, ".*test/$") { (.forbidden, "403 Forbidden ö2a") }
-    server.route(.GET, "(?!wallet\\.).*") { (.forbidden, "403 Forbidden ö3") }
+    server.route(.GET, "(?!wallet\\.|xrpl-).*") { (.forbidden, "403 Forbidden ö3") }
     //server.route(.GET, "wallet.html", handleAuth)
     //server.route(.POST,"/",handlePost)
     //server.route(.PUT,"/:name",handlePut)
