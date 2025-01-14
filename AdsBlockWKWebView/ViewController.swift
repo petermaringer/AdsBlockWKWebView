@@ -196,8 +196,6 @@ let processPool: WKProcessPool = initPool()
 import Telegraph
 class HttpServer: NSObject {
   var server: Server!
-//}
-//extension HttpServer {
   func start() {
     DispatchQueue.global().async {
       self.setupServer()
@@ -207,18 +205,16 @@ class HttpServer: NSObject {
     server = Server()
     server.delegate = self
     //server.webSocketDelegate = self
-    
     server.httpConfig.requestHandlers.insert(HTTPAuthHandler(), at: 0)
     server.httpConfig.requestHandlers.insert(HTTPAllHandler(), at: 0)
     server.route(.GET, "hi/:name", handleHi)
     server.route(.GET, "status") { (.ok, "Server is running ö") }
     server.route(.GET, "auth/.*") { (.unauthorized, "401 Unauthorized ö") }
-    //server.route(.GET, "/*") { (.forbidden, "403 Forbidden ö") }
+    //server.route(.GET, ".*") { (.forbidden, "403 Forbidden ö") }
     //server.route(.GET, ".*\\.(txt|js)$") { (.forbidden, "403 Forbidden ö1") }
-    server.route(.GET, "test/$") { (.forbidden, "403 Forbidden ö2") }
-    server.route(.GET, ".*test/$") { (.forbidden, "403 Forbidden ö2a") }
+    //server.route(.GET, "test/$") { (.forbidden, "403 Forbidden ö2") }
+    //server.route(.GET, ".*test/$") { (.forbidden, "403 Forbidden ö2a") }
     server.route(.GET, "(?!wallet\\.|xrpl-).*") { (.forbidden, "403 Forbidden ö3") }
-    //server.route(.GET, "wallet.html", handleAuth)
     //server.route(.POST,"/",handlePost)
     //server.route(.PUT,"/:name",handlePut)
     //server.route(.DELETE,"/:name/:age",handleDelete)
@@ -233,29 +229,10 @@ class HttpServer: NSObject {
       debugLog("Error when starting server: \(error.localizedDescription)")
     }
   }
-//}
-//extension HttpServer {
   func handleHi(request: HTTPRequest) -> HTTPResponse {
     let name = request.params["name"] ?? "stranger"
     return HTTPResponse(content: "Hi \(name.capitalized) ö")
   }
-  /*func handleAuth(request: HTTPRequest) -> HTTPResponse {
-    if let authData = request.headers["Authorization"] {
-      if (authData == "Basic dGVzdDoxMjM=") {
-        let response = HTTPResponse(.ok)
-        response.headers["WWW-Authenticate"] = "Basic realm=\"Dev\", charset=\"utf-8\""
-        return response
-      } else {
-        let response = HTTPResponse(.unauthorized, content: "Wrong credentials")
-        response.headers["WWW-Authenticate"] = "Basic realm=\"Dev\", charset=\"utf-8\""
-        return response
-      }
-    } else {
-      let response = HTTPResponse(.unauthorized, content: "Please provide credentials")
-        response.headers["WWW-Authenticate"] = "Basic realm=\"Dev\", charset=\"utf-8\""
-        return response
-    }
-  }*/
 }
 extension HttpServer: ServerDelegate {
   func serverDidStop(_ server: Telegraph.Server, error: (any Error)?) {
@@ -265,16 +242,18 @@ extension HttpServer: ServerDelegate {
 class HTTPAllHandler: HTTPRequestHandler {
   func respond(to request: HTTPRequest, nextHandler: HTTPRequest.Handler) throws -> HTTPResponse? {
     let response = try nextHandler(request)
-    response!.headers["Content-Type"] = "text/html; charset=utf-8"
-    if (request.uri.path == "/auth/1") {
-      response!.headers["WWW-Authenticate"] = "Basic realm=\"Dev\", charset=\"utf-8\""
+    if (request.uri.path.hasSuffix(".html")) {
+      response?.headers["Content-Type"] = "text/html; charset=utf-8"
     }
+    //if (request.uri.path == "/auth/1") {
+      //response?.headers["WWW-Authenticate"] = "Basic realm=\"Dev\", charset=\"utf-8\""
+    //}
     return response
   }
 }
 class HTTPAuthHandler: HTTPRequestHandler {
   func respond(to request: HTTPRequest, nextHandler: HTTPRequest.Handler) throws -> HTTPResponse? {
-    if (request.uri.path == "/wallet.html") {
+    //if (request.uri.path == "/wallet.html") {
       var response: HTTPResponse?
       if let authData = request.headers["Authorization"] {
         if (authData == "Basic dGVzdDoxMjM=") {
@@ -287,9 +266,9 @@ class HTTPAuthHandler: HTTPRequestHandler {
       }
       response?.headers["WWW-Authenticate"] = "Basic realm=\"Dev\", charset=\"utf-8\""
       return response
-    } else {
-      return try nextHandler(request)
-    }
+    //} else {
+      //return try nextHandler(request)
+    //}
   }
 }
 
