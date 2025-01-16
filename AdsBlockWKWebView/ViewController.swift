@@ -195,6 +195,7 @@ let processPool: WKProcessPool = initPool()
 */
 import Telegraph
 class HttpServer: NSObject {
+  static let instance = HttpServer()
   var server: Server!
   func start() {
     DispatchQueue.global().async {
@@ -789,12 +790,13 @@ player.play()*/
       showAlert("AutoRotate: \(autoRotateInfo)")
       lb.text! += " OR:\(lastDeviceOrientation)\(Int(allowedOrientations.rawValue))"
       
-      if (HttpServer().server.isRunning) {
+      if (HttpServer.instance.server.isRunning) {
         showAlert("Server is running")
       } else {
         showAlert("Server is NOT running")
       }
-      HttpServer().start()
+      //HttpServer().start()
+      HttpServer.instance.start()
       
     }
   }
@@ -2637,8 +2639,11 @@ downloadTask.resume()
         urlField.textColor = .appBgColor
         presentAlert = true
       
-      case -1004 where webView.url!.absoluteString.hasPrefix("http://localhost:6571/"):
-        HttpServer().setupServer()
+      //case -1004 where webView.url!.absoluteString.hasPrefix("http://localhost:6571/"):
+      case -1004:
+        showAlert("\(url) \(webView.url!.absoluteString)")
+        //HttpServer().setupServer()
+        HttpServer.instance.setupServer()
         startLoading()
       
       default:
