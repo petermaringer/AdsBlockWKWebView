@@ -196,14 +196,15 @@ let processPool: WKProcessPool = initPool()
 import Telegraph
 class HttpServer: NSObject {
   static let instance = HttpServer()
-  var server: Server!
+  //var server: Server!
+  let server: Server! = Server()
   func start() {
     DispatchQueue.global().async {
       self.setupServer()
     }
   }
   func setupServer() {
-    server = Server()
+    //server = Server()
     server.delegate = self
     //server.webSocketDelegate = self
     server.httpConfig.requestHandlers.insert(HTTPAuthHandler(), at: 0)
@@ -231,6 +232,7 @@ class HttpServer: NSObject {
     }
   }
   func handleHi(request: HTTPRequest) -> HTTPResponse {
+    try! server.stop()
     let name = request.params["name"] ?? "stranger"
     return HTTPResponse(content: "Hi \(name.capitalized) ö")
   }
