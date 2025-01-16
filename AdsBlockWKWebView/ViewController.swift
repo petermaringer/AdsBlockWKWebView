@@ -796,7 +796,7 @@ player.play()*/
         showAlert("Server is NOT running")
       }
       //HttpServer().start()
-      HttpServer.instance.start()
+      //HttpServer.instance.start()
       
     }
   }
@@ -2639,9 +2639,9 @@ downloadTask.resume()
         urlField.textColor = .appBgColor
         presentAlert = true
       
-      //case -1004 where webView.url!.absoluteString.hasPrefix("http://localhost:6571/"):
-      case -1004:
-        showAlert("\(url) \(webView.url!.absoluteString)")
+      case -1004 where url.hasPrefix("http://localhost:6571/"):
+      //case -1004:
+        //showAlert("\(url) \(webView.url!.absoluteString)")
         //HttpServer().setupServer()
         HttpServer.instance.setupServer()
         startLoading()
