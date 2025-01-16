@@ -786,9 +786,16 @@ player.play()*/
         allowedOrientations = .all
       }
       userDefaults.set(Int(allowedOrientations.rawValue), forKey: "allowedOrientationsRaw")
-      HttpServer().start()
       showAlert("AutoRotate: \(autoRotateInfo)")
       lb.text! += " OR:\(lastDeviceOrientation)\(Int(allowedOrientations.rawValue))"
+      
+      if (HttpServer().server.isRunning) {
+        showAlert("Server is running")
+      } else {
+        showAlert("Server is NOT running")
+      }
+      HttpServer().start()
+      
     }
   }
   
@@ -1832,7 +1839,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         //SessionRestoreHandler.register(WebServer.instance)
         //self.httpServer = HttpServer()
         //self.httpServer.start()
-        HttpServer().start()
+        //HttpServer().start()
         
         if (UserDefaults.standard.object(forKey: "urlsJson") != nil) {
         //restoreUrlsJson = UserDefaults.standard.string(forKey: "urlsJson")!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
@@ -2629,6 +2636,11 @@ downloadTask.resume()
         urlField.text = webView.url!.absoluteString.replacingOccurrences(of: "internal://local/restore?url2=", with: "")
         urlField.textColor = .appBgColor
         presentAlert = true
+      
+      case -1004 where webView.url!.absoluteString.hasPrefix("http://localhost:6571/"):
+        HttpServer().setupServer()
+        startLoading()
+      
       default:
         presentAlert = true
     }
