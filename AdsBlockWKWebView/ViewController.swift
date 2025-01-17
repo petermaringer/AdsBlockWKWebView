@@ -194,16 +194,16 @@ let processPool: WKProcessPool = initPool()
 //let phone = request?.url.absoluteString[range.upperBound...].removingPercentEncoding!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
 */
 import Telegraph
-class HttpServer: NSObject {
+final class HttpServer: NSObject {
   static let instance = HttpServer()
   //var server: Server!
   let server: Server! = Server()
-  func start() {
+  /*func start() {
     DispatchQueue.global().async {
       self.setupServer()
     }
-  }
-  func setupServer() {
+  }*/
+  //func setupServer() {
     //server = Server()
     server.delegate = self
     //server.webSocketDelegate = self
@@ -224,6 +224,7 @@ class HttpServer: NSObject {
     //Bundle.main.url(forResource: "Demo", withExtension: nil)!
     server.serveDirectory(demoUrl, "/")
     server.concurrency = 5
+  func start() {
     do {
       //try server.start(port: 6571)
       try server.start(port: 6571, interface: "localhost")
@@ -232,10 +233,11 @@ class HttpServer: NSObject {
     }
   }
   func handleHi(request: HTTPRequest) -> HTTPResponse {
-    try! server.stop()
+    //try! server.stop()
     let name = request.params["name"] ?? "stranger"
     return HTTPResponse(content: "Hi \(name.capitalized) ö")
   }
+  private init() {}
 }
 extension HttpServer: ServerDelegate {
   func serverDidStop(_ server: Telegraph.Server, error: (any Error)?) {
@@ -544,6 +546,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   }
   
   @objc internal func onMenu1(sender: UIMenuItem) {
+    HttpServer.instance.server.stop()
     UIPasteboard.general.items = []
     //showAlert("Clipboard was cleared.")
     showAlert(title: "Important", buttonTitles: ["Acknowledge"])
@@ -2643,9 +2646,9 @@ downloadTask.resume()
       
       case -1004 where url.hasPrefix("http://localhost:6571/"):
       //case -1004:
-        //showAlert("\(url) \(webView.url!.absoluteString)")
+        showAlert("-1004 \(url) \(webView.url!.absoluteString)")
         //HttpServer().setupServer()
-        HttpServer.instance.setupServer()
+        HttpServer.instance.start()
         startLoading()
       
       default:
