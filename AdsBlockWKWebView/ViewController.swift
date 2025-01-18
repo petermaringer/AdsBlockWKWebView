@@ -195,19 +195,20 @@ let processPool: WKProcessPool = initPool()
 */
 import Telegraph
 final class HttpServer: NSObject {
-  //var server: Server!
+  static let instance = HttpServer()
+  var server: Server!
   //let server: Server! = Server()
-  //static let instance = HttpServer()
-  static let instance: HttpServer = {
-    let instanceConfig = HttpServer()
+  //static let instance: HttpServer = {
+    //let instanceConfig = HttpServer()
   /*func start() {
     DispatchQueue.global().async {
       self.setupServer()
     }
   }*/
   //func setupServer() {
-    //server = Server()
-    let server: Server! = Server()
+  private init() {
+    server = Server()
+    //let server: Server! = Server()
     server.delegate = self
     //server.webSocketDelegate = self
     server.httpConfig.requestHandlers.insert(HTTPAuthHandler(), at: 0)
@@ -227,9 +228,10 @@ final class HttpServer: NSObject {
     //Bundle.main.url(forResource: "Demo", withExtension: nil)!
     server.serveDirectory(demoUrl, "/")
     server.concurrency = 5
-    return instanceConfig
-  }()
-  private override init() {}
+  }
+    //return instanceConfig
+  //}()
+  //private override init() {}
   func start() {
     guard !server.isRunning else { return }
     do {
