@@ -196,8 +196,9 @@ let processPool: WKProcessPool = initPool()
 import Telegraph
 final class HttpServer: NSObject {
   static let instance = HttpServer()
-  var server: Server!
-  //let server: Server! = Server()
+  private override init() {}
+  //var server: Server!
+  let server: Server! = Server()
   //static let instance: HttpServer = {
     //let instanceConfig = HttpServer()
   /*func start() {
@@ -205,9 +206,9 @@ final class HttpServer: NSObject {
       self.setupServer()
     }
   }*/
-  //func setupServer() {
-  private override init() {
-    server = Server()
+  func setupServer() {
+  //private override init() {
+    //server = Server()
     //let server: Server! = Server()
     server.delegate = self
     //server.webSocketDelegate = self
@@ -1855,6 +1856,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         //self.httpServer = HttpServer()
         //self.httpServer.start()
         //HttpServer().start()
+        HttpServer.instance.setupServer()
         
         if (UserDefaults.standard.object(forKey: "urlsJson") != nil) {
         //restoreUrlsJson = UserDefaults.standard.string(forKey: "urlsJson")!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
