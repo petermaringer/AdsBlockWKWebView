@@ -206,7 +206,7 @@ final class HttpServer: NSObject {
     }
   }*/
   //func setupServer() {
-  private init() {
+  private override init() {
     server = Server()
     //let server: Server! = Server()
     server.delegate = self
