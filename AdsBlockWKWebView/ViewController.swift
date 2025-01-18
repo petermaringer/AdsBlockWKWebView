@@ -195,16 +195,18 @@ let processPool: WKProcessPool = initPool()
 */
 import Telegraph
 final class HttpServer: NSObject {
-  static let instance = HttpServer()
-  //var server: Server!
-  let server: Server! = Server()
+  var server: Server!
+  //let server: Server! = Server()
+  //static let instance = HttpServer()
+  static let instance: HttpServer = {
+    let instanceConfig = HttpServer()
   /*func start() {
     DispatchQueue.global().async {
       self.setupServer()
     }
   }*/
   //func setupServer() {
-    //server = Server()
+    server = Server()
     server.delegate = self
     //server.webSocketDelegate = self
     server.httpConfig.requestHandlers.insert(HTTPAuthHandler(), at: 0)
@@ -224,7 +226,11 @@ final class HttpServer: NSObject {
     //Bundle.main.url(forResource: "Demo", withExtension: nil)!
     server.serveDirectory(demoUrl, "/")
     server.concurrency = 5
+    return instanceConfig
+  }()
+  private init() {}
   func start() {
+    guard !server.isRunning else { return }
     do {
       //try server.start(port: 6571)
       try server.start(port: 6571, interface: "localhost")
@@ -237,7 +243,6 @@ final class HttpServer: NSObject {
     let name = request.params["name"] ?? "stranger"
     return HTTPResponse(content: "Hi \(name.capitalized) ö")
   }
-  private init() {}
 }
 extension HttpServer: ServerDelegate {
   func serverDidStop(_ server: Telegraph.Server, error: (any Error)?) {
@@ -2646,7 +2651,7 @@ downloadTask.resume()
       
       case -1004 where url.hasPrefix("http://localhost:6571/"):
       //case -1004:
-        showAlert("-1004 \(url) \(webView.url!.absoluteString)")
+        showAlert("-1004 \(url!) \(webView.url!.absoluteString)")
         //HttpServer().setupServer()
         HttpServer.instance.start()
         startLoading()
