@@ -30,8 +30,9 @@
     }
     restoreLog += '\n\ncP: ' + currentPage;
     div.innerHTML = '';
-    history.go(currentPage);
+    //history.go(currentPage);
     setTimeout(function () {
+      history.go(currentPage);
       window.location.reload();
       webkit.messageHandlers.iosListener.postMessage('restore');
       webkit.messageHandlers.iosListener.postMessage(restoreLog);
