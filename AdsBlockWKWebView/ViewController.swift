@@ -1958,6 +1958,8 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
       DispatchQueue.main.asyncAfter(deadline: .now() + 7.0) {
         self.topNavBgView.backgroundColor = .viewBgColor
         self.webView3.removeFromSuperview()
+        self.navUrlArray = []
+        self.lb.text = "log1:"
       }
       
       lb.text! += " restoreD"
@@ -2672,6 +2674,10 @@ downloadTask.resume()
     progressView.progress = Float(0)
     //lb.text! += " err:\(err.code)"
     lb.text! += " err:\(error._code)"
+  }
+  
+  func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+    lb.text! += " fErr:\(error._code)"
   }
   
   
