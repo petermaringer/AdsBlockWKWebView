@@ -2734,7 +2734,7 @@ downloadTask.resume()
     let urls = (self.webView.backForwardList.backList + [currentItem] + self.webView.backForwardList.forwardList).compactMap { $0.url.absoluteString }
     let currentIndexButLast = self.webView.backForwardList.forwardList.count
     
-    //
+    /*
     func mergeArrays<T: Equatable>(oldArray: [T], newArray: [T]) -> [T] {
   for i in stride(from: min(oldArray.count, newArray.count), to: 0, by: -1) {
     let oldSuffix = Array(oldArray.suffix(i)) // Letzte i Elemente von Array1
@@ -2744,13 +2744,44 @@ downloadTask.resume()
     }
   }
   return oldArray + newArray // Falls keine Überschneidung, einfach anhängen
+}*/
+
+func mergeArrays(array1: [String], array2: [String]) -> [String] {
+    // Finde die längste Übereinstimmung
+    var longestMatchStartIndex = -1
+    var maxMatchLength = 0
+    
+    for i in 0..<array1.count {
+        for j in 0..<array2.count {
+            var matchLength = 0
+            while i + matchLength < array1.count, j + matchLength < array2.count, array1[i + matchLength] == array2[j + matchLength] {
+                matchLength += 1
+            }
+            
+            if matchLength > maxMatchLength {
+                maxMatchLength = matchLength
+                longestMatchStartIndex = i
+            }
+        }
+    }
+    
+    // Wenn keine Übereinstimmung gefunden wurde, wird das gesamte Array 1 genommen
+    let array1Part = (longestMatchStartIndex >= 0) ? Array(array1[0..<longestMatchStartIndex]) : array1
+    
+    // Füge das zweite Array an
+    let result = array1Part + array2
+    return result
 }
+//let array1 = ["a", "b", "c", "d", "e"]
+//let array2 = ["c", "d", "e", "f", "g"]
+
     var oldUrls = userDefaults.array(forKey: "urls") as? [String] ?? []
     oldUrls.insert("Hallo", at: 0)
     oldUrls.insert("Welt", at: 1)
-    let array3 = mergeArrays(oldArray: oldUrls, newArray: urls)
+    //let array3 = mergeArrays(oldArray: oldUrls, newArray: urls)
+    let array3 = mergeArrays(array1: oldUrls, array2: urls)
     func kurzeArray(_ array: [String]) -> [String] {
-  return array.map { String($0.prefix(15)) }
+  return array.map { String($0.prefix(17)) }
 }
 let kurzArray = kurzeArray(array3)
     showAlert("\(kurzArray)")
