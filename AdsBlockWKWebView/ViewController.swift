@@ -1868,16 +1868,17 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         //let restoreUrlsOrig = restoreUrls
         //let restoreUrlsJsonOrig = restoreUrlsJson
         //let restoreIndexLastOrig = restoreIndexLast
-        if restoreUrls.count > 100 {
-          restoreUrls = Array(restoreUrls.suffix(100))
-        }
-        restoreIndexLast = restoreUrls.count - 1
-        restoreUrlsJson = "{\"currentPage\": \(restorePosition * -1), \"history\": ["
-        restoreUrls.forEach { url in
-          restoreUrlsJson += "\"" + url + "\", "
-        }
-        restoreUrlsJson.removeLast(2)
-        restoreUrlsJson += "]}"
+        //if restoreUrls.count > 100 {
+          //restoreUrls = Array(restoreUrls.suffix(100))
+        //}
+        //restoreIndexLast = restoreUrls.count - 1
+        //restoreUrlsJson = "{\"currentPage\": \(restorePosition * -1), \"history\": ["
+        //restoreUrls.forEach { url in
+          //restoreUrlsJson += "\"" + url + "\", "
+        //}
+        restoreUrlsJson = "{\"currentPage\": \(restorePosition * -1), \"history\": [" + restoreUrls.suffix(100).map { "\"\($0)\"" }.joined(separator: ", ") + "]}"
+        //restoreUrlsJson.removeLast(2)
+        //restoreUrlsJson += "]}"
         let restoreUrlsJsonTemp = "\(restoreIndexLast+1)\n" + restoreUrlsJson + "\n\n"
         DispatchQueue.main.async {
           self.showAlert(restoreUrlsJsonTemp)
