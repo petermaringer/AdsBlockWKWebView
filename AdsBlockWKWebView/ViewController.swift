@@ -1861,6 +1861,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         let restoreUrlsOrig = restoreUrls
         let restoreUrlsJsonOrig = restoreUrlsJson
         let restoreIndexLastOrig = restoreIndexLast
+        //restoreUrls = userDefaults.array(forKey: "urls2") as? [String] ?? []
         if restoreUrls.count > 20 {
           restoreUrls = Array(restoreUrls.suffix(20))
         }
@@ -1872,7 +1873,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         }
         restoreUrlsJson.removeLast(2)
         restoreUrlsJson += "]}"
-        let restoreUrlsJsonTemp = restoreUrlsJson + "\n\(restoreIndexLast)"
+        let restoreUrlsJsonTemp = "\(restoreIndexLast)\n" + restoreUrlsJson + "\n\n"
         DispatchQueue.main.async {
           self.showAlert(restoreUrlsJsonTemp)
         }
@@ -2793,8 +2794,9 @@ func mergeArrays(array1: [String], array2: [String]) -> [String] {
     var oldUrls = userDefaults.array(forKey: "urls") as? [String] ?? []
     oldUrls.insert("https://orf.at/", at: 0)
     let array3 = mergeArrays(array1: oldUrls, array2: urls)
+    //userDefaults.set(array3, forKey: "urls2")
     func kurzeArray(_ array: [String]) -> [String] {
-  return array.map { String($0.prefix(40)) }
+  return array.map { String($0.prefix(50)) }
 }
 let kurzArray = kurzeArray(array3)
     showAlert("\(kurzArray)")

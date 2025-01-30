@@ -33,12 +33,14 @@
     //history.go(currentPage);
     setTimeout(function () {
       window.addEventListener('popstate', function(e) {
-      alert('popstate: ' + currentPage + ' ' + JSON.stringify(e.state));
+      //alert('popstate: ' + currentPage + ' ' + JSON.stringify(e.state));
+      restoreLog += '\n\npopstate: ' + currentPage + ' ' + JSON.stringify(e.state));
+      webkit.messageHandlers.iosListener.postMessage(restoreLog);
       });
       history.go(currentPage);
       window.location.reload();
       webkit.messageHandlers.iosListener.postMessage('restore');
-      webkit.messageHandlers.iosListener.postMessage(restoreLog);
+      //webkit.messageHandlers.iosListener.postMessage(restoreLog);
     }, 0);
   })();
   </script>
