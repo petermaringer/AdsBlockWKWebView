@@ -1862,9 +1862,9 @@ restoreUrls = bburlsBackupString.components(separatedBy: "\n")
         //HttpServer().start()
         HttpServer.instance.setupServer()
         
-        let restoreUrlsOrig = restoreUrls
-        let restoreUrlsJsonOrig = restoreUrlsJson
-        let restoreIndexLastOrig = restoreIndexLast
+        //let restoreUrlsOrig = restoreUrls
+        //let restoreUrlsJsonOrig = restoreUrlsJson
+        //let restoreIndexLastOrig = restoreIndexLast
         //restoreUrls = userDefaults.array(forKey: "urls2") as? [String] ?? []
         if restoreUrls.count > 20 {
           restoreUrls = Array(restoreUrls.suffix(20))
@@ -1881,11 +1881,11 @@ restoreUrls = bburlsBackupString.components(separatedBy: "\n")
         DispatchQueue.main.async {
           self.showAlert(restoreUrlsJsonTemp)
         }
-        restoreUrls = restoreUrlsOrig
-        restoreUrlsJson = restoreUrlsJsonOrig
-        restoreIndexLast = restoreIndexLastOrig
+        //restoreUrls = restoreUrlsOrig
+        //restoreUrlsJson = restoreUrlsJsonOrig
+        //restoreIndexLast = restoreIndexLastOrig
         
-        if (UserDefaults.standard.object(forKey: "urlsJson") != nil) {
+        /*if (UserDefaults.standard.object(forKey: "urlsJson") != nil) {
         //restoreUrlsJson = UserDefaults.standard.string(forKey: "urlsJson")!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         restoreUrlsJson = UserDefaults.standard.string(forKey: "urlsJson")
         }
@@ -1894,7 +1894,7 @@ restoreUrls = bburlsBackupString.components(separatedBy: "\n")
         if let names = restoreUrlsJsonSE?["history"] as? [String] {
             restoreIndexLast = names.count - 1
         }
-    }
+    }*/
         restoreUrlsJson = restoreUrlsJson!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         
         //if restoreIndexLast > 0 {
