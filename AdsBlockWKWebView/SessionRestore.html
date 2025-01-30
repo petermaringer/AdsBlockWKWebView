@@ -34,7 +34,7 @@
     setTimeout(function () {
       window.addEventListener('popstate', function(e) {
       //alert('popstate: ' + currentPage + ' ' + JSON.stringify(e.state));
-      restoreLog += '\n\npopstate: ' + currentPage + ' ' + JSON.stringify(e.state));
+      restoreLog += '\n\npopstate: ' + currentPage + ' ' + JSON.stringify(e.state);
       webkit.messageHandlers.iosListener.postMessage(restoreLog);
       });
       history.go(currentPage);

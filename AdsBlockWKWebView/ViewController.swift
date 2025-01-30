@@ -1836,6 +1836,10 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
           restoreUrls.insert("https://www.google.com/", at: 0)
         }
         
+        let bbfileURL = URL.docDir.appendingPathComponent("urlsBackup 250130.txt")
+let bburlsBackupString = try! String(contentsOf: bbfileURL, encoding: .utf8)
+let restoreUrls = bburlsBackupString.components(separatedBy: "\n")
+        
         if (UserDefaults.standard.object(forKey: "urlsBackup") != nil) {
         let urlsBackup = UserDefaults.standard.stringArray(forKey: "urlsBackup") ?? [String]()
         let urlsBackupString = urlsBackup.joined(separator: "\n")
