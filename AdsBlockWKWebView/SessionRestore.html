@@ -35,11 +35,13 @@
       window.addEventListener('popstate', function(e) {
       //alert('popstate: ' + currentPage + ' ' + JSON.stringify(e.state));
       restoreLog += '\n\npopstate: ' + currentPage + ' ' + JSON.stringify(e.state);
+      window.location.reload();
+      webkit.messageHandlers.iosListener.postMessage('restore');
       webkit.messageHandlers.iosListener.postMessage(restoreLog);
       });
       history.go(currentPage);
-      window.location.reload();
-      webkit.messageHandlers.iosListener.postMessage('restore');
+      //window.location.reload();
+      //webkit.messageHandlers.iosListener.postMessage('restore');
       //webkit.messageHandlers.iosListener.postMessage(restoreLog);
     }, 0);
   })();

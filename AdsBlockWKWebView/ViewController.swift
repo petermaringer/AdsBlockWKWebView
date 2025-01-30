@@ -1866,14 +1866,15 @@ restoreUrls = bburlsBackupString.components(separatedBy: "\n")
         //let restoreUrlsJsonOrig = restoreUrlsJson
         //let restoreIndexLastOrig = restoreIndexLast
         //restoreUrls = userDefaults.array(forKey: "urls2") as? [String] ?? []
-        if restoreUrls.count > 20 {
-          restoreUrls = Array(restoreUrls.suffix(20))
+        if restoreUrls.count > 100 {
+          restoreUrls = Array(restoreUrls.suffix(100))
         }
+        restoreIndexLast = restoreUrls.count - 1
         restoreUrlsJson = "{\"currentPage\": \(restorePosition * -1), \"history\": ["
-        restoreIndexLast = 0
+        //restoreIndexLast = 0
         restoreUrls.forEach { url in
           restoreUrlsJson += "\"" + url + "\", "
-          restoreIndexLast += 1
+          //restoreIndexLast += 1
         }
         restoreUrlsJson.removeLast(2)
         restoreUrlsJson += "]}"
