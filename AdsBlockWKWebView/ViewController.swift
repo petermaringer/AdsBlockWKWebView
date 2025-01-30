@@ -1860,21 +1860,25 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         
         let restoreUrlsOrig = restoreUrls
         let restoreUrlsJsonOrig = restoreUrlsJson
+        let restoreIndexLastOrig = restoreIndexLast
         if restoreUrls.count > 20 {
           restoreUrls = Array(restoreUrls.suffix(20))
         }
         restoreUrlsJson = "{\"currentPage\": \(restorePosition * -1), \"history\": ["
+        restoreIndexLast = 0
         restoreUrls.forEach { url in
           restoreUrlsJson += "\"" + url + "\", "
+          restoreIndexLast += 1
         }
         restoreUrlsJson.removeLast(2)
         restoreUrlsJson += "]}"
-        let restoreUrlsJsonTemp = restoreUrlsJson
+        let restoreUrlsJsonTemp = restoreUrlsJson + "\n" + restoreIndexLast
         DispatchQueue.main.async {
           self.showAlert(restoreUrlsJsonTemp)
         }
         restoreUrls = restoreUrlsOrig
         restoreUrlsJson = restoreUrlsJsonOrig
+        restoreIndexLast = restoreIndexLastOrig
         
         if (UserDefaults.standard.object(forKey: "urlsJson") != nil) {
         //restoreUrlsJson = UserDefaults.standard.string(forKey: "urlsJson")!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
@@ -2768,38 +2772,29 @@ func mergeArrays(array1: [String], array2: [String]) -> [String] {
     // Finde die längste Übereinstimmung
     var longestMatchStartIndex = -1
     var maxMatchLength = 0
-    
     for i in 0..<array1.count {
         for j in 0..<array2.count {
             var matchLength = 0
             while i + matchLength < array1.count, j + matchLength < array2.count, array1[i + matchLength] == array2[j + matchLength] {
                 matchLength += 1
             }
-            
             if matchLength > maxMatchLength {
                 maxMatchLength = matchLength
                 longestMatchStartIndex = i
             }
         }
     }
-    
     // Wenn keine Übereinstimmung gefunden wurde, wird das gesamte Array 1 genommen
     let array1Part = (longestMatchStartIndex >= 0) ? Array(array1[0..<longestMatchStartIndex]) : array1
-    
     // Füge das zweite Array an
     let result = array1Part + array2
     return result
 }
-//let array1 = ["a", "b", "c", "d", "e"]
-//let array2 = ["c", "d", "e", "f", "g"]
-
     var oldUrls = userDefaults.array(forKey: "urls") as? [String] ?? []
-    oldUrls.insert("Hallo", at: 0)
-    oldUrls.insert("Welt", at: 1)
-    //let array3 = mergeArrays(oldArray: oldUrls, newArray: urls)
+    oldUrls.insert("https://orf.at/", at: 0)
     let array3 = mergeArrays(array1: oldUrls, array2: urls)
     func kurzeArray(_ array: [String]) -> [String] {
-  return array.map { String($0.prefix(17)) }
+  return array.map { String($0.prefix(40)) }
 }
 let kurzArray = kurzeArray(array3)
     showAlert("\(kurzArray)")

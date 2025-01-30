@@ -32,6 +32,9 @@
     div.innerHTML = '';
     //history.go(currentPage);
     setTimeout(function () {
+      window.addEventListener('popstate', function(e) {
+      alert('popstate: ' + currentPage + ' ' + JSON.stringify(e.state));
+      });
       history.go(currentPage);
       window.location.reload();
       webkit.messageHandlers.iosListener.postMessage('restore');
