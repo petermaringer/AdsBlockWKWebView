@@ -1840,7 +1840,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         if urlsRestoreFileUrl.checkFileExist() == true {
           let urlsRestoreString = try! String(contentsOf: urlsRestoreFileUrl, encoding: .utf8)
           restoreUrls = urlsRestoreString.components(separatedBy: "\n")
-          try! FileManager.default.removeItem(at: urlsRestoreFileUrl)
+          //try! FileManager.default.removeItem(at: urlsRestoreFileUrl)
         }
         
         if (UserDefaults.standard.object(forKey: "urlsBackup") != nil) {
@@ -1868,8 +1868,8 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         //let restoreUrlsOrig = restoreUrls
         //let restoreUrlsJsonOrig = restoreUrlsJson
         //let restoreIndexLastOrig = restoreIndexLast
-        if restoreUrls.count > 50 {
-          restoreUrls = Array(restoreUrls.suffix(50))
+        if restoreUrls.count > 100 {
+          restoreUrls = Array(restoreUrls.suffix(100))
         }
         restoreIndexLast = restoreUrls.count - 1
         restoreUrlsJson = "{\"currentPage\": \(restorePosition * -1), \"history\": ["
@@ -2797,17 +2797,17 @@ func mergeArrays(array1: [String], array2: [String]) -> [String] {
     return result
 }
     var oldUrls = userDefaults.array(forKey: "urls") as? [String] ?? []
-    oldUrls.insert("https://orf.at/", at: 0)
+    //oldUrls.insert("https://orf.at/", at: 0)
     let array3 = mergeArrays(array1: oldUrls, array2: urls)
-    //userDefaults.set(array3, forKey: "urls2")
+    userDefaults.set(array3, forKey: "urls")
     func kurzeArray(_ array: [String]) -> [String] {
   return array.map { String($0.prefix(50)) }
 }
 let kurzArray = kurzeArray(array3)
-    showAlert("\(kurzArray)")
+    showAlert("\(array3.count)\n\n\(kurzArray)")
     //
     
-    UserDefaults.standard.set(urls, forKey: "urls")
+    //UserDefaults.standard.set(urls, forKey: "urls")
     UserDefaults.standard.set(currentIndexButLast, forKey: "currentIndexButLast")
     
     bflist = "bflist:"
