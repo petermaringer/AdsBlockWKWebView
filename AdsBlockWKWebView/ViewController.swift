@@ -1958,7 +1958,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
       DispatchQueue.main.asyncAfter(deadline: .now() + 7.0) {
         self.topNavBgView.backgroundColor = .viewBgColor
         self.webView3.removeFromSuperview()
-        self.navUrlArray = []
+        //self.navUrlArray = []
         self.lb.text = "log1:"
       }
       
@@ -2733,6 +2733,28 @@ downloadTask.resume()
     }
     let urls = (self.webView.backForwardList.backList + [currentItem] + self.webView.backForwardList.forwardList).compactMap { $0.url.absoluteString }
     let currentIndexButLast = self.webView.backForwardList.forwardList.count
+    
+    //
+    func mergeArrays<T: Equatable>(oldArray: [T], newArray: [T]) -> [T] {
+  for i in stride(from: min(oldArray.count, newArray.count), to: 0, by: -1) {
+    let oldSuffix = Array(oldArray.suffix(i)) // Letzte i Elemente von Array1
+    let newPrefix = Array(newArray.prefix(i)) // Erste i Elemente von Array2
+    if oldSuffix == newPrefix { // Falls der Übergang passt
+      return Array(oldArray.prefix(oldArray.count - i)) + newArray
+    }
+  }
+  return oldArray + newArray // Falls keine Überschneidung, einfach anhängen
+}
+    var oldUrls = userDefaults.array(forKey: "urls") as? [String] ?? []
+    oldUrls.insert("Hallo", at: 0)
+    oldUrls.insert("Welt", at: 1)
+    let array3 = mergeArrays(oldArray: oldUrls, newArray: urls)
+    func kurzeArray(_ array: [String]) -> [String] {
+  return array.map { String($0.prefix(15)) }
+}
+let kurzArray = kurzeArray(array3)
+    showAlert("\(kurzArray)")
+    //
     
     UserDefaults.standard.set(urls, forKey: "urls")
     UserDefaults.standard.set(currentIndexButLast, forKey: "currentIndexButLast")
