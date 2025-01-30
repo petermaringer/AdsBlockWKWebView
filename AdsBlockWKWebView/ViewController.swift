@@ -1858,6 +1858,23 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         //HttpServer().start()
         HttpServer.instance.setupServer()
         
+        let restoreUrlsOrig = restoreUrls
+        let restoreUrlsJsonOrig = restoreUrlsJson
+        if restoreUrls.count > 20 {
+          restoreUrls = Array(restoreUrls.suffix(20))
+        }
+        restoreUrlsJson = "{\"currentPage\": \(restorePosition * -1), \"history\": ["
+        restoreUrls.forEach { url in
+          restoreUrlsJson += "\"" + url + "\", "
+        }
+        restoreUrlsJson.removeLast(2)
+        restoreUrlsJson += "]}"
+        DispatchQueue.main.async {
+          self.showAlert(restoreUrlsJson)
+        }
+        restoreUrls = restoreUrlsOrig
+        restoreUrlsJson = restoreUrlsJsonOrig
+        
         if (UserDefaults.standard.object(forKey: "urlsJson") != nil) {
         //restoreUrlsJson = UserDefaults.standard.string(forKey: "urlsJson")!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         restoreUrlsJson = UserDefaults.standard.string(forKey: "urlsJson")
