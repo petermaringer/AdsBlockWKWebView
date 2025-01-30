@@ -1836,9 +1836,12 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
           restoreUrls.insert("https://www.google.com/", at: 0)
         }
         
-        let bbfileURL = URL.docDir.appendingPathComponent("urlsBackup 250130.txt")
-let bburlsBackupString = try! String(contentsOf: bbfileURL, encoding: .utf8)
-restoreUrls = bburlsBackupString.components(separatedBy: "\n")
+        let urlsRestoreFileUrl = URL.docDir.appendingPathComponent("urlsRESTORE.txt")
+        if urlsRestoreFileUrl.checkFileExist() == true {
+          let urlsRestoreString = try! String(contentsOf: urlsRestoreFileUrl, encoding: .utf8)
+          restoreUrls = urlsRestoreString.components(separatedBy: "\n")
+          try! FileManager.default.removeItem(at: urlsRestoreFileUrl)
+        }
         
         if (UserDefaults.standard.object(forKey: "urlsBackup") != nil) {
         let urlsBackup = UserDefaults.standard.stringArray(forKey: "urlsBackup") ?? [String]()
@@ -1865,20 +1868,17 @@ restoreUrls = bburlsBackupString.components(separatedBy: "\n")
         //let restoreUrlsOrig = restoreUrls
         //let restoreUrlsJsonOrig = restoreUrlsJson
         //let restoreIndexLastOrig = restoreIndexLast
-        //restoreUrls = userDefaults.array(forKey: "urls2") as? [String] ?? []
-        if restoreUrls.count > 100 {
-          restoreUrls = Array(restoreUrls.suffix(100))
+        if restoreUrls.count > 50 {
+          restoreUrls = Array(restoreUrls.suffix(50))
         }
         restoreIndexLast = restoreUrls.count - 1
         restoreUrlsJson = "{\"currentPage\": \(restorePosition * -1), \"history\": ["
-        //restoreIndexLast = 0
         restoreUrls.forEach { url in
           restoreUrlsJson += "\"" + url + "\", "
-          //restoreIndexLast += 1
         }
         restoreUrlsJson.removeLast(2)
         restoreUrlsJson += "]}"
-        let restoreUrlsJsonTemp = "\(restoreIndexLast)\n" + restoreUrlsJson + "\n\n"
+        let restoreUrlsJsonTemp = "\(restoreIndexLast+1)\n" + restoreUrlsJson + "\n\n"
         DispatchQueue.main.async {
           self.showAlert(restoreUrlsJsonTemp)
         }
