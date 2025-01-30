@@ -1872,7 +1872,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         }
         restoreUrlsJson.removeLast(2)
         restoreUrlsJson += "]}"
-        let restoreUrlsJsonTemp = restoreUrlsJson + "\n" + restoreIndexLast
+        let restoreUrlsJsonTemp = restoreUrlsJson + "\n\(restoreIndexLast)"
         DispatchQueue.main.async {
           self.showAlert(restoreUrlsJsonTemp)
         }
