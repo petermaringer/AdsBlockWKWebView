@@ -2757,26 +2757,17 @@ downloadTask.resume()
     //}
     //showAlert(bflist)
     
+    if webView.url!.absoluteString.hasPrefix("internal://local/restore?") == true {
+      return
+    }
+    
     guard let currentItem = self.webView.backForwardList.currentItem else {
     return
     }
-    let urls = (self.webView.backForwardList.backList + [currentItem] + self.webView.backForwardList.forwardList).compactMap { $0.url.absoluteString }
+    let newUrls = (self.webView.backForwardList.backList + [currentItem] + self.webView.backForwardList.forwardList).compactMap { $0.url.absoluteString }
     let currentIndexButLast = self.webView.backForwardList.forwardList.count
     
-    /*
-    func mergeArrays<T: Equatable>(oldArray: [T], newArray: [T]) -> [T] {
-  for i in stride(from: min(oldArray.count, newArray.count), to: 0, by: -1) {
-    let oldSuffix = Array(oldArray.suffix(i)) // Letzte i Elemente von Array1
-    let newPrefix = Array(newArray.prefix(i)) // Erste i Elemente von Array2
-    if oldSuffix == newPrefix { // Falls der Übergang passt
-      return Array(oldArray.prefix(oldArray.count - i)) + newArray
-    }
-  }
-  return oldArray + newArray // Falls keine Überschneidung, einfach anhängen
-}*/
-
 func mergeArrays(array1: [String], array2: [String]) -> [String] {
-    // Finde die längste Übereinstimmung
     var longestMatchStartIndex = -1
     var maxMatchLength = 0
     for i in 0..<array1.count {
@@ -2791,22 +2782,18 @@ func mergeArrays(array1: [String], array2: [String]) -> [String] {
             }
         }
     }
-    // Wenn keine Übereinstimmung gefunden wurde, wird das gesamte Array 1 genommen
     let array1Part = (longestMatchStartIndex >= 0) ? Array(array1[0..<longestMatchStartIndex]) : array1
-    // Füge das zweite Array an
     let result = array1Part + array2
     return result
 }
-    var oldUrls = userDefaults.array(forKey: "urls") as? [String] ?? []
-    //oldUrls.insert("https://orf.at/", at: 0)
-    let array3 = mergeArrays(array1: oldUrls, array2: urls)
-    userDefaults.set(array3, forKey: "urls")
+    let oldUrls = userDefaults.array(forKey: "urls") as? [String] ?? []
+    let urls = mergeArrays(array1: oldUrls, array2: newUrls)
+    userDefaults.set(urls, forKey: "urls")
     func kurzeArray(_ array: [String]) -> [String] {
   return array.map { String($0.prefix(50)) }
 }
-let kurzArray = kurzeArray(array3)
-    showAlert("\(array3.count)\n\n\(kurzArray)")
-    //
+    let kurzArray = kurzeArray(urls)
+    showAlert("\(urls.count)\n\n\(kurzArray)")
     
     //UserDefaults.standard.set(urls, forKey: "urls")
     UserDefaults.standard.set(currentIndexButLast, forKey: "currentIndexButLast")
