@@ -22,27 +22,27 @@
     var urlList = sessionRestoreComponents['history'];
     var currentPage = sessionRestoreComponents['currentPage'];
     var restoreLog = 'Script Restore Log:';
-    history.replaceState({name: 'object0'}, 'title0', getRestoreURL(urlList[0]));
-    restoreLog += '\n\n0:\n' + urlList[0] + '\n' + getRestoreURL(urlList[0]);
-    for (var i = 1; i < urlList.length; i++) {
-      history.pushState({name: 'object' + i}, 'title' + i, getRestoreURL(urlList[i]));
+    //history.replaceState({name: 'object0'}, 'title0', getRestoreURL(urlList[0]));
+    //restoreLog += '\n\n0:\n' + urlList[0] + '\n' + getRestoreURL(urlList[0]);
+    for (var i = 0; i < urlList.length; i++) {
+      if (i === 0) {
+        history.replaceState({name: 'object' + i}, 'title' + i, getRestoreURL(urlList[i]));
+      } else {
+        history.pushState({name: 'object' + i}, 'title' + i, getRestoreURL(urlList[i]));
+      }
       restoreLog += '\n\n' + i + ':\n' + urlList[i] + '\n' + getRestoreURL(urlList[i]);
     }
     restoreLog += '\n\ncP: ' + currentPage;
     div.innerHTML = '';
-    //history.go(currentPage);
+    if (currentPage < 0) history.go(currentPage);
     setTimeout(function () {
-      window.addEventListener('popstate', function(e) {
-      //alert('popstate: ' + currentPage + ' ' + JSON.stringify(e.state));
-      restoreLog += '\n\npopstate: ' + currentPage + ' ' + JSON.stringify(e.state);
+      //window.addEventListener('popstate', function(e) {
+      //restoreLog += '\n\nps: ' + JSON.stringify(e.state);
       window.location.reload();
       webkit.messageHandlers.iosListener.postMessage('restore');
       webkit.messageHandlers.iosListener.postMessage(restoreLog);
-      });
-      history.go(currentPage);
-      //window.location.reload();
-      //webkit.messageHandlers.iosListener.postMessage('restore');
-      //webkit.messageHandlers.iosListener.postMessage(restoreLog);
+      //});
+      //if (currentPage < 0) history.go(currentPage);
     }, 0);
   })();
   </script>
