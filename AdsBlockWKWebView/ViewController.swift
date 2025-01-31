@@ -2757,15 +2757,19 @@ downloadTask.resume()
     //}
     //showAlert(bflist)
     
-    if webView.url!.absoluteString.hasPrefix("internal://local/restore?") == true {
-      return
-    }
+    if webView.url!.absoluteString.hasPrefix("internal://local/restore?") == false {
+      //return
+    //}
     
-    guard let currentItem = self.webView.backForwardList.currentItem else {
+    /*guard let currentItem = self.webView.backForwardList.currentItem else {
     return
     }
     let newUrls = (self.webView.backForwardList.backList + [currentItem] + self.webView.backForwardList.forwardList).compactMap { $0.url.absoluteString }
-    let currentIndexButLast = self.webView.backForwardList.forwardList.count
+    let currentIndexButLast = self.webView.backForwardList.forwardList.count*/
+    
+    guard let currentItem = webView.backForwardList.currentItem else { return }
+    let newUrls = (webView.backForwardList.backList + [currentItem] + webView.backForwardList.forwardList).compactMap { $0.url.absoluteString }
+    let currentIndexButLast = webView.backForwardList.forwardList.count
     
 func mergeArrays(array1: [String], array2: [String]) -> [String] {
     var longestMatchStartIndex = -1
@@ -2789,31 +2793,30 @@ func mergeArrays(array1: [String], array2: [String]) -> [String] {
     let oldUrls = userDefaults.array(forKey: "urls") as? [String] ?? []
     let urls = mergeArrays(array1: oldUrls, array2: newUrls)
     userDefaults.set(urls, forKey: "urls")
-    func kurzeArray(_ array: [String]) -> [String] {
-  return array.map { String($0.prefix(50)) }
-}
-    let kurzArray = kurzeArray(urls)
-    showAlert("\(urls.count)\n\n\(kurzArray)")
+    func cutArray(_ array: [String]) -> [String] {
+      return array.map { String($0.prefix(50)) }
+    }
+    showAlert("\(urls.count)\n\n\(cutArray(urls))")
     
     //UserDefaults.standard.set(urls, forKey: "urls")
     UserDefaults.standard.set(currentIndexButLast, forKey: "currentIndexButLast")
+    }
     
-    bflist = "bflist:"
+    /*bflist = "bflist:"
     urls.forEach { url in
       bflist = bflist + " " + url
     }
     bflist = bflist + " \(currentIndexButLast)"
-    //showAlert("\(bflist)")
+    //showAlert("\(bflist)")*/
     
-    var urlsJson = "{\"currentPage\": \(currentIndexButLast * -1), \"history\": ["
+    /*var urlsJson = "{\"currentPage\": \(currentIndexButLast * -1), \"history\": ["
     urls.forEach { url in
       urlsJson += "\"" + url + "\", "
     }
     urlsJson.removeLast(2)
     urlsJson += "]}"
     UserDefaults.standard.set(urlsJson, forKey: "urlsJson")
-    //lb.text! += " urlsJ:\(urlsJson)"
-    //adjustLabel()
+    //lb.text! += " urlsJ:\(urlsJson)"*/
     
     //if restoreIndex == 25 {
     //restoreIndexLast = 25
