@@ -1984,8 +1984,10 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
   func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
     if message.body as? String == "restore" {
       
+      if restorePosition > 0 {
       webView.go(to: webView.backForwardList.item(at: restorePosition * -1)!)
       webView.reload()
+      }
       
       DispatchQueue.main.asyncAfter(deadline: .now() + 7.0) {
         self.topNavBgView.backgroundColor = .viewBgColor
@@ -2908,8 +2910,9 @@ func mergeArrays(array1: [String], array2: [String]) -> [String] {
     if restoreIndex < restoreIndexLast {
       restoreIndex += 1
       //webView.load(URLRequest(url: URL(string: restoreUrls[restoreIndex])!))
-      let movingDot = String(repeating: ".", count: restoreIndex)
-      webView3.evaluateJavaScript("document.getElementById(\"a\").innerHTML = \"Loading last Session\(movingDot) <span style='position:absolute;left:310px;'>\(restoreIndex+1)/\(restoreIndex+1+restoreIndexLast+1-5)/\(restoreIndexLast+1)</span>\";", completionHandler: nil)
+      /*let movingDot = String(repeating: ".", count: restoreIndex)
+      webView3.evaluateJavaScript("document.getElementById(\"a\").innerHTML = \"Loading last Session\(movingDot) <span style='position:absolute;left:310px;'>\(restoreIndex+1+restoreIndexLast+1-5)/\(restoreIndexLast+1)</span>\";", completionHandler: nil)*/
+      webView3.evaluateJavaScript("document.getElementById(\"a\").innerHTML = \"Loading last Session... <span style='position:absolute;left:310px;'>\(restoreIndex+1)/\(restoreIndexLast+1)</span>\";", completionHandler: nil)
     }
     
     //let urlss = UserDefaults.standard.array(forKey: "urls") as? [URL] ?? [URL]()
