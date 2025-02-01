@@ -1984,6 +1984,8 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
   func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
     if message.body as? String == "restore" {
       
+      webView.go(to: webView.backForwardList.item(at: restorePosition * -1)!)
+      
       DispatchQueue.main.asyncAfter(deadline: .now() + 7.0) {
         self.topNavBgView.backgroundColor = .viewBgColor
         self.webView3.removeFromSuperview()
