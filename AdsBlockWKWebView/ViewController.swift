@@ -1879,7 +1879,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         restoreUrlsJson = "{\"currentPage\": \(restorePosition * -1), \"history\": [" + restoreUrls.suffix(100).map { "\"\($0)\"" }.joined(separator: ", ") + "]}"
         //restoreUrlsJson.removeLast(2)
         //restoreUrlsJson += "]}"
-        let restoreUrlsJsonTemp = "\(restoreIndexLast+1)\n" + restoreUrlsJson + "\n\n"
+        let restoreUrlsJsonTemp = "\(restoreIndexLast+1)\n" + restoreUrlsJson + "\n"
         DispatchQueue.main.async {
           self.showAlert(restoreUrlsJsonTemp)
         }
@@ -2798,7 +2798,7 @@ func mergeArrays(array1: [String], array2: [String]) -> [String] {
     func cutArray(_ array: [String]) -> [String] {
       return array.map { String($0.prefix(50)) }
     }
-    showAlert("\(urls.count)\n\n\(cutArray(urls))")
+    showAlert("\(restoreIndex) \(restoreIndexLast)\n\(urls.count)\n\(cutArray(urls))\n")
     
     //UserDefaults.standard.set(urls, forKey: "urls")
     UserDefaults.standard.set(currentIndexButLast, forKey: "currentIndexButLast")

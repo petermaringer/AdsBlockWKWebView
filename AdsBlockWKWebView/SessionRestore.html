@@ -36,7 +36,7 @@
     setTimeout(function () {
       //window.addEventListener('popstate', function(e) {
       //restoreLog += '\n\nps: ' + JSON.stringify(e.state);
-      window.location.reload();
+      //window.location.reload();
       webkit.messageHandlers.iosListener.postMessage('restore');
       webkit.messageHandlers.iosListener.postMessage(restoreLog);
       //});
