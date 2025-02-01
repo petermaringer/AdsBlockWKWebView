@@ -1985,9 +1985,9 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
     if message.body as? String == "restore" {
       
       if restorePosition > 0 {
-      webView.go(to: webView.backForwardList.item(at: restorePosition * -1)!)
-      webView.reload()
+        webView.go(to: webView.backForwardList.item(at: restorePosition * -1)!)
       }
+      webView.reload()
       
       DispatchQueue.main.asyncAfter(deadline: .now() + 7.0) {
         self.topNavBgView.backgroundColor = .viewBgColor
