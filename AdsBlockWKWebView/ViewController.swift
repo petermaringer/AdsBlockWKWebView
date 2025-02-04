@@ -2764,50 +2764,7 @@ downloadTask.resume()
     //}
     //showAlert(bflist)
     
-    if webView.url!.absoluteString.hasPrefix("internal://local/restore?") == false {
-      //return
-    //}
-    
-    /*guard let currentItem = self.webView.backForwardList.currentItem else {
-    return
-    }
-    let newUrls = (self.webView.backForwardList.backList + [currentItem] + self.webView.backForwardList.forwardList).compactMap { $0.url.absoluteString }
-    let currentIndexButLast = self.webView.backForwardList.forwardList.count*/
-    
-    guard let currentItem = webView.backForwardList.currentItem else { return }
-    let newUrls = (webView.backForwardList.backList + [currentItem] + webView.backForwardList.forwardList).compactMap { $0.url.absoluteString }
-    let currentIndexButLast = webView.backForwardList.forwardList.count
-    
-func mergeArrays(array1: [String], array2: [String]) -> [String] {
-    var longestMatchStartIndex = -1
-    var maxMatchLength = 0
-    for i in 0..<array1.count {
-        for j in 0..<array2.count {
-            var matchLength = 0
-            while i + matchLength < array1.count, j + matchLength < array2.count, array1[i + matchLength] == array2[j + matchLength] {
-                matchLength += 1
-            }
-            if matchLength > maxMatchLength {
-                maxMatchLength = matchLength
-                longestMatchStartIndex = i
-            }
-        }
-    }
-    let array1Part = (longestMatchStartIndex >= 0) ? Array(array1[0..<longestMatchStartIndex]) : array1
-    let result = array1Part + array2
-    return result
-}
-    let oldUrls = userDefaults.array(forKey: "urls") as? [String] ?? []
-    let urls = mergeArrays(array1: oldUrls, array2: newUrls)
-    userDefaults.set(urls, forKey: "urls")
-    func cutArray(_ array: [String]) -> [String] {
-      return array.map { String($0.prefix(50)) }
-    }
-    showAlert("\(restoreIndex) \(restoreIndexLast)\n\(urls.count)\n\(cutArray(urls))\n")
-    
-    //UserDefaults.standard.set(urls, forKey: "urls")
-    UserDefaults.standard.set(currentIndexButLast, forKey: "currentIndexButLast")
-    }
+    /*->WDF saveHistory*/
     
     /*bflist = "bflist:"
     urls.forEach { url in
@@ -2934,7 +2891,8 @@ func mergeArrays(array1: [String], array2: [String]) -> [String] {
   }
   
   func webViewDidFinish() {
-    if webView.url!.absoluteString.hasPrefix("http://localhost:6571/errors/error.html") == false && webView.url!.absoluteString.hasPrefix("internal://local/restore?") == false {
+    //if webView.url!.absoluteString.hasPrefix("http://localhost:6571/errors/error.html") == false && webView.url!.absoluteString.hasPrefix("internal://local/restore?") == false {
+    if webView.url!.absoluteString.hasPrefix("internal://local/restore?") == false {
       urlField.text = webView.url!.absoluteString
       if webView.hasOnlySecureContent {
         urlField.textColor = .successFgColor
@@ -2946,6 +2904,36 @@ func mergeArrays(array1: [String], array2: [String]) -> [String] {
       //if #available(iOS 15, *) {
         //lb.text! += " mT:\(webView.mediaType ?? "nil") tC:\(webView.themeColor) uC:\(webView.underPageBackgroundColor)"
       //}
+      guard let currentItem = webView.backForwardList.currentItem else { return }
+    let newUrls = (webView.backForwardList.backList + [currentItem] + webView.backForwardList.forwardList).compactMap { $0.url.absoluteString }
+    let currentIndexButLast = webView.backForwardList.forwardList.count
+    userDefaults.set(currentIndexButLast, forKey: "currentIndexButLast")
+func mergeArrays(array1: [String], array2: [String]) -> [String] {
+    var longestMatchStartIndex = -1
+    var maxMatchLength = 0
+    for i in 0..<array1.count {
+        for j in 0..<array2.count {
+            var matchLength = 0
+            while i + matchLength < array1.count, j + matchLength < array2.count, array1[i + matchLength] == array2[j + matchLength] {
+                matchLength += 1
+            }
+            if matchLength > maxMatchLength {
+                maxMatchLength = matchLength
+                longestMatchStartIndex = i
+            }
+        }
+    }
+    let array1Part = (longestMatchStartIndex >= 0) ? Array(array1[0..<longestMatchStartIndex]) : array1
+    let result = array1Part + array2
+    return result
+}
+    let oldUrls = userDefaults.array(forKey: "urls") as? [String] ?? []
+    let urls = mergeArrays(array1: oldUrls, array2: newUrls)
+    userDefaults.set(urls, forKey: "urls")
+    func cutArray(_ array: [String]) -> [String] {
+      return array.map { String($0.prefix(50)) }
+    }
+    showAlert("\(restoreIndex) \(restoreIndexLast)\n\(urls.count)\n\(cutArray(urls))\n")
     }
     newNav = true
     lb.text! += " WDF"
