@@ -2930,10 +2930,12 @@ func mergeArrays(array1: [String], array2: [String]) -> [String] {
     let oldUrls = userDefaults.array(forKey: "urls") as? [String] ?? []
     let urls = mergeArrays(array1: oldUrls, array2: newUrls)
     userDefaults.set(urls, forKey: "urls")
+    if lb.isHidden == false {
     func cutArray(_ array: [String]) -> [String] {
       return array.map { String($0.prefix(50)) }
     }
     showAlert("\(restoreIndex) \(restoreIndexLast)\n\(urls.count)\n\(cutArray(urls))\n")
+    }
     }
     newNav = true
     lb.text! += " WDF"
