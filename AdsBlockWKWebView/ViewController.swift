@@ -1491,7 +1491,7 @@ player.play()*/
     let redWords = ["STOP", "fErr"]
     for redWord in redWords {
     let textRange = (lb.text! as NSString).range(of: redWord)
-    attributedString.addAttributes([.foregroundColor: .red, .font: .boldSystemFont(ofSize: 12)], range: textRange)
+    attributedString.addAttributes([.foregroundColor: UIColor.red, .font: UIFont.boldSystemFont(ofSize: 12)], range: textRange)
     }
     lb.attributedText = attributedString
     
