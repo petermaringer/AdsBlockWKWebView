@@ -1487,7 +1487,7 @@ player.play()*/
       lb.attributedText = attributedString
     }*/
     
-    if let data = lb.text!.data(using: .utf16, allowLossyConversion: false), let attributedString = try? NSMutableAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil) {
+    if let lbData = (lb.text!).data(using: .utf8, allowLossyConversion: false), let attributedString = try? NSMutableAttributedString(data: lbData, options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html, .characterEncoding: String.Encoding.utf8.rawValue], documentAttributes: nil) {
       lb.attributedText = attributedString
     }
     
