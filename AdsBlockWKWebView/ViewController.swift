@@ -1478,12 +1478,16 @@ player.play()*/
     
     lbcounter += 1
     
-    let attributedString = NSMutableAttributedString(string: lb.text!)
+    /*let attributedString = NSMutableAttributedString(string: lb.text!)
     if let regularExpression = try? NSRegularExpression(pattern: "STOP") {
       let matchedResults = regularExpression.matches(in: lb.text!, options: [], range: NSRange(location: 0, length: attributedString.length))
       for matched in matchedResults {
         attributedString.addAttributes([NSAttributedStringKey.foregroundColor: UIColor.red], range: matched.range)
       }
+      lb.attributedText = attributedString
+    }*/
+    
+    if let data = lb.text!.data(using: .utf8), let attributedString = try? NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil) {
       lb.attributedText = attributedString
     }
     
@@ -2938,7 +2942,7 @@ func mergeArrays(array1: [String], array2: [String]) -> [String] {
     }
     }
     newNav = true
-    lb.text! += " WDF"
+    lb.text! += " <b>WDF</b>"
   }
   
   func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
