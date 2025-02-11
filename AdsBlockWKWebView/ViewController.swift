@@ -1488,14 +1488,18 @@ player.play()*/
     }*/
     
     let attributedString = NSMutableAttributedString(string: lb.text!)
-    let redWords = ["STOP", "WDF", "fErr"]
-    for redWord in redWords {
-var rangeToSearch = lb.text!.startIndex..<lb.text!.endIndex
-while let matchingRange = lb.text!.range(of: redWord, options: [], range: rangeToSearch) {
-  attributedString.addAttributes([.foregroundColor: UIColor.red, .font: UIFont.boldSystemFont(ofSize: 12)], range: NSRange(matchingRange, in: lb.text!))
-  rangeToSearch = matchingRange.upperBound..<lb.text!.endIndex
-}
+    //let redWords = ["STOP", "WDF", "fErr"]
+    func highlightWords(_ array: [String], with color: UIColor) {
+    for word in array {
+      var rangeToSearch = lb.text!.startIndex..<lb.text!.endIndex
+      while let matchingRange = lb.text!.range(of: word, options: [], range: rangeToSearch) {
+        attributedString.addAttributes([.foregroundColor: color, .font: UIFont.boldSystemFont(ofSize: 12)], range: NSRange(matchingRange, in: lb.text!))
+        rangeToSearch = matchingRange.upperBound..<lb.text!.endIndex
+      }
     }
+    }
+    highlightWords(["STOP", "err", "fErr"], with: UIColor.red)
+    highlightWords(["WDF", "w:dF"], with: UIColor.green)
     lb.attributedText = attributedString
     
     /*if let lbData = (lb.text! as NSString).data(using: .utf8, allowLossyConversion: false), let attributedString = try? NSMutableAttributedString(data: lbData, options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html, .characterEncoding: String.Encoding.utf8.rawValue], documentAttributes: nil) {
