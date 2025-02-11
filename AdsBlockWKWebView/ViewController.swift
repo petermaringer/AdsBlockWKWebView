@@ -1495,8 +1495,6 @@ while let matchingRange = lb.text!.range(of: redWord, options: [], range: rangeT
   attributedString.addAttributes([.foregroundColor: UIColor.red, .font: UIFont.boldSystemFont(ofSize: 12)], range: NSRange(matchingRange, in: lb.text!))
   rangeToSearch = matchingRange.upperBound..<lb.text!.endIndex
 }
-    /*let textRange = (lb.text! as NSString).range(of: redWord)
-    attributedString.addAttributes([.foregroundColor: UIColor.red, .font: UIFont.boldSystemFont(ofSize: 12)], range: textRange)*/
     }
     lb.attributedText = attributedString
     
@@ -2010,7 +2008,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         self.topNavBgView.backgroundColor = .viewBgColor
         self.webView3.removeFromSuperview()
         //self.navUrlArray = []
-        self.lb.text = "log1:"
+        //self.lb.text = "log1:"
       }
       
       lb.text! += " restoreD"
@@ -2955,7 +2953,7 @@ func mergeArrays(array1: [String], array2: [String]) -> [String] {
     }
     }
     newNav = true
-    lb.text! += " <b>WDF</b>"
+    lb.text! += " WDF"
   }
   
   func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
