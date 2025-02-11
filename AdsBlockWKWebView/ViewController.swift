@@ -1488,7 +1488,7 @@ player.play()*/
     }*/
     
     let attributedString = NSMutableAttributedString(string: lb.text!)
-    let redWords = ["WDF", "fErr"]
+    let redWords = ["STOP", "WDF", "fErr"]
     for redWord in redWords {
 var rangeToSearch = lb.text!.startIndex..<lb.text!.endIndex
 while let matchingRange = lb.text!.range(of: redWord, options: [], range: rangeToSearch) {
@@ -2044,6 +2044,7 @@ downloadTask.resume()
     if (message.body as! String).hasPrefix("Script") {
     //webView.loadHTMLString("<body>\(message.body)</body>", baseURL: nil)
     try! (message.body as! String).write(to: URL.docDir.appendingPathComponent("debug.txt"), atomically: true, encoding: .utf8)
+    return
     }
     
     lb.text! += " m:\(message.body)"
@@ -2070,13 +2071,17 @@ downloadTask.resume()
       if keyPath == "estimatedProgress" {
         if webView.url!.absoluteString.hasPrefix("internal://local/restore?") == false {
         progressView.progress = Float(webView.estimatedProgress)
+        lb.text! += " oV:" + String(String(describing: key).prefix(4))
         if webView.estimatedProgress == 1 {
           DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.progressView.progress = Float(0)
           }
-          webViewDidFinish()
+          //webViewDidFinish()
         }
-        lb.text! += " oV:" + String(String(describing: key).prefix(4))
+        //lb.text! += " oV:" + String(String(describing: key).prefix(4))
+        }
+        if webView.estimatedProgress == 1 {
+          webViewDidFinish()
         }
       }
       
