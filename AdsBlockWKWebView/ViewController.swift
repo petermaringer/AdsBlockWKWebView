@@ -1487,9 +1487,17 @@ player.play()*/
       lb.attributedText = attributedString
     }*/
     
-    if let lbData = (lb.text! as NSString).data(using: .utf8, allowLossyConversion: false), let attributedString = try? NSMutableAttributedString(data: lbData, options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html, .characterEncoding: String.Encoding.utf8.rawValue], documentAttributes: nil) {
-      lb.attributedText = attributedString
+    let attributedString = NSMutableAttributedString(string: lb.text!)
+    let redWords = ["STOP", "fErr"]
+    for redWord in redWords {
+    let textRange = (lb.text! as NSString).range(of: redWord)
+    attributedString.addAttributes([.foregroundColor: .red, .font: .boldSystemFont(ofSize: 12)], range: textRange)
     }
+    lb.attributedText = attributedString
+    
+    /*if let lbData = (lb.text! as NSString).data(using: .utf8, allowLossyConversion: false), let attributedString = try? NSMutableAttributedString(data: lbData, options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html, .characterEncoding: String.Encoding.utf8.rawValue], documentAttributes: nil) {
+      lb.attributedText = attributedString
+    }*/
     
     lb.frame.size.height = lb.sizeThatFits(CGSize(width: lb.frame.size.width, height: CGFloat.greatestFiniteMagnitude)).height
     lb.frame.origin.y = view.frame.height - lb.frame.size.height - insetB + 14
