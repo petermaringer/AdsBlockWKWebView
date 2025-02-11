@@ -1488,10 +1488,15 @@ player.play()*/
     }*/
     
     let attributedString = NSMutableAttributedString(string: lb.text!)
-    let redWords = ["STOP", "fErr"]
+    let redWords = ["WDF", "fErr"]
     for redWord in redWords {
-    let textRange = (lb.text! as NSString).range(of: redWord)
-    attributedString.addAttributes([.foregroundColor: UIColor.red, .font: UIFont.boldSystemFont(ofSize: 12)], range: textRange)
+var rangeToSearch = lb.text!.startIndex..<lb.text!.endIndex
+while let matchingRange = lb.text!.range(of: redWord, options: [], range: rangeToSearch) {
+  attributedString.addAttributes([.foregroundColor: UIColor.red, .font: UIFont.boldSystemFont(ofSize: 12)], range: NSRange(matchingRange, in: lb.text!))
+  rangeToSearch = matchingRange.upperBound..<lb.text!.endIndex
+}
+    /*let textRange = (lb.text! as NSString).range(of: redWord)
+    attributedString.addAttributes([.foregroundColor: UIColor.red, .font: UIFont.boldSystemFont(ofSize: 12)], range: textRange)*/
     }
     lb.attributedText = attributedString
     
