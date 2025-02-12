@@ -1500,7 +1500,7 @@ player.play()*/
       return text
     }
     let lbtext = shortenStringIfNeeded(lb.text!)
-    lb.text = lbtext
+    //lb.text = lbtext
     
     let attributedString = NSMutableAttributedString(string: lbtext)
     //let redWords = ["STOP", "WDF", "fErr"]
