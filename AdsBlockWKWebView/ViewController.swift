@@ -1488,8 +1488,8 @@ player.play()*/
     }*/
     
     func shortenStringIfNeeded(_ text: String) -> String {
-      let maxLength = 3000
-      let cutLength = 600
+      let maxLength = 2000
+      let cutLength = 500
       if text.count > maxLength {
         let startIndex = text.index(text.startIndex, offsetBy: cutLength)
         if let nextSpaceIndex = text[startIndex...].firstIndex(of: " ") {
@@ -1517,8 +1517,9 @@ player.play()*/
         }
       }
     }
-    highlightWords(["STOP", "err", "fErr"], with: UIColor.red)
-    highlightWords(["WDF", "w:dF"], with: UIColor.green)
+    highlightWords(["STOP", "err", "fErr"], with: UIColor.systemRed)
+    highlightWords(["WDF", "w:dF"], with: .successFgColor)
+    highlightWords(["oV:0.1", "m:dF"], with: .black)
     lb.attributedText = attributedString
     
     /*if let lbData = (lb.text! as NSString).data(using: .utf8, allowLossyConversion: false), let attributedString = try? NSMutableAttributedString(data: lbData, options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html, .characterEncoding: String.Encoding.utf8.rawValue], documentAttributes: nil) {
