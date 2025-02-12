@@ -1489,18 +1489,22 @@ player.play()*/
     
     func shortenStringIfNeeded(_ text: String) -> String {
       let maxLength = 3000
-      let cutLength = 300
+      let cutLength = 600
       if text.count > maxLength {
         let startIndex = text.index(text.startIndex, offsetBy: cutLength)
         if let nextSpaceIndex = text[startIndex...].firstIndex(of: " ") {
           let shortenedText = String(text[nextSpaceIndex...])
-          return "log: ... " + shortenedText
+          return "log: ..." + shortenedText
         }
       }
       return text
     }
     let lbtext = shortenStringIfNeeded(lb.text!)
-    //lb.text = lbtext
+    if lb.text != lbtext {
+      lb.removeObserver(self, forKeyPath: "text")
+      lb.text = lbtext
+      lb.addObserver(self, forKeyPath: "text", options: .new, context: nil)
+    }
     
     let attributedString = NSMutableAttributedString(string: lbtext)
     //let redWords = ["STOP", "WDF", "fErr"]
