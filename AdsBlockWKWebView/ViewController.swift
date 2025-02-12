@@ -1487,16 +1487,31 @@ player.play()*/
       lb.attributedText = attributedString
     }*/
     
-    let attributedString = NSMutableAttributedString(string: lb.text!)
+    func shortenStringIfNeeded(_ text: String) -> String {
+      let maxLength = 3000
+      let cutLength = 300
+      if text.count > maxLength {
+        let startIndex = text.index(text.startIndex, offsetBy: cutLength)
+        if let nextSpaceIndex = text[startIndex...].firstIndex(of: " ") {
+          let shortenedText = String(text[nextSpaceIndex...])
+          return "log: ... " + shortenedText
+        }
+      }
+      return text
+    }
+    let lbtext = shortenStringIfNeeded(lb.text!)
+    lb.text = lbtext
+    
+    let attributedString = NSMutableAttributedString(string: lbtext)
     //let redWords = ["STOP", "WDF", "fErr"]
     func highlightWords(_ array: [String], with color: UIColor) {
-    for word in array {
-      var rangeToSearch = lb.text!.startIndex..<lb.text!.endIndex
-      while let matchingRange = lb.text!.range(of: word, options: [], range: rangeToSearch) {
-        attributedString.addAttributes([.foregroundColor: color, .font: UIFont.boldSystemFont(ofSize: 12)], range: NSRange(matchingRange, in: lb.text!))
-        rangeToSearch = matchingRange.upperBound..<lb.text!.endIndex
+      for word in array {
+        var rangeToSearch = lbtext.startIndex..<lbtext.endIndex
+        while let matchingRange = lbtext.range(of: word, options: [], range: rangeToSearch) {
+          attributedString.addAttributes([.foregroundColor: color, .font: UIFont.boldSystemFont(ofSize: 12)], range: NSRange(matchingRange, in: lbtext))
+          rangeToSearch = matchingRange.upperBound..<lbtext.endIndex
+        }
       }
-    }
     }
     highlightWords(["STOP", "err", "fErr"], with: UIColor.red)
     highlightWords(["WDF", "w:dF"], with: UIColor.green)
