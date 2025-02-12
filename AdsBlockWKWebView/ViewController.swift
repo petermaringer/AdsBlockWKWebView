@@ -1517,9 +1517,10 @@ player.play()*/
         }
       }
     }
-    highlightWords(["STOP", "err", "fErr"], with: UIColor.systemRed)
+    highlightWords(["STOP", "err", "fErr"], with: .errorFgColor)
     highlightWords(["WDF", "w:dF"], with: .successFgColor)
     highlightWords(["oV:0.1", "m:dF"], with: .black)
+    highlightWords(["dSPN"], with: .blue)
     lb.attributedText = attributedString
     
     /*if let lbData = (lb.text! as NSString).data(using: .utf8, allowLossyConversion: false), let attributedString = try? NSMutableAttributedString(data: lbData, options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html, .characterEncoding: String.Encoding.utf8.rawValue], documentAttributes: nil) {
@@ -2083,28 +2084,28 @@ downloadTask.resume()
       
       if keyPath == "URL" {
         //webView.evaluateJavaScript("var el = document.querySelector('input[type=file]'); if (el !== null) { window.webkit.messageHandlers.iosListener.postMessage('iF' + el.getAttribute('accept')); el.removeAttribute('accept'); el.removeAttribute('capture'); el.removeAttribute('onclick'); el.click(); }", completionHandler: nil)
-        lb.text! += " oV:" + String(String(describing: key).prefix(50))
+        lb.text! += " ovU:" + String(String(describing: key).prefix(50))
       }
       
       if keyPath == "title" {
-        //webViewDidFinish()
-        //lb.text! += " oV:" + String(String(describing: key).prefix(15))
+        //lb.text! += " ovT:" + String(String(describing: key).prefix(15))
         lb.text! += " ovT:" + String(String(describing: key).prefix(3))
       }
       
       if keyPath == "estimatedProgress" {
-        if webView.url!.absoluteString.hasPrefix("internal://local/restore?") == false {
-        progressView.progress = Float(webView.estimatedProgress)
         lb.text! += " oV:" + String(String(describing: key).prefix(4))
-        if webView.estimatedProgress == 1 {
-          DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            self.progressView.progress = Float(0)
+        if webView.url!.absoluteString.hasPrefix("internal://local/restore?") == false {
+          //progressView.progress = Float(webView.estimatedProgress)
+          progressView.progress = Float(key)
+          //if webView.estimatedProgress == 1 {
+          if key == 1 {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+              self.progressView.progress = Float(0)
+            }
           }
-          //webViewDidFinish()
         }
-        //lb.text! += " oV:" + String(String(describing: key).prefix(4))
-        }
-        if webView.estimatedProgress == 1 {
+        //if webView.estimatedProgress == 1 {
+        if key == 1 {
           webViewDidFinish()
         }
       }
