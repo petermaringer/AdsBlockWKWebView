@@ -1672,8 +1672,9 @@ player.play()*/
         
         var userScript: String = ""
         userScript += "document.addEventListener('click', function() { window.webkit.messageHandlers.iosListener.postMessage('c'); });"
-        userScript += " "
+        //userScript += " "
         userScript += "var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=device-width, initial-scale=1.0, minimum-scale=0.1, maximum-scale=15.0, user-scalable=yes'); }"
+        userScript += "window.webkit.messageHandlers.iosListener.postMessage('IWH');"
         userScript += " "
         userScript += "document.addEventListener('focus', function() { document.activeElement?.blur(); window.webkit.messageHandlers.iosListener.postMessage('foc'); }); document.querySelector('input').blur(); document.activeElement?.blur(); Object.defineProperty(document, 'activeElement', { get: function() { return null; } });"
         userScript += " "
@@ -2088,8 +2089,10 @@ downloadTask.resume()
       }
       
       if keyPath == "title" {
+        if !key.isEmpty {
         //lb.text! += " ovT:" + String(String(describing: key).prefix(15))
         lb.text! += " ovT:" + String(String(describing: key).prefix(3))
+        }
       }
       
       if keyPath == "estimatedProgress" {
@@ -2106,6 +2109,7 @@ downloadTask.resume()
         }
         if webView.estimatedProgress == 1 {
         //if key == 1 {
+          lb.text! += " oVU:\(webView.url!)"
           webViewDidFinish()
         }
       }
