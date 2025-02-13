@@ -2089,9 +2089,11 @@ downloadTask.resume()
       }
       
       if keyPath == "title" {
-        if !key.isEmpty {
+        let ovT = String(String(describing: key).prefix(3))
+        if !ovT.isEmpty {
         //lb.text! += " ovT:" + String(String(describing: key).prefix(15))
-        lb.text! += " ovT:" + String(String(describing: key).prefix(3))
+        //lb.text! += " ovT:" + String(String(describing: key).prefix(3))
+        lb.text! += " ovT:\(ovT)"
         }
       }
       
