@@ -1755,7 +1755,8 @@ document.addEventListener("DOMContentLoaded", function () {
   postToListener("dF");
   
 });
-        """
+        
+"""
         
         webViewConfig.userContentController.addUserScript(WKUserScript(source: userScript, injectionTime: .atDocumentEnd, forMainFrameOnly: false))
         //webViewConfig.userContentController.addUserScript(WKUserScript(source: "var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=device-width, initial-scale=1.0, minimum-scale=0.1, maximum-scale=15.0, user-scalable=yes'); } window.webkit.messageHandlers.iosListener.postMessage('dF'); setTimeout(function() { var videos = document.getElementsByTagName('video'); for (var i = 0; i < videos.length; i++) { videos.item(i).pause(); window.webkit.messageHandlers.iosListener.postMessage('vs' + videos.item(i).src); /*window.webkit.messageHandlers.iosListener.postMessage('vc' + videos.item(i).currentSrc);*/ } }, 3000); var el = document.querySelector('input[type=file]'); if (el !== null) { window.webkit.messageHandlers.iosListener.postMessage('iF'); el.removeAttribute('capture'); } document.querySelector('input').blur(); /*Object.defineProperty(document, 'activeElement', { get: function() { return null; } });*/", injectionTime: .atDocumentEnd, forMainFrameOnly: false))
