@@ -1517,10 +1517,11 @@ player.play()*/
         }
       }
     }
-    highlightWords(["STOP", "err", "fErr"], with: .errorFgColor)
+    highlightWords(["STOP", "err", "fErr"], with: .red) //.errorFgColor
     highlightWords(["WDF", "w:dF"], with: .successFgColor)
     highlightWords(["oV:0.1 ", "m:dF"], with: .black)
-    highlightWords(["dSPN"], with: .blue)
+    //highlightWords(["dSPN"], with: .blue)
+    highlightWords(["m:IWH"], with: .blue)
     lb.attributedText = attributedString
     
     /*if let lbData = (lb.text! as NSString).data(using: .utf8, allowLossyConversion: false), let attributedString = try? NSMutableAttributedString(data: lbData, options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html, .characterEncoding: String.Encoding.utf8.rawValue], documentAttributes: nil) {
@@ -1670,23 +1671,92 @@ player.play()*/
         //webViewConfig.mediaTypesRequiringUserActionForPlayback = .all
         //webViewConfig.ignoresViewportScaleLimits = true
         
-        var userScript: String = ""
-        userScript += "document.addEventListener('click', function() { window.webkit.messageHandlers.iosListener.postMessage('c'); });"
-        userScript += "window.webkit.messageHandlers.iosListener.postMessage('IWH1');"
+        var userScriptOLD: String = ""
+        //userScript += "document.addEventListener('click', function() { window.webkit.messageHandlers.iosListener.postMessage('c'); });"
+        //userScript += "window.webkit.messageHandlers.iosListener.postMessage('IWH1');"
         //userScript += " "
-        userScript += "var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=device-width, initial-scale=1.0, minimum-scale=0.1, maximum-scale=15.0, user-scalable=yes'); }"
-        userScript += "window.webkit.messageHandlers.iosListener.postMessage('IWH2');"
+        //userScript += "var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=device-width, initial-scale=1.0, minimum-scale=0.1, maximum-scale=15.0, user-scalable=yes'); }"
+        //userScript += "window.webkit.messageHandlers.iosListener.postMessage('IWH2');"
         //userScript += " "
-        userScript += "document.addEventListener('focus', function() { document.activeElement?.blur(); window.webkit.messageHandlers.iosListener.postMessage('foc'); }); document.querySelector('input').blur(); document.activeElement?.blur(); Object.defineProperty(document, 'activeElement', { get: function() { return null; } });"
-        userScript += "window.webkit.messageHandlers.iosListener.postMessage('IWH3');"
+        userScriptOLD += "document.addEventListener('focus', function() { document.activeElement?.blur(); window.webkit.messageHandlers.iosListener.postMessage('foc'); }); document.querySelector('input').blur(); document.activeElement?.blur(); Object.defineProperty(document, 'activeElement', { get: function() { return null; } });"
+        //userScript += "window.webkit.messageHandlers.iosListener.postMessage('IWH3');"
         //userScript += " "
-        userScript += "var el = document.querySelector('input[type=file]'); if (el !== null) { window.webkit.messageHandlers.iosListener.postMessage('iF'); el.removeAttribute('capture'); }"
-        userScript += "window.webkit.messageHandlers.iosListener.postMessage('IWH4');"
+        userScriptOLD += "var el = document.querySelector('input[type=file]'); if (el !== null) { window.webkit.messageHandlers.iosListener.postMessage('iF'); el.removeAttribute('capture'); }"
+        //userScript += "window.webkit.messageHandlers.iosListener.postMessage('IWH4');"
         //userScript += " "
-        userScript += "setTimeout(function() { var videos = document.getElementsByTagName('video'); for (var i = 0; i < videos.length; i++) { videos.item(i).pause(); window.webkit.messageHandlers.iosListener.postMessage('vs' + videos.item(i).src); /*window.webkit.messageHandlers.iosListener.postMessage('vc' + videos.item(i).currentSrc);*/ } }, 3000);"
-        userScript += "window.webkit.messageHandlers.iosListener.postMessage('IWH5');"
+        //userScript += "setTimeout(function() { var videos = document.getElementsByTagName('video'); for (var i = 0; i < videos.length; i++) { videos.item(i).pause(); window.webkit.messageHandlers.iosListener.postMessage('vs' + videos.item(i).src); /*window.webkit.messageHandlers.iosListener.postMessage('vc' + videos.item(i).currentSrc);*/ } }, 3000);"
+        //userScript += "window.webkit.messageHandlers.iosListener.postMessage('IWH5');"
         //userScript += " "
-        userScript += "window.webkit.messageHandlers.iosListener.postMessage('dF');"
+        //userScript += "window.webkit.messageHandlers.iosListener.postMessage('dF');"
+        
+        let userScript: String = """
+document.addEventListener("DOMContentLoaded", function () {
+  
+  function postToListener(string) {
+    window.webkit.messageHandlers.iosListener.postMessage(string);
+  }
+  
+  document.addEventListener("click", function () {
+    postToListener("c");
+  });
+  
+  postToListener("IWH1");
+  
+  let viewport = document.querySelector("meta[name='viewport']");
+  if (!viewport) {
+    viewport = document.createElement("meta");
+    viewport.name = "viewport";
+    document.head.appendChild(viewport);
+  }
+  viewport.content = "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=10, user-scalable=yes";
+  
+  postToListener("IWH2");
+  
+  let userInteracted = false;
+			let offsetLeft = 0;
+			let offsetTop = 0;
+		  document.addEventListener("mousedown", function (event) {
+				if (event.target.matches("input, textarea")) {
+					userInteracted = true;
+					viewport.content = "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=" + window.visualViewport.scale + ", user-scalable=no";
+					offsetLeft = window.scrollX;
+					offsetTop = window.scrollY;
+					document.addEventListener("scroll", function (event) {
+						window.scrollTo(offsetLeft, offsetTop);
+					}, { once: true });
+					setTimeout(() => {
+						userInteracted = false;
+						viewport.content = "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=10, user-scalable=yes";
+					}, 100);
+				}
+		  });
+		  document.addEventListener("focusin", function (event) {
+		    if (event.target.matches("input, textarea") && !userInteracted) {
+		      event.target.blur();
+		    }
+		  });
+  
+  postToListener("IWH3");
+  
+  
+  
+  postToListener("IWH4");
+  
+  setTimeout(() => {
+    document.querySelectorAll("video").forEach(video => {
+      video.pause();
+      postToListener("vs" + video.src);
+      //postToListener("vc" + video.currentSrc);
+    });
+  }, 3000);
+  
+  postToListener("IWH5");
+  
+  postToListener("dF");
+  
+});
+        """
+        
         webViewConfig.userContentController.addUserScript(WKUserScript(source: userScript, injectionTime: .atDocumentEnd, forMainFrameOnly: false))
         //webViewConfig.userContentController.addUserScript(WKUserScript(source: "var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=device-width, initial-scale=1.0, minimum-scale=0.1, maximum-scale=15.0, user-scalable=yes'); } window.webkit.messageHandlers.iosListener.postMessage('dF'); setTimeout(function() { var videos = document.getElementsByTagName('video'); for (var i = 0; i < videos.length; i++) { videos.item(i).pause(); window.webkit.messageHandlers.iosListener.postMessage('vs' + videos.item(i).src); /*window.webkit.messageHandlers.iosListener.postMessage('vc' + videos.item(i).currentSrc);*/ } }, 3000); var el = document.querySelector('input[type=file]'); if (el !== null) { window.webkit.messageHandlers.iosListener.postMessage('iF'); el.removeAttribute('capture'); } document.querySelector('input').blur(); /*Object.defineProperty(document, 'activeElement', { get: function() { return null; } });*/", injectionTime: .atDocumentEnd, forMainFrameOnly: false))
         //webViewConfig.userContentController.addUserScript(WKUserScript(source: "document.addEventListener('click', function() { window.webkit.messageHandlers.iosListener.postMessage('c'); })", injectionTime: .atDocumentEnd, forMainFrameOnly: false))
