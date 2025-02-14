@@ -1690,7 +1690,7 @@ player.play()*/
         //userScript += "window.webkit.messageHandlers.iosListener.postMessage('dF');"
         
         let userScript: String = """
-document.addEventListener("DOMContentLoaded", function () {
+//document.addEventListener("DOMContentLoaded", function () {
   
   function postToListener(string) {
     window.webkit.messageHandlers.iosListener.postMessage(string);
@@ -1754,7 +1754,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
   postToListener("dF");
   
-});
+//});
         
 """
         
