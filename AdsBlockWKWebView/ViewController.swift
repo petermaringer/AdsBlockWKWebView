@@ -2707,7 +2707,7 @@ downloadTask.resume()
       return
     }
     
-    let urlSchemes: Array<String> = ["tel", "shortcuts"]
+    let urlSchemes: Array<String> = ["tel", "shortcuts", "itms-services"]
     var urlSchemesStop = false
     urlSchemes.forEach { item in
       if navigationAction.request.url?.scheme == item {
@@ -2716,7 +2716,7 @@ downloadTask.resume()
       }
     }
     if urlSchemesStop == true {
-      UIApplication.shared.open(URL(string: navigationAction.request.url!.absoluteString.components(separatedBy: " //")[0])!, options: [:], completionHandler: nil)
+      UIApplication.shared.open(URL(string: navigationAction.request.url!.absoluteString.components(separatedBy: " //")[0].addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))!, options: [:], completionHandler: nil)
       //UIApplication.shared.open(navigationAction.request.url!, options: [:], completionHandler: nil)
       decisionHandler(.cancel)
       return
