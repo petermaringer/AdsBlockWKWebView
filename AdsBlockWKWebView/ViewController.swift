@@ -2513,7 +2513,27 @@ downloadTask.resume()
   
   
   private func startLoading() {
+    
+    if url.contains(" ") || !url.contains(".") {
+      if webViewSearchUrlPref.contains("openai.com") {
+        searchWithChatGPT()
+        return
+      }
+      url = webViewSearchUrlPref + url
+    }
     var allowed = CharacterSet.alphanumerics
+    allowed.insert(charactersIn: "-._~:/?#[]@!$&'()*+,;=%")
+    url = url.addingPercentEncoding(withAllowedCharacters: allowed)
+    //var urlobj: URL?
+    //urlobj = URL(string: url)
+    var urlobj = URL(string: url)
+    if urlobj?.scheme == nil {
+      //url = "http://" + url
+      urlobj = URL(string: "http://" + url)
+    }
+    lb.text! += " sL:\(urlobj!.absoluteString)"
+    
+    /*var allowed = CharacterSet.alphanumerics
     allowed.insert(charactersIn: "-._~:/?#[]@!$&'()*+,;=%")
     url = url.addingPercentEncoding(withAllowedCharacters: allowed)
     //showAlert(url)
@@ -2532,7 +2552,7 @@ downloadTask.resume()
       }
       lb.text! += " \(matchedNumber)"
       lb.text! += "|\(urlobj!.absoluteString)"
-    }
+    }*/
     navTypeBackForward = false
     let request = URLRequest(url: urlobj!, timeoutInterval: 10.0)
     webView.load(request)
@@ -2716,7 +2736,7 @@ downloadTask.resume()
       }
     }
     if urlSchemesStop == true {
-      UIApplication.shared.open(URL(string: navigationAction.request.url!.absoluteString.components(separatedBy: " //")[0].addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)!, options: [:], completionHandler: nil)
+      UIApplication.shared.open(URL(string: navigationAction.request.url!.absoluteString.components(separatedBy: " //")[0].replacingOccurrences(of: "#", with: "%23")!)!, options: [:], completionHandler: nil)
       //UIApplication.shared.open(navigationAction.request.url!, options: [:], completionHandler: nil)
       decisionHandler(.cancel)
       return
