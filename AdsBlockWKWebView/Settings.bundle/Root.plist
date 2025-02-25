@@ -140,18 +140,30 @@
 			<key>Titles</key>
 			<array>
 				<string>0 Pages</string>
+				<string>1 Pages</string>
 				<string>2 Pages</string>
+				<string>3 Pages</string>
 				<string>4 Pages</string>
+				<string>5 Pages</string>
 				<string>6 Pages</string>
+				<string>7 Pages</string>
 				<string>8 Pages</string>
+				<string>9 Pages</string>
+				<string>10 Pages</string>
 			</array>
 			<key>Values</key>
 			<array>
 				<string>0</string>
+				<string>1</string>
 				<string>2</string>
+				<string>3</string>
 				<string>4</string>
+				<string>5</string>
 				<string>6</string>
+				<string>7</string>
 				<string>8</string>
+				<string>9</string>
+				<string>10</string>
 			</array>
 		</dict>
 		<dict>
