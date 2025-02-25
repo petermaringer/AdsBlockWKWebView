@@ -2736,7 +2736,7 @@ downloadTask.resume()
       }
     }
     if urlSchemesStop == true {
-      UIApplication.shared.open(URL(string: navigationAction.request.url!.absoluteString.components(separatedBy: " //")[0].replacingOccurrences(of: "#", with: "%23")!)!, options: [:], completionHandler: nil)
+      UIApplication.shared.open(URL(string: navigationAction.request.url!.absoluteString.components(separatedBy: " //")[0].replacingOccurrences(of: "#", with: "%23"))!, options: [:], completionHandler: nil)
       //UIApplication.shared.open(navigationAction.request.url!, options: [:], completionHandler: nil)
       decisionHandler(.cancel)
       return
