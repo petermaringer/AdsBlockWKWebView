@@ -1690,72 +1690,114 @@ player.play()*/
         //userScript += "window.webkit.messageHandlers.iosListener.postMessage('dF');"
         
         let userScript: String = """
-//document.addEventListener("DOMContentLoaded", function () {
-  
-  function postToListener(string) {
-    window.webkit.messageHandlers.iosListener.postMessage(string);
-  }
-  
-  document.addEventListener("click", function () {
-    postToListener("c");
+
+//IWH1:
+function postToListener(string) {
+  window.webkit.messageHandlers.iosListener.postMessage(string);
+}
+postToListener("IWH1");
+
+//IWH2:
+const idealScale = Math.min(window.visualViewport.width / document.documentElement.scrollWidth, 1);
+const defaultViewport = `width=device-width, initial-scale=${idealScale}, minimum-scale=${idealScale - 0.2}, maximum-scale=20, user-scalable=yes`;
+let viewport = document.querySelector("meta[name='viewport']");
+if (!viewport) {
+  viewport = document.createElement("meta");
+  viewport.name = "viewport";
+  document.head.appendChild(viewport);
+  postToListener(`+vp(${idealScale === parseFloat(idealScale.toFixed(2)) ? idealScale : parseFloat(idealScale.toFixed(2))})`);
+}
+viewport.content = defaultViewport;
+let clone, isProtected = false;
+function protectViewport() {
+  if (isProtected) return;
+  isProtected = true;
+  clone = viewport.cloneNode(true);
+  viewport.parentNode.replaceChild(clone, viewport);
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.attributeName === "content") { postToListener("!~vp"); }
+    });
   });
-  
-  postToListener("IWH1");
-  
-  let viewport = document.querySelector("meta[name='viewport']");
+  observer.observe(viewport, { attributes: true, attributeFilter: ["content"] });
+}
+function unprotectViewport() {
+  if (!isProtected) return;
+  isProtected = false;
+  viewport = clone.cloneNode(true);
+  clone.parentNode.replaceChild(viewport, clone);
+}
+function setViewport(content) {
+  unprotectViewport();
+  viewport.content = content;
+  protectViewport();
+}
+protectViewport();
+  /*let viewport = document.querySelector("meta[name='viewport']");
   if (!viewport) {
     viewport = document.createElement("meta");
     viewport.name = "viewport";
     document.head.appendChild(viewport);
   }
-  viewport.content = "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=10, user-scalable=yes";
-  
-  postToListener("IWH2");
-  
-  let userInteracted = false;
-			let offsetLeft = 0;
-			let offsetTop = 0;
-		  document.addEventListener("mousedown", function (event) {
-				if (event.target.matches("input, textarea")) {
-					userInteracted = true;
-					viewport.content = "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=" + window.visualViewport.scale + ", user-scalable=no";
-					offsetLeft = window.scrollX;
-					offsetTop = window.scrollY;
-					document.addEventListener("scroll", function (event) {
-						window.scrollTo(offsetLeft, offsetTop);
-					}, { once: true });
-					setTimeout(() => {
-						userInteracted = false;
-						viewport.content = "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=10, user-scalable=yes";
-					}, 100);
-				}
-		  });
-		  document.addEventListener("focusin", function (event) {
-		    if (event.target.matches("input, textarea") && !userInteracted) {
-		      event.target.blur();
-		    }
-		  });
-  
-  postToListener("IWH3");
-  
-  
-  
-  postToListener("IWH4");
-  
-  setTimeout(() => {
-    document.querySelectorAll("video").forEach(video => {
-      video.pause();
-      postToListener("vs" + video.src);
-      //postToListener("vc" + video.currentSrc);
-    });
-  }, 3000);
-  
-  postToListener("IWH5");
-  
-  postToListener("dF");
-  
-//});
-        
+  viewport.content = "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=10, user-scalable=yes";*/
+postToListener("IWH2");
+
+//IWH3:
+let userInteracted = false;
+document.addEventListener("mousedown", function (event) {
+  if (event.target.matches("input, textarea")) {
+    userInteracted = true;
+    setViewport(`width=device-width, initial-scale=${idealScale}, minimum-scale=${idealScale}, maximum-scale=${window.visualViewport.scale}, user-scalable=no`);
+    setTimeout(() => {
+      userInteracted = false;
+      setViewport(defaultViewport);
+    }, 100);
+    postToListener("iZoom"+viewport.content);
+  }
+});
+document.addEventListener("focusin", function (event) {
+  if (event.target.matches("input, textarea") && !userInteracted) {
+    event.target.blur();
+    postToListener("iBlur");
+  }
+});
+postToListener("IWH3");
+
+//IWH4:
+document.querySelectorAll("input[type='file']").forEach((inputFile, index, array) => {
+  inputFile.removeAttribute("capture");
+  if (index === (array.length - 1)) {
+    postToListener("iF/" + (index + 1));
+  }
+});
+postToListener("IWH4");
+
+//IWH5:
+function setTagAttribute(top, topIndex, tag, tagIndex) {
+  let topInfo = "";
+  if (top !== tag) { topInfo = `${top.localName}[${topIndex}].`; }
+  const setAttribute = tag.setAttribute;
+  tag.setAttribute = (key, value) => {
+    setAttribute.call(tag, key, value);
+    if (key === "src") { top.pause(); postToListener("vs" + tag[key]); }
+  };
+}
+document.querySelectorAll("video").forEach((video, videoIndex) => {
+  setTagAttribute(video, videoIndex, video, videoIndex);
+  video.querySelectorAll("source").forEach((source, sourceIndex) => {
+    setTagAttribute(video, videoIndex, source, sourceIndex);
+  });
+});
+postToListener("IWH5");
+
+//IWH6:
+document.addEventListener("click", function () {
+  postToListener("c");
+});
+postToListener("IWH6");
+
+postToListener("dF");
+
 """
         
         webViewConfig.userContentController.addUserScript(WKUserScript(source: userScript, injectionTime: .atDocumentEnd, forMainFrameOnly: false))
@@ -2753,7 +2795,7 @@ downloadTask.resume()
       }
     }
     if urlSchemesStop == true {
-      UIApplication.shared.open(URL(string: navigationAction.request.url!.absoluteString.components(separatedBy: " //")[0].replacingOccurrences(of: "#", with: "%23"))!, options: [:], completionHandler: nil)
+      UIApplication.shared.open(URL(string: navigationAction.request.url!.absoluteString.components(separatedBy: "%20//")[0])!, options: [:], completionHandler: nil)
       //UIApplication.shared.open(navigationAction.request.url!, options: [:], completionHandler: nil)
       decisionHandler(.cancel)
       return
