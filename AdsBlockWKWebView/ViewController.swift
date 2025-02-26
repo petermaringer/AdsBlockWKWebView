@@ -2540,7 +2540,7 @@ downloadTask.resume()
       components.percentEncodedQuery = components.query?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
       components.fragment = components.fragment?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)
       //urlobj = URL(string: components.url?.absoluteString)
-      //urlobj = components.url!
+      urlobj = components.url!
       lb.text! += " CP:\(components.url!.absoluteString)"
     }
     
