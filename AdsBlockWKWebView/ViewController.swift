@@ -2526,12 +2526,15 @@ downloadTask.resume()
     var allowed = CharacterSet.alphanumerics
     allowed.insert(charactersIn: "-._~:/?#[]@!$&'()*+,;=%")
     url = url.addingPercentEncoding(withAllowedCharacters: allowed)
-    var urlobj = URL(string: url)!
-    if urlobj.scheme == nil {
-      urlobj = URL(string: "http://" + url)!
+    if url.hasPrefix("tel://") {
+      url = url.replacingOccurrences(of: "#", with: "%23")
+    }
+    var urlobj = URL(string: url)
+    if urlobj?.scheme == nil {
+      urlobj = URL(string: "http://" + url)
     }
     
-    if var components = URLComponents(url: urlobj, resolvingAgainstBaseURL: false) {
+    /*if var components = URLComponents(url: urlobj, resolvingAgainstBaseURL: false) {
       components.scheme = components.scheme?.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
       components.user = components.user?.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)
       components.password = components.password?.addingPercentEncoding(withAllowedCharacters: .urlPasswordAllowed)
@@ -2540,11 +2543,11 @@ downloadTask.resume()
       components.percentEncodedQuery = components.query?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
       components.fragment = components.fragment?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)
       //urlobj = URL(string: components.url?.absoluteString)
-      urlobj = components.url!
+      //urlobj = components.url!
       lb.text! += " CP:\(components.url!.absoluteString)"
-    }
+    }*/
     
-    lb.text! += " sL:\(urlobj.absoluteString)"
+    lb.text! += " sL:\(urlobj!.absoluteString)"
     
     /*var allowed = CharacterSet.alphanumerics
     allowed.insert(charactersIn: "-._~:/?#[]@!$&'()*+,;=%")
@@ -2567,8 +2570,8 @@ downloadTask.resume()
       lb.text! += "|\(urlobj!.absoluteString)"
     }*/
     navTypeBackForward = false
-    //let request = URLRequest(url: urlobj!, timeoutInterval: 10.0)
-    let request = URLRequest(url: urlobj, timeoutInterval: 10.0)
+    let request = URLRequest(url: urlobj!, timeoutInterval: 10.0)
+    //let request = URLRequest(url: urlobj, timeoutInterval: 10.0)
     webView.load(request)
   }
   
