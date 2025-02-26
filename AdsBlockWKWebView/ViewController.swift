@@ -2515,22 +2515,33 @@ downloadTask.resume()
   private func startLoading() {
     
     if url.contains(" ") || !url.contains(".") {
-      if webViewSearchUrlPref.contains("openai.com") {
-        searchWithChatGPT()
-        return
+      if !["tel://", "internal://"].contains(where: url.hasPrefix) {
+        if webViewSearchUrlPref.contains("openai.com") {
+          searchWithChatGPT()
+          return
+        }
+        url = webViewSearchUrlPref + url
       }
-      url = webViewSearchUrlPref + url
     }
-    var allowed = CharacterSet.alphanumerics
+    /*var allowed = CharacterSet.alphanumerics
     allowed.insert(charactersIn: "-._~:/?#[]@!$&'()*+,;=%")
-    url = url.addingPercentEncoding(withAllowedCharacters: allowed)
-    //var urlobj: URL?
-    //urlobj = URL(string: url)
+    url = url.addingPercentEncoding(withAllowedCharacters: allowed)*/
     var urlobj = URL(string: url)
     if urlobj?.scheme == nil {
-      //url = "http://" + url
       urlobj = URL(string: "http://" + url)
     }
+    
+    if var components = URLComponents(url: urlobj?, resolvingAgainstBaseURL: false) {
+      components.scheme = components.scheme?.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
+      components.user = components.user?.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)
+      components.password = components.password?.addingPercentEncoding(withAllowedCharacters: .urlPasswordAllowed)
+      components.host = components.host?.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
+      components.path = components.path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+      components.percentEncodedQuery = components.query?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+      components.fragment = components.fragment?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)
+      urlobj = URL(string: components.url?.absoluteString)
+    }
+    
     lb.text! += " sL:\(urlobj!.absoluteString)"
     
     /*var allowed = CharacterSet.alphanumerics
