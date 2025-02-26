@@ -2523,9 +2523,9 @@ downloadTask.resume()
         url = webViewSearchUrlPref + url
       }
     }
-    /*var allowed = CharacterSet.alphanumerics
+    var allowed = CharacterSet.alphanumerics
     allowed.insert(charactersIn: "-._~:/?#[]@!$&'()*+,;=%")
-    url = url.addingPercentEncoding(withAllowedCharacters: allowed)*/
+    url = url.addingPercentEncoding(withAllowedCharacters: allowed)
     var urlobj = URL(string: url)!
     if urlobj.scheme == nil {
       urlobj = URL(string: "http://" + url)!
@@ -2540,7 +2540,8 @@ downloadTask.resume()
       components.percentEncodedQuery = components.query?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
       components.fragment = components.fragment?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)
       //urlobj = URL(string: components.url?.absoluteString)
-      urlobj = components.url!
+      //urlobj = components.url!
+      lb.text! += " CP:\(components.url!.absoluteString)"
     }
     
     lb.text! += " sL:\(urlobj.absoluteString)"
