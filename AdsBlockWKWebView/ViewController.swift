@@ -3160,13 +3160,22 @@ func mergeArrays(array1: [String], array2: [String]) -> [String] {
     
     if webView.url!.absoluteString.hasPrefix("https://webmail2.viennaweb.at/src/webmail.php") {
       let jsCode = """
-      const frameset = document.querySelector("frameset");
+      //const frameset = document.querySelector("frameset");
+      const frameset = document.getElementById("fs1");
       if (frameset) {
         const cols = frameset.getAttribute("cols");
-        if (cols) {
-          frameset.removeAttribute("cols");
-          frameset.setAttribute("rows", cols);
-        }
+        const framesetHTML = frameset.innerHTML;
+        //if (cols) {
+          //frameset.removeAttribute("cols");
+          //frameset.setAttribute("rows", cols);
+          frameset.remove();
+          setTimeout(() => {
+            const newFrameset = document.createElement("frameset");
+            newFrameset.setAttribute("rows", cols);
+            newFrameset.innerHTML = framesetHTML;
+            document.documentElement.appendChild(newFrameset);
+          }, 3000);
+        //}
       }
 """
       webView.evaluateJavaScript(jsCode, completionHandler: nil)
