@@ -804,13 +804,27 @@ player.play()*/
       showAlert("AutoRotate: \(autoRotateInfo)")
       lb.text! += " OR:\(lastDeviceOrientation)\(Int(allowedOrientations.rawValue))"
       
-      if (HttpServer.instance.server.isRunning) {
+      /*if (HttpServer.instance.server.isRunning) {
         showAlert("Server is running")
       } else {
         showAlert("Server is NOT running")
       }
       //HttpServer().start()
-      //HttpServer.instance.start()
+      //HttpServer.instance.start()*/
+      
+      let videoScript: String = """
+let videos = document.querySelectorAll("video");
+			  if (videos.length === 0) alert("No videos found on this page.");
+				for (let i = 0; i < videos.length && i < 3; i++) {
+			    let attributes = "";
+			    for (let attr of videos[i].attributes) {
+			      attributes += `${attr.name}: ${attr.value}\n`;
+			    }
+			    let userChoice = confirm(`Video ${i + 1} of ${videos.length}\nSource: ${videos[i].currentSrc}\n\nAttributes:\n${attributes}\nDo you want to download it?`);
+			    if (userChoice) postToListener(`vs${videos[i].currentSrc}`);
+			  }
+"""
+      webView.evaluateJavaScript(videoScript, completionHandler: nil)
       
     }
   }
@@ -1773,7 +1787,7 @@ document.querySelectorAll("input[type='file']").forEach((inputFile, index, array
 postToListener("IWH4");
 
 //IWH5:
-function setTagAttribute(top, topIndex, tag, tagIndex) {
+/*function setTagAttribute(top, topIndex, tag, tagIndex) {
   let topInfo = "";
   if (top !== tag) { topInfo = `${top.localName}[${topIndex}].`; }
   const setAttribute = tag.setAttribute;
@@ -1788,7 +1802,7 @@ document.querySelectorAll("video").forEach((video, videoIndex) => {
     setTagAttribute(video, videoIndex, source, sourceIndex);
   });
 });
-postToListener("IWH5");
+postToListener("IWH5");*/
 
 //IWH6:
 document.addEventListener("click", function () {
@@ -2157,7 +2171,8 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
       lb.text! += " restoreD"
     }
     
-    if (message.body as! String).hasPrefix("vs") && (message.body as! String).count > 2 && autoVideoDownloadPref == true {
+    //if (message.body as! String).hasPrefix("vs") && (message.body as! String).count > 2 && autoVideoDownloadPref == true {
+    if (message.body as! String).hasPrefix("vs") && (message.body as! String).count > 2 {
       
       showAlert("Download started")
       let downloadUrl = URL(string: String((message.body as! String).dropFirst(2)))!
@@ -3142,6 +3157,21 @@ func mergeArrays(array1: [String], array2: [String]) -> [String] {
     }
     showAlert("\(restoreIndex) \(restoreIndexLast)\n\(urls.count)\n\(cutArray(urls))\n")
     }
+    
+    if webView.url!.absoluteString.hasPrefix("https://webmail2.viennaweb.at/src/webmail.php") {
+      let jsCode = """
+      const frameset = document.querySelector("frameset");
+      if (frameset) {
+        const cols = frameset.getAttribute("cols");
+        if (cols) {
+          frameset.removeAttribute("cols");
+          frameset.setAttribute("rows", cols);
+        }
+      }
+"""
+      webView.evaluateJavaScript(jsCode, completionHandler: nil)
+    }
+    
     }
     newNav = true
     lb.text! += " WDF"
