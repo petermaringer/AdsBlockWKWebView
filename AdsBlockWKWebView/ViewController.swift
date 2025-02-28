@@ -3158,8 +3158,9 @@ func mergeArrays(array1: [String], array2: [String]) -> [String] {
     showAlert("\(restoreIndex) \(restoreIndexLast)\n\(urls.count)\n\(cutArray(urls))\n")
     }
     
+    var jsCode: String
     if webView.url!.absoluteString.hasPrefix("https://webmail2.viennaweb.at/src/webmail.php") {
-      let jsCode = """
+      jsCode = """
 function monitor(iframe) {
 	const monitor = setInterval(() => {
 		const activeElement = document.activeElement;
@@ -3180,22 +3181,19 @@ const iframes = frames.map(frame => {
   });
   return iframe;
 });
-//iframes[0].src = "https://example.com";
 //iframes[1].src = "https://example.com";
-iframes[0].style = "position: fixed; top: 50px; left: 10px; width: 160px; height: 270px; background-color: #a0b8c8; border: 2px solid black; border-radius: 15px; z-index: 1000;";
-//iframes[1].style = "width: 100%; min-height: 100%; background-color: #563478; border: 0px;";
-iframes[1].style = "position: absolute; top: 40px; left: 0px; width: 100%; height: calc(100% - 40px); background-color: #563478; border: 0px; overflow: hidden; overscroll-behavior: contain;";
+iframes[0].style = "position: fixed; top: 8px; left: 8px; width: 160px; height: 270px; background-color: #a0b8c8; border: 2px solid black; border-radius: 15px; z-index: 1001;";
+iframes[1].style = "position: absolute; top: 40px; left: 0px; width: 100%; height: calc(100% - 40px); background-color: #563478; border: 0px; overflow: hidden;"; //overscroll-behavior: none;
 frameset.remove();
 const body = document.createElement("body");
 body.style = "margin: 0px; font-family: Arial, Helvetica, sans-serif;";
 document.documentElement.appendChild(body);
 const menuButton = document.createElement("button");
-menuButton.textContent = "Menü"; //"☰";
+menuButton.textContent = "Menü";
 const menuDiv = document.createElement("div");
-//menuDiv.style = "position: fixed; width: 100%; height: 40px; display: flex; align-items: center; justify-content: center; background-color: #ffffff; z-index: 1001;";
-menuDiv.style = "position: fixed; top: 0px; left: 0px; width: 100%; height: 40px; display: flex; align-items: center; justify-content: center; background-color: #a0b8c8; z-index: 1001;";
+menuDiv.style = "position: fixed; top: 0px; left: 0px; width: 100%; height: 40px; display: flex; align-items: center; justify-content: center; background-color: #a0b8c8; z-index: 1000;";
 menuDiv.appendChild(menuButton);
-menuDiv.innerHTML += "&nbsp;<b>ViennaWebMail</b>";
+menuDiv.innerHTML += "&nbsp;&nbsp;&nbsp;<b>ViennaWebMail</b>";
 menuDiv.addEventListener("click", () => {
 	if (iframes[0].style.display === "none") {
 		iframes[0].style.display = "";
@@ -3205,9 +3203,39 @@ menuDiv.addEventListener("click", () => {
 body.appendChild(menuDiv);
 iframes.forEach(iframe => body.appendChild(iframe));
 monitor(iframes[0]);
-setViewport("width=device-width, initial-scale=0.6, minimum-scale=0.6, maximum-scale=20, user-scalable=yes");
+setViewport("width=device-width, initial-scale=0.72, minimum-scale=0.72, maximum-scale=20, user-scalable=yes");
+menuDiv.innerHTML += "&nbsp;:-)";
 """
+    }
+    if webView.url!.absoluteString.hasPrefix("https://webmail2.viennaweb.at/src/read_body.php") {
+      jsCode = """
+//document.documentElement.style.cssText = "";
+//document.body.style.cssText = "";
+document.documentElement.style.overscrollBehavior = "none";
+document.body.style.overscrollBehavior = "none";
+document.body.style.color = "red";
+"""
+    }
+    if webView.url!.absoluteString.hasPrefix("https://www.google.com/search?q=") {
+      jsCode = """
+let logoContainer = document.querySelector("[aria-label='Google']");
+			if (logoContainer) {
+			  let logoSVG = logoContainer.querySelector("svg");
+			  if (logoSVG) {
+			    logoSVG.remove();
+					//let newLogo = `<svg height="36" viewBox="0 0 92 36" width="92" xmlns="http://www.w3.org/2000/svg"><path d="M12 24.45C5.67 24.45.35 19.3.35 12.97S5.67 1.49 12 1.49c3.5 0 5.99 1.37 7.87 3.16l-2.21 2.21C16.31 5.6 14.49 4.62 12 4.62c-4.62 0-8.23 3.72-8.23 8.34 0 4.62 3.61 8.34 8.23 8.34 3 0 4.7-1.2 5.8-2.3.9-.9 1.48-2.18 1.71-3.95h-7.5V12h10.56c.11.56.17 1.16.17 1.89 0 2.35-.64 5.26-2.72 7.34-2.03 2.1-4.6 3.22-8.02 3.22z" fill="#4285F4"></path><path d="M38.9 17.06c0 4.26-3.32 7.39-7.4 7.39s-7.4-3.14-7.4-7.39c0-4.28 3.32-7.39 7.4-7.39s7.4 3.1 7.4 7.39zm-3.24 0c0-2.66-1.93-4.48-4.16-4.48-2.23 0-4.16 1.82-4.16 4.48 0 2.63 1.93 4.48 4.16 4.48 2.23 0 4.16-1.85 4.16-4.48z" fill="#EA4335"></path><path d="M54.9 17.06c0 4.26-3.32 7.39-7.4 7.39s-7.4-3.14-7.4-7.39c0-4.28 3.32-7.39 7.4-7.39s7.4 3.1 7.4 7.39zm-3.24 0c0-2.66-1.93-4.48-4.16-4.48-2.23 0-4.16 1.82-4.16 4.48 0 2.63 1.93 4.48 4.16 4.48 2.23 0 4.16-1.85 4.16-4.48z" fill="#FBBC05"></path><path d="M70 10.11v13.27c0 5.46-3.22 7.7-7.03 7.7-3.58 0-5.74-2.41-6.55-4.37l2.83-1.18c.5 1.2 1.74 2.63 3.72 2.63 2.44 0 3.95-1.51 3.95-4.34v-1.06h-.11c-.73.9-2.13 1.68-3.89 1.68-3.7 0-6.92-3.22-6.92-7.36 0-4.17 3.22-7.42 6.92-7.42 1.76 0 3.16.78 3.89 1.65h.11v-1.2H70zm-2.86 6.97c0-2.6-1.74-4.51-3.95-4.51-2.24 0-3.95 1.9-3.95 4.51 0 2.58 1.71 4.45 3.95 4.45 2.22.01 3.95-1.87 3.95-4.45z" fill="#4285F4"></path><path d="M75 2.27V24h-3.25V2.27H75z" fill="#34A853"></path><path d="M87.16 19.49l2.52 1.68c-.81 1.2-2.77 3.28-6.16 3.28-4.2 0-7.34-3.25-7.34-7.39 0-4.4 3.16-7.39 6.97-7.39 3.84 0 5.71 3.05 6.33 4.7l.34.84-9.88 4.09c.76 1.48 1.93 2.24 3.58 2.24 1.65 0 2.8-.82 3.64-2.05zm-7.76-2.66l6.61-2.74c-.36-.92-1.46-1.57-2.74-1.57-1.65 0-3.95 1.46-3.87 4.31z" fill="#EA4335"></path></svg>`;
+					let newLogo = `<svg height="36" viewBox="0 0 92 36" width="92" xmlns="http://www.w3.org/2000/svg"><path d="M12 24.45C5.67 24.45.35 19.3.35 12.97S5.67 1.49 12 1.49c3.5 0 5.99 1.37 7.87 3.16l-2.21 2.21C16.31 5.6 14.49 4.62 12 4.62c-4.62 0-8.23 3.72-8.23 8.34 0 4.62 3.61 8.34 8.23 8.34 3 0 4.7-1.2 5.8-2.3.9-.9 1.48-2.18 1.71-3.95h-7.5V12h10.56c.11.56.17 1.16.17 1.89 0 2.35-.64 5.26-2.72 7.34-2.03 2.1-4.6 3.22-8.02 3.22z" fill="#000000"></path><path d="M38.9 17.06c0 4.26-3.32 7.39-7.4 7.39s-7.4-3.14-7.4-7.39c0-4.28 3.32-7.39 7.4-7.39s7.4 3.1 7.4 7.39zm-3.24 0c0-2.66-1.93-4.48-4.16-4.48-2.23 0-4.16 1.82-4.16 4.48 0 2.63 1.93 4.48 4.16 4.48 2.23 0 4.16-1.85 4.16-4.48z" fill="#EA4335"></path><path d="M54.9 17.06c0 4.26-3.32 7.39-7.4 7.39s-7.4-3.14-7.4-7.39c0-4.28 3.32-7.39 7.4-7.39s7.4 3.1 7.4 7.39zm-3.24 0c0-2.66-1.93-4.48-4.16-4.48-2.23 0-4.16 1.82-4.16 4.48 0 2.63 1.93 4.48 4.16 4.48 2.23 0 4.16-1.85 4.16-4.48z" fill="#FBBC05"></path><path d="M70 10.11v13.27c0 5.46-3.22 7.7-7.03 7.7-3.58 0-5.74-2.41-6.55-4.37l2.83-1.18c.5 1.2 1.74 2.63 3.72 2.63 2.44 0 3.95-1.51 3.95-4.34v-1.06h-.11c-.73.9-2.13 1.68-3.89 1.68-3.7 0-6.92-3.22-6.92-7.36 0-4.17 3.22-7.42 6.92-7.42 1.76 0 3.16.78 3.89 1.65h.11v-1.2H70zm-2.86 6.97c0-2.6-1.74-4.51-3.95-4.51-2.24 0-3.95 1.9-3.95 4.51 0 2.58 1.71 4.45 3.95 4.45 2.22.01 3.95-1.87 3.95-4.45z" fill="#4285F4"></path><path d="M75 2.27V24h-3.25V2.27H75z" fill="#34A853"></path><path d="M87.16 19.49l2.52 1.68c-.81 1.2-2.77 3.28-6.16 3.28-4.2 0-7.34-3.25-7.34-7.39 0-4.4 3.16-7.39 6.97-7.39 3.84 0 5.71 3.05 6.33 4.7l.34.84-9.88 4.09c.76 1.48 1.93 2.24 3.58 2.24 1.65 0 2.8-.82 3.64-2.05zm-7.76-2.66l6.61-2.74c-.36-.92-1.46-1.57-2.74-1.57-1.65 0-3.95 1.46-3.87 4.31z" fill="#EA4335"></path></svg>`;
+					logoContainer.innerHTML = newLogo;
+					logoContainer.href = "javascript:void(0);";
+					//logoContainer.href = "#";
+					//logoContainer.onclick = "return false;";
+			  }
+			}
+"""
+    }
+    if !jsCode.isEmpty {
       webView.evaluateJavaScript(jsCode, completionHandler: nil)
+      lb.text! += " jsI"
     }
     
     }
