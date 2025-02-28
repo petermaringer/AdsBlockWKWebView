@@ -3158,7 +3158,7 @@ func mergeArrays(array1: [String], array2: [String]) -> [String] {
     showAlert("\(restoreIndex) \(restoreIndexLast)\n\(urls.count)\n\(cutArray(urls))\n")
     }
     
-    var jsCode: String
+    var jsCode: String = ""
     if webView.url!.absoluteString.hasPrefix("https://webmail2.viennaweb.at/src/webmail.php") {
       jsCode = """
 function monitor(iframe) {
