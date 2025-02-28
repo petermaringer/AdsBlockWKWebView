@@ -3165,10 +3165,8 @@ function monitor(iframe) {
 		const activeElement = document.activeElement;
 		if (activeElement && activeElement.tagName === "IFRAME") {
 			if (activeElement != iframe) {
-				clearInterval(monitor);
 				iframe.style.display = "none";
-				//toggle();
-				//document.getElementsByTagName("iframe")[0].style.display = "none";
+				clearInterval(monitor);
 			}
 		}
 	}, 100);
@@ -3182,32 +3180,24 @@ const iframes = frames.map(frame => {
   });
   return iframe;
 });
-iframes[0].style = "position: fixed; width: 150px; height: 250px; border: 2px solid black; border-radius: 15px; z-index: 1000;"; //background-color: #FF3400;
-iframes[1].style = "width: 100%; height: 100%; background-color: #563478; border: 0px;";
+//iframes[0].src = "https://example.com";
+//iframes[1].src = "https://example.com";
+iframes[0].style = "position: fixed; top: 50px; left: 10px; width: 160px; height: 270px; background-color: #FF3400; border: 2px solid black; border-radius: 15px; z-index: 1000;";
+//iframes[1].style = "width: 100%; min-height: 100%; background-color: #563478; border: 0px;";
+iframes[1].style = "position: absolute; top: 40px; left: 0px; width: 100%; height: calc(100% - 40px); background-color: #563478; border: 0px; overflow: hidden;";
+
 frameset.remove();
 const body = document.createElement("body");
-body.style = "margin: 0px; font-family: Arial, Helvetica, sans-serif;";
-//body.style.marginLeft = "0px";
-//body.style.marginRight = "0px";
+body.style = "margin: 0px; font-family: Arial, Helvetica, sans-serif; overscroll-behavior: contain;";
 document.documentElement.appendChild(body);
 
 const menuButton = document.createElement("button");
 menuButton.textContent = "Menü"; //"☰";
-//menuButton.style.marginTop = "10px";
-//menuButton.style.marginBottom = "10px";
 
 const menuDiv = document.createElement("div");
-//menuDiv.innerHTML = "ViennaWebMail";
-menuDiv.style = "position: fixed; width: 100%; height: 40px; display: flex; align-items: center; justify-content: center; background-color: #ffffff; z-index: 1001;";
-//menuDiv.style.position = "fixed";
-//menuDiv.style.width = "100%";
-//menuDiv.style.height = "40px";
-//menuDiv.style.display = "flex";
-//menuDiv.style.alignItems = "center";
-//menuDiv.style.justifyContent = "center";
-//menuDiv.style.backgroundColor = "white";
-//menuDiv.style.zIndex = "1001";
-//document.body.appendChild(menuButton);
+//menuDiv.style = "position: fixed; width: 100%; height: 40px; display: flex; align-items: center; justify-content: center; background-color: #ffffff; z-index: 1001;";
+menuDiv.style = "position: fixed; top: 0px; left: 0px; width: 100%; height: 40px; display: flex; align-items: center; justify-content: center; background-color: #ffffff; z-index: 1001;";
+
 menuDiv.appendChild(menuButton);
 menuDiv.innerHTML += "&nbsp;<b>ViennaWebMail</b>";
 menuDiv.addEventListener("click", () => {
@@ -3215,20 +3205,15 @@ menuDiv.addEventListener("click", () => {
 		iframes[0].style.display = "";
 		monitor(iframes[0]);
 	} else iframes[0].style.display = "none";
-	//toggle();
 });
 body.appendChild(menuDiv);
 
-const framesDiv = document.createElement("div");
-framesDiv.style = "position: relative; top: 40px; height: calc(100% - 40px); display: flex; flex-direction: column;";
-//framesDiv.style.position = "relative";
-//framesDiv.style.top = "40px";
-//framesDiv.style.height = "calc(100% - 40px)";
-////framesDiv.style.height = "100%";
-//framesDiv.style.display = "flex";
-//framesDiv.style.flexDirection = "column";
+iframes.forEach(iframe => body.appendChild(iframe));
+/*const framesDiv = document.createElement("div");
+//framesDiv.style = "position: relative; top: 40px; height: calc(100% - 40px); display: flex; flex-direction: column;";
+framesDiv.style = "position: absolute; top: 40px; left: 0px; width: 100%; height: calc(100% - 40px);";
 iframes.forEach(iframe => framesDiv.appendChild(iframe));
-body.appendChild(framesDiv);
+body.appendChild(framesDiv);*/
 monitor(iframes[0]);
 """
       webView.evaluateJavaScript(jsCode, completionHandler: nil)
