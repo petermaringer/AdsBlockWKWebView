@@ -3160,98 +3160,53 @@ func mergeArrays(array1: [String], array2: [String]) -> [String] {
     
     if webView.url!.absoluteString.hasPrefix("https://webmail2.viennaweb.at/src/webmail.php") {
       let jsCode = """
-function toggleIt() {
-		if (document.getElementsByTagName("iframe")[0].style.display === "none") {
-      document.getElementsByTagName("iframe")[0].style.display = "";
-      //iframes[1].style.display = "block";
-      //iframes[0].style.flex = "1";
-      //iframes[1].style.flex = "1";
-    } else {
-      document.getElementsByTagName("iframe")[0].style.display = "none";
-      //iframes[1].style.flex = "1";
-    }
+function monitor() {
+	const monitor = setInterval(() => {
+		const elem = document.activeElement;
+		if (elem && elem.tagName === "IFRAME") {
+			clearInterval(monitor);
+			document.getElementsByTagName("iframe")[0].style.display = "none";
+		}
+	}, 100);
+}
+function toggle() {
+	const iframe = document.getElementsByTagName("iframe")[0];
+	if (iframe.style.display === "none") {
+		iframe.style.display = "";
+		monitor();
 	}
+	else iframe.style.display = "none";
+}
 const frameset = document.getElementById("fs1");
-if (frameset) {
-  const frames = Array.from(frameset.getElementsByTagName("frame"));
-  const newContainer = document.createElement("div");
-  newContainer.style.display = "flex";
-  //newContainer.style.flexDirection = "column";
-  //newContainer.style.height = "100vh";
-	/*function toggleIt() {
-		if (document.getElementsByTagName("iframe")[0].style.display === "none") {
-      iframes[0].style.display = "";
-      //iframes[1].style.display = "block";
-      //iframes[0].style.flex = "1";
-      //iframes[1].style.flex = "1";
-    } else {
-      iframes[0].style.display = "none";
-      //iframes[1].style.flex = "1";
-    }
-	}*/
-	//document.addEventListener("click", () => { toggleIt(); });
-  const menuButton = document.createElement("button");
-  menuButton.textContent = "Menu"; //"☰";
-	//menuButton.style.position = "relative";
-  //menuButton.style.top = "10px";
-  //menuButton.style.left = "10px";
-	menuButton.style.marginTop = "10px";
-	menuButton.style.marginBottom = "10px";
-  //menuButton.style.zIndex = "1001";
-	menuButton.addEventListener("click", () => { toggleIt(); });
-
+	const frames = Array.from(frameset.getElementsByTagName("frame"));
   const iframes = frames.map(frame => {
     const iframe = document.createElement("iframe");
     Array.from(frame.attributes).forEach(attr => {
       iframe.setAttribute(attr.name, attr.value);
     });
-    //iframe.style.flex = "1";
-		//iframe.contentDocument.body.addEventListener("click", () => { toggle(); });
-		//iframe.document.addEventListener('click', toggle, false);
     return iframe;
   });
-	
-	//iframes[0].id = "f1";
-	//iframes[1].id = "f2";
-	//iframes[0].frameborder = "5";
 	iframes[0].style = "width: 200px; background-color: #FF3400; z-index: 1000; border: 0px;";
 	iframes[1].style = "width: calc(100% - 0px); height: calc(100% - 45px); background-color: #563478; position: absolute; border: 0px;";
-	
-  //newContainer.appendChild(menuButton);
-  iframes.forEach(iframe => newContainer.appendChild(iframe));
 	frameset.remove();
-	
-  //setTimeout(() => {
-		const body = document.createElement("body");
-		document.documentElement.appendChild(body);
-		document.body.appendChild(menuButton);
-		document.body.appendChild(newContainer);
-		document.body.style.marginTop = "0px";
-		document.body.style.marginLeft = "0px";
-		
-		setTimeout(() => {
-	var monitor = setInterval(function(){
-    var elem = document.activeElement;
-    if(elem && elem.tagName == 'IFRAME'){
-        //clearInterval(monitor);
-				toggleIt();
-        //console.log('clicked!');
-    }
-		//alert(elem);
-}, 1000);
-}, 1000);
-
-		//document.querySelector("div").addEventListener("click", () => { toggleIt(); });
-		//document.querySelectorAll("iframe")[1].addEventListener('click', toggle());
-		//var iframewatcher = setInterval(function(){
-	/*var activeE = document.activeElement;
-    if(activeE && activeE.tagName == 'IFRAME'){
-			alert("wert");
-	}*/
-	//}, 100);
-    //frameset.replaceWith(newContainer);
-  //}, 50);
-}
+	const body = document.createElement("body");
+	body.style.marginTop = "0px";
+	body.style.marginLeft = "0px";
+	document.documentElement.appendChild(body);
+  const menuButton = document.createElement("button");
+  menuButton.textContent = "Menu"; //"☰";
+	menuButton.style.marginTop = "10px";
+	menuButton.style.marginBottom = "10px";
+	menuButton.addEventListener("click", () => {
+		toggle();
+	});
+	document.body.appendChild(menuButton);
+  const newContainer = document.createElement("div");
+  newContainer.style.display = "flex";
+	newContainer.style.flexDirection = "column";
+  iframes.forEach(iframe => newContainer.appendChild(iframe));
+	document.body.appendChild(newContainer);
+	monitor();
 """
       webView.evaluateJavaScript(jsCode, completionHandler: nil)
     }
