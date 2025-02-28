@@ -3160,6 +3160,17 @@ func mergeArrays(array1: [String], array2: [String]) -> [String] {
     
     if webView.url!.absoluteString.hasPrefix("https://webmail2.viennaweb.at/src/webmail.php") {
       let jsCode = """
+function toggleIt() {
+		if (document.getElementsByTagName("iframe")[0].style.display === "none") {
+      document.getElementsByTagName("iframe")[0].style.display = "";
+      //iframes[1].style.display = "block";
+      //iframes[0].style.flex = "1";
+      //iframes[1].style.flex = "1";
+    } else {
+      document.getElementsByTagName("iframe")[0].style.display = "none";
+      //iframes[1].style.flex = "1";
+    }
+	}
 const frameset = document.getElementById("fs1");
 if (frameset) {
   const frames = Array.from(frameset.getElementsByTagName("frame"));
@@ -3167,8 +3178,8 @@ if (frameset) {
   newContainer.style.display = "flex";
   //newContainer.style.flexDirection = "column";
   //newContainer.style.height = "100vh";
-	function toggleIt() {
-		if (iframes[0].style.display === "none") {
+	/*function toggleIt() {
+		if (document.getElementsByTagName("iframe")[0].style.display === "none") {
       iframes[0].style.display = "";
       //iframes[1].style.display = "block";
       //iframes[0].style.flex = "1";
@@ -3177,7 +3188,7 @@ if (frameset) {
       iframes[0].style.display = "none";
       //iframes[1].style.flex = "1";
     }
-	}
+	}*/
 	//document.addEventListener("click", () => { toggleIt(); });
   const menuButton = document.createElement("button");
   menuButton.textContent = "Menu"; //"☰";
@@ -3203,7 +3214,7 @@ if (frameset) {
 	//iframes[0].id = "f1";
 	//iframes[1].id = "f2";
 	//iframes[0].frameborder = "5";
-	iframes[0].style = "width: 200px; height: 400px; background-color: #FF3400; z-index: 1000; border: 0px;";
+	iframes[0].style = "width: 200px; background-color: #FF3400; z-index: 1000; border: 0px;";
 	iframes[1].style = "width: calc(100% - 0px); height: calc(100% - 45px); background-color: #563478; position: absolute; border: 0px;";
 	
   //newContainer.appendChild(menuButton);
