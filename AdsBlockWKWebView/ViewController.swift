@@ -3241,7 +3241,6 @@ if (frameset) {
     //frameset.replaceWith(newContainer);
   //}, 50);
 }
-});
 """
       webView.evaluateJavaScript(jsCode, completionHandler: nil)
     }
