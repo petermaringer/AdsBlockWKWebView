@@ -3182,22 +3182,18 @@ const iframes = frames.map(frame => {
 });
 //iframes[0].src = "https://example.com";
 //iframes[1].src = "https://example.com";
-iframes[0].style = "position: fixed; top: 50px; left: 10px; width: 160px; height: 270px; background-color: #FF3400; border: 2px solid black; border-radius: 15px; z-index: 1000;";
+iframes[0].style = "position: fixed; top: 50px; left: 10px; width: 160px; height: 270px; background-color: #a0b8c8; border: 2px solid black; border-radius: 15px; z-index: 1000;";
 //iframes[1].style = "width: 100%; min-height: 100%; background-color: #563478; border: 0px;";
-iframes[1].style = "position: absolute; top: 40px; left: 0px; width: 100%; height: calc(100% - 40px); background-color: #563478; border: 0px; overflow: hidden;";
-
+iframes[1].style = "position: absolute; top: 40px; left: 0px; width: 100%; height: calc(100% - 40px); background-color: #563478; border: 0px; overflow: hidden; overscroll-behavior: contain;";
 frameset.remove();
 const body = document.createElement("body");
-body.style = "margin: 0px; font-family: Arial, Helvetica, sans-serif; overscroll-behavior: contain;";
+body.style = "margin: 0px; font-family: Arial, Helvetica, sans-serif;";
 document.documentElement.appendChild(body);
-
 const menuButton = document.createElement("button");
 menuButton.textContent = "Menü"; //"☰";
-
 const menuDiv = document.createElement("div");
 //menuDiv.style = "position: fixed; width: 100%; height: 40px; display: flex; align-items: center; justify-content: center; background-color: #ffffff; z-index: 1001;";
-menuDiv.style = "position: fixed; top: 0px; left: 0px; width: 100%; height: 40px; display: flex; align-items: center; justify-content: center; background-color: #ffffff; z-index: 1001;";
-
+menuDiv.style = "position: fixed; top: 0px; left: 0px; width: 100%; height: 40px; display: flex; align-items: center; justify-content: center; background-color: #a0b8c8; z-index: 1001;";
 menuDiv.appendChild(menuButton);
 menuDiv.innerHTML += "&nbsp;<b>ViennaWebMail</b>";
 menuDiv.addEventListener("click", () => {
@@ -3207,14 +3203,9 @@ menuDiv.addEventListener("click", () => {
 	} else iframes[0].style.display = "none";
 });
 body.appendChild(menuDiv);
-
 iframes.forEach(iframe => body.appendChild(iframe));
-/*const framesDiv = document.createElement("div");
-//framesDiv.style = "position: relative; top: 40px; height: calc(100% - 40px); display: flex; flex-direction: column;";
-framesDiv.style = "position: absolute; top: 40px; left: 0px; width: 100%; height: calc(100% - 40px);";
-iframes.forEach(iframe => framesDiv.appendChild(iframe));
-body.appendChild(framesDiv);*/
 monitor(iframes[0]);
+setViewport("width=device-width, initial-scale=0.6, minimum-scale=0.6, maximum-scale=20, user-scalable=yes");
 """
       webView.evaluateJavaScript(jsCode, completionHandler: nil)
     }
