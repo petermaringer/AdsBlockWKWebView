@@ -3160,53 +3160,76 @@ func mergeArrays(array1: [String], array2: [String]) -> [String] {
     
     if webView.url!.absoluteString.hasPrefix("https://webmail2.viennaweb.at/src/webmail.php") {
       let jsCode = """
-function monitor() {
+function monitor(iframe) {
 	const monitor = setInterval(() => {
-		const elem = document.activeElement;
-		if (elem && elem.tagName === "IFRAME") {
-			clearInterval(monitor);
-			document.getElementsByTagName("iframe")[0].style.display = "none";
+		const activeElement = document.activeElement;
+		if (activeElement && activeElement.tagName === "IFRAME") {
+			if (activeElement != iframe) {
+				clearInterval(monitor);
+				iframe.style.display = "none";
+				//toggle();
+				//document.getElementsByTagName("iframe")[0].style.display = "none";
+			}
 		}
 	}, 100);
 }
-function toggle() {
-	const iframe = document.getElementsByTagName("iframe")[0];
-	if (iframe.style.display === "none") {
-		iframe.style.display = "";
-		monitor();
-	}
-	else iframe.style.display = "none";
-}
 const frameset = document.getElementById("fs1");
-	const frames = Array.from(frameset.getElementsByTagName("frame"));
-  const iframes = frames.map(frame => {
-    const iframe = document.createElement("iframe");
-    Array.from(frame.attributes).forEach(attr => {
-      iframe.setAttribute(attr.name, attr.value);
-    });
-    return iframe;
+const frames = Array.from(frameset.getElementsByTagName("frame"));
+const iframes = frames.map(frame => {
+  const iframe = document.createElement("iframe");
+  Array.from(frame.attributes).forEach(attr => {
+    iframe.setAttribute(attr.name, attr.value);
   });
-	iframes[0].style = "width: 200px; background-color: #FF3400; z-index: 1000; border: 0px;";
-	iframes[1].style = "width: calc(100% - 0px); height: calc(100% - 45px); background-color: #563478; position: absolute; border: 0px;";
-	frameset.remove();
-	const body = document.createElement("body");
-	body.style.marginTop = "0px";
-	body.style.marginLeft = "0px";
-	document.documentElement.appendChild(body);
-  const menuButton = document.createElement("button");
-  menuButton.textContent = "Menu"; //"☰";
-	menuButton.style.marginTop = "10px";
-	menuButton.style.marginBottom = "10px";
-	menuButton.addEventListener("click", () => {
-		toggle();
-	});
-	document.body.appendChild(menuButton);
-  const newContainer = document.createElement("div");
-  newContainer.style.display = "flex";
-	newContainer.style.flexDirection = "column";
-  iframes.forEach(iframe => newContainer.appendChild(iframe));
-	document.body.appendChild(newContainer);
-	monitor();
+  return iframe;
+});
+iframes[0].style = "position: fixed; width: 150px; height: 250px; border: 2px solid black; border-radius: 15px; z-index: 1000;"; //background-color: #FF3400;
+iframes[1].style = "width: 100%; height: 100%; background-color: #563478; border: 0px;";
+frameset.remove();
+const body = document.createElement("body");
+body.style = "margin: 0px; font-family: Arial, Helvetica, sans-serif;";
+//body.style.marginLeft = "0px";
+//body.style.marginRight = "0px";
+document.documentElement.appendChild(body);
+
+const menuButton = document.createElement("button");
+menuButton.textContent = "Menü"; //"☰";
+//menuButton.style.marginTop = "10px";
+//menuButton.style.marginBottom = "10px";
+
+const menuDiv = document.createElement("div");
+//menuDiv.innerHTML = "ViennaWebMail";
+menuDiv.style = "position: fixed; width: 100%; height: 40px; display: flex; align-items: center; justify-content: center; background-color: #ffffff; z-index: 1001;";
+//menuDiv.style.position = "fixed";
+//menuDiv.style.width = "100%";
+//menuDiv.style.height = "40px";
+//menuDiv.style.display = "flex";
+//menuDiv.style.alignItems = "center";
+//menuDiv.style.justifyContent = "center";
+//menuDiv.style.backgroundColor = "white";
+//menuDiv.style.zIndex = "1001";
+//document.body.appendChild(menuButton);
+menuDiv.appendChild(menuButton);
+menuDiv.innerHTML += "&nbsp;<b>ViennaWebMail</b>";
+menuDiv.addEventListener("click", () => {
+	if (iframes[0].style.display === "none") {
+		iframes[0].style.display = "";
+		monitor(iframes[0]);
+	} else iframes[0].style.display = "none";
+	//toggle();
+});
+body.appendChild(menuDiv);
+
+const framesDiv = document.createElement("div");
+framesDiv.style = "position: relative; top: 40px; height: calc(100% - 40px); display: flex; flex-direction: column;";
+//framesDiv.style.position = "relative";
+//framesDiv.style.top = "40px";
+//framesDiv.style.height = "calc(100% - 40px)";
+////framesDiv.style.height = "100%";
+//framesDiv.style.display = "flex";
+//framesDiv.style.flexDirection = "column";
+iframes.forEach(iframe => framesDiv.appendChild(iframe));
+body.appendChild(framesDiv);
+monitor(iframes[0]);
 """
       webView.evaluateJavaScript(jsCode, completionHandler: nil)
     }
