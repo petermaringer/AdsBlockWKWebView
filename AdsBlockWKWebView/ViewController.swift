@@ -1765,7 +1765,7 @@ document.addEventListener("mousedown", function (event) {
     setTimeout(() => {
       userInteracted = false;
       setViewport(defaultViewport);
-    }, 100);
+    }, 200);
     postToListener("iZoom"+viewport.content);
   }
 });
@@ -3161,6 +3161,25 @@ func mergeArrays(array1: [String], array2: [String]) -> [String] {
     var jsCode: String = ""
     if webView.url!.absoluteString.hasPrefix("https://webmail2.viennaweb.at/src/webmail.php") {
       jsCode = """
+function adjustAllIframes() {
+  let iframes = document.querySelectorAll("iframe");
+  iframes.forEach((iframe) => {
+    setTimeout(() => {
+      let contentWidth = iframe.contentWindow.document.documentElement.scrollWidth;
+      let iframeWidth = iframe.clientWidth;
+			let iframeHeight = iframe.clientHeight;
+      let scaleX = iframeWidth / contentWidth;
+			//document.getElementsByTagName("div")[0].innerHTML += `${scaleX} ${iframeWidth} ${iframeHeight} `;
+			//if (scaleX < 1) {
+      iframe.style.transform = `scale(${scaleX})`;
+      iframe.style.transformOrigin = "top left";
+      //iframe.style.width = `${100 / scaleX}%`;
+			iframe.style.width = `${iframeWidth / scaleX}px`;
+			iframe.style.height = `${iframeHeight / scaleX}px`;
+			//}
+    }, 0);
+  });
+}
 function monitor(iframe) {
 	const monitor = setInterval(() => {
 		const activeElement = document.activeElement;
@@ -3204,6 +3223,7 @@ body.appendChild(menuDiv);
 iframes.forEach(iframe => body.appendChild(iframe));
 monitor(iframes[0]);
 setViewport("width=device-width, initial-scale=0.72, minimum-scale=0.72, maximum-scale=20, user-scalable=yes");
+window.addEventListener("load", adjustAllIframes);
 menuDiv.innerHTML += "&nbsp;:-)";
 """
     }
