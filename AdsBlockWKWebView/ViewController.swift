@@ -1765,7 +1765,7 @@ document.addEventListener("mousedown", function (event) {
     setTimeout(() => {
       userInteracted = false;
       setViewport(defaultViewport);
-    }, 200);
+    }, 2000);
     postToListener("iZoom"+viewport.content);
   }
 });
@@ -3169,7 +3169,7 @@ function adjustAllIframes() {
       let iframeWidth = iframe.clientWidth;
 			let iframeHeight = iframe.clientHeight;
       let scaleX = iframeWidth / contentWidth;
-			//document.getElementsByTagName("div")[0].innerHTML += `${scaleX} ${iframeWidth} ${iframeHeight} `;
+			document.getElementsByTagName("div")[0].innerHTML += `${scaleX} ${iframeWidth}/${contentWidth} ${iframeHeight} `;
 			//if (scaleX < 1) {
       iframe.style.transform = `scale(${scaleX})`;
       iframe.style.transformOrigin = "top left";
