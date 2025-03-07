@@ -3162,15 +3162,16 @@ func mergeArrays(array1: [String], array2: [String]) -> [String] {
     if webView.url!.absoluteString.hasPrefix("https://webmail2.viennaweb.at/src/webmail.php") {
       jsCode = """
 function adjustAllIframes() {
-  let iframes = document.querySelectorAll("iframe");
+  alert("0");
+	let iframes = document.querySelectorAll("iframe");
   iframes.forEach((iframe) => {
     setTimeout(() => {
       alert("1");
-      let contentWidth = iframe.contentWindow.document.documentElement.scrollWidth;
+			let contentWidth = iframe.contentWindow.document.documentElement.scrollWidth;
       let iframeWidth = iframe.clientWidth;
 			let iframeHeight = iframe.clientHeight;
       let scaleX = iframeWidth / contentWidth;
-      alert("2");
+			alert("2");
 			document.getElementsByTagName("div")[0].innerHTML += `${scaleX} ${iframeWidth}/${contentWidth} ${iframeHeight} `;
 			//if (scaleX < 1) {
 			alert("3");
@@ -3227,6 +3228,7 @@ iframes.forEach(iframe => body.appendChild(iframe));
 monitor(iframes[0]);
 setViewport("width=device-width, initial-scale=0.72, minimum-scale=0.72, maximum-scale=20, user-scalable=yes");
 window.addEventListener("load", adjustAllIframes);
+alert("A");
 menuDiv.innerHTML += "&nbsp;:-)";
 """
     }
