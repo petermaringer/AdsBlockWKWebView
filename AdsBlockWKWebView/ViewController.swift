@@ -3161,19 +3161,25 @@ func mergeArrays(array1: [String], array2: [String]) -> [String] {
     var jsCode: String = ""
     if webView.url!.absoluteString.hasPrefix("https://webmail2.viennaweb.at/src/webmail.php") {
       jsCode = """
-function adjust(iframe) {
-	setTimeout(() => {
-		let contentWidth = iframe.contentWindow.document.documentElement.scrollWidth;
-    let iframeWidth = iframe.clientWidth;
-		let iframeHeight = iframe.clientHeight;
-    let scaleX = iframeWidth / contentWidth;
-		document.getElementsByTagName("div")[0].innerHTML += `${scaleX} ${iframeWidth}/${contentWidth} ${iframeHeight} `;
-    iframe.style.transform = `scale(${scaleX})`;
-    iframe.style.transformOrigin = "top left";
-		iframe.style.width = `${iframeWidth / scaleX}px`;
-		iframe.style.height = `${iframeHeight / scaleX}px`;
-		alert(`1 ${iframe.src}`);
-  }, 100);
+function adjustIframes() {
+	let iframes = document.querySelectorAll("iframe");
+  iframes.forEach((iframe) => {
+		function adjust() {
+			setTimeout(() => {
+				let contentWidth = iframe.contentWindow.document.documentElement.scrollWidth;
+		    let iframeWidth = iframe.clientWidth;
+				let iframeHeight = iframe.clientHeight;
+		    let scaleX = iframeWidth / contentWidth;
+				document.getElementsByTagName("div")[0].innerHTML += `${scaleX} ${iframeWidth}/${contentWidth} ${iframeHeight} `;
+		    iframe.style.transform = `scale(${scaleX})`;
+		    iframe.style.transformOrigin = "top left";
+				iframe.style.width = `${iframeWidth / scaleX}px`;
+				iframe.style.height = `${iframeHeight / scaleX}px`;
+				alert(`1 ${iframe.src}`);
+		  }, 100);
+		}
+		iframe.onload = () => { adjust(); };
+	});
 }
 function monitor(iframe) {
 	const monitor = setInterval(() => {
@@ -3193,7 +3199,6 @@ const iframes = frames.map(frame => {
   Array.from(frame.attributes).forEach(attr => {
     iframe.setAttribute(attr.name, attr.value);
   });
-  iframe.setAttribute("onload", adjust(iframe));
   return iframe;
 });
 //iframes[1].src = "https://example.com";
@@ -3220,7 +3225,7 @@ iframes.forEach(iframe => body.appendChild(iframe));
 monitor(iframes[0]);
 setViewport("width=device-width, initial-scale=0.72, minimum-scale=0.72, maximum-scale=20, user-scalable=yes");
 //window.addEventListener("load", adjustAllIframes);
-//adjustAllIframes();
+adjustIframes();
 //alert("A");
 menuDiv.innerHTML += "&nbsp;:-)";
 """
