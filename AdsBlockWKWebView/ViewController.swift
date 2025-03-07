@@ -3161,30 +3161,19 @@ func mergeArrays(array1: [String], array2: [String]) -> [String] {
     var jsCode: String = ""
     if webView.url!.absoluteString.hasPrefix("https://webmail2.viennaweb.at/src/webmail.php") {
       jsCode = """
-function adjustAllIframes() {
-  alert("0");
-	let iframes = document.querySelectorAll("iframe");
-  iframes.forEach((iframe) => {
-		iframe.onload = function() {
-    setTimeout(() => {
-      alert("1");
-			let contentWidth = iframe.contentWindow.document.documentElement.scrollWidth;
-      let iframeWidth = iframe.clientWidth;
-			let iframeHeight = iframe.clientHeight;
-      let scaleX = iframeWidth / contentWidth;
-			alert("2");
-			document.getElementsByTagName("div")[0].innerHTML += `${scaleX} ${iframeWidth}/${contentWidth} ${iframeHeight} `;
-			//if (scaleX < 1) {
-			alert("3");
-      iframe.style.transform = `scale(${scaleX})`;
-      iframe.style.transformOrigin = "top left";
-      //iframe.style.width = `${100 / scaleX}%`;
-			iframe.style.width = `${iframeWidth / scaleX}px`;
-			iframe.style.height = `${iframeHeight / scaleX}px`;
-			//}
-    }, 0);
-	};
-  });
+function adjust(iframe) {
+	setTimeout(() => {
+		let contentWidth = iframe.contentWindow.document.documentElement.scrollWidth;
+    let iframeWidth = iframe.clientWidth;
+		let iframeHeight = iframe.clientHeight;
+    let scaleX = iframeWidth / contentWidth;
+		document.getElementsByTagName("div")[0].innerHTML += `${scaleX} ${iframeWidth}/${contentWidth} ${iframeHeight} `;
+    iframe.style.transform = `scale(${scaleX})`;
+    iframe.style.transformOrigin = "top left";
+		iframe.style.width = `${iframeWidth / scaleX}px`;
+		iframe.style.height = `${iframeHeight / scaleX}px`;
+		alert(`1 ${iframe.src}`);
+  }, 100);
 }
 function monitor(iframe) {
 	const monitor = setInterval(() => {
@@ -3204,6 +3193,7 @@ const iframes = frames.map(frame => {
   Array.from(frame.attributes).forEach(attr => {
     iframe.setAttribute(attr.name, attr.value);
   });
+  iframe.setAttribute("onload", adjust(iframe));
   return iframe;
 });
 //iframes[1].src = "https://example.com";
@@ -3230,8 +3220,8 @@ iframes.forEach(iframe => body.appendChild(iframe));
 monitor(iframes[0]);
 setViewport("width=device-width, initial-scale=0.72, minimum-scale=0.72, maximum-scale=20, user-scalable=yes");
 //window.addEventListener("load", adjustAllIframes);
-adjustAllIframes();
-alert("A");
+//adjustAllIframes();
+//alert("A");
 menuDiv.innerHTML += "&nbsp;:-)";
 """
     }
