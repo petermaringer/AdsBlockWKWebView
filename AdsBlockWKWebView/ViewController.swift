@@ -3165,6 +3165,7 @@ function adjustAllIframes() {
   alert("0");
 	let iframes = document.querySelectorAll("iframe");
   iframes.forEach((iframe) => {
+		iframe.onload = function() {
     setTimeout(() => {
       alert("1");
 			let contentWidth = iframe.contentWindow.document.documentElement.scrollWidth;
@@ -3182,6 +3183,7 @@ function adjustAllIframes() {
 			iframe.style.height = `${iframeHeight / scaleX}px`;
 			//}
     }, 0);
+	};
   });
 }
 function monitor(iframe) {
@@ -3227,7 +3229,8 @@ body.appendChild(menuDiv);
 iframes.forEach(iframe => body.appendChild(iframe));
 monitor(iframes[0]);
 setViewport("width=device-width, initial-scale=0.72, minimum-scale=0.72, maximum-scale=20, user-scalable=yes");
-window.addEventListener("load", adjustAllIframes);
+//window.addEventListener("load", adjustAllIframes);
+adjustAllIframes();
 alert("A");
 menuDiv.innerHTML += "&nbsp;:-)";
 """
