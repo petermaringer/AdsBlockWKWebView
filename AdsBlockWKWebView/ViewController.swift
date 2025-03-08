@@ -3162,21 +3162,25 @@ func mergeArrays(array1: [String], array2: [String]) -> [String] {
     if webView.url!.absoluteString.hasPrefix("https://webmail2.viennaweb.at/src/webmail.php") {
       jsCode = """
 function adjustIframes() {
-	let iframes = document.querySelectorAll("iframe");
+	const iframes = document.querySelectorAll("iframe");
   iframes.forEach((iframe) => {
 		function adjust() {
 			setTimeout(() => {
-				let contentWidth = iframe.contentWindow.document.documentElement.scrollWidth;
-		    let iframeWidth = iframe.clientWidth;
-				let iframeHeight = iframe.clientHeight;
-		    let scaleX = iframeWidth / contentWidth;
+			iframe.style.transform = "";
+			iframe.style.width = iframe.dataset.width;
+			iframe.style.height = iframe.dataset.height;
+			//setTimeout(() => {
+				const contentWidth = iframe.contentWindow.document.documentElement.scrollWidth;
+		    const iframeWidth = iframe.clientWidth;
+				const iframeHeight = iframe.clientHeight;
+		    const scaleX = iframeWidth / contentWidth;
 				document.getElementsByTagName("div")[0].innerHTML += `${scaleX} ${iframeWidth}/${contentWidth} ${iframeHeight} `;
 		    iframe.style.transform = `scale(${scaleX})`;
 		    iframe.style.transformOrigin = "top left";
 				iframe.style.width = `${iframeWidth / scaleX}px`;
 				iframe.style.height = `${iframeHeight / scaleX}px`;
-				alert(`1 ${iframe.src}`);
-		  }, 100);
+				//alert(`1 ${iframe.src}`);
+		  }, 0);
 		}
 		iframe.onload = () => { adjust(); };
 	});
@@ -3221,7 +3225,12 @@ menuDiv.addEventListener("click", () => {
 	} else iframes[0].style.display = "none";
 });
 body.appendChild(menuDiv);
-iframes.forEach(iframe => body.appendChild(iframe));
+//iframes.forEach(iframe => body.appendChild(iframe));
+iframes.forEach(iframe => {
+	iframe.dataset.width = iframe.style.width;
+	iframe.dataset.height = iframe.style.height;
+	body.appendChild(iframe);
+});
 monitor(iframes[0]);
 setViewport("width=device-width, initial-scale=0.72, minimum-scale=0.72, maximum-scale=20, user-scalable=yes");
 //window.addEventListener("load", adjustAllIframes);
