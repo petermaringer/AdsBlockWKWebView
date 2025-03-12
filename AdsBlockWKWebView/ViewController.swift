@@ -1761,10 +1761,10 @@ let userInteracted = false;
 document.addEventListener("mousedown", function (event) {
   if (event.target.matches("input, textarea")) {
     userInteracted = true;
-    setViewport(`width=device-width, initial-scale=${idealScale}, minimum-scale=${idealScale}, maximum-scale=${window.visualViewport.scale}, user-scalable=no`);
+    window.top.setViewport(`width=device-width, initial-scale=${idealScale}, minimum-scale=${idealScale}, maximum-scale=${window.visualViewport.scale}, user-scalable=no`);
     setTimeout(() => {
       userInteracted = false;
-      setViewport(defaultViewport);
+      window.top.setViewport(defaultViewport);
     }, 100);
     postToListener("iZoom"+viewport.content);
   }
