@@ -3166,25 +3166,28 @@ function adjustIframes() {
   iframes.forEach((iframe) => {
 		function adjust() {
 			setTimeout(() => {
-			iframe.style.transform = "";
-			iframe.style.width = iframe.dataset.width;
-			iframe.style.height = iframe.dataset.height;
-			//setTimeout(() => {
+				if (iframe.clientWidth > 10) {
+				iframe.style.transform = "";
+				iframe.style.width = iframe.dataset.width;
+				iframe.style.height = iframe.dataset.height;
 				const contentWidth = iframe.contentWindow.document.documentElement.scrollWidth;
 		    const iframeWidth = iframe.clientWidth;
 				const iframeHeight = iframe.clientHeight;
 		    const scaleX = iframeWidth / contentWidth;
-				document.getElementsByTagName("div")[0].innerHTML += `${scaleX} ${iframeWidth}/${contentWidth} ${iframeHeight} `;
 		    iframe.style.transform = `scale(${scaleX})`;
 		    iframe.style.transformOrigin = "top left";
 				iframe.style.width = `${iframeWidth / scaleX}px`;
 				iframe.style.height = `${iframeHeight / scaleX}px`;
+				document.getElementsByTagName("div")[0].innerHTML += ` ${scaleX.toFixed(2)}&nbsp;${iframeWidth}/${contentWidth}&nbsp;${iframeHeight}&nbsp;|`;
 				//alert(`1 ${iframe.src}`);
-		  }, 0);
+				}
+		  }, 0); //100
 		}
-		iframe.onload = () => { adjust(); };
+		//iframe.onload = () => { adjust(); };
+		iframe.onload = () => adjust();
 	});
 }
+
 function monitor(iframe) {
 	const monitor = setInterval(() => {
 		const activeElement = document.activeElement;
@@ -3205,12 +3208,11 @@ const iframes = frames.map(frame => {
   });
   return iframe;
 });
-//iframes[1].src = "https://example.com";
 iframes[0].style = "position: fixed; top: 8px; left: 8px; width: 160px; height: 270px; background-color: #a0b8c8; border: 2px solid black; border-radius: 15px; z-index: 1001;";
-iframes[1].style = "position: absolute; top: 40px; left: 0px; width: 100%; height: calc(100% - 40px); background-color: #563478; border: 0px; overflow: hidden;"; //overscroll-behavior: none;
+iframes[1].style = "position: absolute; top: 40px; left: 0px; width: 100%; height: calc(100% - 40px); background-color: #a0b8c8; border: 0px;";
 frameset.remove();
 const body = document.createElement("body");
-body.style = "margin: 0px; font-family: Arial, Helvetica, sans-serif;";
+body.style = "margin: 0px; font-family: Arial, Helvetica, sans-serif; overflow: hidden;";
 document.documentElement.appendChild(body);
 const menuButton = document.createElement("button");
 menuButton.textContent = "Menü";
@@ -3225,7 +3227,6 @@ menuDiv.addEventListener("click", () => {
 	} else iframes[0].style.display = "none";
 });
 body.appendChild(menuDiv);
-//iframes.forEach(iframe => body.appendChild(iframe));
 iframes.forEach(iframe => {
 	iframe.dataset.width = iframe.style.width;
 	iframe.dataset.height = iframe.style.height;
@@ -3233,19 +3234,8 @@ iframes.forEach(iframe => {
 });
 monitor(iframes[0]);
 setViewport("width=device-width, initial-scale=0.72, minimum-scale=0.72, maximum-scale=20, user-scalable=yes");
-//window.addEventListener("load", adjustAllIframes);
 adjustIframes();
-//alert("A");
 menuDiv.innerHTML += "&nbsp;:-)";
-"""
-    }
-    if webView.url!.absoluteString.hasPrefix("https://webmail2.viennaweb.at/src/read_body.php") {
-      jsCode = """
-//document.documentElement.style.cssText = "";
-//document.body.style.cssText = "";
-document.documentElement.style.overscrollBehavior = "none";
-document.body.style.overscrollBehavior = "none";
-document.body.style.color = "red";
 """
     }
     if webView.url!.absoluteString.hasPrefix("https://www.google.com/search?q=") {
