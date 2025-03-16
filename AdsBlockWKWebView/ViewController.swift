@@ -1703,7 +1703,7 @@ let videos = document.querySelectorAll("video");
         //userScript += " "
         //userScript += "window.webkit.messageHandlers.iosListener.postMessage('dF');"
         
-        let userScript: String = """
+        let userScript1: String = """
 
 //IWH1:
 function postToListener(string) {
@@ -1711,70 +1711,30 @@ function postToListener(string) {
 }
 postToListener("IWH1");
 
-//IWH2:
-const idealScale = Math.min(window.visualViewport.width / document.documentElement.scrollWidth, 1);
-const defaultViewport = `width=device-width, initial-scale=${idealScale}, minimum-scale=${idealScale - 0.2}, maximum-scale=20, user-scalable=yes`;
-let viewport = document.querySelector("meta[name='viewport']");
-if (!viewport) {
-  viewport = document.createElement("meta");
-  viewport.name = "viewport";
-  document.head.appendChild(viewport);
-  postToListener(`+vp(${idealScale === parseFloat(idealScale.toFixed(2)) ? idealScale : parseFloat(idealScale.toFixed(2))})`);
-}
-viewport.content = defaultViewport;
-let clone, isProtected = false;
-function protectViewport() {
-  if (isProtected) return;
-  isProtected = true;
-  clone = viewport.cloneNode(true);
-  viewport.parentNode.replaceChild(clone, viewport);
-  const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      if (mutation.attributeName === "content") { postToListener("!~vp"); }
-    });
-  });
-  observer.observe(viewport, { attributes: true, attributeFilter: ["content"] });
-}
-function unprotectViewport() {
-  if (!isProtected) return;
-  isProtected = false;
-  viewport = clone.cloneNode(true);
-  clone.parentNode.replaceChild(viewport, clone);
-}
-function setViewport(content) {
-  unprotectViewport();
-  viewport.content = content;
-  protectViewport();
-}
-protectViewport();
-  /*let viewport = document.querySelector("meta[name='viewport']");
-  if (!viewport) {
-    viewport = document.createElement("meta");
-    viewport.name = "viewport";
-    document.head.appendChild(viewport);
-  }
-  viewport.content = "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=10, user-scalable=yes";*/
-postToListener("IWH2");
+//IWH2
 
 //IWH3:
 let userInteracted = false;
-document.addEventListener("mousedown", function (event) {
-  if (event.target.matches("input, textarea")) {
-    userInteracted = true;
-    window.top.setViewport(`width=device-width, initial-scale=${idealScale}, minimum-scale=${idealScale}, maximum-scale=${window.visualViewport.scale}, user-scalable=no`);
-    setTimeout(() => {
-      userInteracted = false;
-      window.top.setViewport(defaultViewport);
-    }, 100);
-    postToListener("iZoom"+viewport.content);
-  }
-});
-document.addEventListener("focusin", function (event) {
-  if (event.target.matches("input, textarea") && !userInteracted) {
-    event.target.blur();
-    postToListener("iBlur");
-  }
-});
+		  document.addEventListener("mousedown", function (event) {
+				if (event.target.matches("input, textarea")) {
+					userInteracted = true;
+					window.top.blockViewport();
+					setTimeout(() => {
+						userInteracted = false;
+						window.top.releaseViewport();
+					}, 100);
+				}
+		  });
+		  document.addEventListener("focusin", function (event) {
+		    if (event.target.matches("input, textarea") && !userInteracted) {
+					const parts = window.location.hostname.toLowerCase().split(".");
+					const mainDomain = parts.length >= 3 && parts[parts.length - 2].length <= 3 ? parts[parts.length - 3] : parts[parts.length - 2];
+					if (mainDomain !== "google") {
+						event.target.blur();
+						postToListener("iBlur");
+					}
+		    }
+		  });
 postToListener("IWH3");
 
 //IWH4:
@@ -1814,7 +1774,67 @@ postToListener("dF");
 
 """
         
-        webViewConfig.userContentController.addUserScript(WKUserScript(source: userScript, injectionTime: .atDocumentEnd, forMainFrameOnly: false))
+        webViewConfig.userContentController.addUserScript(WKUserScript(source: userScript1, injectionTime: .atDocumentEnd, forMainFrameOnly: false))
+        
+        let userScript2: String = """
+
+//IWH2:
+			const idealScale = Math.min(window.visualViewport.width / document.documentElement.scrollWidth, 1);
+			const defaultViewport = `width=device-width, initial-scale=${idealScale}, minimum-scale=${idealScale - 0.2}, maximum-scale=20, user-scalable=yes`;
+			let viewport = document.querySelector("meta[name='viewport']");
+		  if (!viewport) {
+		    viewport = document.createElement("meta");
+		    viewport.name = "viewport";
+		    document.head.appendChild(viewport);
+				postToListener(`+vp(${idealScale === parseFloat(idealScale.toFixed(2)) ? idealScale : parseFloat(idealScale.toFixed(2))})`);
+		  }
+			viewport.content = defaultViewport;
+		  let clone, isProtected = false;
+		  function protectViewport() {
+		    if (isProtected) return;
+		    isProtected = true;
+		    clone = viewport.cloneNode(true);
+		    viewport.parentNode.replaceChild(clone, viewport);
+				const observer = new MutationObserver((mutations) => {
+			    mutations.forEach((mutation) => {
+			      if (mutation.attributeName === "content") { postToListener("!~vp"); }
+			    });
+			  });
+			  observer.observe(viewport, { attributes: true, attributeFilter: ["content"] });
+		  }
+			protectViewport();
+		  function unprotectViewport() {
+		    if (!isProtected) return;
+		    isProtected = false;
+		    viewport = clone.cloneNode(true);
+		    clone.parentNode.replaceChild(viewport, clone);
+		  }
+		  function setViewport(content) {
+		    unprotectViewport();
+		    viewport.content = content;
+		    protectViewport();
+				postToListener(`setVp(${viewport.content})`);
+		  }
+			let originalViewport;
+			function blockViewport() {
+				unprotectViewport();
+				const vpContent = viewport.content;
+				originalViewport = vpContent;
+				const getWidth = () => vpContent.match(/width=([\w\-]+)/)?.[1] || "device-width";
+				const getScale = (key) => parseFloat(vpContent.match(new RegExp(`${key}=([\\d\\.]+)`))?.[1]) || 1;
+				viewport.content = `width=${getWidth()}, initial-scale=${getScale("initial-scale")}, minimum-scale=${getScale("minimum-scale")}, maximum-scale=${window.visualViewport.scale}, user-scalable=no`;
+				protectViewport();
+				postToListener(`setVp(${viewport.content})`);
+			}
+			function releaseViewport() {
+				setViewport(originalViewport);
+			}
+postToListener("IWH2");
+
+"""
+        
+        webViewConfig.userContentController.addUserScript(WKUserScript(source: userScript2, injectionTime: .atDocumentEnd, forMainFrameOnly: true))
+        
         //webViewConfig.userContentController.addUserScript(WKUserScript(source: "var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=device-width, initial-scale=1.0, minimum-scale=0.1, maximum-scale=15.0, user-scalable=yes'); } window.webkit.messageHandlers.iosListener.postMessage('dF'); setTimeout(function() { var videos = document.getElementsByTagName('video'); for (var i = 0; i < videos.length; i++) { videos.item(i).pause(); window.webkit.messageHandlers.iosListener.postMessage('vs' + videos.item(i).src); /*window.webkit.messageHandlers.iosListener.postMessage('vc' + videos.item(i).currentSrc);*/ } }, 3000); var el = document.querySelector('input[type=file]'); if (el !== null) { window.webkit.messageHandlers.iosListener.postMessage('iF'); el.removeAttribute('capture'); } document.querySelector('input').blur(); /*Object.defineProperty(document, 'activeElement', { get: function() { return null; } });*/", injectionTime: .atDocumentEnd, forMainFrameOnly: false))
         //webViewConfig.userContentController.addUserScript(WKUserScript(source: "document.addEventListener('click', function() { window.webkit.messageHandlers.iosListener.postMessage('c'); })", injectionTime: .atDocumentEnd, forMainFrameOnly: false))
         webViewConfig.userContentController.add(self, name: "iosListener")
