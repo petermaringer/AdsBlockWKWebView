@@ -1820,7 +1820,7 @@ postToListener("dF");
 				unprotectViewport();
 				const vpContent = viewport.content;
 				originalViewport = vpContent;
-				const getWidth = () => vpContent.match(/width=([\w\-]+)/)?.[1] || "device-width";
+				const getWidth = () => vpContent.match(/width=([\\w\\-]+)/)?.[1] || "device-width";
 				const getScale = (key) => parseFloat(vpContent.match(new RegExp(`${key}=([\\d\\.]+)`))?.[1]) || 1;
 				viewport.content = `width=${getWidth()}, initial-scale=${getScale("initial-scale")}, minimum-scale=${getScale("minimum-scale")}, maximum-scale=${window.visualViewport.scale}, user-scalable=no`;
 				protectViewport();
