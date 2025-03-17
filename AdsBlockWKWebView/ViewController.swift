@@ -1747,30 +1747,12 @@ document.querySelectorAll("input[type='file']").forEach((inputFile, index, array
 postToListener("IWH4");
 
 //IWH5:
-/*function setTagAttribute(top, topIndex, tag, tagIndex) {
-  let topInfo = "";
-  if (top !== tag) { topInfo = `${top.localName}[${topIndex}].`; }
-  const setAttribute = tag.setAttribute;
-  tag.setAttribute = (key, value) => {
-    setAttribute.call(tag, key, value);
-    if (key === "src") { top.pause(); postToListener("vs" + tag[key]); }
-  };
-}
-document.querySelectorAll("video").forEach((video, videoIndex) => {
-  setTagAttribute(video, videoIndex, video, videoIndex);
-  video.querySelectorAll("source").forEach((source, sourceIndex) => {
-    setTagAttribute(video, videoIndex, source, sourceIndex);
-  });
-});
-postToListener("IWH5");*/
-
-//IWH6:
 document.addEventListener("click", function () {
   postToListener("c");
 });
-postToListener("IWH6");
+postToListener("IWH5");
 
-postToListener("dF");
+postToListener("dF1");
 
 """
         
@@ -1820,8 +1802,8 @@ postToListener("dF");
 				unprotectViewport();
 				const vpContent = viewport.content;
 				originalViewport = vpContent;
-				const getWidth = () => vpContent.match(/width=([\\w\\-]+)/)?.[1] || "device-widthi";
-				const getScale = (key) => parseFloat(vpContent.match(new RegExp(`${key}=([\\\\d\\\\.]+)`))?.[1]) || 1.2;
+				const getWidth = () => vpContent.match(/width=([\\w\\-]+)/)?.[1] || "device-width";
+				const getScale = (key) => parseFloat(vpContent.match(new RegExp(`${key}=([\\\\d\\\\.]+)`))?.[1]) || 1;
 				viewport.content = `width=${getWidth()}, initial-scale=${getScale("initial-scale")}, minimum-scale=${getScale("minimum-scale")}, maximum-scale=${window.visualViewport.scale}, user-scalable=no`;
 				protectViewport();
 				postToListener(`setVp(${viewport.content})`);
@@ -1830,6 +1812,11 @@ postToListener("dF");
 				setViewport(originalViewport);
 			}
 postToListener("IWH2");
+
+//IWH6a:
+//IWH6b:
+
+postToListener("dF2");
 
 """
         
@@ -2852,6 +2839,16 @@ downloadTask.resume()
         decisionHandler(.download)
         return
       }
+    }
+    
+    if navigationAction.request.url!.absoluteString.contains("orf.at") {
+      let scriptSource = """
+document.addEventListener("DOMContentLoaded", function() {
+  document.body.style.backgroundColor = "red";
+  postToListener("6666");
+});
+"""
+      webView.evaluateJavaScript(scriptSource, completionHandler: nil)
     }
     
     decisionHandler(.allow)
