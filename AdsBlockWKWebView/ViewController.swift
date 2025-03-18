@@ -2843,10 +2843,22 @@ downloadTask.resume()
     
     if navigationAction.request.url!.absoluteString.contains("orf.at") {
       let scriptSource = """
-document.addEventListener("DOMContentLoaded", function() {
+(function() {
+    function modifyPage() {
+      document.body.style.backgroundColor = "red";
+      postToListener("6666");
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", modifyPage);
+    } else {
+      modifyPage();
+    }
+  })();
+
+/*document.addEventListener("DOMContentLoaded", function() {
   document.body.style.backgroundColor = "red";
   postToListener("6666");
-});
+});*/
 """
       webView.evaluateJavaScript(scriptSource, completionHandler: nil)
     }
