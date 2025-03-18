@@ -2841,7 +2841,7 @@ downloadTask.resume()
       }
     }
     
-    if navigationAction.request.url!.absoluteString.contains("orf.at") {
+    /*if navigationAction.request.url!.absoluteString.contains("orf.at") {
       let scriptSource = """
 (function() {
     function modifyPage() {
@@ -2854,14 +2854,13 @@ downloadTask.resume()
       modifyPage();
     }
   })();
-
-/*document.addEventListener("DOMContentLoaded", function() {
-  document.body.style.backgroundColor = "red";
-  postToListener("6666");
-});*/
+//document.addEventListener("DOMContentLoaded", function() {
+  //document.body.style.backgroundColor = "red";
+  //postToListener("6666");
+//});
 """
       webView.evaluateJavaScript(scriptSource, completionHandler: nil)
-    }
+    }*/
     
     decisionHandler(.allow)
   }
@@ -2964,6 +2963,28 @@ downloadTask.resume()
   
   func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
     lb.text! += " fErr:\(error._code)"
+  }
+  
+  
+  func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+    if let url = webView.url, url.host == "orf.at" {
+      let scriptSource = """
+        (function() {
+            function modifyPage() {
+                document.body.style.backgroundColor = "red";
+                postToListener("6666");
+            }
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", modifyPage);
+            } else {
+                modifyPage();
+            }
+        })();
+"""
+      webView.evaluateJavaScript(scriptSource, completionHandler: nil)
+      lb.text! += " dC:orf"
+    }
+    lb.text! += " dC"
   }
   
   
