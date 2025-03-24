@@ -3234,7 +3234,8 @@ function adjustIframes() {
 		    iframe.style.transformOrigin = "top left";
 				iframe.style.width = `${iframeWidth / scaleX}px`;
 				iframe.style.height = `${iframeHeight / scaleX}px`;
-				document.getElementsByTagName("div")[0].innerHTML += ` ${scaleX.toFixed(2)}&nbsp;${iframeWidth}/${contentWidth}&nbsp;${iframeHeight}&nbsp;|`;
+				document.getElementsByTagName("div")[1].innerHTML += ` ${scaleX.toFixed(2)}&nbsp;${iframeWidth}/${contentWidth}&nbsp;${iframeHeight}&nbsp;|`;
+				document.getElementsByTagName("div")[1].innerHTML = document.getElementsByTagName("div")[1].innerHTML.split(" ").slice(-6).join(" ");
 				//alert(`1 ${iframe.src}`);
 				}
 		  }, 0); //100
@@ -3264,7 +3265,7 @@ const iframes = frames.map(frame => {
   });
   return iframe;
 });
-iframes[0].style = "position: fixed; top: 8px; left: 8px; width: 160px; height: 270px; background-color: #a0b8c8; border: 2px solid black; border-radius: 15px; z-index: 1001;";
+iframes[0].style = "position: fixed; top: 8px; left: 8px; width: 160px; height: 270px; background-color: #a0b8c8; border: 2px solid black; border-radius: 15px; z-index: 1001; -webkit-tap-highlight-color: transparent;";
 iframes[1].style = "position: absolute; top: 40px; left: 0px; width: 100%; height: calc(100% - 40px); background-color: #a0b8c8; border: 0px;";
 frameset.remove();
 const body = document.createElement("body");
@@ -3275,7 +3276,7 @@ menuButton.textContent = "Menü";
 const menuDiv = document.createElement("div");
 menuDiv.style = "position: fixed; top: 0px; left: 0px; width: 100%; height: 40px; display: flex; align-items: center; justify-content: center; background-color: #a0b8c8; z-index: 1000;";
 menuDiv.appendChild(menuButton);
-menuDiv.innerHTML += "&nbsp;&nbsp;&nbsp;<b>ViennaWebMail</b>";
+menuDiv.innerHTML += `&nbsp;&nbsp;&nbsp;<b>ViennaWebMail</b>&nbsp;&nbsp;&nbsp;<div style="width: 50%; max-height: 40px; font-size: 10px; background-color: ##ffffff;"></div>`;
 menuDiv.addEventListener("click", () => {
 	if (iframes[0].style.display === "none") {
 		iframes[0].style.display = "";
@@ -3291,7 +3292,7 @@ iframes.forEach(iframe => {
 monitor(iframes[0]);
 setViewport("width=device-width, initial-scale=0.72, minimum-scale=0.72, maximum-scale=20, user-scalable=yes");
 adjustIframes();
-menuDiv.innerHTML += "&nbsp;:-)";
+//menuDiv.innerHTML += "&nbsp;:-)";
 """
     }
     /*if webView.url!.absoluteString.hasPrefix("https://www.google.com/search?q=") {
