@@ -3,7 +3,8 @@ options:
   minimumXcodeGenVersion: "2.39.1"
   bundleIdPrefix: at.co.weinmann
   deploymentTarget:
-    iOS: "10.0"
+    #iOS: "10.0"
+    iOS: "15.0"
   #postGenCommand: pod install
 #packages:
 targets:
