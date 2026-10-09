@@ -113,6 +113,12 @@
 			<string>0</string>
 		</dict>
 		<dict>
+			<key>Key</key>
+			<string>CFBundleVersion</string>
+			<key>DefaultValue</key>
+			<string>0</string>
+		</dict>
+		<dict>
 			<key>Type</key>
 			<string>PSTitleValueSpecifier</string>
 			<key>Title</key>
