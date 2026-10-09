@@ -114,7 +114,9 @@
 		</dict>
 		<dict>
 			<key>Type</key>
-			<string>PSGroupSpecifier</string>
+			<string>PSTitleValueSpecifier</string>
+			<key>Title</key>
+			<string>Buildshit</string>
 			<key>Key</key>
 			<string>CFBundleVersion</string>
 			<key>DefaultValue</key>
