@@ -2580,11 +2580,13 @@ downloadTask.resume()
     
     if url.contains(" ") || !url.contains(".") {
       if !["tel://", "internal://"].contains(where: url.hasPrefix) {
-        if webViewSearchUrlPref.contains("openai.com") {
-          searchWithChatGPT()
-          return
+        if !url.contains("://localhost:") {
+          if webViewSearchUrlPref.contains("openai.com") {
+            searchWithChatGPT()
+            return
+          }
+          url = webViewSearchUrlPref + url
         }
-        url = webViewSearchUrlPref + url
       }
     }
     var allowed = CharacterSet.alphanumerics
