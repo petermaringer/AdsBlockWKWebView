@@ -113,6 +113,8 @@
 			<string>undefined</string>
 		</dict>
 		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
 			<key>Key</key>
 			<string>CFBundleVersion</string>
 			<key>DefaultValue</key>
