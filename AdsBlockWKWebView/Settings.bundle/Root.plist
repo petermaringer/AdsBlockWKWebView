@@ -106,11 +106,11 @@
 			<key>Type</key>
 			<string>PSTitleValueSpecifier</string>
 			<key>Title</key>
-			<string>Version Number</string>
+			<string>Version</string>
 			<key>Key</key>
 			<string>CFBundleShortVersionString</string>
 			<key>DefaultValue</key>
-			<string>0</string>
+			<string>undefined</string>
 		</dict>
 		<dict>
 			<key>Key</key>
