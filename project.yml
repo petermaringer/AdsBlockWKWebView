@@ -20,6 +20,8 @@ targets:
     settings:
       SWIFT_VERSION: "4.0"
       #SWIFT_OBJC_BRIDGING_HEADER: B-Header.h
+      MARKETING_VERSION: "1.0"
+      CURRENT_PROJECT_VERSION: $(BITRISE_BUILD_NUMBER)
     entitlements:
       path: AdsBlockWKWebView/App.entitlements
       properties:
