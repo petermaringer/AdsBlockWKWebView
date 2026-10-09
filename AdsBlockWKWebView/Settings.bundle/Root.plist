@@ -108,7 +108,7 @@
 			<key>Title</key>
 			<string>Version</string>
 			<key>Key</key>
-			<string>versionInfo</string>
+			<string>appVersionAndBuildString</string>
 			<key>DefaultValue</key>
 			<string>undefined</string>
 		</dict>
