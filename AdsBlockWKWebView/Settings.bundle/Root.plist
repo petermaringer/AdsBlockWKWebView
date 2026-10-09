@@ -12,7 +12,7 @@
 			<key>Title</key>
 			<string>App Startup</string>
 			<key>FooterText</key>
-			<string>This is a Footer Text (supported by Settings.app in iOS 4 or higher)</string>
+			<string>This is a Footer Text (supported in iOS 4 or higher)</string>
 		</dict>
 		<dict>
 			<key>Type</key>
@@ -110,27 +110,7 @@
 			<key>Key</key>
 			<string>appVersionAndBuildString</string>
 			<key>DefaultValue</key>
-			<string>undefined</string>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSTitleValueSpecifier</string>
-			<key>Title</key>
-			<string>Buildshit</string>
-			<key>Key</key>
-			<string>CFBundleVersion</string>
-			<key>DefaultValue</key>
-			<string>0</string>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSTitleValueSpecifier</string>
-			<key>Title</key>
-			<string>Build Number</string>
-			<key>Key</key>
-			<string>buildNumber</string>
-			<key>DefaultValue</key>
-			<string>0</string>
+			<string>Undefined</string>
 		</dict>
 		<dict>
 			<key>Type</key>
