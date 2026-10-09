@@ -11,7 +11,6 @@ target 'AdsBlockWKWebView' do
   pod 'Telegraph', '~> 0.15'
   pod 'CocoaAsyncSocket', '~> 7.6.5'
   
-  
   pod 'OpenSSL-Universal', '~> 1.1'
   pod 'CertificateSigningRequest', '~> 1.27'
   #pod 'SwCrypt', '~> 5.1'
