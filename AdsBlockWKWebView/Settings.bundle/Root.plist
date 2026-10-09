@@ -108,7 +108,7 @@
 			<key>Title</key>
 			<string>Version Number</string>
 			<key>Key</key>
-			<string>versionInfo</string>
+			<string>CFBundleShortVersionString</string>
 			<key>DefaultValue</key>
 			<string>0</string>
 		</dict>
