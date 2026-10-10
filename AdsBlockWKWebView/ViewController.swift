@@ -2923,8 +2923,8 @@ downloadTask.resume()
         urlField.textColor = .appBgColor
         presentAlert = true
       
-      case -1004 where url.hasPrefix("http://localhost:6571/") || webView.url!.absoluteString.hasPrefix("internal://local/restore?url2=http://localhost:6571/"):
-      //case -1004 where url.hasPrefix("http://localhost:6571/"):
+      //case -1004 where url.hasPrefix("http://localhost:6571/") || webView.url!.absoluteString.hasPrefix("internal://local/restore?url2=http://localhost:6571/"):
+      case -1004 where url.hasPrefix("http://localhost:6571/"):
       //case -1004:
         //showAlert("-1004 \(url!) \(webView.url!.absoluteString)")
         //HttpServer().setupServer()
@@ -2932,7 +2932,7 @@ downloadTask.resume()
         startLoading()
       
       case -1004:
-        showAlert("-1004 \(url!) \(webView.url!.absoluteString)")
+        showAlert("\(navUrl!) -1004 \(url!) \(webView.url!.absoluteString)")
       
       default:
         presentAlert = true
