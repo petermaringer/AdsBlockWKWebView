@@ -2930,6 +2930,9 @@ downloadTask.resume()
         HttpServer.instance.start()
         startLoading()
       
+      case -1004:
+        showAlert("-1004 \(url!) \(webView.url!.absoluteString)")
+      
       default:
         presentAlert = true
     }
