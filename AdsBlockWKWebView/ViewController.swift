@@ -2923,12 +2923,14 @@ downloadTask.resume()
         urlField.textColor = .appBgColor
         presentAlert = true
       
+      case -1004 where navUrl.hasPrefix("http://localhost:6571/"):
       //case -1004 where url.hasPrefix("http://localhost:6571/") || webView.url!.absoluteString.hasPrefix("internal://local/restore?url2=http://localhost:6571/"):
-      case -1004 where url.hasPrefix("http://localhost:6571/"):
+      //case -1004 where url.hasPrefix("http://localhost:6571/"):
       //case -1004:
         //showAlert("-1004 \(url!) \(webView.url!.absoluteString)")
         //HttpServer().setupServer()
         HttpServer.instance.start()
+        url = navUrl
         startLoading()
       
       case -1004:
