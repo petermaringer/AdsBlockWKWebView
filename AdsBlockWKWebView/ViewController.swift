@@ -2060,7 +2060,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         //restoreUrlsJson += "]}"
         let restoreUrlsJsonTemp = "\(restoreIndexLast+1)\n" + restoreUrlsJson + "\n"
         DispatchQueue.main.async {
-          self.showAlert(restoreUrlsJsonTemp)
+          //self.showAlert(restoreUrlsJsonTemp)
         }
         //restoreUrls = restoreUrlsOrig
         //restoreUrlsJson = restoreUrlsJsonOrig
@@ -2580,7 +2580,8 @@ downloadTask.resume()
     
     if url.contains(" ") || !url.contains(".") {
       if !["tel://", "internal://"].contains(where: url.hasPrefix) {
-        if !url.contains("://localhost:") {
+        //if !url.contains("://localhost:") {
+        if !["http://localhost", "https://localhost"].contains(where: url.hasPrefix) {
           if webViewSearchUrlPref.contains("openai.com") {
             searchWithChatGPT()
             return
@@ -2924,7 +2925,7 @@ downloadTask.resume()
       
       case -1004 where url.hasPrefix("http://localhost:6571/"):
       //case -1004:
-        showAlert("-1004 \(url!) \(webView.url!.absoluteString)")
+        //showAlert("-1004 \(url!) \(webView.url!.absoluteString)")
         //HttpServer().setupServer()
         HttpServer.instance.start()
         startLoading()
@@ -3176,6 +3177,8 @@ downloadTask.resume()
       if webView.hasOnlySecureContent {
         urlField.textColor = .successFgColor
       } else if webView.url!.scheme == "internal" {
+        urlField.textColor = .appBgColor
+      } else if webView.url!.host == "localhost" {
         urlField.textColor = .appBgColor
       } else {
         urlField.textColor = .errorFgColor
