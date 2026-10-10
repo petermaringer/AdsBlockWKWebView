@@ -2929,6 +2929,9 @@ downloadTask.resume()
       //case -1004:
         //showAlert("-1004 \(url!) \(webView.url!.absoluteString)")
         //HttpServer().setupServer()
+        
+        showAlert("isRunning: \(HttpServer.instance.server.isRunning)")
+        
         HttpServer.instance.start()
         url = navUrl
         startLoading()
