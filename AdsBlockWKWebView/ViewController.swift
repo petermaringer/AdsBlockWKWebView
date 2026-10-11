@@ -689,7 +689,7 @@ player.play()*/
     //navlist = navlist + "\n\n" + url
     navlist = "\n\n" + url + navlist
   }
-  navlist = "navlist(last20):" + navlist
+  //navlist = "navlist(last20):" + navlist
     
     /*var viewlist = "list:"
     func findViewWithAVPlayerLayer(view: UIView) -> UIView? {
@@ -764,10 +764,12 @@ player.play()*/
     
     //showAlert("\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref) \(wkpool)")
     showAlert("""
-    \(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion)\n\n
-    prefs: \(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref)\n\n
-    wkpool: \(wkpool)\n\n
-    httpserver: isRunning=\(HttpServer.instance.server.isRunning)
+navlist(last20): \(navlist)
+httpserver: isRunning=\(HttpServer.instance.server.isRunning)
+filecontent: \(text)
+prefs: \(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref)
+wkpool: \(wkpool)
+appversion: \(appVersion)
 """)
   }
   
