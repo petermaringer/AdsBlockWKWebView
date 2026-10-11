@@ -734,7 +734,10 @@ player.play()*/
     
     /*let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
     userDefaults.set(appVersion, forKey: "versionInfo")*/
-    let appVersion = "\(Bundle.main.object(forInfoDictionaryKey: \"CFBundleShortVersionString\")!) Build \(Bundle.main.object(forInfoDictionaryKey: \"CFBundleVersion\")!)"
+    //let appVersion = "\(Bundle.main.object(forInfoDictionaryKey: \"CFBundleShortVersionString\")!) Build \(Bundle.main.object(forInfoDictionaryKey: \"CFBundleVersion\")!)"
+    let shortVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? ""
+    let buildVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? ""
+    let appVersion = "\(shortVersion) Build \(buildVersion)"
     
     //let file = Bundle.main.path(forResource: "Info", ofType: "plist")!
     //let p = URL(fileURLWithPath: file)
