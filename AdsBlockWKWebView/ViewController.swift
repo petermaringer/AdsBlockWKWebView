@@ -764,7 +764,7 @@ player.play()*/
     
     //showAlert("\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref) \(wkpool)")
     showAlert("""
-    \(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\n
+    \(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion)\n\n
     prefs: \(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref)\n\n
     wkpool: \(wkpool)\n\n
     httpserver: isRunning=\(HttpServer.instance.server.isRunning)
