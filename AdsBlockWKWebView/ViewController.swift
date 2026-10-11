@@ -234,7 +234,9 @@ final class HttpServer: NSObject {
   //}()
   //private override init() {}
   func start() {
-    //guard !server.isRunning else { return }
+    ////
+    guard !server.isRunning else { return }
+    ////
     do {
       //try server.start(port: 6571)
       try server.start(port: 6571, interface: "localhost")
@@ -756,9 +758,13 @@ player.play()*/
     showAlert("\(navlist) \(blitem) \(blcount1)/\(blcount2) \(appVersion!) \(text!)")
     */
     
-    showAlert("isRunning: \(HttpServer.instance.server.isRunning)")
+    //showAlert("isRunning: \(HttpServer.instance.server.isRunning)")
     
-    showAlert("\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref) \(wkpool)")
+    //showAlert("\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref) \(wkpool)")
+    showAlert("""
+    \(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n
+    \(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref) \(wkpool)
+""")
   }
   
   @objc func buttonPressed(gesture: UILongPressGestureRecognizer) {
@@ -2927,19 +2933,13 @@ downloadTask.resume()
       
       case -1004 where navUrl.hasPrefix("http://localhost:6571/"):
       //case -1004 where url.hasPrefix("http://localhost:6571/") || webView.url!.absoluteString.hasPrefix("internal://local/restore?url2=http://localhost:6571/"):
-      //case -1004 where url.hasPrefix("http://localhost:6571/"):
-      //case -1004:
-        //showAlert("-1004 \(url!) \(webView.url!.absoluteString)")
-        //HttpServer().setupServer()
-        
-        showAlert("isRunning: \(HttpServer.instance.server.isRunning)")
-        
+        showAlert("-1004 \(navUrl!) \(url!) \(webView.url!.absoluteString)")
         HttpServer.instance.start()
         if webView.url!.absoluteString.hasPrefix("internal://local/restore?url2=http://localhost:6571/") {
           webView.reload()
         } else {
-        url = navUrl
-        startLoading()
+          url = navUrl
+          startLoading()
         }
       
       case -1004:
