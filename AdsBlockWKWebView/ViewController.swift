@@ -756,6 +756,8 @@ player.play()*/
     showAlert("\(navlist) \(blitem) \(blcount1)/\(blcount2) \(appVersion!) \(text!)")
     */
     
+    showAlert("isRunning: \(HttpServer.instance.server.isRunning)")
+    
     showAlert("\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref) \(wkpool)")
   }
   
