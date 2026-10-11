@@ -235,7 +235,7 @@ final class HttpServer: NSObject {
   //private override init() {}
   func start() {
     ////
-    guard !server.isRunning else { return }
+    //guard !server.isRunning else { return }
     ////
     do {
       //try server.start(port: 6571)
