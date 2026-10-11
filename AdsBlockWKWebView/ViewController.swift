@@ -2935,8 +2935,12 @@ downloadTask.resume()
         showAlert("isRunning: \(HttpServer.instance.server.isRunning)")
         
         HttpServer.instance.start()
+        if webView.url!.absoluteString.hasPrefix("internal://local/restore?url2=http://localhost:6571/") {
+          webView.reload()
+        } else {
         url = navUrl
         startLoading()
+        }
       
       case -1004:
         showAlert("\(navUrl!) -1004 \(url!) \(webView.url!.absoluteString)")
