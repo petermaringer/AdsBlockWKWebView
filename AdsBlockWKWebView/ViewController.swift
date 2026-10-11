@@ -764,11 +764,11 @@ player.play()*/
     
     //showAlert("\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref) \(wkpool)")
     showAlert("""
-navlist(last20): \(navlist)
-httpserver: isRunning=\(HttpServer.instance.server.isRunning)
-filecontent: \(text)
-prefs: \(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref)
-wkpool: \(wkpool)
+navlist(last20): \(navlist)\n
+httpserver: isRunning=\(HttpServer.instance.server.isRunning)\n
+filecontent: \(text)\n
+prefs: \(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref)\n
+wkpool: \(wkpool)\n
 appversion: \(appVersion)
 """)
   }
@@ -2939,7 +2939,7 @@ downloadTask.resume()
       
       case -1004 where navUrl.hasPrefix("http://localhost:6571/"):
       //case -1004 where url.hasPrefix("http://localhost:6571/") || webView.url!.absoluteString.hasPrefix("internal://local/restore?url2=http://localhost:6571/"):
-        showAlert("-1004 \(navUrl!) \(url!) \(webView.url!.absoluteString)")
+        //showAlert("-1004 \(navUrl!) \(url!) \(webView.url!.absoluteString)")
         HttpServer.instance.start()
         if webView.url!.absoluteString.hasPrefix("internal://local/restore?url2=http://localhost:6571/") {
           webView.reload()
@@ -2949,7 +2949,7 @@ downloadTask.resume()
         }
       
       case -1004:
-        showAlert("\(navUrl!) -1004 \(url!) \(webView.url!.absoluteString)")
+        showAlert("-1004 \(navUrl!) \(url!) \(webView.url!.absoluteString)")
       
       default:
         presentAlert = true
