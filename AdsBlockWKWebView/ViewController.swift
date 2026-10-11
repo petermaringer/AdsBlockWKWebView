@@ -732,8 +732,9 @@ player.play()*/
     lb.text! += " \(deviceToken)"
     //adjustLabel()
     
-    let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
-    userDefaults.set(appVersion, forKey: "versionInfo")
+    /*let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+    userDefaults.set(appVersion, forKey: "versionInfo")*/
+    let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String + " Build " + Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String
     
     //let file = Bundle.main.path(forResource: "Info", ofType: "plist")!
     //let p = URL(fileURLWithPath: file)
@@ -758,12 +759,12 @@ player.play()*/
     showAlert("\(navlist) \(blitem) \(blcount1)/\(blcount2) \(appVersion!) \(text!)")
     */
     
-    //showAlert("isRunning: \(HttpServer.instance.server.isRunning)")
-    
     //showAlert("\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref) \(wkpool)")
     showAlert("""
-    \(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n
-    \(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref) \(wkpool)
+    \(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\n
+    prefs: \(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref)\n\n
+    wkpool: \(wkpool)\n\n
+    httpserver: isRunning=\(HttpServer.instance.server.isRunning)
 """)
   }
   
