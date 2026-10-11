@@ -215,7 +215,8 @@ final class HttpServer: NSObject {
     server.httpConfig.requestHandlers.insert(HTTPAuthHandler(), at: 0)
     server.httpConfig.requestHandlers.insert(HTTPAllHandler(), at: 0)
     server.route(.GET, "hi/:name", handleHi)
-    server.route(.GET, "status") { (.ok, "Server is running ö") }
+    //server.route(.GET, "status") { (.ok, "Server is running ö") }
+    server.route(.GET, "status") { (.ok, "Server is running ö".data(using: .utf8)!) }
     server.route(.GET, "auth/.*") { (.unauthorized, "401 Unauthorized ö") }
     //server.route(.GET, ".*") { (.forbidden, "403 Forbidden ö") }
     //server.route(.GET, ".*\\.(txt|js)$") { (.forbidden, "403 Forbidden ö1") }
@@ -260,6 +261,9 @@ class HTTPAllHandler: HTTPRequestHandler {
     let response = try nextHandler(request)
     if (request.uri.path.hasSuffix(".html")) {
       response?.headers["Content-Type"] = "text/html; charset=utf-8"
+    }
+    if response?.headers["Content-Type"] == nil {
+      response?.headers["Content-Type"] = "text/plain; charset=utf-8"
     }
     //if (request.uri.path == "/auth/1") {
       //response?.headers["WWW-Authenticate"] = "Basic realm=\"Dev\", charset=\"utf-8\""
