@@ -2817,9 +2817,9 @@ downloadTask.resume()
       newRequest.cachePolicy = .reloadIgnoringLocalCacheData
       decisionHandler(.cancel)
       webView.load(newRequest)
-      DispatchQueue.main.async {
+      //DispatchQueue.main.async {
         webView.evaluateJavaScript("window.history.replaceState(null, '', window.location.href);", completionHandler: nil)
-      }
+      //}
       lb.text! += " nocache:\(navigationAction.request.url!.absoluteString)"
       //decisionHandler(.cancel)
       return
