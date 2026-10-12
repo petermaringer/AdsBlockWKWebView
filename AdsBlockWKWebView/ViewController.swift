@@ -2686,7 +2686,10 @@ downloadTask.resume()
     
     if let fileURL = urlobj, fileURL.isFileURL {
       //webView.loadFileURL(fileURL, allowingReadAccessTo: URL.docDir)
-      let targetURL = URL.docDir.appendingPathComponent(fileURL.lastPathComponent)
+      /*let targetURL = URL.docDir.appendingPathComponent(fileURL.lastPathComponent)
+webView.loadFileURL(targetURL, allowingReadAccessTo: URL.docDir)*/
+let relativePath = fileURL.path(percentEncoded: false).components(separatedBy: "/Documents/").last ?? fileURL.lastPathComponent
+let targetURL = URL.docDir.appendingPathComponent(relativePath)
 webView.loadFileURL(targetURL, allowingReadAccessTo: URL.docDir)
     } else {
     
