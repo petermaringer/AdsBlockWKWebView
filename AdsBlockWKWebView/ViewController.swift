@@ -679,8 +679,8 @@ player.play()*/
   //BackgroundAudioBegin
         let session = AVAudioSession.sharedInstance()
         do {
-            try session.setCategory(AVAudioSessionCategoryPlayback)
-            //try session.setCategory(AVAudioSessionCategoryPlayback, with: .mixWithOthers)
+            //try session.setCategory(AVAudioSessionCategoryPlayback)
+            try session.setCategory(AVAudioSessionCategoryPlayback, with: .mixWithOthers)
             try session.setActive(true)
         } catch {
             print(error.localizedDescription)
@@ -2782,6 +2782,18 @@ downloadTask.resume()
       lb.text! += " store:\(navigationAction.request.url!.absoluteString) pID:\(productID)"
       decisionHandler(.cancel)
       return
+    }
+    
+    let nocacheHosts = ["localhost", "127.0.0.1"]
+    if let host = navigationAction.request.url?.host,
+       nocacheHosts.contains(where: { $0.caseInsensitiveCompare(host) == .orderedSame }),
+       navigationAction.request.cachePolicy != .reloadIgnoringLocalCacheData {
+        var newRequest = navigationAction.request
+        newRequest.cachePolicy = .reloadIgnoringLocalCacheData
+        webView.load(newRequest)
+        // lb.text! += " nocache:\(navigationAction.request.url!.absoluteString)"
+        decisionHandler(.cancel)
+        return
     }
     
     
