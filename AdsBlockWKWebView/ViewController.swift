@@ -2685,7 +2685,9 @@ downloadTask.resume()
     navTypeBackForward = false
     
     if let fileURL = urlobj, fileURL.isFileURL {
-      webView.loadFileURL(fileURL, allowingReadAccessTo: URL.docDir)
+      //webView.loadFileURL(fileURL, allowingReadAccessTo: URL.docDir)
+      let targetURL = URL.docDir.appendingPathComponent(fileURL.lastPathComponent)
+webView.loadFileURL(targetURL, allowingReadAccessTo: URL.docDir)
     } else {
     
     let request = URLRequest(url: urlobj!, timeoutInterval: 10.0)
