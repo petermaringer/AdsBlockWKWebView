@@ -675,15 +675,27 @@ player.play()*/
   
   //BackgroundAudioBegin
   let session = AVAudioSession.sharedInstance()
-// Nur konfigurieren, wenn die Kategorie nicht bereits stimmt
-if session.category != AVAudioSessionCategoryPlayback {
+
+let desiredCategory = AVAudioSessionCategoryPlayback
+let desiredOptions: AVAudioSessionCategoryOptions = [.mixWithOthers]
+if session.category != desiredCategory || session.categoryOptions != desiredOptions {
+    do {
+        try session.setActive(false, with: .notifyOthersOnDeactivation)
+        try session.setCategory(desiredCategory, with: desiredOptions)
+        try session.setActive(true)
+    } catch {
+        print(error.localizedDescription)
+    }
+
+/*if session.category != AVAudioSessionCategoryPlayback {
     do {
         try session.setActive(false, with: .notifyOthersOnDeactivation)
         try session.setCategory(AVAudioSessionCategoryPlayback, with: .mixWithOthers)
         try session.setActive(true)
     } catch {
         print(error.localizedDescription)
-    }
+    }*/
+    
     lb.text! += " \(session.category)"
 }
 //BackgroundAudioEnd
