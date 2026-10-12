@@ -675,33 +675,21 @@ player.play()*/
   
   //BackgroundAudioBegin
   let session = AVAudioSession.sharedInstance()
-
-let desiredCategory = AVAudioSessionCategoryPlayback
-let desiredOptions: AVAudioSessionCategoryOptions = [.mixWithOthers]
-if session.category != desiredCategory || session.categoryOptions != desiredOptions {
+  let desiredCategory = AVAudioSessionCategoryPlayback
+  let desiredOptions: AVAudioSessionCategoryOptions = [.mixWithOthers]
+  if session.category != desiredCategory || session.categoryOptions != desiredOptions {
     do {
-        try session.setActive(false, with: .notifyOthersOnDeactivation)
-        try session.setCategory(desiredCategory, with: desiredOptions)
-        try session.setActive(true)
+      try session.setActive(false, with: .notifyOthersOnDeactivation)
+      try session.setCategory(desiredCategory, with: desiredOptions)
+      try session.setActive(true)
     } catch {
-        print(error.localizedDescription)
+      print(error.localizedDescription)
     }
-
-/*if session.category != AVAudioSessionCategoryPlayback {
-    do {
-        try session.setActive(false, with: .notifyOthersOnDeactivation)
-        try session.setCategory(AVAudioSessionCategoryPlayback, with: .mixWithOthers)
-        try session.setActive(true)
-    } catch {
-        print(error.localizedDescription)
-    }*/
-    
     lb.text! += " \(session.category)"
-}
-//BackgroundAudioEnd
+  }
+  //BackgroundAudioEnd
   
   avPVC.player = player
-  //avPVC.player!.play()
   let isPlaying: Bool
   if avPVC.player?.timeControlStatus == .playing {
     avPVC.player?.pause()
@@ -2827,9 +2815,13 @@ downloadTask.resume()
     if let host = navigationAction.request.url?.host, nocacheHosts.contains(where: { $0.caseInsensitiveCompare(host) == .orderedSame }), navigationAction.request.cachePolicy != .reloadIgnoringLocalCacheData {
       var newRequest = navigationAction.request
       newRequest.cachePolicy = .reloadIgnoringLocalCacheData
-      webView.load(newRequest)
-      lb.text! += " nocache:\(navigationAction.request.url!.absoluteString)"
       decisionHandler(.cancel)
+      webView.load(newRequest)
+      DispatchQueue.main.async {
+        webView.evaluateJavaScript("window.history.replaceState(null, '', window.location.href);", completionHandler: nil)
+      }
+      lb.text! += " nocache:\(navigationAction.request.url!.absoluteString)"
+      //decisionHandler(.cancel)
       return
     }
     
