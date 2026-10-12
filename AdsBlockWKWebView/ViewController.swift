@@ -2828,11 +2828,13 @@ downloadTask.resume()
     }
     
     if navUrl.hasPrefix("file://") {
+        DispatchQueue.main.async {
         let cleanPath = navUrl.replacingOccurrences(of: "file://", with: "")
     let fileURL = URL(fileURLWithPath: cleanPath)
         //if let fileURL = URL(string: navUrl) {
             webView.loadFileURL(fileURL, allowingReadAccessTo: URL.docDir)
         //}
+        }
         decisionHandler(.cancel)
         return
     }
