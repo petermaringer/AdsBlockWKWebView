@@ -2813,18 +2813,26 @@ downloadTask.resume()
     
     let nocacheHosts = ["localhost", "127.0.0.1"]
     if let host = navigationAction.request.url?.host, nocacheHosts.contains(where: { $0.caseInsensitiveCompare(host) == .orderedSame }), navigationAction.request.cachePolicy != .reloadIgnoringLocalCacheData {
-      URLCache.shared.removeCachedResponse(for: navigationAction.request)
-      decisionHandler(.allow)
       /*var newRequest = navigationAction.request
       newRequest.cachePolicy = .reloadIgnoringLocalCacheData
       //decisionHandler(.cancel)
       webView.load(newRequest)
       //DispatchQueue.main.async {
         //webView.evaluateJavaScript("window.history.replaceState(null, '', window.location.href);", completionHandler: nil)
-      //}*/
+      //}
+      decisionHandler(.cancel)*/
+      URLCache.shared.removeCachedResponse(for: navigationAction.request)
       lb.text! += " nocache:\(navigationAction.request.url!.absoluteString)"
-      //decisionHandler(.cancel)
+      decisionHandler(.allow)
       return
+    }
+    
+    if navUrl.isFileURL {
+        //if let documentsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            webView.loadFileURL(navUrl, allowingReadAccessTo: URL.docDir)
+        //}
+        decisionHandler(.cancel)
+        return
     }
     
     
