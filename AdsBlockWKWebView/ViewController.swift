@@ -687,6 +687,7 @@ player.play()*/
   //BackgroundAudioBegin
         let session = AVAudioSession.sharedInstance()
         do {
+            try session.setActive(false, options: .notifyOthersOnDeactivation)
             //try session.setCategory(AVAudioSessionCategoryPlayback)
             try session.setCategory(AVAudioSessionCategoryPlayback, with: .mixWithOthers)
             try session.setActive(true)
