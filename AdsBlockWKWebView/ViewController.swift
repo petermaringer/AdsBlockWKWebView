@@ -673,6 +673,21 @@ player.play()*/
   }
   }
   
+  //BackgroundAudioBegin
+  let session = AVAudioSession.sharedInstance()
+// Nur konfigurieren, wenn die Kategorie nicht bereits stimmt
+if session.category != AVAudioSessionCategoryPlayback {
+    do {
+        try session.setActive(false, with: .notifyOthersOnDeactivation)
+        try session.setCategory(AVAudioSessionCategoryPlayback, with: .mixWithOthers)
+        try session.setActive(true)
+    } catch {
+        print(error.localizedDescription)
+    }
+    lb.text! += " \(session.category)"
+}
+//BackgroundAudioEnd
+  
   avPVC.player = player
   //avPVC.player!.play()
   let isPlaying: Bool
@@ -684,20 +699,20 @@ player.play()*/
     isPlaying = true
   }
   
-  //BackgroundAudioBegin
-        let session = AVAudioSession.sharedInstance()
-        do {
-            //try session.setActive(false, with: .notifyOthersOnDeactivation)
-            //try session.setCategory(AVAudioSessionCategoryPlayback)
-            try session.setCategory(AVAudioSessionCategoryPlayback, with: .mixWithOthers)
-            try session.setActive(true)
-            /*try session.setCategory(AVAudioSessionCategoryPlayAndRecord, with: [.mixWithOthers, .allowBluetooth, .defaultToSpeaker])
-            try session.setActive(true, with: .notifyOthersOnDeactivation)*/
-        } catch {
-            print(error.localizedDescription)
-        }
-        lb.text! += " \(session.category)"
-        //BackgroundAudioEnd
+  /*//BackgroundAudioBegin
+  let session = AVAudioSession.sharedInstance()
+  do {
+    //try session.setActive(false, with: .notifyOthersOnDeactivation)
+    //try session.setCategory(AVAudioSessionCategoryPlayback)
+    try session.setCategory(AVAudioSessionCategoryPlayback, with: .mixWithOthers)
+    try session.setActive(true)
+    //try session.setCategory(AVAudioSessionCategoryPlayAndRecord, with: [.mixWithOthers, .allowBluetooth, .defaultToSpeaker])
+    //try session.setActive(true, with: .notifyOthersOnDeactivation)
+  } catch {
+    print(error.localizedDescription)
+  }
+  lb.text! += " \(session.category)"
+  //BackgroundAudioEnd*/
   
   //var navlist = "navlist:"
   var navlist = ""
