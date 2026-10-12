@@ -2829,7 +2829,7 @@ downloadTask.resume()
     
     if navUrl.hasPrefix("file://") {
         DispatchQueue.main.async {
-        let cleanPath = navUrl.replacingOccurrences(of: "file://", with: "")
+        let cleanPath = self.navUrl.replacingOccurrences(of: "file://", with: "")
     let fileURL = URL(fileURLWithPath: cleanPath)
         //if let fileURL = URL(string: navUrl) {
             self.webView.loadFileURL(fileURL, allowingReadAccessTo: URL.docDir)
