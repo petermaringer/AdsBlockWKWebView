@@ -2827,10 +2827,10 @@ downloadTask.resume()
       return
     }
     
-    if navUrl.isFileURL {
-        //if let documentsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-            webView.loadFileURL(navUrl, allowingReadAccessTo: URL.docDir)
-        //}
+    if navUrl.hasPrefix("file://") {
+        if let fileURL = URL(string: navUrl) {
+            webView.loadFileURL(fileURL, allowingReadAccessTo: URL.docDir)
+        }
         decisionHandler(.cancel)
         return
     }
