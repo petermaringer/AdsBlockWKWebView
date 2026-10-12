@@ -687,8 +687,10 @@ player.play()*/
             //try session.setCategory(AVAudioSessionCategoryPlayback)
             /*try session.setCategory(AVAudioSessionCategoryPlayback, with: .mixWithOthers)
             try session.setActive(true)*/
-            try session.setCategory(.playAndRecord, mode: .default, options: [.mixWithOthers, .allowBluetooth, .defaultToSpeaker])
-            try session.setActive(true, options: .notifyOthersOnDeactivation)
+            /*try session.setCategory(.playAndRecord, mode: .default, options: [.mixWithOthers, .allowBluetooth, .defaultToSpeaker])
+            try session.setActive(true, options: .notifyOthersOnDeactivation)*/
+            try session.setCategory(AVAudioSessionCategoryPlayAndRecord, with: [.mixWithOthers, .allowBluetooth, .defaultToSpeaker])
+            try session.setActive(true, with: .notifyOthersOnDeactivation)
         } catch {
             print(error.localizedDescription)
         }
