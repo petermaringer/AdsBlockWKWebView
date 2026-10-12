@@ -2683,9 +2683,17 @@ downloadTask.resume()
       lb.text! += "|\(urlobj!.absoluteString)"
     }*/
     navTypeBackForward = false
+    
+    if let fileURL = urlobj, fileURL.isFileURL {
+      webView.loadFileURL(fileURL, allowingReadAccessTo: URL.docDir)
+    } else {
+    
     let request = URLRequest(url: urlobj!, timeoutInterval: 10.0)
     //let request = URLRequest(url: urlobj, timeoutInterval: 10.0)
     webView.load(request)
+    
+    }
+    
   }
   
   
@@ -2827,6 +2835,7 @@ downloadTask.resume()
       return
     }
     
+    /*//nicht funktionierender müll
     if navUrl.hasPrefix("file://") {
         DispatchQueue.main.async {
         let cleanPath = self.navUrl.replacingOccurrences(of: "file://", with: "")
@@ -2837,7 +2846,7 @@ downloadTask.resume()
         }
         decisionHandler(.cancel)
         return
-    }
+    }*/
     
     
     if navigationAction.request.url!.scheme != "internal" {
