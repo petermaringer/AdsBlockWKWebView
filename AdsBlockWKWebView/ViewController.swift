@@ -675,22 +675,23 @@ player.play()*/
   
   avPVC.player = player
   //avPVC.player!.play()
+  let isPlaying: Bool
   if avPVC.player?.timeControlStatus == .playing {
     avPVC.player?.pause()
+    isPlaying = false
   } else {
     avPVC.player?.play()
+    isPlaying = true
   }
   
   //BackgroundAudioBegin
         let session = AVAudioSession.sharedInstance()
         do {
             //try session.setCategory(AVAudioSessionCategoryPlayback)
-            /*try session.setCategory(AVAudioSessionCategoryPlayback, with: .mixWithOthers)
-            try session.setActive(true)*/
-            /*try session.setCategory(.playAndRecord, mode: .default, options: [.mixWithOthers, .allowBluetooth, .defaultToSpeaker])
-            try session.setActive(true, options: .notifyOthersOnDeactivation)*/
-            try session.setCategory(AVAudioSessionCategoryPlayAndRecord, with: [.mixWithOthers, .allowBluetooth, .defaultToSpeaker])
-            try session.setActive(true, with: .notifyOthersOnDeactivation)
+            try session.setCategory(AVAudioSessionCategoryPlayback, with: .mixWithOthers)
+            try session.setActive(true)
+            /*try session.setCategory(AVAudioSessionCategoryPlayAndRecord, with: [.mixWithOthers, .allowBluetooth, .defaultToSpeaker])
+            try session.setActive(true, with: .notifyOthersOnDeactivation)*/
         } catch {
             print(error.localizedDescription)
         }
@@ -780,7 +781,7 @@ player.play()*/
     //httpserver: isRunning=\(HttpServer.instance.server.isRunning)\n
     showAlert("""
 navlist(last20): \(navlist)\n
-player: \(avPVC.player?.timeControlStatus == .playing ? "Playing" : "Paused")\n
+player: \(isPlaying ? "Playing" : "Paused")\n
 filecontent: \(text)\n
 prefs: \(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref)\n
 wkpool: \(wkpool)\n
