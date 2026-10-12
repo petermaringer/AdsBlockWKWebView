@@ -2214,7 +2214,8 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
       }
       webView.reload()
       
-      DispatchQueue.main.asyncAfter(deadline: .now() + 7.0) {
+      //DispatchQueue.main.asyncAfter(deadline: .now() + 7.0) {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
         self.topNavBgView.backgroundColor = .viewBgColor
         self.webView3.removeFromSuperview()
         //self.navUrlArray = []
@@ -2689,7 +2690,7 @@ downloadTask.resume()
       /*let targetURL = URL.docDir.appendingPathComponent(fileURL.lastPathComponent)
 webView.loadFileURL(targetURL, allowingReadAccessTo: URL.docDir)*/
 let relativePath = fileURL.path.components(separatedBy: "/Documents/").last ?? fileURL.lastPathComponent
-let targetURL = URL.docDir.appendingPathComponent(relativePath)
+let targetURL = URL.docDir.appendingPathComponent(String(relativePath.drop(while: { $0 == "/" })))
 webView.loadFileURL(targetURL, allowingReadAccessTo: URL.docDir)
     } else {
     
