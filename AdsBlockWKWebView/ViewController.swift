@@ -674,7 +674,12 @@ player.play()*/
   }
   
   avPVC.player = player
-  avPVC.player!.play()
+  //avPVC.player!.play()
+  if avPVC.player?.timeControlStatus == .playing {
+    avPVC.player?.pause()
+  } else {
+    avPVC.player?.play()
+  }
   
   //BackgroundAudioBegin
         let session = AVAudioSession.sharedInstance()
@@ -2785,15 +2790,13 @@ downloadTask.resume()
     }
     
     let nocacheHosts = ["localhost", "127.0.0.1"]
-    if let host = navigationAction.request.url?.host,
-       nocacheHosts.contains(where: { $0.caseInsensitiveCompare(host) == .orderedSame }),
-       navigationAction.request.cachePolicy != .reloadIgnoringLocalCacheData {
-        var newRequest = navigationAction.request
-        newRequest.cachePolicy = .reloadIgnoringLocalCacheData
-        webView.load(newRequest)
-        // lb.text! += " nocache:\(navigationAction.request.url!.absoluteString)"
-        decisionHandler(.cancel)
-        return
+    if let host = navigationAction.request.url?.host, nocacheHosts.contains(where: { $0.caseInsensitiveCompare(host) == .orderedSame }), navigationAction.request.cachePolicy != .reloadIgnoringLocalCacheData {
+      var newRequest = navigationAction.request
+      newRequest.cachePolicy = .reloadIgnoringLocalCacheData
+      webView.load(newRequest)
+      lb.text! += " nocache:\(navigationAction.request.url!.absoluteString)"
+      decisionHandler(.cancel)
+      return
     }
     
     
