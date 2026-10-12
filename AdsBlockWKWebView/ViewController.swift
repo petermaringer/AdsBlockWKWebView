@@ -685,8 +685,10 @@ player.play()*/
         let session = AVAudioSession.sharedInstance()
         do {
             //try session.setCategory(AVAudioSessionCategoryPlayback)
-            try session.setCategory(AVAudioSessionCategoryPlayback, with: .mixWithOthers)
-            try session.setActive(true)
+            /*try session.setCategory(AVAudioSessionCategoryPlayback, with: .mixWithOthers)
+            try session.setActive(true)*/
+            try session.setCategory(.playAndRecord, mode: .default, options: [.mixWithOthers, .allowBluetooth, .defaultToSpeaker])
+            try session.setActive(true, options: .notifyOthersOnDeactivation)
         } catch {
             print(error.localizedDescription)
         }
@@ -773,9 +775,10 @@ player.play()*/
     */
     
     //showAlert("\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref) \(wkpool)")
+    //httpserver: isRunning=\(HttpServer.instance.server.isRunning)\n
     showAlert("""
 navlist(last20): \(navlist)\n
-httpserver: isRunning=\(HttpServer.instance.server.isRunning)\n
+player: \(avPVC.player?.timeControlStatus == .playing ? "Playing" : "Paused")\n
 filecontent: \(text)\n
 prefs: \(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref)\n
 wkpool: \(wkpool)\n
