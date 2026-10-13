@@ -571,10 +571,10 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     }
     showAlert(type: "confirm", title: "Alert2", "Want to die?", defaultButton: 1) { (response, _) in
       self.lb.text! += " RES:\(response!)"
-      if response as! Bool == true {
-
-      //}
-    //}
+      /*if response as! Bool == true {
+      
+      }*/
+    }
     self.showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default]) { (response, _) in
       self.lb.text! += " RES:\(response!)"
     }
@@ -583,8 +583,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     }
     self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive])
     
-    }
-    }
+    //}
+    //}
     
   }
   
