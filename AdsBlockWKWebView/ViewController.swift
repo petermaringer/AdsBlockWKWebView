@@ -575,13 +575,13 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
 
       //}
     //}
-    showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default]) { (response, _) in
+    self.showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default]) { (response, _) in
       self.lb.text! += " RES:\(response!)"
     }
-    showAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident") { (response, _) in
+    self.showAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident") { (response, _) in
       self.lb.text! += " RES:\(response ?? "nil")"
     }
-    showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive])
+    self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive])
     
     }
     }
