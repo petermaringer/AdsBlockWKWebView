@@ -2215,7 +2215,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
       webView.reload()
       
       //DispatchQueue.main.asyncAfter(deadline: .now() + 7.0) {
-      DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
         self.topNavBgView.backgroundColor = .viewBgColor
         self.webView3.removeFromSuperview()
         //self.navUrlArray = []
