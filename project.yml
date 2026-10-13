@@ -11,7 +11,9 @@ settings:
   MARKETING_VERSION: "1.0"
   CURRENT_PROJECT_VERSION: $(BITRISE_BUILD_NUMBER)
 packages:
-  Telegraph: { url: https://github.com/Building42/Telegraph, from: 0.3.0 }
+  Telegraph: { url: https://github.com/Building42/Telegraph, from: 0.4.0 }
+  OpenSSL: { url: https://github.com/krzyzanowskim/OpenSSL-Package.git, from: 3.6.0 }
+  CertificateSigningRequest: { url: https://github.com/cbaker6/CertificateSigningRequest.git, from: 1.27.0 }
 targets:
   AdsBlockWKWebView:
     type: application
@@ -34,6 +36,8 @@ targets:
     dependencies:
       - target: AdsBlockWKWebView.Share
       - package: Telegraph
+      - package: OpenSSL
+      - package: CertificateSigningRequest
   AdsBlockWKWebView.Share:
     type: app-extension
     platform: iOS

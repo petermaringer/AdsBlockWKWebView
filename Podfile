@@ -6,15 +6,15 @@ platform :ios, '15.0'
 
 target 'AdsBlockWKWebView' do
   use_frameworks!
-  #pod 'GCDWebServer', '~> 3.0'
-  #pod 'Telegraph'
+  ##pod 'GCDWebServer', '~> 3.0'
+  ##pod 'Telegraph'
   #pod 'Telegraph', '~> 0.15'
   #pod 'CocoaAsyncSocket', '~> 7.6.5'
   
-  pod 'OpenSSL-Universal', '~> 1.1'
-  pod 'CertificateSigningRequest', '~> 1.27'
-  #pod 'SwCrypt', '~> 5.1'
-  #pod 'openssl-apple-platform', '1.0.2r'
+  #pod 'OpenSSL-Universal', '~> 1.1'
+  #pod 'CertificateSigningRequest', '~> 1.27'
+  ##pod 'SwCrypt', '~> 5.1'
+  ##pod 'openssl-apple-platform', '1.0.2r'
 end
 
 post_install do |installer|
