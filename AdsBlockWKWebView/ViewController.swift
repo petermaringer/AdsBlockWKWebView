@@ -571,6 +571,9 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     }
     showAlert(type: "confirm", title: "Alert2", "Want to die?", defaultButton: 1) { (response, _) in
       self.lb.text! += " RES:\(response!)"
+      if response as! Bool == false {
+        return
+      }
     }
     showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default]) { (response, _) in
       self.lb.text! += " RES:\(response!)"
@@ -798,6 +801,7 @@ player.play()*/
     showAlert("""
 navlist(last20): \(navlist)\n
 player: \(isPlaying ? "Playing" : "Paused")\n
+httpserver: isRunning=\(HttpServer.instance.server.isRunning)\n
 filecontent: \(text)\n
 prefs: \(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref)\n
 wkpool: \(wkpool)\n
