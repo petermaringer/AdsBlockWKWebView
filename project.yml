@@ -1,6 +1,7 @@
 name: AdsBlockWKWebView
 options:
-  minimumXcodeGenVersion: "2.39.1"
+  #minimumXcodeGenVersion: "2.39.1"
+  minimumXcodeGenVersion: "2.46.0"
   bundleIdPrefix: at.co.weinmann
   deploymentTarget:
     #iOS: "10.0"
@@ -11,9 +12,9 @@ settings:
   MARKETING_VERSION: "1.0"
   CURRENT_PROJECT_VERSION: $(BITRISE_BUILD_NUMBER)
 packages:
-  Telegraph: { url: https://github.com/Building42/Telegraph.git, from: 0.4.0 }
-  OpenSSL: { url: https://github.com/krzyzanowskim/OpenSSL.git, from: 1.1.1800 }
-  CertificateSigningRequest: { url: https://github.com/cbaker6/CertificateSigningRequest.git, from: 1.27.0 }
+  Telegraph: { url: https://github.com/Building42/Telegraph.git, from: 0.40.0 }
+  OpenSSL: { url: https://github.com/krzyzanowskim/OpenSSL.git, from: 1.1.2301 }
+  CertificateSigningRequest: { url: https://github.com/cbaker6/CertificateSigningRequest.git, from: 1.30.0 }
 targets:
   AdsBlockWKWebView:
     type: application
