@@ -509,7 +509,10 @@ extension ViewController: WKDownloadDelegate {
     //let url = URL.docDir.appending("Downloads/\(fileName)")
     let fileName = download.originalRequest?.url?.lastPathComponent ?? "download"
     let url = URL.docDir.appending("Downloads/\(fileName)")
-    showAlert("Download finished: \(url)", disableHaptic: true)
+    DispatchQueue.main.async {
+      //self.showAlert("Download finished: \(url)", disableHaptic: true)
+      self.showAlert("Download finished: \(url)")
+    }
   }
   
 }
