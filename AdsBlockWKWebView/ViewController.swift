@@ -478,7 +478,7 @@ extension ViewController: WKDownloadDelegate {
     }
   }*/
   func download(_ download: WKDownload, decideDestinationUsing response: URLResponse, suggestedFilename: String, completionHandler: @escaping (URL?) -> Void) {
-    let url = URL.docDir.appending("Downloads/\(suggestedFilename)")
+    var url = URL.docDir.appending("Downloads/\(suggestedFilename)")
     
     let folder = url.deletingLastPathComponent()
 let ext = url.pathExtension
