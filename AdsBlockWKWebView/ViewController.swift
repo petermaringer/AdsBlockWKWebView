@@ -491,8 +491,9 @@ extension ViewController: WKDownloadDelegate {
       counter += 1
     }
     wkdownloadPath = "Downloads/\(url.lastPathComponent)"
+    let sourceURL = download.originalRequest?.url?.absoluteString ?? response.url?.absoluteString ?? ""
     lb.text! += " wkD:\(wkdownloadPath)"
-    showAlert("\(wkdownloadPath)")
+    showAlert("\(sourceURL)")
     completionHandler(url)
   }
   
@@ -512,7 +513,7 @@ extension ViewController: WKDownloadDelegate {
     let fileName = download.originalRequest?.url?.lastPathComponent ?? "download"
     let url = URL.docDir.appending("Downloads/\(fileName)")
     //showAlert("Download finished: \(url)", disableHaptic: true)
-    showAlert("Download finished: \(wkdownloadPath)")
+    showAlert("Download finished:\n\n\(wkdownloadPath)")
   }
   
 }
