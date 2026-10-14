@@ -490,7 +490,7 @@ extension ViewController: WKDownloadDelegate {
       counter += 1
     }
     lb.text! += " wkD:\(url)"
-    DispatchQueue.main.async {
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
     self.showAlert("\(url)")
     }
     completionHandler(url)
