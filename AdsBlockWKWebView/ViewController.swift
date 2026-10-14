@@ -75,6 +75,14 @@ extension URL {
       try! fileUrl.setResourceValues(rv)
     }
   }
+  
+  func appending(_ path: String) -> URL {
+    let targetURL = self.appendingPathComponent(path)
+    let directoryURL = targetURL.deletingLastPathComponent()
+    try? FileManager.default.createDirectory(at: directoryURL, withIntermediateDirectories: true, attributes: nil)
+    return targetURL
+  }
+  
 }
 
 extension UserDefaults {
@@ -459,7 +467,7 @@ class WebView2: WKWebView {
 //@available(iOS 15, *)
 @available(iOS 14.5, *)
 extension ViewController: WKDownloadDelegate {
-  func download(_ download: WKDownload, decideDestinationUsing response: URLResponse, suggestedFilename: String, completionHandler: @escaping (URL?) -> Void) {
+  /*func download(_ download: WKDownload, decideDestinationUsing response: URLResponse, suggestedFilename: String, completionHandler: @escaping (URL?) -> Void) {
     //let temporaryDir = NSTemporaryDirectory()
     if let documentsDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
       let fileName = documentsDir + "/" + suggestedFilename
@@ -468,6 +476,12 @@ extension ViewController: WKDownloadDelegate {
       showAlert("\(url)")
       completionHandler(url)
     }
+  }*/
+  func download(_ download: WKDownload, decideDestinationUsing response: URLResponse, suggestedFilename: String, completionHandler: @escaping (URL?) -> Void) {
+    let url = URL.docDir.appending("Downloads/\(suggestedFilename)")
+    lb.text! += " wkD:\(url)"
+    showAlert("\(url)")
+    completionHandler(url)
   }
   
   func download(_ download: WKDownload, didFailWithError error: Error, resumeData: Data?) {
