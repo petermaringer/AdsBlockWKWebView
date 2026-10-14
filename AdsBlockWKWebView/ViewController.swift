@@ -492,8 +492,8 @@ extension ViewController: WKDownloadDelegate {
     }
     wkdownloadPath = "Downloads/\(url.lastPathComponent)"
     let sourceURL = download.originalRequest?.url?.absoluteString ?? response.url?.absoluteString ?? ""
-    lb.text! += " wkD:\(wkdownloadPath)"
-    showAlert(title: "Download started", "\(sourceURL)")
+    lb.text! += " wkD:\(sourceURL)"
+    showAlert(title: "Download Started", "\(sourceURL)")
     completionHandler(url)
   }
   
@@ -507,13 +507,10 @@ extension ViewController: WKDownloadDelegate {
   }
   
   func downloadDidFinish(_ download: WKDownload) {
-    //showAlert("Download finished", disableHaptic: true)
-    //let fileName = download.suggestedFilename ?? "download"
+    //let fileName = download.originalRequest?.url?.lastPathComponent ?? "download"
     //let url = URL.docDir.appending("Downloads/\(fileName)")
-    let fileName = download.originalRequest?.url?.lastPathComponent ?? "download"
-    let url = URL.docDir.appending("Downloads/\(fileName)")
     //showAlert("Download finished: \(url)", disableHaptic: true)
-    showAlert("Download finished:\n\n\(wkdownloadPath)")
+    showAlert(title: "Download Finished", "\(wkdownloadPath)")
   }
   
 }
@@ -1582,6 +1579,13 @@ let videos = document.querySelectorAll("video");
     if alertObjArray.first!.defaultButton != nil {
       alert.preferredAction = alert.actions[abs(alertObjArray.first!.defaultButton! - alert.actions.count + 1)]
     }
+    
+    if alertObjArray.first!.style == .actionSheet, let popover = alert.popoverPresentationController {
+        popover.sourceView = self.view
+        popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
+        popover.permittedArrowDirections = []
+    }
+    
     if alertObjArray.first!.disableHaptic != true {
       hapticFB.notificationOccurred(.success)
     }
