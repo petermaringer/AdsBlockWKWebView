@@ -465,6 +465,7 @@ class WebView2: WKWebView {
 */
 
 
+var wkdownloadPath = ""
 //@available(iOS 15, *)
 @available(iOS 14.5, *)
 extension ViewController: WKDownloadDelegate {
@@ -489,10 +490,9 @@ extension ViewController: WKDownloadDelegate {
       url = folder.appendingPathComponent(newFilename).appendingPathExtension(ext)
       counter += 1
     }
-    lb.text! += " wkD:\(url)"
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-    self.showAlert("\(url)")
-    }
+    wkdownloadPath = "Downloads/\(url.lastPathComponent)"
+    lb.text! += " wkD:\(wkdownloadPath)"
+    showAlert("\(wkdownloadPath)")
     completionHandler(url)
   }
   
@@ -511,10 +511,8 @@ extension ViewController: WKDownloadDelegate {
     //let url = URL.docDir.appending("Downloads/\(fileName)")
     let fileName = download.originalRequest?.url?.lastPathComponent ?? "download"
     let url = URL.docDir.appending("Downloads/\(fileName)")
-    //DispatchQueue.main.async {
-      //self.showAlert("Download finished: \(url)", disableHaptic: true)
-      showAlert("Download finished: \(url)")
-    //}
+    //showAlert("Download finished: \(url)", disableHaptic: true)
+    showAlert("Download finished: \(wkdownloadPath)")
   }
   
 }
