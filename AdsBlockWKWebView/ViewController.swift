@@ -498,6 +498,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var urlField: UITextField!
   var button: UIButton!
   var kvButton: UIButton!
+  var kvButton2: UIButton!
   //var lb: UITextView!
   var lb: UILabel!
   var lbcounter: Int = 0
@@ -880,6 +881,20 @@ let videos = document.querySelectorAll("video");
 """
       webView.evaluateJavaScript(videoScript, completionHandler: nil)
       
+    }
+  }
+  
+  @objc func kvButton2Clicked() {
+    if kvButton2.backgroundColor == .appBgColor {
+      kvButton2.backgroundColor = .gray
+    } else {
+      kvButton2.backgroundColor = .appBgColor
+    }
+  }
+  
+  @objc func kvButton2Pressed(gesture: UILongPressGestureRecognizer) {
+    if gesture.state == .began {
+      urlField.endEditing(true)
     }
   }
   
@@ -1643,6 +1658,8 @@ let videos = document.querySelectorAll("video");
       
       kvButton.frame = CGRect(x: insetLM, y: defaultM, width: elementW, height: elementH)
       
+      kvButton2.frame = CGRect(x: insetLM + elementW + defaultM, y: defaultM, width: elementW, height: elementH)
+      
       topNavBgView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: insetTM + elementH + defaultM)
       
       progressView.frame = CGRect(x: insetLM, y: insetTM + elementH + 2, width: view.frame.width - insetLM - insetRM, height: 2)
@@ -1979,6 +1996,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         let keyboardView = UIInputView(frame: CGRect(x: 0, y: view.frame.height - 40, width: view.frame.width, height: 40), inputViewStyle: .keyboard)
         //keyboardView.backgroundColor = .gray
         urlField.inputAccessoryView = keyboardView
+        
         kvButton = UIButton(frame: CGRect.zero)
         //kvButton.frame = CGRect(x: 5, y: 5, width: 80, height: 30)
         kvButton.backgroundColor = .appBgColor
@@ -1991,6 +2009,18 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         //kvButtonLongPress.minimumPressDuration = 3
         kvButton.addGestureRecognizer(kvButtonLongPress)
         keyboardView.addSubview(kvButton)
+        
+        kvButton2 = UIButton(frame: CGRect.zero)
+        kvButton2.backgroundColor = .appBgColor
+        kvButton2.layer.cornerRadius = 5
+        kvButton2.clipsToBounds = true
+        kvButton2.setTitle("Test2", for: .normal)
+        kvButton2.setTitleColor(.buttonFgColor, for: .normal)
+        kvButton2.addTarget(self, action: #selector(self.kvButton2Clicked), for: .touchUpInside)
+        let kvButton2LongPress = UILongPressGestureRecognizer(target: self, action: #selector(kvButton2Pressed(gesture:)))
+        //kvButton2LongPress.minimumPressDuration = 3
+        kvButton2.addGestureRecognizer(kvButton2LongPress)
+        keyboardView.addSubview(kvButton2)
         
         urlField.keyboardType = UIKeyboardType.webSearch
         urlField.returnKeyType = UIReturnKeyType.done
