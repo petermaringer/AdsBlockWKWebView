@@ -176,6 +176,7 @@ struct alertObj {
   var buttonTitles: [String]?
   var buttonStyles: [UIAlertAction.Style]?
   var defaultButton: Int?
+  var disableHaptic: Bool?
   var completionHandler: (Any?, Any?) -> Void
 }
 //var alertObjArray = [alertObj]()
@@ -479,18 +480,15 @@ extension ViewController: WKDownloadDelegate {
   }*/
   func download(_ download: WKDownload, decideDestinationUsing response: URLResponse, suggestedFilename: String, completionHandler: @escaping (URL?) -> Void) {
     var url = URL.docDir.appending("Downloads/\(suggestedFilename)")
-    
     let folder = url.deletingLastPathComponent()
-let ext = url.pathExtension
-let filename = url.deletingPathExtension().lastPathComponent
-
-var counter = 1
-while url.checkFileExist() {
-    let newFilename = "\(filename) (\(counter))"
-    url = folder.appendingPathComponent(newFilename).appendingPathExtension(ext)
-    counter += 1
-}
-    
+    let ext = url.pathExtension
+    let filename = url.deletingPathExtension().lastPathComponent
+    var counter = 1
+    while url.checkFileExist() {
+      let newFilename = "\(filename) (\(counter))"
+      url = folder.appendingPathComponent(newFilename).appendingPathExtension(ext)
+      counter += 1
+    }
     lb.text! += " wkD:\(url)"
     showAlert("\(url)")
     completionHandler(url)
@@ -506,7 +504,7 @@ while url.checkFileExist() {
   }
   
   func downloadDidFinish(_ download: WKDownload) {
-    showAlert("Download finished")
+    showAlert("Download finished", disableHaptic: true)
   }
   
 }
@@ -1473,9 +1471,9 @@ let videos = document.querySelectorAll("video");
     //present(alert, animated: true) { hapticFB.notificationOccurred(.success) }
   }
   
-  private func showAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], defaultButton: Int? = 0, completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
+  private func showAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], defaultButton: Int? = 0, disableHaptic: Bool? = false, completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
     if message != "nextAlertObj" {
-      alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, defaultButton: defaultButton, completionHandler: completionHandler))
+      alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, defaultButton: defaultButton, disableHaptic: disableHaptic, completionHandler: completionHandler))
     }
     guard alertObjArray.count > 0 else { return }
     let alert = UIAlertController(title: alertObjArray.first!.title, message: alertObjArray.first!.message, preferredStyle: alertObjArray.first!.style!)
@@ -1575,7 +1573,9 @@ let videos = document.querySelectorAll("video");
     if alertObjArray.first!.defaultButton != nil {
       alert.preferredAction = alert.actions[abs(alertObjArray.first!.defaultButton! - alert.actions.count + 1)]
     }
-    hapticFB.notificationOccurred(.success)
+    if alertObjArray.first!.disableHaptic != true {
+      hapticFB.notificationOccurred(.success)
+    }
     //Dispatch
     DispatchQueue.main.async { [unowned self] in
       self.present(alert, animated: true, completion: nil)
