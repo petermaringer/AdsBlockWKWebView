@@ -612,7 +612,9 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     self.showAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident") { (response, _) in
       self.lb.text! += " RES:\(response ?? "nil")"
     }
-    self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive])
+    //self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive])
+    
+    self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel])
     
     //}
     //}
@@ -1580,11 +1582,11 @@ let videos = document.querySelectorAll("video");
       alert.preferredAction = alert.actions[abs(alertObjArray.first!.defaultButton! - alert.actions.count + 1)]
     }
     
-    if alertObjArray.first!.style == .actionSheet, let popover = alert.popoverPresentationController {
+    /*if alertObjArray.first!.style == .actionSheet, let popover = alert.popoverPresentationController {
         popover.sourceView = self.view
         popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
         popover.permittedArrowDirections = []
-    }
+    }*/
     
     if alertObjArray.first!.disableHaptic != true {
       hapticFB.notificationOccurred(.success)
