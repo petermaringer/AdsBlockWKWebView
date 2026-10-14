@@ -493,7 +493,7 @@ extension ViewController: WKDownloadDelegate {
     wkdownloadPath = "Downloads/\(url.lastPathComponent)"
     let sourceURL = download.originalRequest?.url?.absoluteString ?? response.url?.absoluteString ?? ""
     lb.text! += " wkD:\(wkdownloadPath)"
-    showAlert("\(sourceURL)")
+    showAlert(title: "Download started", "\(sourceURL)")
     completionHandler(url)
   }
   
