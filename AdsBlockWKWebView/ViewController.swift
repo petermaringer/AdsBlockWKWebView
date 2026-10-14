@@ -504,7 +504,10 @@ extension ViewController: WKDownloadDelegate {
   }
   
   func downloadDidFinish(_ download: WKDownload) {
-    showAlert("Download finished", disableHaptic: true)
+    //showAlert("Download finished", disableHaptic: true)
+    let fileName = download.suggestedFilename ?? "download"
+    let url = URL.docDir.appending("Downloads/\(fileName)")
+    showAlert("Download finished: \(url)", disableHaptic: true)
   }
   
 }
