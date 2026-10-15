@@ -590,7 +590,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     HttpServer.instance.server.stop()
     UIPasteboard.general.items = []
     //showAlert("Clipboard was cleared.")
-    showAlert(type: "confirm", style: .actionSheet, title: nil, "Clipboard was cleared.", buttonTitles: ["Cancel", "OK"], buttonStyles: [.cancel, .default])
+    showAlert(type: "confirm", style: .actionSheet, title: nil, "Clipboard was cleared.", buttonTitles: ["Cancel", "OK"], buttonStyles: [.cancel, .default], sourceView: urlField, disableHaptic: true)
     
     /*showAlert(title: "Important", buttonTitles: ["Acknowledge"])
     showAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response, _) in
