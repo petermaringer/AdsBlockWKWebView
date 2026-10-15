@@ -1587,8 +1587,10 @@ let videos = document.querySelectorAll("video");
         popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
         popover.permittedArrowDirections = []
     }*/
+    if #available(iOS 16, *) {
     if alertObjArray.first!.style == .actionSheet {
       alert.popoverPresentationController?.sourceItem = button //UIBarButtonItem/UIButton
+    }
     }
     
     if alertObjArray.first!.disableHaptic != true {
