@@ -59,6 +59,11 @@ extension URL {
   static var docDir: URL {
     return try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
   }
+  
+  static var tempDir: URL {
+    return try! FileManager.default.temporaryDirectory
+  }
+  
   func checkFileExist() -> Bool {
     let path = self.path
     if (FileManager.default.fileExists(atPath: path)) {
@@ -464,19 +469,9 @@ class WebView2: WKWebView {
 
 
 var wkdownloadPath = ""
-//@available(iOS 15, *)
 @available(iOS 14.5, *)
 extension ViewController: WKDownloadDelegate {
-  /*func download(_ download: WKDownload, decideDestinationUsing response: URLResponse, suggestedFilename: String, completionHandler: @escaping (URL?) -> Void) {
-    //let temporaryDir = NSTemporaryDirectory()
-    if let documentsDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
-      let fileName = documentsDir + "/" + suggestedFilename
-      let url = URL(fileURLWithPath: fileName)
-      lb.text! += " wkD:\(url)"
-      showAlert("\(url)")
-      completionHandler(url)
-    }
-  }*/
+  
   func download(_ download: WKDownload, decideDestinationUsing response: URLResponse, suggestedFilename: String, completionHandler: @escaping (URL?) -> Void) {
     var url = URL.docDir.appending("Downloads/\(suggestedFilename)")
     let folder = url.deletingLastPathComponent()
@@ -593,16 +588,14 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   @objc internal func onMenu1(sender: UIMenuItem) {
     HttpServer.instance.server.stop()
     UIPasteboard.general.items = []
-    //showAlert("Clipboard was cleared.")
-    showAlert(title: "Important", buttonTitles: ["Acknowledge"])
+    showAlert("Clipboard was cleared.")
+    /*showAlert(title: "Important", buttonTitles: ["Acknowledge"])
     showAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response, _) in
       self.lb.text! += " RES:\(response!)"
     }
     showAlert(type: "confirm", title: "Alert2", "Want to die?", defaultButton: 1) { (response, _) in
       self.lb.text! += " RES:\(response!)"
-      /*if response as! Bool == true {
-      
-      }*/
+      //if response as! Bool == true {}
     }
     self.showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default]) { (response, _) in
       self.lb.text! += " RES:\(response!)"
@@ -611,12 +604,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
       self.lb.text! += " RES:\(response ?? "nil")"
     }
     self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive])
-    
-    self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel])
-    
-    //}
-    //}
-    
+    self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel])*/
   }
   
   func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -915,6 +903,7 @@ let videos = document.querySelectorAll("video");
   }
   
   @objc func kvButton2Clicked() {
+    urlField.endEditing(true)
     if kvButton2.backgroundColor == .appBgColor {
       kvButton2.backgroundColor = .gray
     } else {
@@ -924,7 +913,25 @@ let videos = document.querySelectorAll("video");
   
   @objc func kvButton2Pressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
-      urlField.endEditing(true)
+      //urlField.endEditing(true)
+      
+      showAlert(title: "Important", buttonTitles: ["Acknowledge"])
+    showAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response, _) in
+      self.lb.text! += " RES:\(response!)"
+    }
+    showAlert(type: "confirm", title: "Alert2", "Want to die?", defaultButton: 1) { (response, _) in
+      self.lb.text! += " RES:\(response!)"
+      //if response as! Bool == true {}
+    }
+    self.showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default]) { (response, _) in
+      self.lb.text! += " RES:\(response!)"
+    }
+    self.showAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident") { (response, _) in
+      self.lb.text! += " RES:\(response ?? "nil")"
+    }
+    self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive])
+    self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel])
+
     }
   }
   
