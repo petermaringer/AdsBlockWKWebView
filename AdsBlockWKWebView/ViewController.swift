@@ -179,6 +179,7 @@ struct alertObj {
   var buttonTitles: [String]?
   var buttonStyles: [UIAlertAction.Style]?
   var defaultButton: Int?
+  var sourceView: UIView?
   var disableHaptic: Bool?
   var completionHandler: (Any?, Any?) -> Void
 }
@@ -1486,9 +1487,9 @@ let videos = document.querySelectorAll("video");
     //present(alert, animated: true) { hapticFB.notificationOccurred(.success) }
   }
   
-  private func showAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], defaultButton: Int? = 0, disableHaptic: Bool? = false, completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
+  private func showAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], defaultButton: Int? = 0, sourceView: UIView? = nil, disableHaptic: Bool? = false, completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
     if message != "nextAlertObj" {
-      alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, defaultButton: defaultButton, disableHaptic: disableHaptic, completionHandler: completionHandler))
+      alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, defaultButton: defaultButton, sourceView: sourceView, disableHaptic: disableHaptic, completionHandler: completionHandler))
     }
     guard alertObjArray.count > 0 else { return }
     let alert = UIAlertController(title: alertObjArray.first!.title, message: alertObjArray.first!.message, preferredStyle: alertObjArray.first!.style!)
@@ -1589,12 +1590,17 @@ let videos = document.querySelectorAll("video");
       alert.preferredAction = alert.actions[abs(alertObjArray.first!.defaultButton! - alert.actions.count + 1)]
     }
     
-    if alertObjArray.first!.style == .actionSheet, let popover = alert.popoverPresentationController {
+    /*if alertObjArray.first!.style == .actionSheet, let popover = alert.popoverPresentationController {
         //popover.sourceView = self.view
         //popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
         //popover.permittedArrowDirections = []
         popover.sourceView = urlField
         popover.sourceRect = urlField.bounds
+    }*/
+    if alertObjArray.first!.style == .actionSheet, let popover = alert.popoverPresentationController, let sourceView = sourceView {
+      popover.sourceView = sourceView
+      popover.sourceRect = sourceView.bounds
+      //popover.permittedArrowDirections = []
     }
     /*if #available(iOS 16, *) {
       if alertObjArray.first!.style == .actionSheet {
