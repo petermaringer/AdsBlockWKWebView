@@ -2771,9 +2771,9 @@ downloadTask.resume()
       let targetURL = URL.docDir.appendingPathComponent(String(relativePath.drop(while: { $0 == "/" })))
       webView.loadFileURL(targetURL, allowingReadAccessTo: URL.docDir)
     } else {
-      //let request = URLRequest(url: urlobj!, timeoutInterval: 10.0)
-      let request = URLRequest(url: urlobj, timeoutInterval: 10.0)
-      webView.load(request)
+      /*let request = URLRequest(url: urlobj!, timeoutInterval: 10.0)
+      webView.load(request)*/
+      webView.load(URLRequest(url: urlobj!, timeoutInterval: 10.0))
     }
     
   }
