@@ -470,7 +470,6 @@ class WebView2: WKWebView {
 var wkdownloadPath = ""
 @available(iOS 14.5, *)
 extension ViewController: WKDownloadDelegate {
-  
   func download(_ download: WKDownload, decideDestinationUsing response: URLResponse, suggestedFilename: String, completionHandler: @escaping (URL?) -> Void) {
     var url = URL.docDir.appending("Downloads/\(suggestedFilename)")
     let folder = url.deletingLastPathComponent()
@@ -488,7 +487,6 @@ extension ViewController: WKDownloadDelegate {
     showAlert(title: "Download Started", "\(sourceURL)")
     completionHandler(url)
   }
-  
   func download(_ download: WKDownload, didFailWithError error: Error, resumeData: Data?) {
     let err = error as NSError
     
@@ -497,14 +495,12 @@ extension ViewController: WKDownloadDelegate {
     
     //showAlert("Download failed \(error)")
   }
-  
   func downloadDidFinish(_ download: WKDownload) {
     //let fileName = download.originalRequest?.url?.lastPathComponent ?? "download"
     //let url = URL.docDir.appending("Downloads/\(fileName)")
     //showAlert("Download finished: \(url)", disableHaptic: true)
     showAlert(title: "Download Finished", "\(wkdownloadPath)")
   }
-  
 }
 
 
@@ -585,9 +581,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   }
   
   @objc internal func onMenu1(sender: UIMenuItem) {
-    HttpServer.instance.server.stop()
+    //HttpServer.instance.server.stop()
     UIPasteboard.general.items = []
-    //showAlert("Clipboard was cleared.")
     showAlert(type: "confirm", style: .actionSheet, title: nil, "Clipboard was cleared.", buttonTitles: ["Cancel", "OK"], buttonStyles: [.cancel, .default], sourceView: urlField, disableHaptic: true)
   }
   
@@ -818,6 +813,7 @@ appversion: \(appVersion)
   
   @objc func buttonPressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
+      hapticFB.notificationOccurred(.success)
       urlField.endEditing(true)
       changeUserAgent()
     }
