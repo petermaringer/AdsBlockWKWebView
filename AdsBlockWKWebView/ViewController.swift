@@ -589,7 +589,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     HttpServer.instance.server.stop()
     UIPasteboard.general.items = []
     //showAlert("Clipboard was cleared.")
-    showAlert(type: "confirm", style: .actionSheet, title: "Alert", "Clipboard was cleared.", buttonStyles: [.default, .cancel])
+    showAlert(type: "confirm", style: .actionSheet, title: "Alert", "Clipboard was cleared.", buttonStyles: [.cancel, .cancel])
     
     /*showAlert(title: "Important", buttonTitles: ["Acknowledge"])
     showAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response, _) in
@@ -1589,11 +1589,13 @@ let videos = document.querySelectorAll("video");
       alert.preferredAction = alert.actions[abs(alertObjArray.first!.defaultButton! - alert.actions.count + 1)]
     }
     
-    /*if alertObjArray.first!.style == .actionSheet, let popover = alert.popoverPresentationController {
-        popover.sourceView = self.view
-        popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
-        popover.permittedArrowDirections = []
-    }*/
+    if alertObjArray.first!.style == .actionSheet, let popover = alert.popoverPresentationController {
+        //popover.sourceView = self.view
+        //popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
+        //popover.permittedArrowDirections = []
+        popover.sourceView = urlField
+        popover.sourceRect = urlField.bounds
+    }
     /*if #available(iOS 16, *) {
       if alertObjArray.first!.style == .actionSheet {
         alert.popoverPresentationController?.sourceItem = button //UIBarButtonItem/UIButton
