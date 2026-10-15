@@ -75,14 +75,12 @@ extension URL {
       try! fileUrl.setResourceValues(rv)
     }
   }
-  
   func appending(_ path: String) -> URL {
     let targetURL = self.appendingPathComponent(path)
     let directoryURL = targetURL.deletingLastPathComponent()
     try? FileManager.default.createDirectory(at: directoryURL, withIntermediateDirectories: true, attributes: nil)
     return targetURL
   }
-  
 }
 
 extension UserDefaults {
@@ -1587,11 +1585,11 @@ let videos = document.querySelectorAll("video");
         popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
         popover.permittedArrowDirections = []
     }*/
-    if #available(iOS 16, *) {
-    if alertObjArray.first!.style == .actionSheet {
-      alert.popoverPresentationController?.sourceItem = button //UIBarButtonItem/UIButton
-    }
-    }
+    /*if #available(iOS 16, *) {
+      if alertObjArray.first!.style == .actionSheet {
+        alert.popoverPresentationController?.sourceItem = button //UIBarButtonItem/UIButton
+      }
+    }*/
     
     if alertObjArray.first!.disableHaptic != true {
       hapticFB.notificationOccurred(.success)
@@ -2188,10 +2186,10 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         restoreUrlsJson = "{\"currentPage\": \(restorePosition * -1), \"history\": [" + restoreUrls.suffix(100).map { "\"\($0)\"" }.joined(separator: ", ") + "]}"
         //restoreUrlsJson.removeLast(2)
         //restoreUrlsJson += "]}"
-        let restoreUrlsJsonTemp = "\(restoreIndexLast+1)\n" + restoreUrlsJson + "\n"
+        /*let restoreUrlsJsonTemp = "\(restoreIndexLast+1)\n" + restoreUrlsJson + "\n"
         DispatchQueue.main.async {
-          //self.showAlert(restoreUrlsJsonTemp)
-        }
+          self.showAlert(restoreUrlsJsonTemp)
+        }*/
         //restoreUrls = restoreUrlsOrig
         //restoreUrlsJson = restoreUrlsJsonOrig
         //restoreIndexLast = restoreIndexLastOrig
@@ -2711,7 +2709,6 @@ downloadTask.resume()
     
     if url.contains(" ") || !url.contains(".") {
       if !["tel://", "internal://"].contains(where: url.hasPrefix) {
-        //if !url.contains("://localhost:") {
         if !["http://localhost", "https://localhost"].contains(where: url.hasPrefix) {
           if webViewSearchUrlPref.contains("openai.com") {
             searchWithChatGPT()
@@ -2770,18 +2767,13 @@ downloadTask.resume()
     navTypeBackForward = false
     
     if let fileURL = urlobj, fileURL.isFileURL {
-      //webView.loadFileURL(fileURL, allowingReadAccessTo: URL.docDir)
-      /*let targetURL = URL.docDir.appendingPathComponent(fileURL.lastPathComponent)
-webView.loadFileURL(targetURL, allowingReadAccessTo: URL.docDir)*/
-let relativePath = fileURL.path.components(separatedBy: "/Documents/").last ?? fileURL.lastPathComponent
-let targetURL = URL.docDir.appendingPathComponent(String(relativePath.drop(while: { $0 == "/" })))
-webView.loadFileURL(targetURL, allowingReadAccessTo: URL.docDir)
+      let relativePath = fileURL.path.components(separatedBy: "/Documents/").last ?? fileURL.lastPathComponent
+      let targetURL = URL.docDir.appendingPathComponent(String(relativePath.drop(while: { $0 == "/" })))
+      webView.loadFileURL(targetURL, allowingReadAccessTo: URL.docDir)
     } else {
-    
-    let request = URLRequest(url: urlobj!, timeoutInterval: 10.0)
-    //let request = URLRequest(url: urlobj, timeoutInterval: 10.0)
-    webView.load(request)
-    
+      //let request = URLRequest(url: urlobj!, timeoutInterval: 10.0)
+      let request = URLRequest(url: urlobj, timeoutInterval: 10.0)
+      webView.load(request)
     }
     
   }
