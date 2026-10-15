@@ -59,11 +59,9 @@ extension URL {
   static var docDir: URL {
     return try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
   }
-  
   static var tempDir: URL {
     return FileManager.default.temporaryDirectory
   }
-  
   func checkFileExist() -> Bool {
     let path = self.path
     if (FileManager.default.fileExists(atPath: path)) {
@@ -591,24 +589,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     UIPasteboard.general.items = []
     //showAlert("Clipboard was cleared.")
     showAlert(type: "confirm", style: .actionSheet, title: nil, "Clipboard was cleared.", buttonTitles: ["Cancel", "OK"], buttonStyles: [.cancel, .default], sourceView: urlField, disableHaptic: true)
-    showAlert(type: "confirm", style: .actionSheet, title: nil, "Clipboard was cleared.", defaultButton: 1, sourceView: urlField, disableHaptic: true)
-    
-    /*showAlert(title: "Important", buttonTitles: ["Acknowledge"])
-    showAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response, _) in
-      self.lb.text! += " RES:\(response!)"
-    }
-    showAlert(type: "confirm", title: "Alert2", "Want to die?", defaultButton: 1) { (response, _) in
-      self.lb.text! += " RES:\(response!)"
-      //if response as! Bool == true {}
-    }
-    self.showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default]) { (response, _) in
-      self.lb.text! += " RES:\(response!)"
-    }
-    self.showAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident") { (response, _) in
-      self.lb.text! += " RES:\(response ?? "nil")"
-    }
-    self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive])
-    self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel])*/
   }
   
   func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -908,11 +888,11 @@ let videos = document.querySelectorAll("video");
   
   @objc func kvButton2Clicked() {
     urlField.endEditing(true)
-    if kvButton2.backgroundColor == .appBgColor {
+    /*if kvButton2.backgroundColor == .appBgColor {
       kvButton2.backgroundColor = .gray
     } else {
       kvButton2.backgroundColor = .appBgColor
-    }
+    }*/
   }
   
   @objc func kvButton2Pressed(gesture: UILongPressGestureRecognizer) {
@@ -920,22 +900,22 @@ let videos = document.querySelectorAll("video");
       //urlField.endEditing(true)
       
       showAlert(title: "Important", buttonTitles: ["Acknowledge"])
-    showAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response, _) in
-      self.lb.text! += " RES:\(response!)"
-    }
-    showAlert(type: "confirm", title: "Alert2", "Want to die?", defaultButton: 1) { (response, _) in
-      self.lb.text! += " RES:\(response!)"
-      //if response as! Bool == true {}
-    }
-    self.showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default]) { (response, _) in
-      self.lb.text! += " RES:\(response!)"
-    }
-    self.showAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident") { (response, _) in
-      self.lb.text! += " RES:\(response ?? "nil")"
-    }
-    self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive])
-    self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel])
-
+      showAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response, _) in
+        self.lb.text! += " RES:\(response!)"
+      }
+      showAlert(type: "confirm", title: "Alert2", "Want to die?", defaultButton: 1) { (response, _) in
+        self.lb.text! += " RES:\(response!)"
+        //if response as! Bool == true {}
+      }
+      showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default]) { (response, _) in
+        self.lb.text! += " RES:\(response!)"
+      }
+      showAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident") { (response, _) in
+        self.lb.text! += " RES:\(response ?? "nil")"
+      }
+      showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive])
+      showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel])
+      
     }
   }
   
@@ -1595,19 +1575,12 @@ let videos = document.querySelectorAll("video");
         //popover.sourceView = self.view
         //popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
         //popover.permittedArrowDirections = []
-        popover.sourceView = urlField
-        popover.sourceRect = urlField.bounds
     }*/
     if alertObjArray.first!.style == .actionSheet, let popover = alert.popoverPresentationController, let sourceView = sourceView {
       popover.sourceView = sourceView
       popover.sourceRect = sourceView.bounds
-      //popover.permittedArrowDirections = []
+      popover.permittedArrowDirections = []
     }
-    /*if #available(iOS 16, *) {
-      if alertObjArray.first!.style == .actionSheet {
-        alert.popoverPresentationController?.sourceItem = button //UIBarButtonItem/UIButton
-      }
-    }*/
     
     if alertObjArray.first!.disableHaptic != true {
       hapticFB.notificationOccurred(.success)
