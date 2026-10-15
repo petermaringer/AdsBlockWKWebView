@@ -591,6 +591,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     UIPasteboard.general.items = []
     //showAlert("Clipboard was cleared.")
     showAlert(type: "confirm", style: .actionSheet, title: nil, "Clipboard was cleared.", buttonTitles: ["Cancel", "OK"], buttonStyles: [.cancel, .default], sourceView: urlField, disableHaptic: true)
+    showAlert(type: "confirm", style: .actionSheet, title: nil, "Clipboard was cleared.", defaultButton: 1, sourceView: urlField, disableHaptic: true)
     
     /*showAlert(title: "Important", buttonTitles: ["Acknowledge"])
     showAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response, _) in
