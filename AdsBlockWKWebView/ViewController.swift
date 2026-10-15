@@ -61,7 +61,7 @@ extension URL {
   }
   
   static var tempDir: URL {
-    return try! FileManager.default.temporaryDirectory
+    return FileManager.default.temporaryDirectory
   }
   
   func checkFileExist() -> Bool {
@@ -588,8 +588,10 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   @objc internal func onMenu1(sender: UIMenuItem) {
     HttpServer.instance.server.stop()
     UIPasteboard.general.items = []
-    showAlert("Clipboard was cleared.")
-    /*showAlert(title: "Important", buttonTitles: ["Acknowledge"])
+    //showAlert("Clipboard was cleared.")
+    //showAlert(type: "confirm", style: .actionSheet, title: "Alert", "Clipboard was cleared.", buttonStyles: [.default, .cancel])
+    
+    showAlert(title: "Important", buttonTitles: ["Acknowledge"])
     showAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response, _) in
       self.lb.text! += " RES:\(response!)"
     }
@@ -604,7 +606,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
       self.lb.text! += " RES:\(response ?? "nil")"
     }
     self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive])
-    self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel])*/
+    self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel])
   }
   
   func textFieldDidBeginEditing(_ textField: UITextField) {
