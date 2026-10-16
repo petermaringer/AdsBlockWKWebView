@@ -491,11 +491,11 @@ extension ViewController: WKDownloadDelegate {
     //showAlert("Download Failed \(error)")
     let err = error as NSError
     //showAlert(title: "Download Failed", "\(lbcounter) Error: \(err.code)\n\n\(err.localizedDescription)")
-    showAlert(title: "Download Failed", "An error occurred:\n\nError \(err.code): \(err.localizedDescription)")
+    showAlert(title: "Download Failed", "An error occurred:\nError \(err.code): \(err.localizedDescription)")
     lb.text! += " STOP err:\(err.code)"
   }
   func downloadDidFinish(_ download: WKDownload) {
-    showAlert(title: "Download Complete", "File downloaded to:\n\n\(wkdownloadPath)")
+    showAlert(title: "Download Complete", "File downloaded to:\n\(wkdownloadPath)")
   }
 }
 
@@ -596,10 +596,14 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     }
   }
   
+  @objc func leftViewTapped() {
+    urlField.becomeFirstResponder()
+    //let newPosition = urlField.beginningOfDocument
+    //urlField.selectedTextRange = urlField.textRange(from: newPosition, to: newPosition)
+  }
+  
   @objc func buttonClicked() {
     urlField.endEditing(true)
-    
-    
   }
   
   @objc func buttonPressed(gesture: UILongPressGestureRecognizer) {
@@ -674,7 +678,7 @@ let videos = document.querySelectorAll("video");
   }
   
   @objc func kvButton2Clicked() {
-    urlField.endEditing(true)
+    //urlField.endEditing(true)
     /*if kvButton2.backgroundColor == .appBgColor {
       kvButton2.backgroundColor = .gray
     } else {
@@ -2015,6 +2019,11 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         
         urlField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 30))
         urlField.leftViewMode = .always
+        
+        let leftViewGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(leftViewTapped))
+        leftViewGesture.numberOfTapsRequired = 1
+        urlField.leftView?.isUserInteractionEnabled = true
+        urlField.leftView?.addGestureRecognizer(leftViewGesture)
         
         urlField.layer.cornerRadius = 5
         urlField.clipsToBounds = true
