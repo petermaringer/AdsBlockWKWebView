@@ -484,7 +484,7 @@ extension ViewController: WKDownloadDelegate {
     wkdownloadPath = "Downloads/\(url.lastPathComponent)"
     let sourceURL = download.originalRequest?.url?.absoluteString ?? response.url?.absoluteString ?? ""
     lb.text! += " wkD:\(sourceURL)"
-    showAlert(title: "Download Started", "Downloading file from:\n\n\(sourceURL)")
+    showAlert(title: "Download Started", "Downloading file from:\n\(sourceURL)")
     completionHandler(url)
   }
   func download(_ download: WKDownload, didFailWithError error: Error, resumeData: Data?) {
@@ -598,6 +598,88 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   
   @objc func buttonClicked() {
     urlField.endEditing(true)
+    
+    
+  }
+  
+  @objc func buttonPressed(gesture: UILongPressGestureRecognizer) {
+    if gesture.state == .began {
+      hapticFB.notificationOccurred(.success)
+      urlField.endEditing(true)
+      changeUserAgent()
+    }
+  }
+  
+  @objc func kvButtonClicked() {
+    if kvButton.backgroundColor == .appBgColor {
+      //webView.evaluateJavaScript("document.body.style.zoom = 0.5;", completionHandler: nil)
+      
+      //webView.evaluateJavaScript("var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=1280, initial-scale=1, minimum-scale=0.1, maximum-scale=10, user-scalable=yes'); } else { var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=1280, initial-scale=1, minimum-scale=0.1, maximum-scale=10, user-scalable=yes'); document.getElementsByTagName('head')[0].appendChild(meta); }", completionHandler: nil)
+      let pageWidth: CGFloat = 1280
+      webView.evaluateJavaScript("var el = document.querySelector('meta[name=viewport]'); if (el === null) { var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta); alert('1'); } el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=\(pageWidth), initial-scale=\(webView.frame.size.width / pageWidth), minimum-scale=0.1, maximum-scale=10, user-scalable=yes'); alert('2'); }", completionHandler: nil)
+      //showAlert("\(webView.frame.size.width)\n\(webView.frame.size.width / 1280)")
+      
+      kvButton.backgroundColor = .gray
+    } else {
+      //webView.evaluateJavaScript("document.body.style.zoom = 1.0;", completionHandler: nil)
+      
+      webView.reload()
+      
+      kvButton.backgroundColor = .appBgColor
+    }
+  }
+  
+  @objc func kvButtonPressed(gesture: UILongPressGestureRecognizer) {
+    if gesture.state == .began {
+      urlField.endEditing(true)
+      //hapticFB.notificationOccurred(.success)
+      var autoRotateInfo: String = "Enabled"
+      if allowedOrientations == .all {
+        if lastDeviceOrientation == "ls" {
+          allowedOrientations = .landscape
+        } else {
+          allowedOrientations = .portrait
+        }
+        autoRotateInfo = "Disabled"
+      } else {
+        allowedOrientations = .all
+      }
+      userDefaults.set(Int(allowedOrientations.rawValue), forKey: "allowedOrientationsRaw")
+      showAlert("AutoRotate: \(autoRotateInfo)")
+      lb.text! += " OR:\(lastDeviceOrientation)\(Int(allowedOrientations.rawValue))"
+      
+      /*if (HttpServer.instance.server.isRunning) {
+        showAlert("Server is running")
+      } else {
+        showAlert("Server is NOT running")
+      }
+      //HttpServer().start()
+      //HttpServer.instance.start()*/
+      
+      let videoScript: String = """
+let videos = document.querySelectorAll("video");
+			  if (videos.length === 0) alert("No videos found on this page.");
+				for (let i = 0; i < videos.length && i < 3; i++) {
+			    let attributes = "";
+			    for (let attr of videos[i].attributes) {
+			      attributes += `${attr.name}: ${attr.value}\n`;
+			    }
+			    let userChoice = confirm(`Video ${i + 1} of ${videos.length}\nSource: ${videos[i].currentSrc}\n\nAttributes:\n${attributes}\nDo you want to download it?`);
+			    if (userChoice) postToListener(`vs${videos[i].currentSrc}`);
+			  }
+"""
+      webView.evaluateJavaScript(videoScript, completionHandler: nil)
+      
+    }
+  }
+  
+  @objc func kvButton2Clicked() {
+    urlField.endEditing(true)
+    /*if kvButton2.backgroundColor == .appBgColor {
+      kvButton2.backgroundColor = .gray
+    } else {
+      kvButton2.backgroundColor = .appBgColor
+    }*/
     
     /*let videoURL = URL(string: "https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4")
 let player = AVPlayer(url: videoURL!)
@@ -805,86 +887,7 @@ prefs: \(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(g
 wkpool: \(wkpool)\n
 appversion: \(appVersion)
 """)
-  }
-  
-  @objc func buttonPressed(gesture: UILongPressGestureRecognizer) {
-    if gesture.state == .began {
-      hapticFB.notificationOccurred(.success)
-      urlField.endEditing(true)
-      changeUserAgent()
-    }
-  }
-  
-  @objc func kvButtonClicked() {
-    if kvButton.backgroundColor == .appBgColor {
-      //webView.evaluateJavaScript("document.body.style.zoom = 0.5;", completionHandler: nil)
-      
-      //webView.evaluateJavaScript("var el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=1280, initial-scale=1, minimum-scale=0.1, maximum-scale=10, user-scalable=yes'); } else { var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=1280, initial-scale=1, minimum-scale=0.1, maximum-scale=10, user-scalable=yes'); document.getElementsByTagName('head')[0].appendChild(meta); }", completionHandler: nil)
-      let pageWidth: CGFloat = 1280
-      webView.evaluateJavaScript("var el = document.querySelector('meta[name=viewport]'); if (el === null) { var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta); alert('1'); } el = document.querySelector('meta[name=viewport]'); if (el !== null) { el.setAttribute('content', 'width=\(pageWidth), initial-scale=\(webView.frame.size.width / pageWidth), minimum-scale=0.1, maximum-scale=10, user-scalable=yes'); alert('2'); }", completionHandler: nil)
-      //showAlert("\(webView.frame.size.width)\n\(webView.frame.size.width / 1280)")
-      
-      kvButton.backgroundColor = .gray
-    } else {
-      //webView.evaluateJavaScript("document.body.style.zoom = 1.0;", completionHandler: nil)
-      
-      webView.reload()
-      
-      kvButton.backgroundColor = .appBgColor
-    }
-  }
-  
-  @objc func kvButtonPressed(gesture: UILongPressGestureRecognizer) {
-    if gesture.state == .began {
-      urlField.endEditing(true)
-      //hapticFB.notificationOccurred(.success)
-      var autoRotateInfo: String = "Enabled"
-      if allowedOrientations == .all {
-        if lastDeviceOrientation == "ls" {
-          allowedOrientations = .landscape
-        } else {
-          allowedOrientations = .portrait
-        }
-        autoRotateInfo = "Disabled"
-      } else {
-        allowedOrientations = .all
-      }
-      userDefaults.set(Int(allowedOrientations.rawValue), forKey: "allowedOrientationsRaw")
-      showAlert("AutoRotate: \(autoRotateInfo)")
-      lb.text! += " OR:\(lastDeviceOrientation)\(Int(allowedOrientations.rawValue))"
-      
-      /*if (HttpServer.instance.server.isRunning) {
-        showAlert("Server is running")
-      } else {
-        showAlert("Server is NOT running")
-      }
-      //HttpServer().start()
-      //HttpServer.instance.start()*/
-      
-      let videoScript: String = """
-let videos = document.querySelectorAll("video");
-			  if (videos.length === 0) alert("No videos found on this page.");
-				for (let i = 0; i < videos.length && i < 3; i++) {
-			    let attributes = "";
-			    for (let attr of videos[i].attributes) {
-			      attributes += `${attr.name}: ${attr.value}\n`;
-			    }
-			    let userChoice = confirm(`Video ${i + 1} of ${videos.length}\nSource: ${videos[i].currentSrc}\n\nAttributes:\n${attributes}\nDo you want to download it?`);
-			    if (userChoice) postToListener(`vs${videos[i].currentSrc}`);
-			  }
-"""
-      webView.evaluateJavaScript(videoScript, completionHandler: nil)
-      
-    }
-  }
-  
-  @objc func kvButton2Clicked() {
-    urlField.endEditing(true)
-    /*if kvButton2.backgroundColor == .appBgColor {
-      kvButton2.backgroundColor = .gray
-    } else {
-      kvButton2.backgroundColor = .appBgColor
-    }*/
+    
   }
   
   @objc func kvButton2Pressed(gesture: UILongPressGestureRecognizer) {
