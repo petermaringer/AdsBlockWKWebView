@@ -472,7 +472,7 @@ var wkdownloadPath = ""
 extension ViewController: WKDownloadDelegate {
   func download(_ download: WKDownload, decideDestinationUsing response: URLResponse, suggestedFilename: String, completionHandler: @escaping (URL?) -> Void) {
     var url = URL.docDir.appending("Downloads/\(suggestedFilename)")
-    /*let folder = url.deletingLastPathComponent()
+    let folder = url.deletingLastPathComponent()
     let ext = url.pathExtension
     let filename = url.deletingPathExtension().lastPathComponent
     var counter = 1
@@ -480,21 +480,22 @@ extension ViewController: WKDownloadDelegate {
       let newFilename = "\(filename) (\(counter))"
       url = folder.appendingPathComponent(newFilename).appendingPathExtension(ext)
       counter += 1
-    }*/
+    }
     wkdownloadPath = "Downloads/\(url.lastPathComponent)"
     let sourceURL = download.originalRequest?.url?.absoluteString ?? response.url?.absoluteString ?? ""
     lb.text! += " wkD:\(sourceURL)"
-    showAlert(title: "Download Started", "\(sourceURL)")
+    showAlert(title: "Download Started", "Downloading file from:\n\n\(sourceURL)")
     completionHandler(url)
   }
   func download(_ download: WKDownload, didFailWithError error: Error, resumeData: Data?) {
-    showAlert("Download failed \(error)")
+    //showAlert("Download Failed \(error)")
     let err = error as NSError
-    showAlert("\(lbcounter) Error: \(err.code) \(err.localizedDescription)")
+    //showAlert(title: "Download Failed", "\(lbcounter) Error: \(err.code)\n\n\(err.localizedDescription)")
+    showAlert(title: "Download Failed", "An error occurred:\n\nError \(err.code): \(err.localizedDescription)")
     lb.text! += " STOP err:\(err.code)"
   }
   func downloadDidFinish(_ download: WKDownload) {
-    showAlert(title: "Download Finished", "\(wkdownloadPath)")
+    showAlert(title: "Download Complete", "File downloaded to:\n\n\(wkdownloadPath)")
   }
 }
 
