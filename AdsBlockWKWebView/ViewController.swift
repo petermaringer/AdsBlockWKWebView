@@ -583,6 +583,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   }
   
   var shouldPlaceCursorAtStart = false
+  var originalText = ""
   
   func textFieldDidBeginEditing(_ textField: UITextField) {
     switch textField {
@@ -594,9 +595,12 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
         //textField.selectAll(nil)
         textField.textColor = .appBgColor
         if shouldPlaceCursorAtStart {
-          let startPosition = textField.beginningOfDocument
-          textField.selectedTextRange = textField.textRange(from: startPosition, to: startPosition)
+          DispatchQueue.main.async {
+          self.textField.text = originalText
+          let startPosition = self.textField.beginningOfDocument
+          self.textField.selectedTextRange = self.textField.textRange(from: startPosition, to: startPosition)
           shouldPlaceCursorAtStart = false
+          }
         }
       default:
         break
@@ -605,6 +609,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   
   @objc func leftViewTapped() {
     shouldPlaceCursorAtStart = true
+    originalText = urlField.text
+    urlField.text = ""
     //self.urlField.resignFirstResponder()
     urlField.becomeFirstResponder()
     /*DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
