@@ -472,7 +472,7 @@ var wkdownloadPath = ""
 extension ViewController: WKDownloadDelegate {
   func download(_ download: WKDownload, decideDestinationUsing response: URLResponse, suggestedFilename: String, completionHandler: @escaping (URL?) -> Void) {
     var url = URL.docDir.appending("Downloads/\(suggestedFilename)")
-    let folder = url.deletingLastPathComponent()
+    /*let folder = url.deletingLastPathComponent()
     let ext = url.pathExtension
     let filename = url.deletingPathExtension().lastPathComponent
     var counter = 1
@@ -480,7 +480,7 @@ extension ViewController: WKDownloadDelegate {
       let newFilename = "\(filename) (\(counter))"
       url = folder.appendingPathComponent(newFilename).appendingPathExtension(ext)
       counter += 1
-    }
+    }*/
     wkdownloadPath = "Downloads/\(url.lastPathComponent)"
     let sourceURL = download.originalRequest?.url?.absoluteString ?? response.url?.absoluteString ?? ""
     lb.text! += " wkD:\(sourceURL)"
@@ -488,17 +488,12 @@ extension ViewController: WKDownloadDelegate {
     completionHandler(url)
   }
   func download(_ download: WKDownload, didFailWithError error: Error, resumeData: Data?) {
+    showAlert("Download failed \(error)")
     let err = error as NSError
-    
     showAlert("\(lbcounter) Error: \(err.code) \(err.localizedDescription)")
     lb.text! += " STOP err:\(err.code)"
-    
-    //showAlert("Download failed \(error)")
   }
   func downloadDidFinish(_ download: WKDownload) {
-    //let fileName = download.originalRequest?.url?.lastPathComponent ?? "download"
-    //let url = URL.docDir.appending("Downloads/\(fileName)")
-    //showAlert("Download finished: \(url)", disableHaptic: true)
     showAlert(title: "Download Finished", "\(wkdownloadPath)")
   }
 }
@@ -910,7 +905,7 @@ let videos = document.querySelectorAll("video");
         self.lb.text! += " RES:\(response ?? "nil")"
       }
       showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive])
-      showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel])
+      showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], sourceView: view, disableHaptic: true)
       
     }
   }
@@ -3108,7 +3103,7 @@ downloadTask.resume()
   
   
   func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
-    if let url = webView.url, url.host == "orf.at" {
+    /*if let url = webView.url, url.host == "orf.at" {
       let scriptSource = """
 (function() {
   function modifyPage() {
@@ -3122,7 +3117,7 @@ downloadTask.resume()
 """
       webView.evaluateJavaScript(scriptSource, completionHandler: nil)
       lb.text! += " dC:orf"
-    }
+    }*/
     
     var jsCode: String = ""
     if webView.url!.absoluteString.hasPrefix("https://www.google.com/search?q=") {
