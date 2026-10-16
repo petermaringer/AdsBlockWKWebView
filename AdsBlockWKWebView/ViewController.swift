@@ -582,6 +582,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     showAlert(type: "confirm", style: .actionSheet, title: nil, "Clipboard was cleared.", buttonTitles: ["Cancel", "OK"], buttonStyles: [.cancel, .default], sourceView: urlField, disableHaptic: true)
   }
   
+  var shouldPlaceCursorAtStart = false
+  
   func textFieldDidBeginEditing(_ textField: UITextField) {
     switch textField {
       case urlField:
@@ -591,19 +593,25 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
         //textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
         //textField.selectAll(nil)
         textField.textColor = .appBgColor
+        if shouldPlaceCursorAtStart {
+          let startPosition = textField.beginningOfDocument
+          textField.selectedTextRange = textField.textRange(from: startPosition, to: startPosition)
+          shouldPlaceCursorAtStart = false
+        }
       default:
         break
     }
   }
   
   @objc func leftViewTapped() {
+    shouldPlaceCursorAtStart = true
     //self.urlField.resignFirstResponder()
-    self.urlField.becomeFirstResponder()
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+    urlField.becomeFirstResponder()
+    /*DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
     self.urlField.tintColor = .systemBlue
     let newPosition = self.urlField.beginningOfDocument
     self.urlField.selectedTextRange = self.urlField.textRange(from: newPosition, to: newPosition)
-    }
+    }*/
   }
   
   @objc func buttonClicked() {
