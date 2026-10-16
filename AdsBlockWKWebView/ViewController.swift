@@ -598,8 +598,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   
   @objc func leftViewTapped() {
     urlField.becomeFirstResponder()
-    //let newPosition = urlField.beginningOfDocument
-    //urlField.selectedTextRange = urlField.textRange(from: newPosition, to: newPosition)
+    let newPosition = urlField.beginningOfDocument
+    urlField.selectedTextRange = urlField.textRange(from: newPosition, to: newPosition)
   }
   
   @objc func buttonClicked() {
