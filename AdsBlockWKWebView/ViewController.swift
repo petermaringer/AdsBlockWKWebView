@@ -597,9 +597,9 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   }
   
   @objc func leftViewTapped() {
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-    self.urlField.resignFirstResponder()
+    //self.urlField.resignFirstResponder()
     self.urlField.becomeFirstResponder()
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
     self.urlField.tintColor = .systemBlue
     let newPosition = self.urlField.beginningOfDocument
     self.urlField.selectedTextRange = self.urlField.textRange(from: newPosition, to: newPosition)
