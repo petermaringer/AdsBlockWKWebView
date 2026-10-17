@@ -607,25 +607,21 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     }
   }
   
-  @objc func leftViewTapped() {
-    if let startPosition = urlField.position(from: urlField.beginningOfDocument, offset: 0) {
-        urlField.selectedTextRange = urlField.textRange(from: startPosition, to: startPosition)
-    }
-    
-    // 2. Jetzt erst aktivieren. iOS weiß nun schon beim Starten, 
-    // dass es vorn bleiben muss und scrollt gar nicht erst ans Ende.
-    urlField.becomeFirstResponder()
-    /*UIView.performWithoutAnimation {
-        urlField.becomeFirstResponder()
+  func textFieldDidChangeSelection(_ textField: UITextField) {
+    if textField == urlField && shouldPlaceCursorAtStart {
+        shouldPlaceCursorAtStart = false // Sofort ausschalten, damit der Nutzer danach normal tippen kann
         
-        let startPosition = urlField.beginningOfDocument
-        urlField.selectedTextRange = urlField.textRange(from: startPosition, to: startPosition)
-    }*/
-    /*shouldPlaceCursorAtStart = true
-    originalText = urlField.text ?? ""
+        let start = textField.beginningOfDocument
+        textField.selectedTextRange = textField.textRange(from: start, to: start)
+    }
+}
+  
+  @objc func leftViewTapped() {
+    shouldPlaceCursorAtStart = true
+    /*originalText = urlField.text ?? ""
     urlField.text = ""*/
     //self.urlField.resignFirstResponder()
-    //urlField.becomeFirstResponder()
+    urlField.becomeFirstResponder()
     /*DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
     self.urlField.tintColor = .systemBlue
     let newPosition = self.urlField.beginningOfDocument
