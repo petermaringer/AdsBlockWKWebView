@@ -594,32 +594,31 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
         //textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
         //textField.selectAll(nil)
         textField.textColor = .appBgColor
-        if shouldPlaceCursorAtStart {
-          /*DispatchQueue.main.async {
-          self.textField.text = originalText
-          let startPosition = self.textField.beginningOfDocument
-          self.textField.selectedTextRange = self.textField.textRange(from: startPosition, to: startPosition)
-          shouldPlaceCursorAtStart = false
-          }*/
+        /*if shouldPlaceCursorAtStart {
           DispatchQueue.main.async { [weak self] in
           textField.text = self?.originalText
           let startPosition = textField.beginningOfDocument
           textField.selectedTextRange = textField.textRange(from: startPosition, to: startPosition)
           self?.shouldPlaceCursorAtStart = false
-        }
-        }
+          }
+        }*/
       default:
         break
     }
   }
   
   @objc func leftViewTapped() {
-    shouldPlaceCursorAtStart = true
-    //originalText = urlField.text
+    UIView.performWithoutAnimation {
+        urlField.becomeFirstResponder()
+        
+        let startPosition = urlField.beginningOfDocument
+        urlField.selectedTextRange = urlField.textRange(from: startPosition, to: startPosition)
+    }
+    /*shouldPlaceCursorAtStart = true
     originalText = urlField.text ?? ""
-    urlField.text = ""
+    urlField.text = ""*/
     //self.urlField.resignFirstResponder()
-    urlField.becomeFirstResponder()
+    //urlField.becomeFirstResponder()
     /*DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
     self.urlField.tintColor = .systemBlue
     let newPosition = self.urlField.beginningOfDocument
