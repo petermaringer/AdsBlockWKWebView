@@ -617,11 +617,20 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
 }
   
   @objc func leftViewTapped() {
-    shouldPlaceCursorAtStart = true
+    if urlField.isFirstResponder {
+        // Fall A: Tastatur ist SCHON offen. Wir können den Cursor direkt verschieben.
+        let start = urlField.beginningOfDocument
+        urlField.selectedTextRange = urlField.textRange(from: start, to: start)
+    } else {
+        // Fall B: Tastatur ist NOCH ZU. Wir nutzen den sicheren Delegate-Weg.
+        shouldPlaceCursorAtStart = true
+        urlField.becomeFirstResponder()
+    }
+    //shouldPlaceCursorAtStart = true
     /*originalText = urlField.text ?? ""
     urlField.text = ""*/
     //self.urlField.resignFirstResponder()
-    urlField.becomeFirstResponder()
+    //urlField.becomeFirstResponder()
     /*DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
     self.urlField.tintColor = .systemBlue
     let newPosition = self.urlField.beginningOfDocument
