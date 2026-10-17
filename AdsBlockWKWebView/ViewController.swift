@@ -608,12 +608,19 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   }
   
   @objc func leftViewTapped() {
-    UIView.performWithoutAnimation {
+    if let startPosition = urlField.position(from: urlField.beginningOfDocument, offset: 0) {
+        urlField.selectedTextRange = urlField.textRange(from: startPosition, to: startPosition)
+    }
+    
+    // 2. Jetzt erst aktivieren. iOS weiß nun schon beim Starten, 
+    // dass es vorn bleiben muss und scrollt gar nicht erst ans Ende.
+    urlField.becomeFirstResponder()
+    /*UIView.performWithoutAnimation {
         urlField.becomeFirstResponder()
         
         let startPosition = urlField.beginningOfDocument
         urlField.selectedTextRange = urlField.textRange(from: startPosition, to: startPosition)
-    }
+    }*/
     /*shouldPlaceCursorAtStart = true
     originalText = urlField.text ?? ""
     urlField.text = ""*/
