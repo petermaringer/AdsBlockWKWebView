@@ -560,7 +560,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var shouldHideHomeIndicator = false
   override func prefersHomeIndicatorAutoHidden() -> Bool {
     return shouldHideHomeIndicator
-    //return true
   }
   
   override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
@@ -582,9 +581,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     showAlert(type: "confirm", style: .actionSheet, title: nil, "Clipboard was cleared.", buttonTitles: ["Cancel", "OK"], buttonStyles: [.cancel, .default], sourceView: urlField, disableHaptic: true)
   }
   
-  var shouldPlaceCursorAtStart = false
-  var originalText = ""
-  
   func textFieldDidBeginEditing(_ textField: UITextField) {
     switch textField {
       case urlField:
@@ -594,48 +590,28 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
         //textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
         //textField.selectAll(nil)
         textField.textColor = .appBgColor
-        /*if shouldPlaceCursorAtStart {
-          DispatchQueue.main.async { [weak self] in
-          textField.text = self?.originalText
-          let startPosition = textField.beginningOfDocument
-          textField.selectedTextRange = textField.textRange(from: startPosition, to: startPosition)
-          self?.shouldPlaceCursorAtStart = false
-          }
-        }*/
-      default:
-        break
+      default: break
     }
   }
   
+  var shouldPlaceCursorAtStart = false
+  
   func textFieldDidChangeSelection(_ textField: UITextField) {
     if textField == urlField && shouldPlaceCursorAtStart {
-        shouldPlaceCursorAtStart = false // Sofort ausschalten, damit der Nutzer danach normal tippen kann
-        
-        let start = textField.beginningOfDocument
-        textField.selectedTextRange = textField.textRange(from: start, to: start)
+      shouldPlaceCursorAtStart = false
+      let startPosition = textField.beginningOfDocument
+      textField.selectedTextRange = textField.textRange(from: startPosition, to: startPosition)
     }
-}
+  }
   
   @objc func leftViewTapped() {
     if urlField.isFirstResponder {
-        // Fall A: Tastatur ist SCHON offen. Wir können den Cursor direkt verschieben.
-        let start = urlField.beginningOfDocument
-        urlField.selectedTextRange = urlField.textRange(from: start, to: start)
+      let startPosition = urlField.beginningOfDocument
+      urlField.selectedTextRange = urlField.textRange(from: startPosition, to: startPosition)
     } else {
-        // Fall B: Tastatur ist NOCH ZU. Wir nutzen den sicheren Delegate-Weg.
-        shouldPlaceCursorAtStart = true
-        urlField.becomeFirstResponder()
+      shouldPlaceCursorAtStart = true
+      urlField.becomeFirstResponder()
     }
-    //shouldPlaceCursorAtStart = true
-    /*originalText = urlField.text ?? ""
-    urlField.text = ""*/
-    //self.urlField.resignFirstResponder()
-    //urlField.becomeFirstResponder()
-    /*DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-    self.urlField.tintColor = .systemBlue
-    let newPosition = self.urlField.beginningOfDocument
-    self.urlField.selectedTextRange = self.urlField.textRange(from: newPosition, to: newPosition)
-    }*/
   }
   
   @objc func buttonClicked() {
@@ -644,7 +620,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   
   @objc func buttonPressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
-      hapticFB.notificationOccurred(.success)
+      UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+      //hapticFB.notificationOccurred(.success)
       urlField.endEditing(true)
       changeUserAgent()
     }
