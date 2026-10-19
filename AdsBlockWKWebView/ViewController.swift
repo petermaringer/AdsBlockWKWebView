@@ -910,20 +910,20 @@ appversion: \(appVersion)
   @objc func kvButton2Pressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
       //urlField.endEditing(true)
-      showAlert(title: "Important", buttonTitles: ["Acknowledge"])
+      showAlert(title: "Important", buttonTitles: ["Acknowledge"], defaultButton: 0)
       showAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response, _) in
         self.lb.text! += " RES:\(response!)"
       }
       showAlert(type: "confirm", title: "Alert2", "Want to die?", defaultButton: 1) { (response, _) in
         self.lb.text! += " RES:\(response!)"
         if response as? Bool == true {
-          self.showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default]) { (response, _) in
+          self.showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default], defaultButton: 0) { (response, _) in
             self.lb.text! += " RES:\(response!)"
           }
-          self.showAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident") { (response, _) in
+          self.showAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident", defaultButton: 0) { (response, _) in
             self.lb.text! += " RES:\(response ?? "nil")"
           }
-          self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive])
+          self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive], defaultButton: 0)
           self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], sourceView: self.view, disableHaptic: true)
         }
       }
