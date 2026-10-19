@@ -915,22 +915,24 @@ appversion: \(appVersion)
       showAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response, _) in
         self.lb.text! += " RES:\(response!)"
       }
-      showAlert(type: "confirm", title: "Alert2", "Want to die?", defaultButton: 1) { (response, _) in
-        self.lb.text! += " RES:\(response!)"
-        if response as? Bool == true {
-          self.askForDetails()
-        }
-      }
+      showAlert(type: "confirm", title: "Alert2", "Want to die?", defaultButton: 1) { (response2, _) in
+        self.lb.text! += " RES:\(response2!)"
+        if response2 as? Bool == true {
+          //self.askForDetails()
+        //}
+      //}
       
-      func askForDetails() {
-      showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default]) { (response, _) in
+      //func askForDetails() {
+      self.showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default]) { (response, _) in
         self.lb.text! += " RES:\(response!)"
       }
-      showAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident") { (response, _) in
+      self.showAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident") { (response, _) in
         self.lb.text! += " RES:\(response ?? "nil")"
       }
-      showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive])
-      showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], sourceView: view, disableHaptic: true)
+      self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive])
+      self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], sourceView: view, disableHaptic: true)
+      //}
+      }
       }
       
     }
