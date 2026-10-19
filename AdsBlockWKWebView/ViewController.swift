@@ -1646,13 +1646,15 @@ appversion: \(appVersion)
     
     if currentAlert.type == "confirm" {
       button1 = UIAlertAction(title: currentAlert.buttonTitles![0], style: currentAlert.buttonStyles![0], handler: { _ in
-        currentAlert.completionHandler(true, nil)
-        self.showAlert("nextAlertObj")
+        //currentAlert.completionHandler(true, nil)
+        //self.showAlert("nextAlertObj")
+        buttonPressed(true, nil)
       })
       button2 = UIAlertAction(title: currentAlert.buttonTitles![1], style: currentAlert.buttonStyles![1], handler: { _ in
-        alertObjArray.removeFirst()
-        currentAlert.completionHandler(false, nil)
-        self.showAlert("nextAlertObj")
+        //alertObjArray.removeFirst()
+        //currentAlert.completionHandler(false, nil)
+        //self.showAlert("nextAlertObj")
+        buttonPressed(false, nil)
       })
       alert.addAction(button2)
       alert.addAction(button1)
@@ -1660,16 +1662,19 @@ appversion: \(appVersion)
     
     if currentAlert.type == "select" {
       button1 = UIAlertAction(title: currentAlert.buttonTitles![0], style: currentAlert.buttonStyles![0], handler: { _ in
-        currentAlert.completionHandler(1, nil)
-        self.showAlert("nextAlertObj")
+        //currentAlert.completionHandler(1, nil)
+        //self.showAlert("nextAlertObj")
+        buttonPressed(1, nil)
       })
       button2 = UIAlertAction(title: currentAlert.buttonTitles![1], style: currentAlert.buttonStyles![1], handler: { _ in
-        currentAlert.completionHandler(2, nil)
-        self.showAlert("nextAlertObj")
+        //currentAlert.completionHandler(2, nil)
+        //self.showAlert("nextAlertObj")
+        buttonPressed(2, nil)
       })
       button3 = UIAlertAction(title: currentAlert.buttonTitles![2], style: currentAlert.buttonStyles![2], handler: { _ in
-        currentAlert.completionHandler(3, nil)
-        self.showAlert("nextAlertObj")
+        //currentAlert.completionHandler(3, nil)
+        //self.showAlert("nextAlertObj")
+        buttonPressed(3, nil)
       })
       alert.addAction(button3)
       alert.addAction(button2)
@@ -1682,15 +1687,18 @@ appversion: \(appVersion)
       }
       button1 = UIAlertAction(title: currentAlert.buttonTitles![0], style: currentAlert.buttonStyles![0], handler: { _ in
         if let text = alert.textFields?.first?.text {
-          currentAlert.completionHandler(text, nil)
+          //currentAlert.completionHandler(text, nil)
+          buttonPressed(text, nil)
         } else {
-          currentAlert.completionHandler(input, nil)
+          //currentAlert.completionHandler(input, nil)
+          buttonPressed(input, nil)
         }
-        self.showAlert("nextAlertObj")
+        //self.showAlert("nextAlertObj")
       })
       button2 = UIAlertAction(title: currentAlert.buttonTitles![1], style: currentAlert.buttonStyles![1], handler: { _ in
-        currentAlert.completionHandler(nil, nil)
-        self.showAlert("nextAlertObj")
+        //currentAlert.completionHandler(nil, nil)
+        //self.showAlert("nextAlertObj")
+        buttonPressed(nil, nil)
       })
       alert.addAction(button2)
       alert.addAction(button1)
