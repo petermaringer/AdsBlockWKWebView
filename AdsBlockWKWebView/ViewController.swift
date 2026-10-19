@@ -1630,7 +1630,7 @@ appversion: \(appVersion)
         self.showAlert("nextAlertObj")
       })
       alert.addAction(button1)
-      currentAlert.defaultButton = nil
+      //currentAlert.defaultButton = nil
     }
     
     if currentAlert.type == "confirm" {
@@ -1709,7 +1709,7 @@ appversion: \(appVersion)
       alert.addAction(button1)
     }
     
-    if currentAlert.defaultButton != nil {
+    if currentAlert.defaultButton != nil && currentAlert.type != "alert" {
       alert.preferredAction = alert.actions[abs(currentAlert.defaultButton! - alert.actions.count + 1)]
     }
     if currentAlert.style == .actionSheet, let popover = alert.popoverPresentationController, let sourceView = currentAlert.sourceView {
