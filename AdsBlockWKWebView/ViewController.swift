@@ -1623,14 +1623,22 @@ appversion: \(appVersion)
     //guard alertObjArray.count > 0 else { return }
     guard let currentAlert = alertObjArray.first else { return }
     //alertObjArray.removeFirst()
+    
+    func buttonPressed(_ value1: Any?, _ value2: Any?) {
+        alertObjArray.removeFirst()
+        currentAlert.completionHandler(value1, value2)
+        self.showAlert("nextAlertObj")
+    }
+    
     let alert = UIAlertController(title: currentAlert.title, message: currentAlert.message, preferredStyle: currentAlert.style!)
     var button1, button2, button3: UIAlertAction
     
     if currentAlert.type == "alert" {
       button1 = UIAlertAction(title: currentAlert.buttonTitles![0], style: currentAlert.buttonStyles![0], handler: { _ in
-        alertObjArray.removeFirst()
-        currentAlert.completionHandler("\(currentAlert.message ?? "")", nil)
-        self.showAlert("nextAlertObj")
+        //alertObjArray.removeFirst()
+        //currentAlert.completionHandler("\(currentAlert.message ?? "")", nil)
+        //self.showAlert("nextAlertObj")
+        buttonPressed(currentAlert.message ?? "", nil)
       })
       alert.addAction(button1)
       //currentAlert.defaultButton = nil
