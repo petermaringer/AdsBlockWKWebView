@@ -1617,12 +1617,12 @@ appversion: \(appVersion)
   private func showAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], defaultButton: Int? = 0, sourceView: UIView? = nil, disableHaptic: Bool? = false, completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
     if message != "nextAlertObj" {
       alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, defaultButton: defaultButton, sourceView: sourceView, disableHaptic: disableHaptic, completionHandler: completionHandler))
-      showAlert("nextAlertObj")
-      return
+      //showAlert("nextAlertObj")
+      //return
     }
     //guard alertObjArray.count > 0 else { return }
     guard let currentAlert = alertObjArray.first else { return }
-    alertObjArray.removeFirst()
+    //alertObjArray.removeFirst()
     let alert = UIAlertController(title: currentAlert.title, message: currentAlert.message, preferredStyle: currentAlert.style!)
     var button1, button2, button3: UIAlertAction
     
@@ -1641,6 +1641,7 @@ appversion: \(appVersion)
         self.showAlert("nextAlertObj")
       })
       button2 = UIAlertAction(title: currentAlert.buttonTitles![1], style: currentAlert.buttonStyles![1], handler: { _ in
+        alertObjArray.removeFirst()
         currentAlert.completionHandler(false, nil)
         self.showAlert("nextAlertObj")
       })
