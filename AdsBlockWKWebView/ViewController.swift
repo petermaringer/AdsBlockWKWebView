@@ -930,7 +930,7 @@ appversion: \(appVersion)
         self.lb.text! += " RES:\(response ?? "nil")"
       }
       self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive])
-      self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], sourceView: view, disableHaptic: true)
+      self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], sourceView: self.view, disableHaptic: true)
       //}
       }
       }
