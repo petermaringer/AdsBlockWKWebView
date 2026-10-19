@@ -917,8 +917,12 @@ appversion: \(appVersion)
       }
       showAlert(type: "confirm", title: "Alert2", "Want to die?", defaultButton: 1) { (response, _) in
         self.lb.text! += " RES:\(response!)"
-        //if response as! Bool == true {}
+        if response as? Bool == true {
+          self.askForDetails()
+        }
       }
+      
+      func askForDetails() {
       showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default]) { (response, _) in
         self.lb.text! += " RES:\(response!)"
       }
@@ -927,6 +931,7 @@ appversion: \(appVersion)
       }
       showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive])
       showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], sourceView: view, disableHaptic: true)
+      }
       
     }
   }
