@@ -910,7 +910,6 @@ appversion: \(appVersion)
   @objc func kvButton2Pressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
       //urlField.endEditing(true)
-      
       showAlert(title: "Important", buttonTitles: ["Acknowledge"])
       showAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response, _) in
         self.lb.text! += " RES:\(response!)"
@@ -918,21 +917,16 @@ appversion: \(appVersion)
       showAlert(type: "confirm", title: "Alert2", "Want to die?", defaultButton: 1) { (response, _) in
         self.lb.text! += " RES:\(response!)"
         if response as? Bool == true {
-        //}
-      //}
-      
-      self.showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default]) { (response, _) in
-        self.lb.text! += " RES:\(response!)"
+          self.showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default]) { (response, _) in
+            self.lb.text! += " RES:\(response!)"
+          }
+          self.showAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident") { (response, _) in
+            self.lb.text! += " RES:\(response ?? "nil")"
+          }
+          self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive])
+          self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], sourceView: self.view, disableHaptic: true)
+        }
       }
-      self.showAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident") { (response, _) in
-        self.lb.text! += " RES:\(response ?? "nil")"
-      }
-      self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive])
-      self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], sourceView: self.view, disableHaptic: true)
-      
-      }
-      }
-      
     }
   }
   
@@ -1669,7 +1663,7 @@ appversion: \(appVersion)
         if let text = alert.textFields?.first?.text {
           buttonPressed(text, nil)
         } else {
-          buttonPressed(input, nil)
+          buttonPressed(currentAlert.input, nil)
         }
       })
       button2 = UIAlertAction(title: currentAlert.buttonTitles![1], style: currentAlert.buttonStyles![1], handler: { _ in
@@ -1692,19 +1686,18 @@ appversion: \(appVersion)
         guard let userId = alert.textFields?.first?.text else { return }
         guard let password = alert.textFields?.last?.text else { return }
         let credential = URLCredential(user: userId, password: password, persistence: .forSession)
-        //currentAlert.completionHandler(.useCredential as URLSession.AuthChallengeDisposition, credential)
         buttonPressed(.useCredential as URLSession.AuthChallengeDisposition, credential)
       })
       //title: "BUTTON_CANCEL".localized
       button2 = UIAlertAction(title: currentAlert.buttonTitles![1], style: currentAlert.buttonStyles![1], handler: { _ in
-        //currentAlert.completionHandler(.cancelAuthenticationChallenge as URLSession.AuthChallengeDisposition, nil)
         buttonPressed(.cancelAuthenticationChallenge as URLSession.AuthChallengeDisposition, nil)
       })
       alert.addAction(button2)
       alert.addAction(button1)
     }
     
-    if currentAlert.defaultButton != nil && currentAlert.type != "alert" {
+    //if currentAlert.defaultButton != nil && currentAlert.type != "alert" {
+    if currentAlert.defaultButton != nil {
       alert.preferredAction = alert.actions[abs(currentAlert.defaultButton! - alert.actions.count + 1)]
     }
     if currentAlert.style == .actionSheet, let popover = alert.popoverPresentationController, let sourceView = currentAlert.sourceView {
