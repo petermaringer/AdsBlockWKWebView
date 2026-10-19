@@ -1628,6 +1628,7 @@ appversion: \(appVersion)
     
     if currentAlert.type == "alert" {
       button1 = UIAlertAction(title: currentAlert.buttonTitles![0], style: currentAlert.buttonStyles![0], handler: { _ in
+        alertObjArray.removeFirst()
         currentAlert.completionHandler("\(currentAlert.message ?? "")", nil)
         self.showAlert("nextAlertObj")
       })
