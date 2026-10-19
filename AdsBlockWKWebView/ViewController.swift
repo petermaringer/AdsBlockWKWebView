@@ -1504,9 +1504,16 @@ appversion: \(appVersion)
       alertObjArray[0].defaultButton = nil
     }
     if alertObjArray.first!.type == "confirm" {
-      button1 = UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { _ in
+      /*button1 = UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { _ in
         alertObjArray.first!.completionHandler(true, nil)
         alertObjArray.removeFirst()
+        self.showAlert("nextAlertObj")
+      })*/
+      button1 = UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { _ in
+        guard let currentAlert = alertObjArray.first else { return }
+        //alertObjArray.first!.completionHandler(true, nil)
+        alertObjArray.removeFirst()
+        currentAlert.completionHandler(true, nil)
         self.showAlert("nextAlertObj")
       })
       button2 = UIAlertAction(title: alertObjArray.first!.buttonTitles![1], style: alertObjArray.first!.buttonStyles![1], handler: { _ in
