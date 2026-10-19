@@ -915,14 +915,12 @@ appversion: \(appVersion)
       showAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response, _) in
         self.lb.text! += " RES:\(response!)"
       }
-      showAlert(type: "confirm", title: "Alert2", "Want to die?", defaultButton: 1) { (response2, _) in
-        self.lb.text! += " RES:\(response2!)"
-        if response2 as? Bool == true {
-          //self.askForDetails()
+      showAlert(type: "confirm", title: "Alert2", "Want to die?", defaultButton: 1) { (response, _) in
+        self.lb.text! += " RES:\(response!)"
+        if response as? Bool == true {
         //}
       //}
       
-      //func askForDetails() {
       self.showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default]) { (response, _) in
         self.lb.text! += " RES:\(response!)"
       }
@@ -931,7 +929,7 @@ appversion: \(appVersion)
       }
       self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive])
       self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], sourceView: self.view, disableHaptic: true)
-      //}
+      
       }
       }
       
@@ -1509,9 +1507,8 @@ appversion: \(appVersion)
         alertObjArray.removeFirst()
         self.showAlert("nextAlertObj")
       })*/
-      button1 = UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { _ in
-        guard let currentAlert = alertObjArray.first else { return }
-        //alertObjArray.first!.completionHandler(true, nil)
+      guard let currentAlert = alertObjArray.first else { return }
+      button1 = UIAlertAction(title: currentAlert.buttonTitles![0], style: currentAlert.buttonStyles![0], handler: { _ in
         alertObjArray.removeFirst()
         currentAlert.completionHandler(true, nil)
         self.showAlert("nextAlertObj")
