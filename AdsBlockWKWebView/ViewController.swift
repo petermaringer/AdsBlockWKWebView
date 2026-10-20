@@ -635,15 +635,15 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   }
   
   @objc func rightViewTapped() {
-    let endPosition = urlField.endOfDocument
-    urlField.selectedTextRange = urlField.textRange(from: endPosition, to: endPosition)
-    /*if urlField.isFirstResponder {
+    //let endPosition = urlField.endOfDocument
+    //urlField.selectedTextRange = urlField.textRange(from: endPosition, to: endPosition)
+    if urlField.isFirstResponder {
       let endPosition = urlField.endOfDocument
       urlField.selectedTextRange = urlField.textRange(from: endPosition, to: endPosition)
     } else {
-      shouldPlaceCursorAtEnd = true
+      //shouldPlaceCursorAtEnd = true
       urlField.becomeFirstResponder()
-    }*/
+    }
   }
   
   @objc func buttonClicked() {
