@@ -628,6 +628,16 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     }
   }
   
+  @objc func rightViewTapped() {
+    if urlField.isFirstResponder {
+      let endPosition = urlField.endOfDocument
+      urlField.selectedTextRange = urlField.textRange(from: endPosition, to: endPosition)
+    } else {
+      //shouldPlaceCursorAtStart = true
+      //urlField.becomeFirstResponder()
+    }
+  }
+  
   @objc func buttonClicked() {
     urlField.endEditing(true)
   }
@@ -2164,6 +2174,58 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         urlField.leftView?.isUserInteractionEnabled = true
         urlField.leftView?.addGestureRecognizer(leftViewGesture)
         
+        
+        let standardRightView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 30))
+let rightViewGesture = UITapGestureRecognizer(target: self, action: #selector(rightViewTapped))
+rightViewGesture.numberOfTapsRequired = 1
+standardRightView.isUserInteractionEnabled = true
+standardRightView.addGestureRecognizer(rightViewGesture)
+
+// 2. Die View für den Fall: Textfeld WIRD editiert UND hat Text (39x30)
+let editingRightView = UIView(frame: CGRect(x: 0, y: 0, width: 39, height: 30))
+
+// Geste für den 15px-Bereich in der Editing-View spiegeln
+let editingViewGesture = UITapGestureRecognizer(target: self, action: #selector(rightViewTapped))
+editingViewGesture.numberOfTapsRequired = 1
+editingRightView.isUserInteractionEnabled = true
+editingRightView.addGestureRecognizer(editingViewGesture)
+
+// Den Clear-Button in die Editing-View integrieren
+let clearButton = UIButton(type: .system)
+clearButton.frame = CGRect(x: 15, y: 3, width: 24, height: 24)
+clearButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+clearButton.tintColor = .systemGray3
+clearButton.addAction(UIAction(handler: { [weak urlField] _ in
+    urlField?.text = ""
+    urlField?.sendActions(for: .editingChanged)
+}), for: .touchUpInside)
+editingRightView.addSubview(clearButton)
+
+
+// ==========================================
+// DIE LOGIK FÜR DEN AUTOMATISCHEN WECHSEL
+// ==========================================
+
+// Initialen Zustand setzen
+urlField.rightView = standardRightView
+urlField.rightViewMode = .always
+
+// Event-Listener registrieren, die die Views hart austauschen
+let updateViews = UIAction { [weak urlField] _ in
+    guard let urlField = urlField else { return }
+    
+    // Bedingung: Wird editiert UND Text ist nicht leer
+    let showClearButton = urlField.isEditing && !(urlField.text?.isEmpty ?? true)
+    
+    // Der harte Tausch ohne Trägheit oder Animation
+    urlField.rightView = showClearButton ? editingRightView : standardRightView
+}
+
+urlField.addAction(updateViews, for: .editingChanged)
+urlField.addAction(updateViews, for: .editingDidBegin)
+urlField.addAction(updateViews, for: .editingDidEnd)
+        
+        
         urlField.layer.cornerRadius = 5
         urlField.clipsToBounds = true
         urlField.autocapitalizationType = .none
@@ -2202,7 +2264,8 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         
         urlField.keyboardType = UIKeyboardType.webSearch
         urlField.returnKeyType = UIReturnKeyType.done
-        urlField.clearButtonMode = UITextField.ViewMode.whileEditing
+        //urlField.clearButtonMode = UITextField.ViewMode.whileEditing
+        urlField.clearButtonMode = .never
         urlField.contentVerticalAlignment = UIControl.ContentVerticalAlignment.center
         urlField.delegate = self
         view.addSubview(urlField)
