@@ -609,12 +609,18 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   }
   
   var shouldPlaceCursorAtStart = false
+  var shouldPlaceCursorAtEnd = false
   
   func textFieldDidChangeSelection(_ textField: UITextField) {
     if textField == urlField && shouldPlaceCursorAtStart {
       shouldPlaceCursorAtStart = false
       let startPosition = textField.beginningOfDocument
       textField.selectedTextRange = textField.textRange(from: startPosition, to: startPosition)
+    }
+    if textField == urlField && shouldPlaceCursorAtEnd {
+      shouldPlaceCursorAtEnd = false
+      let endPosition = textField.endOfDocument
+      textField.selectedTextRange = textField.textRange(from: endPosition, to: endPosition)
     }
   }
   
@@ -633,8 +639,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
       let endPosition = urlField.endOfDocument
       urlField.selectedTextRange = urlField.textRange(from: endPosition, to: endPosition)
     } else {
-      //shouldPlaceCursorAtStart = true
-      //urlField.becomeFirstResponder()
+      shouldPlaceCursorAtEnd = true
+      urlField.becomeFirstResponder()
     }
   }
   
@@ -2182,7 +2188,7 @@ standardRightView.isUserInteractionEnabled = true
 standardRightView.addGestureRecognizer(rightViewGesture)
 
 // 2. Die View für den Fall: Textfeld WIRD editiert UND hat Text (39x30)
-let editingRightView = UIView(frame: CGRect(x: 0, y: 0, width: 39, height: 30))
+let editingRightView = UIView(frame: CGRect(x: 0, y: 0, width: 34, height: 30))
 
 // Geste für den 15px-Bereich in der Editing-View spiegeln
 let editingViewGesture = UITapGestureRecognizer(target: self, action: #selector(rightViewTapped))
@@ -2192,9 +2198,15 @@ editingRightView.addGestureRecognizer(editingViewGesture)
 
 // Den Clear-Button in die Editing-View integrieren
 let clearButton = UIButton(type: .system)
-clearButton.frame = CGRect(x: 15, y: 3, width: 24, height: 24)
-clearButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
-clearButton.tintColor = .systemGray3
+clearButton.frame = CGRect(x: 15, y: 0, width: 19, height: 30)
+//clearButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+//clearButton.tintColor = .systemGray3
+let symbolConfig = UIImage.SymbolConfiguration(pointSize: 14, weight: .regular)
+clearButton.setImage(UIImage(systemName: "multiply.circle.fill", withConfiguration: symbolConfig), for: .normal)
+clearButton.tintColor = UIColor.placeholderText
+// Inhalt nach links ausrichten, damit das Symbol an Position 15 bleibt
+clearButton.contentHorizontalAlignment = .left
+
 clearButton.addAction(UIAction(handler: { [weak urlField] _ in
     urlField?.text = ""
     urlField?.sendActions(for: .editingChanged)
