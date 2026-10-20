@@ -201,6 +201,19 @@ func initPool() -> WKProcessPool {
 let processPool: WKProcessPool = initPool()
 
 
+class CustomUITextField: UITextField {
+  override func layoutSubviews() {
+    CATransaction.begin()
+    CATransaction.setDisableActions(true)
+    super.layoutSubviews()
+    if let clearButton = self.value(forKey: "_clearButton") as? UIButton {
+      clearButton.layer.removeAllAnimations()
+    }
+    CATransaction.commit()
+  }
+}
+
+
 /*
 //let phone = request?.url.absoluteString[range.upperBound...].removingPercentEncoding!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
 */
@@ -509,7 +522,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   //var topNavBgView: UIVisualEffectView!
   var progressView: UIProgressView!
   
-  var urlField: UITextField!
+  //var urlField: UITextField!
+  var urlField: CustomUITextField!
   var button: UIButton!
   var kvButton: UIButton!
   var kvButton2: UIButton!
@@ -1463,7 +1477,7 @@ appversion: \(appVersion)
   }
   
   
-  private func showAlertOld(message: String? = nil) {
+  /*private func showAlertOld(message: String? = nil) {
     if let message = message {
       messages.append(message)
     }
@@ -1477,7 +1491,7 @@ appversion: \(appVersion)
     hapticFB.notificationOccurred(.success)
     present(alert, animated: true, completion: nil)
     //present(alert, animated: true) { hapticFB.notificationOccurred(.success) }
-  }
+  }*/
   
   /*private func showAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], defaultButton: Int? = 0, sourceView: UIView? = nil, disableHaptic: Bool? = false, completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
     if message != "nextAlertObj" {
@@ -1626,7 +1640,6 @@ appversion: \(appVersion)
         buttonPressed(currentAlert.message ?? "", nil)
       })
       alert.addAction(button1)
-      //currentAlert.defaultButton = nil
     }
     
     if currentAlert.type == "confirm" {
@@ -1696,7 +1709,6 @@ appversion: \(appVersion)
       alert.addAction(button1)
     }
     
-    //if currentAlert.defaultButton != nil && currentAlert.type != "alert" {
     if currentAlert.defaultButton != nil {
       alert.preferredAction = alert.actions[abs(currentAlert.defaultButton! - alert.actions.count + 1)]
     }
@@ -1705,7 +1717,7 @@ appversion: \(appVersion)
       //popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
       popover.sourceView = sourceView
       popover.sourceRect = sourceView.bounds
-      popover.permittedArrowDirections = []
+      //popover.permittedArrowDirections = []
     }
     if currentAlert.disableHaptic != true {
       hapticFB.notificationOccurred(.success)
@@ -2134,7 +2146,8 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         progressView.trackTintColor = .clear
         view.addSubview(progressView)
         
-        urlField = UITextField(frame: CGRect.zero)
+        //urlField = UITextField(frame: CGRect.zero)
+        urlField = CustomUITextField(frame: CGRect.zero)
         urlField.placeholder = "Type your Address"
         urlField.font = UIFont.systemFont(ofSize: 15)
         urlField.textColor = .appBgColor
