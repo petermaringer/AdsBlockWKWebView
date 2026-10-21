@@ -635,8 +635,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   }
   
   @objc func rightViewTapped() {
-    //let endPosition = urlField.endOfDocument
-    //urlField.selectedTextRange = urlField.textRange(from: endPosition, to: endPosition)
     if urlField.isFirstResponder {
       let endPosition = urlField.endOfDocument
       urlField.selectedTextRange = urlField.textRange(from: endPosition, to: endPosition)
@@ -2188,6 +2186,7 @@ let rightViewGesture = UITapGestureRecognizer(target: self, action: #selector(ri
 rightViewGesture.numberOfTapsRequired = 1
 standardRightView.isUserInteractionEnabled = true
 standardRightView.addGestureRecognizer(rightViewGesture)
+standardRightView.backgroundColor = .green
 
 // 2. Die View für den Fall: Textfeld WIRD editiert UND hat Text (39x30)
 let editingRightView = UIView(frame: CGRect(x: 0, y: 0, width: 39, height: 30))
@@ -2197,6 +2196,7 @@ let editingViewGesture = UITapGestureRecognizer(target: self, action: #selector(
 editingViewGesture.numberOfTapsRequired = 1
 editingRightView.isUserInteractionEnabled = true
 editingRightView.addGestureRecognizer(editingViewGesture)
+editingRightView.backgroundColor = .yellow
 
 // Den Clear-Button in die Editing-View integrieren
 let clearButton = UIButton(type: .system)
@@ -2209,6 +2209,7 @@ clearButton.setImage(UIImage(systemName: "multiply.circle.fill", withConfigurati
 clearButton.tintColor = UIColor.placeholderText
 // Inhalt nach links ausrichten, damit das Symbol an Position 15 bleibt
 //clearButton.contentHorizontalAlignment = .left
+clearButton.backgroundColor = .red
 
 clearButton.addAction(UIAction(handler: { [weak urlField] _ in
     urlField?.text = ""
