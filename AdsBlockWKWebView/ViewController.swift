@@ -645,7 +645,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     }
   }
   
-  @objc func rightViewTapped() {
+  /*@objc func rightViewTapped() {
     if urlField.isFirstResponder {
       let endPosition = urlField.endOfDocument
       urlField.selectedTextRange = urlField.textRange(from: endPosition, to: endPosition)
@@ -653,7 +653,36 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
       //shouldPlaceCursorAtEnd = true
       urlField.becomeFirstResponder()
     }
-  }
+  }*/
+  private var lastCaretRect: CGRect?
+
+@objc func rightViewTapped() {
+    // 1. Wenn das Feld noch gar keinen Fokus hat, setzen wir nur den Cursor ans Ende (Erster Klick)
+    if !urlField.isFirstResponder {
+        urlField.becomeFirstResponder()
+        // Cursor ganz ans Ende bewegen
+        urlField.selectedTextRange = urlField.textRange(from: urlField.endOfDocument, to: urlField.endOfDocument)
+        lastCaretRect = nil
+        return
+    }
+    
+    // 2. Wenn es schon Fokus hat, holen wir die aktuelle Cursor-Position
+    guard let selectedRange = urlField.selectedTextRange else { return }
+    let currentCaretRect = urlField.caretRect(for: selectedRange.end)
+    
+    // Prüfen, ob der Cursor am Ende steht und sich seit dem letzten Klick nicht verändert hat (Zweiter Klick)
+    if lastCaretRect == currentCaretRect {
+        // Jetzt toggeln wir das originale System-Menü
+        if let editMenuInteraction = urlField.interactions.compactMap({ $0 as? UIEditMenuInteraction }).first {
+            let configuration = UIEditMenuConfiguration(identifier: nil, sourcePoint: CGPoint(x: currentCaretRect.midX, y: currentCaretRect.midY))
+            editMenuInteraction.presentEditMenu(with: configuration)
+        }
+    } else {
+        // Der Cursor war woanders oder wurde neu gesetzt -> Nur Position merken, kein Menü
+        urlField.selectedTextRange = urlField.textRange(from: urlField.endOfDocument, to: urlField.endOfDocument)
+        lastCaretRect = urlField.caretRect(for: urlField.selectedTextRange!.end)
+    }
+}
   
   @objc func buttonClicked() {
     urlField.endEditing(true)
