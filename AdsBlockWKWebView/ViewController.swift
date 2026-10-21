@@ -239,6 +239,28 @@ class CustomUITextField: UITextField {
         let padding = UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding)
         return UIEdgeInsetsInsetRect(bounds, padding) 
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    super.touchesBegan(touches, with: event)
+    guard let touch = touches.first else { return }
+    let touchPoint = touch.location(in: self)
+    
+    isLeftPaddingClicked = touchPoint.x <= leftPadding
+    isRightPaddingClicked = touchPoint.x >= (bounds.width - rightPadding)
+    
+    // SOFORT-REPARATUR: Wenn das Feld schon aktiv ist, bewegen wir den Cursor direkt hier!
+    if isFirstResponder {
+        if isLeftPaddingClicked {
+            let start = beginningOfDocument
+            selectedTextRange = textRange(from: start, to: start)
+            isLeftPaddingClicked = false // Direkt wieder aufräumen
+        } else if isRightPaddingClicked {
+            let end = endOfDocument
+            selectedTextRange = textRange(from: end, to: end)
+            isRightPaddingClicked = false // Direkt wieder aufräumen
+        }
+    }
+}
 
 }
 
@@ -633,24 +655,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
         //textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
         //textField.selectAll(nil)
         textField.textColor = .appBgColor
-        
-        if let interaction = textField.interactions.compactMap({ $0 as? UITextInteraction }).first,
-       let gestureRecognizer = interaction.gestureRecognizers?.first(where: { $0.state == .ended }) {
-        
-        let touchPoint = gestureRecognizer.location(in: textField)
-        
-        // Klick war links im Padding -> Cursor starr an den Anfang
-        if touchPoint.x <= 15 {
-            let startPosition = textField.beginningOfDocument
-            textField.selectedTextRange = textField.textRange(from: startPosition, to: startPosition)
-        }
-        // Klick war rechts im Padding -> Cursor starr ans Ende
-        else if touchPoint.x >= (textField.bounds.width - textField.rightPadding) {
-            let endPosition = textField.endOfDocument
-            textField.selectedTextRange = textField.textRange(from: endPosition, to: endPosition)
-        }
-    }
-        
       default: break
     }
   }
