@@ -211,29 +211,10 @@ class CustomUITextField: UITextField {
     }
     CATransaction.commit()
   }*/
-  override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        // Zuerst prüfen, ob der Klick überhaupt in den Grenzen des Textfelds liegt
-        guard let hitView = super.hitTest(point, with: event) else { return nil }
-        
-        // Wenn der Button gerade nicht sichtbar sein soll (Feld leer oder nicht im Fokus)
-        let showClearButton = self.isEditing && !(self.text?.isEmpty ?? true)
-        
-        if !showClearButton {
-            // Wenn der User in den Bereich der rightView klickt...
-            if let rightView = self.rightView, hitView.isDescendant(of: rightView) {
-                // ...prüfen wir, ob er gezielt die linken 15px für deine Geste treffen wollte
-                let pointInRightView = convert(point, to: rightView)
-                if pointInRightView.x <= 15 {
-                    return hitView // Lässt deine Geste auf den 15px durchgehen
-                }
-                
-                // Für ALLE anderen Pixel rechts daneben: 
-                // Wir tun so, als gäbe es die View nicht. Der Klick landet direkt im Textfeld!
-                return self
-            }
-        }
-        
-        return hitView
+  override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
+        // Nutzt automatisch die Breite (15 oder 34/39), die deine aktive View im VC gerade hat
+        let currentWidth = self.rightView?.bounds.width ?? 15
+        return CGRect(x: bounds.width - currentWidth, y: (bounds.height - 30) / 2, width: currentWidth, height: 30)
     }
 }
 
@@ -2278,8 +2259,9 @@ let updateViews = UIAction { [weak urlField] _ in
     
     // Das ist der entscheidende Schritt: Zwingt das urlField, die Klick-Zonen 
     // für den Text links neben der View sofort im selben Frame neu zu berechnen!
+    */
     urlField.setNeedsLayout()
-    urlField.layoutIfNeeded()*/
+    //urlField.layoutIfNeeded()
 }
 
 urlField.addAction(updateViews, for: .editingChanged)
