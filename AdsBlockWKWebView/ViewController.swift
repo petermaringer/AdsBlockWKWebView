@@ -243,7 +243,7 @@ class CustomUITextField: UITextField {
     
     var isLeftPaddingClicked = false
     var isRightPaddingClicked = false
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     super.touchesBegan(touches, with: event)
     guard let touch = touches.first else { return }
     let touchPoint = touch.location(in: self)
@@ -251,16 +251,22 @@ class CustomUITextField: UITextField {
     isLeftPaddingClicked = touchPoint.x <= leftPadding
     isRightPaddingClicked = touchPoint.x >= (bounds.width - rightPadding)
     
-    // SOFORT-REPARATUR: Wenn das Feld schon aktiv ist, bewegen wir den Cursor direkt hier!
+    // Wenn das Feld bereits aktiv ist, verschieben wir den Cursor entkoppelt
     if isFirstResponder {
         if isLeftPaddingClicked {
-            let start = beginningOfDocument
-            selectedTextRange = textRange(from: start, to: start)
-            isLeftPaddingClicked = false // Direkt wieder aufräumen
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                let start = self.beginningOfDocument
+                self.selectedTextRange = self.textRange(from: start, to: start)
+                self.isLeftPaddingClicked = false
+            }
         } else if isRightPaddingClicked {
-            let end = endOfDocument
-            selectedTextRange = textRange(from: end, to: end)
-            isRightPaddingClicked = false // Direkt wieder aufräumen
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                let end = self.endOfDocument
+                self.selectedTextRange = self.textRange(from: end, to: end)
+                self.isRightPaddingClicked = false
+            }
         }
     }
 }
