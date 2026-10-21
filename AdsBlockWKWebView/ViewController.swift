@@ -240,7 +240,9 @@ class CustomUITextField: UITextField {
         return UIEdgeInsetsInsetRect(bounds, padding) 
     }
     
-    
+    var isLeftPaddingClicked: Bool = false
+    var isRightPaddingClicked: Bool = false
+
   override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
     let touchPoint = gestureRecognizer.location(in: self)
     
