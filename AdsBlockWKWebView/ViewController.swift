@@ -240,23 +240,28 @@ class CustomUITextField: UITextField {
         return UIEdgeInsetsInsetRect(bounds, padding) 
     }
     
-    override func closestPosition(to point: CGPoint) -> UITextPosition? {
-    let validTextRect = editingRect(forBounds: bounds)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    // 1. Erst den originalen Klick durchlassen, damit das Feld aktiv wird
+    super.touchesBegan(touches, with: event)
     
-    // 1. Klick ist links im leeren Padding (vor dem Textbereich) -> Anfang
-    if point.x < validTextRect.minX {
-        return beginningOfDocument
+    // 2. Jetzt holen wir uns den Punkt, wo der scheiß Finger tatsächlich geklickt hat!
+    guard let touch = touches.first else { return }
+    let fingerPoint = touch.location(in: self)
+    
+    // 3. Wenn der Finger im linken 15px Rand war -> Cursor knallhart an den Anfang
+    if fingerPoint.x <= leftPadding {
+        let startPosition = self.beginningOfDocument
+        self.selectedTextRange = self.textRange(from: startPosition, to: startPosition)
+    } 
+    // 4. Wenn der Finger im rechten Rand war -> Cursor knallhart ans absolute Ende
+    else if fingerPoint.x >= (bounds.width - rightPadding) {
+        let endPosition = self.endOfDocument
+        self.selectedTextRange = self.textRange(from: endPosition, to: endPosition)
     }
     
-    // 2. Klick ist rechts im leeren Padding (hinter dem Textbereich) -> Ende
-    if point.x > validTextRect.maxX {
-        return endOfDocument
-    }
-    
-    // 3. Klick ist mitten im Textbereich -> Normale, freie Cursor-Bewegung
-    return super.closestPosition(to: point)
+    // 5. Überall sonst (in der Mitte) passiert absolut gar nichts. 
+    // iOS behält die Position bei, wo der Finger hingetippt hat, und nichts bleibt hängen!
 }
-
 
 }
 
