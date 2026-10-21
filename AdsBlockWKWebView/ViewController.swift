@@ -2413,22 +2413,21 @@ clearButton.addAction(UIAction(handler: { [weak urlField] _ in
 
 urlField.addSubview(clearButton)
 
-// 3. Das einzige Event, das das Layout und das Padding der Klasse steuert
 let updateUI = UIAction { [weak urlField, weak clearButton] _ in
     guard let urlField = urlField, let clearButton = clearButton else { return }
     
     let show = urlField.isEditing && !(urlField.text?.isEmpty ?? true)
     
-    // Hier steuerst du das Padding der Klasse von außen!
     urlField.rightPadding = show ? 34 : 15
     clearButton.isHidden = !show
     
-    // Positioniert den Button am rechten Rand des urlFields
     if show {
-        clearButton.frame = CGRect(x: urlField.bounds.width - 19, y: 0, width: 19, height: urlField.bounds.height)
+        // Platziert den Button asynchron, sobald die Breite des Feldes feststeht
+        DispatchQueue.main.async {
+            clearButton.frame = CGRect(x: urlField.bounds.width - 19, y: 0, width: 19, height: urlField.bounds.height)
+        }
     }
     
-    // Zwingt die Klasse, das geänderte Padding sofort neu zu zeichnen
     urlField.setNeedsLayout()
 }
 
