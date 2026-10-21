@@ -239,6 +239,20 @@ class CustomUITextField: UITextField {
         let padding = UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding)
         return UIEdgeInsetsInsetRect(bounds, padding) 
     }
+    
+    override func closestPosition(to point: CGPoint) -> UITextPosition? {
+    // 1. Klick war links im 15px Padding -> Cursor starr an den Anfang zwingen
+    if point.x <= leftPadding {
+        return beginningOfDocument
+    }
+    // 2. Klick war rechts im freien Padding (34px oder 15px) -> Cursor starr ans Ende zwingen
+    else if point.x >= (bounds.width - rightPadding) {
+        return endOfDocument
+    }
+    // 3. Klick war in der Mitte -> Normales, präzises Verhalten zwischen Buchstaben
+    return super.closestPosition(to: point)
+}
+
 }
 
 
@@ -2418,10 +2432,7 @@ urlField.addAction(updateRightViewLayout, for: .editingChanged)
 urlField.addAction(updateRightViewLayout, for: .editingDidBegin)
 urlField.addAction(updateRightViewLayout, for: .editingDidEnd)*/
         
-        let fieldTap = UITapGestureRecognizer(target: self, action: #selector(fieldTapped(_:)))
-fieldTap.cancelsTouchesInView = false // Lässt alle Standard-Aktionen und das Menü komplett unberührt
-urlField.addGestureRecognizer(fieldTap)
-
+        
         let clearButton = UIButton(type: .custom)
 let config = UIImage.SymbolConfiguration(pointSize: 14, weight: .regular)
 clearButton.setImage(UIImage(systemName: "multiply.circle.fill", withConfiguration: config), for: .normal)
