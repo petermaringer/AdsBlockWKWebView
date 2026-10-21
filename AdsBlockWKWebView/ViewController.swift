@@ -241,34 +241,35 @@ class CustomUITextField: UITextField {
     }
     
     
-    var isLeftPaddingClicked = false
-    var isRightPaddingClicked = false
-  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    super.touchesBegan(touches, with: event)
-    guard let touch = touches.first else { return }
-    let touchPoint = touch.location(in: self)
+  override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    let touchPoint = gestureRecognizer.location(in: self)
     
+    // 1. NUR EINMAL SETZEN
     isLeftPaddingClicked = touchPoint.x <= leftPadding
     isRightPaddingClicked = touchPoint.x >= (bounds.width - rightPadding)
     
-    // Wenn das Feld bereits aktiv ist, verschieben wir den Cursor entkoppelt
+    // 2. CURSOR ZWINGEN & DANACH DIREKT AUF FALSE ZURÜCKSETZEN
     if isFirstResponder {
         if isLeftPaddingClicked {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
-                let start = self.beginningOfDocument
-                self.selectedTextRange = self.textRange(from: start, to: start)
-                self.isLeftPaddingClicked = false
+                let start = beginningOfDocument
+                selectedTextRange = textRange(from: start, to: start)
+                // Hier das echte Zurücksetzen nach dem Sprung!
+                isLeftPaddingClicked = false
             }
         } else if isRightPaddingClicked {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
-                let end = self.endOfDocument
-                self.selectedTextRange = self.textRange(from: end, to: end)
-                self.isRightPaddingClicked = false
+                let end = endOfDocument
+                selectedTextRange = textRange(from: end, to: end)
+                // Hier das echte Zurücksetzen nach dem Sprung!
+                isRightPaddingClicked = false
             }
         }
     }
+    
+    return super.gestureRecognizerShouldBegin(gestureRecognizer)
 }
 
 }
