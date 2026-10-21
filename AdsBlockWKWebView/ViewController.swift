@@ -240,33 +240,38 @@ class CustomUITextField: UITextField {
         return UIEdgeInsetsInsetRect(bounds, padding) 
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    // 1. Erst iOS den Klick normal verarbeiten lassen
+    private var shouldJumpToStart = false
+private var shouldJumpToEnd = false
+
+override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     super.touchesBegan(touches, with: event)
     
     guard let touch = touches.first else { return }
     let fingerPoint = touch.location(in: self)
     
-    let isLeftPadding = fingerPoint.x <= leftPadding
-    let isRightPadding = fingerPoint.x >= (bounds.width - rightPadding)
-    
-    if isLeftPadding || isRightPadding {
-        // 2. 0.05 Sekunden warten, bis iOS mit dem Fokussieren und Cursor-Setzen fertig ist
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [weak self] in
-            guard let self = self else { return }
-            
-            if isLeftPadding {
-                // Zwingt den Cursor ganz an den Anfang
-                let startPosition = self.beginningOfDocument
-                self.selectedTextRange = self.textRange(from: startPosition, to: startPosition)
-            } else if isRightPadding {
-                // Zwingt den Cursor ganz ans Ende
-                let endPosition = self.endOfDocument
-                self.selectedTextRange = self.textRange(from: endPosition, to: endPosition)
-            }
-        }
+    if fingerPoint.x <= leftPadding {
+        shouldJumpToStart = true
+    } else if fingerPoint.x >= (bounds.width - rightPadding) {
+        shouldJumpToEnd = true
     }
 }
+
+override func layoutSubviews() {
+    super.layoutSubviews()
+    
+    if shouldJumpToStart {
+        shouldJumpToStart = false
+        let startPosition = self.beginningOfDocument
+        self.selectedTextRange = self.textRange(from: startPosition, to: startPosition)
+    }
+    
+    if shouldJumpToEnd {
+        shouldJumpToEnd = false
+        let endPosition = self.endOfDocument
+        self.selectedTextRange = self.textRange(from: endPosition, to: endPosition)
+    }
+}
+
 
 
 }
