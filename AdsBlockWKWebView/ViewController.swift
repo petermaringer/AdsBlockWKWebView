@@ -241,17 +241,22 @@ class CustomUITextField: UITextField {
     }
     
     override func closestPosition(to point: CGPoint) -> UITextPosition? {
-    // 1. Klick war links im 15px Padding -> Cursor starr an den Anfang zwingen
-    if point.x <= leftPadding {
+    let validTextRect = editingRect(forBounds: bounds)
+    
+    // 1. Klick ist links im leeren Padding (vor dem Textbereich) -> Anfang
+    if point.x < validTextRect.minX {
         return beginningOfDocument
     }
-    // 2. Klick war rechts im freien Padding (34px oder 15px) -> Cursor starr ans Ende zwingen
-    else if point.x >= (bounds.width - rightPadding) {
+    
+    // 2. Klick ist rechts im leeren Padding (hinter dem Textbereich) -> Ende
+    if point.x > validTextRect.maxX {
         return endOfDocument
     }
-    // 3. Klick war in der Mitte -> Normales, präzises Verhalten zwischen Buchstaben
+    
+    // 3. Klick ist mitten im Textbereich -> Normale, freie Cursor-Bewegung
     return super.closestPosition(to: point)
 }
+
 
 }
 
