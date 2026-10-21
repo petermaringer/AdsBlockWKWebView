@@ -630,8 +630,10 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     }
     if textField == urlField && shouldPlaceCursorAtEnd {
       shouldPlaceCursorAtEnd = false
+      DispatchQueue.main.async {
       let endPosition = textField.endOfDocument
       textField.selectedTextRange = textField.textRange(from: endPosition, to: endPosition)
+      }
     }
   }
   
@@ -645,17 +647,16 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     }
   }
   
-  /*@objc func rightViewTapped() {
+  @objc func rightViewTapped() {
     if urlField.isFirstResponder {
       let endPosition = urlField.endOfDocument
       urlField.selectedTextRange = urlField.textRange(from: endPosition, to: endPosition)
     } else {
-      //shouldPlaceCursorAtEnd = true
+      shouldPlaceCursorAtEnd = true
       urlField.becomeFirstResponder()
     }
-  }*/
-private var lastCaretRect: CGRect?
-
+  }
+/*private var lastCaretRect: CGRect?
 @objc func rightViewTapped() {
     // 1. Erster Klick: Fokus setzen & Cursor ans Ende
     if !urlField.isFirstResponder {
@@ -681,7 +682,7 @@ private var lastCaretRect: CGRect?
         urlField.selectedTextRange = urlField.textRange(from: urlField.endOfDocument, to: urlField.endOfDocument)
         lastCaretRect = urlField.caretRect(for: urlField.selectedTextRange!.end)
     }
-}
+}*/
   
   @objc func buttonClicked() {
     urlField.endEditing(true)
