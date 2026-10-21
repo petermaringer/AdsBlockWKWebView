@@ -667,6 +667,21 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
         //textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
         //textField.selectAll(nil)
         textField.textColor = .appBgColor
+        
+        if let textField = textField as? CustomUITextField {
+            DispatchQueue.main.async {
+                if textField.isRightPaddingClicked {
+                    textField.isRightPaddingClicked = false
+                    let end = textField.endOfDocument
+                    textField.selectedTextRange = textField.textRange(from: end, to: end)
+                } else if textField.isLeftPaddingClicked {
+                    textField.isLeftPaddingClicked = false
+                    let start = textField.beginningOfDocument
+                    textField.selectedTextRange = textField.textRange(from: start, to: start)
+                }
+            }
+        }
+        
       default: break
     }
   }
