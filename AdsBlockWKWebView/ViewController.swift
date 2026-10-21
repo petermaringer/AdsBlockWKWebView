@@ -225,10 +225,20 @@ class CustomUITextField: UITextField {
     var leftPadding: CGFloat = 15
     var rightPadding: CGFloat = 15
     // Die 3 System-Methoden setzen das Padding um
-    override func textRect(forBounds b: CGRect) -> CGRect { return b.inset(by: UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding)) }
-    override func placeholderRect(forBounds b: CGRect) -> CGRect { return b.inset(by: UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding)) }
-    override func editingRect(forBounds b: CGRect) -> CGRect { return b.inset(by: UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding)) }
-
+    override func textRect(forBounds bounds: CGRect) -> CGRect { 
+        let padding = UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding)
+        return UIEdgeInsetsInsetRect(bounds, padding) 
+    }
+    
+    override func placeholderRect(forBounds bounds: CGRect) -> CGRect { 
+        let padding = UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding)
+        return UIEdgeInsetsInsetRect(bounds, padding) 
+    }
+    
+    override func editingRect(forBounds bounds: CGRect) -> CGRect { 
+        let padding = UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding)
+        return UIEdgeInsetsInsetRect(bounds, padding) 
+    }
 }
 
 
