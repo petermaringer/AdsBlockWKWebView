@@ -240,6 +240,9 @@ class CustomUITextField: UITextField {
         return UIEdgeInsetsInsetRect(bounds, padding) 
     }
     
+    
+    var isLeftPaddingClicked = false
+    var isRightPaddingClicked = false
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     super.touchesBegan(touches, with: event)
     guard let touch = touches.first else { return }
