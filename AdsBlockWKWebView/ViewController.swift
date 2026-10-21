@@ -700,6 +700,25 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
         lastCaretRect = urlField.caretRect(for: urlField.selectedTextRange!.end)
     }
 }*/
+@objc private func fieldTapped(_ gesture: UITapGestureRecognizer) {
+    let touchPoint = gesture.location(in: urlField)
+    
+    // Wir warten eine Winzigkeit, bis iOS das Feld aktiviert und das Menü vorbereitet hat
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [weak urlField] in
+        guard let urlField = urlField, urlField.isFirstResponder else { return }
+        
+        // 1. Klick war im linken Padding -> Nur den Cursor an den absoluten Start zwingen
+        if touchPoint.x <= 15 {
+            let startPosition = urlField.beginningOfDocument
+            urlField.selectedTextRange = urlField.textRange(from: startPosition, to: startPosition)
+        } 
+        // 2. Klick war im rechten Padding -> Nur den Cursor an das absolute Ende zwingen
+        else if touchPoint.x >= (urlField.bounds.width - urlField.rightPadding) {
+            let endPosition = urlField.endOfDocument
+            urlField.selectedTextRange = urlField.textRange(from: endPosition, to: endPosition)
+        }
+    }
+}
   
   @objc func buttonClicked() {
     urlField.endEditing(true)
@@ -2399,6 +2418,10 @@ urlField.addAction(updateRightViewLayout, for: .editingChanged)
 urlField.addAction(updateRightViewLayout, for: .editingDidBegin)
 urlField.addAction(updateRightViewLayout, for: .editingDidEnd)*/
         
+        let fieldTap = UITapGestureRecognizer(target: self, action: #selector(fieldTapped(_:)))
+fieldTap.cancelsTouchesInView = false // Lässt alle Standard-Aktionen und das Menü komplett unberührt
+urlField.addGestureRecognizer(fieldTap)
+
         let clearButton = UIButton(type: .custom)
 let config = UIImage.SymbolConfiguration(pointSize: 14, weight: .regular)
 clearButton.setImage(UIImage(systemName: "multiply.circle.fill", withConfiguration: config), for: .normal)
