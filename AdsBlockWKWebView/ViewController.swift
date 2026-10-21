@@ -654,31 +654,30 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
       urlField.becomeFirstResponder()
     }
   }*/
-  private var lastCaretRect: CGRect?
+private var lastCaretRect: CGRect?
 
 @objc func rightViewTapped() {
-    // 1. Wenn das Feld noch gar keinen Fokus hat, setzen wir nur den Cursor ans Ende (Erster Klick)
+    // 1. Erster Klick: Fokus setzen & Cursor ans Ende
     if !urlField.isFirstResponder {
         urlField.becomeFirstResponder()
-        // Cursor ganz ans Ende bewegen
         urlField.selectedTextRange = urlField.textRange(from: urlField.endOfDocument, to: urlField.endOfDocument)
         lastCaretRect = nil
         return
     }
     
-    // 2. Wenn es schon Fokus hat, holen wir die aktuelle Cursor-Position
+    // 2. Zweiter Klick: Menü toggeln
     guard let selectedRange = urlField.selectedTextRange else { return }
     let currentCaretRect = urlField.caretRect(for: selectedRange.end)
     
-    // Prüfen, ob der Cursor am Ende steht und sich seit dem letzten Klick nicht verändert hat (Zweiter Klick)
     if lastCaretRect == currentCaretRect {
-        // Jetzt toggeln wir das originale System-Menü
-        if let editMenuInteraction = urlField.interactions.compactMap({ $0 as? UIEditMenuInteraction }).first {
-            let configuration = UIEditMenuConfiguration(identifier: nil, sourcePoint: CGPoint(x: currentCaretRect.midX, y: currentCaretRect.midY))
-            editMenuInteraction.presentEditMenu(with: configuration)
+        let menu = UIMenuController.shared
+        if menu.isMenuVisible {
+            menu.hideMenu()
+        } else {
+            // Zeigt das Standard-Menü exakt am Cursor an
+            menu.showMenu(from: urlField, rect: currentCaretRect)
         }
     } else {
-        // Der Cursor war woanders oder wurde neu gesetzt -> Nur Position merken, kein Menü
         urlField.selectedTextRange = urlField.textRange(from: urlField.endOfDocument, to: urlField.endOfDocument)
         lastCaretRect = urlField.caretRect(for: urlField.selectedTextRange!.end)
     }
