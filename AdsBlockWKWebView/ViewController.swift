@@ -211,36 +211,29 @@ class CustomUITextField: UITextField {
     }
     CATransaction.commit()
   }*/
-  override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        let originalRect = super.editingRect(forBounds: bounds)
+  override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        // Zuerst prüfen, ob der Klick überhaupt in den Grenzen des Textfelds liegt
+        guard let hitView = super.hitTest(point, with: event) else { return nil }
         
-        // Wenn kein Text da ist oder wir nicht editieren, 
-        // geben wir die 19px des Buttons sofort für das Textfeld frei!
+        // Wenn der Button gerade nicht sichtbar sein soll (Feld leer oder nicht im Fokus)
         let showClearButton = self.isEditing && !(self.text?.isEmpty ?? true)
         
         if !showClearButton {
-            // Holt die 19px Breite des Buttons für das Textfeld zurück
-            return CGRect(x: originalRect.origin.x,
-                          y: originalRect.origin.y,
-                          width: originalRect.size.width + 19,
-                          height: originalRect.size.height)
+            // Wenn der User in den Bereich der rightView klickt...
+            if let rightView = self.rightView, hitView.isDescendant(of: rightView) {
+                // ...prüfen wir, ob er gezielt die linken 15px für deine Geste treffen wollte
+                let pointInRightView = convert(point, to: rightView)
+                if pointInRightView.x <= 15 {
+                    return hitView // Lässt deine Geste auf den 15px durchgehen
+                }
+                
+                // Für ALLE anderen Pixel rechts daneben: 
+                // Wir tun so, als gäbe es die View nicht. Der Klick landet direkt im Textfeld!
+                return self
+            }
         }
         
-        return originalRect
-    }
-    
-    // Gleiches gilt für das Anzeigen des stehenden Textes
-    override func textRect(forBounds bounds: CGRect) -> CGRect {
-        let originalRect = super.textRect(forBounds: bounds)
-        let showClearButton = self.isEditing && !(self.text?.isEmpty ?? true)
-        
-        if !showClearButton {
-            return CGRect(x: originalRect.origin.x,
-                          y: originalRect.origin.y,
-                          width: originalRect.size.width + 19,
-                          height: originalRect.size.height)
-        }
-        return originalRect
+        return hitView
     }
 }
 
@@ -2274,8 +2267,8 @@ let updateViews = UIAction { [weak urlField] _ in
     let showClearButton = urlField.isEditing && !(urlField.text?.isEmpty ?? true)
     
     // Der harte Tausch ohne Trägheit oder Animation
-    //urlField.rightView = showClearButton ? editingRightView : standardRightView
-    if showClearButton {
+    urlField.rightView = showClearButton ? editingRightView : standardRightView
+    /*if showClearButton {
         urlField.rightView = editingRightView
     } else {
         // Zwingt das System, das unsichtbare Layout-Fenster auf exakt 15px zu schrumpfen
@@ -2286,7 +2279,7 @@ let updateViews = UIAction { [weak urlField] _ in
     // Das ist der entscheidende Schritt: Zwingt das urlField, die Klick-Zonen 
     // für den Text links neben der View sofort im selben Frame neu zu berechnen!
     urlField.setNeedsLayout()
-    urlField.layoutIfNeeded()
+    urlField.layoutIfNeeded()*/
 }
 
 urlField.addAction(updateViews, for: .editingChanged)
