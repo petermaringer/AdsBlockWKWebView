@@ -212,9 +212,15 @@ class CustomUITextField: UITextField {
     CATransaction.commit()
   }*/
   override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
-        // Nutzt automatisch die Breite (15 oder 34/39), die deine aktive View im VC gerade hat
-        let currentWidth = self.rightView?.bounds.width ?? 15
-        return CGRect(x: bounds.width - currentWidth, y: (bounds.height - 30) / 2, width: currentWidth, height: 30)
+        let showClearButton = self.isEditing && !(self.text?.isEmpty ?? true)
+        
+        if showClearButton {
+            // Zeigt die vollen 34px (15px Geste + 19px Button)
+            return CGRect(x: bounds.width - 34, y: 0, width: 34, height: bounds.height)
+        } else {
+            // Schneidet den Button ab Pixel 15 hart ab. Der Platz links daneben ist sofort klickbar!
+            return CGRect(x: bounds.width - 15, y: 0, width: 15, height: bounds.height)
+        }
     }
 }
 
@@ -2186,7 +2192,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         urlField.leftView?.addGestureRecognizer(leftViewGesture)
         
         
-        let standardRightView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 30))
+        /*let standardRightView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 30))
 let rightViewGesture = UITapGestureRecognizer(target: self, action: #selector(rightViewTapped))
 rightViewGesture.numberOfTapsRequired = 1
 standardRightView.isUserInteractionEnabled = true
@@ -2205,7 +2211,7 @@ editingRightView.backgroundColor = .yellow
 
 // Den Clear-Button in die Editing-View integrieren
 let clearButton = UIButton(type: .system)
-clearButton.frame = CGRect(x: 15, y: 0, width: 19, height: 30)
+clearButton.frame = CGRect(x: 15, y: 0, width: 19, height: 30)*/
 /*clearButton.imageView?.contentMode = .center
 //clearButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
 //clearButton.tintColor = .systemGray3
@@ -2214,7 +2220,7 @@ clearButton.setImage(UIImage(systemName: "multiply.circle.fill", withConfigurati
 clearButton.tintColor = UIColor.placeholderText*/
 // Inhalt nach links ausrichten, damit das Symbol an Position 15 bleibt
 //clearButton.contentHorizontalAlignment = .left
-clearButton.setImage(UIImage(systemName: "multiply.circle.fill"), for: .normal)
+/*clearButton.setImage(UIImage(systemName: "multiply.circle.fill"), for: .normal)
 clearButton.tintColor = UIColor.placeholderText
 
 // FIX GEGEN VERZERRUNG: Zwingt das Bild, seine Proportionen (14x14) beizubehalten
@@ -2248,7 +2254,7 @@ let updateViews = UIAction { [weak urlField] _ in
     let showClearButton = urlField.isEditing && !(urlField.text?.isEmpty ?? true)
     
     // Der harte Tausch ohne Trägheit oder Animation
-    urlField.rightView = showClearButton ? editingRightView : standardRightView
+    urlField.rightView = showClearButton ? editingRightView : standardRightView*/
     /*if showClearButton {
         urlField.rightView = editingRightView
     } else {
@@ -2260,13 +2266,36 @@ let updateViews = UIAction { [weak urlField] _ in
     // Das ist der entscheidende Schritt: Zwingt das urlField, die Klick-Zonen 
     // für den Text links neben der View sofort im selben Frame neu zu berechnen!
     */
-    urlField.setNeedsLayout()
+    /*urlField.setNeedsLayout()
     //urlField.layoutIfNeeded()
 }
 
 urlField.addAction(updateViews, for: .editingChanged)
 urlField.addAction(updateViews, for: .editingDidBegin)
-urlField.addAction(updateViews, for: .editingDidEnd)
+urlField.addAction(updateViews, for: .editingDidEnd)*/
+        urlField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 34, height: 30))
+urlField.rightViewMode = .always
+
+// Deine Geste auf den linken 15px platzieren
+let rightViewGesture = UITapGestureRecognizer(target: self, action: #selector(rightViewTapped))
+rightViewGesture.numberOfTapsRequired = 1
+urlField.rightView?.isUserInteractionEnabled = true
+urlField.rightView?.addGestureRecognizer(rightViewGesture)
+
+// Den Button fest ab Pixel 15 in den Container setzen
+let clearButton = UIButton(type: .custom)
+clearButton.frame = CGRect(x: 15, y: 0, width: 19, height: 30)
+let config = UIImage.SymbolConfiguration(pointSize: 14, weight: .regular)
+clearButton.setImage(UIImage(systemName: "multiply.circle.fill", withConfiguration: config), for: .normal)
+clearButton.tintColor = UIColor.placeholderText
+clearButton.contentHorizontalAlignment = .left
+
+clearButton.addAction(UIAction(handler: { [weak urlField] _ in
+    urlField?.text = ""
+    urlField?.sendActions(for: .editingChanged)
+}), for: .touchUpInside)
+
+urlField.rightView?.addSubview(clearButton)
         
         
         urlField.layer.cornerRadius = 5
