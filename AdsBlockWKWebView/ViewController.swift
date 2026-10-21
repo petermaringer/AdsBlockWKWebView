@@ -222,6 +222,14 @@ class CustomUITextField: UITextField {
             return CGRect(x: bounds.width - 15, y: 0, width: 15, height: bounds.height)
         }
     }*/
+    var leftPadding: CGFloat = 15
+    var rightPadding: CGFloat = 15
+
+    // Die 3 System-Methoden setzen das Padding um
+    override func textRect(forBounds b: CGRect) -> CGRect { return b.inset(by: UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding)) }
+    override func placeholderRect(forBounds b: CGRect) -> CGRect { return b.inset(by: UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding)) }
+    override func editingRect(forBounds b: CGRect) -> CGRect { return b.inset(by: UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding)) }
+
 }
 
 
@@ -2212,13 +2220,13 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         //urlField.borderStyle = UITextField.BorderStyle.roundedRect
         //urlField.layer.borderWidth = 0
         
-        urlField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 30))
+        /*urlField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 30))
         urlField.leftViewMode = .always
         
         let leftViewGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(leftViewTapped))
         leftViewGesture.numberOfTapsRequired = 1
         urlField.leftView?.isUserInteractionEnabled = true
-        urlField.leftView?.addGestureRecognizer(leftViewGesture)
+        urlField.leftView?.addGestureRecognizer(leftViewGesture)*/
         
         
         /*let standardRightView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 30))
@@ -2327,7 +2335,7 @@ clearButton.addAction(UIAction(handler: { [weak urlField] _ in
 
 urlField.rightView?.addSubview(clearButton)*/
 
-let standardRightView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 30))
+/*let standardRightView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 30))
 let rightViewGesture = UITapGestureRecognizer(target: self, action: #selector(rightViewTapped))
 rightViewGesture.numberOfTapsRequired = 1
 standardRightView.isUserInteractionEnabled = true
@@ -2380,7 +2388,44 @@ let updateRightViewLayout = UIAction { [weak urlField] _ in
 // Events verknüpfen
 urlField.addAction(updateRightViewLayout, for: .editingChanged)
 urlField.addAction(updateRightViewLayout, for: .editingDidBegin)
-urlField.addAction(updateRightViewLayout, for: .editingDidEnd)
+urlField.addAction(updateRightViewLayout, for: .editingDidEnd)*/
+        
+        let clearButton = UIButton(type: .custom)
+let config = UIImage.SymbolConfiguration(pointSize: 14, weight: .regular)
+clearButton.setImage(UIImage(systemName: "multiply.circle.fill", withConfiguration: config), for: .normal)
+clearButton.tintColor = UIColor.placeholderText
+clearButton.contentHorizontalAlignment = .left
+clearButton.isHidden = true
+
+clearButton.addAction(UIAction(handler: { [weak urlField] _ in
+    urlField?.text = ""
+    urlField?.sendActions(for: .editingChanged)
+}), for: .touchUpInside)
+
+urlField.addSubview(clearButton)
+
+// 3. Das einzige Event, das das Layout und das Padding der Klasse steuert
+let updateUI = UIAction { [weak urlField, weak clearButton] _ in
+    guard let urlField = urlField, let clearButton = clearButton else { return }
+    
+    let show = urlField.isEditing && !(urlField.text?.isEmpty ?? true)
+    
+    // Hier steuerst du das Padding der Klasse von außen!
+    urlField.rightPadding = show ? 34 : 15
+    clearButton.isHidden = !show
+    
+    // Positioniert den Button am rechten Rand des urlFields
+    if show {
+        clearButton.frame = CGRect(x: urlField.bounds.width - 19, y: 0, width: 19, height: urlField.bounds.height)
+    }
+    
+    // Zwingt die Klasse, das geänderte Padding sofort neu zu zeichnen
+    urlField.setNeedsLayout()
+}
+
+urlField.addAction(updateUI, for: .editingChanged)
+urlField.addAction(updateUI, for: .editingDidBegin)
+urlField.addAction(updateUI, for: .editingDidEnd)
         
         
         urlField.layer.cornerRadius = 5
