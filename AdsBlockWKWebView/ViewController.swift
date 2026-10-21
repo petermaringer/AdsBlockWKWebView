@@ -202,7 +202,7 @@ let processPool: WKProcessPool = initPool()
 
 
 class CustomUITextField: UITextField {
-  override func layoutSubviews() {
+  /*override func layoutSubviews() {
     CATransaction.begin()
     CATransaction.setDisableActions(true)
     super.layoutSubviews()
@@ -210,7 +210,38 @@ class CustomUITextField: UITextField {
       clearButton.layer.removeAllAnimations()
     }
     CATransaction.commit()
-  }
+  }*/
+  override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        let originalRect = super.editingRect(forBounds: bounds)
+        
+        // Wenn kein Text da ist oder wir nicht editieren, 
+        // geben wir die 19px des Buttons sofort für das Textfeld frei!
+        let showClearButton = self.isEditing && !(self.text?.isEmpty ?? true)
+        
+        if !showClearButton {
+            // Holt die 19px Breite des Buttons für das Textfeld zurück
+            return CGRect(x: originalRect.origin.x,
+                          y: originalRect.origin.y,
+                          width: originalRect.size.width + 19,
+                          height: originalRect.size.height)
+        }
+        
+        return originalRect
+    }
+    
+    // Gleiches gilt für das Anzeigen des stehenden Textes
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
+        let originalRect = super.textRect(forBounds: bounds)
+        let showClearButton = self.isEditing && !(self.text?.isEmpty ?? true)
+        
+        if !showClearButton {
+            return CGRect(x: originalRect.origin.x,
+                          y: originalRect.origin.y,
+                          width: originalRect.size.width + 19,
+                          height: originalRect.size.height)
+        }
+        return originalRect
+    }
 }
 
 
@@ -2218,7 +2249,7 @@ clearButton.imageView?.contentMode = .scaleAspectFit
 // Schiebt das Bild an den linken Rand des Buttons, behält es aber perfekt vertikal zentriert
 clearButton.contentHorizontalAlignment = .left
 
-clearButton.backgroundColor = .red
+clearButton.backgroundColor = .fieldBgColor
 
 clearButton.addAction(UIAction(handler: { [weak urlField] _ in
     urlField?.text = ""
