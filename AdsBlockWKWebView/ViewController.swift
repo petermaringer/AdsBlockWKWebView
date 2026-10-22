@@ -235,10 +235,19 @@ class CustomUITextField: UITextField {
         return UIEdgeInsetsInsetRect(bounds, padding)
     }
     
-    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+    /*override func editingRect(forBounds bounds: CGRect) -> CGRect {
         let padding = UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding)
         return UIEdgeInsetsInsetRect(bounds, padding)
+    }*/
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+    let padding = UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding)
+    var rect = UIEdgeInsetsInsetRect(bounds, padding)
+    if let text = self.text, !text.isEmpty {
+        rect.size.width += 1.0
     }
+    return rect
+    }
+    
     
     var isLeftPaddingClicked: Bool = false
     var isRightPaddingClicked: Bool = false
@@ -274,7 +283,7 @@ class CustomUITextField: UITextField {
     return super.gestureRecognizerShouldBegin(gestureRecognizer)
 }
 
-override func caretRect(for position: UITextPosition) -> CGRect {
+/*override func caretRect(for position: UITextPosition) -> CGRect {
     var rect = super.caretRect(for: position)
     
     // Die Wurzel packen: Wir runden die X-Position mathematisch ab (floor).
@@ -291,7 +300,7 @@ override func caretRect(for position: UITextPosition) -> CGRect {
     }
     
     return rect
-}
+}*/
 
 }
 
