@@ -281,7 +281,7 @@ override func caretRect(for position: UITextPosition) -> CGRect {
     // Dadurch wird der Cursor bei ungeraden Werten minimal nach links gesetzt,
     // rutscht niemals über die Kante und wird folglich NIE rechts abgeschnitten.
     //rect.origin.x = floor(rect.origin.x)
-    rect.size.width = 4
+    rect.size.width = 8
     
     return rect
 }
