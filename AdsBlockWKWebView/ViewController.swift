@@ -236,7 +236,7 @@ class CustomUITextField: UITextField {
     }
     
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        let padding = UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding - 4)
+        let padding = UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding)
         return UIEdgeInsetsInsetRect(bounds, padding)
     }
     
@@ -2301,7 +2301,10 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         urlField.font = UIFont.systemFont(ofSize: 15)
         urlField.textColor = .appBgColor
         urlField.tintColor = .appBgColor
-        urlField.backgroundColor = .fieldBgColor
+        //urlField.backgroundColor = .fieldBgColor
+        urlField.backgroundColor = .clear // Das normale Background auf clear setzen
+        urlField.layer.backgroundColor = .fieldBgColor // Hier deine Farbe rein
+        
         //urlField.borderStyle = UITextField.BorderStyle.roundedRect
         //urlField.layer.borderWidth = 0
         
@@ -2503,13 +2506,7 @@ let updateUI = UIAction { [weak urlField, weak clearButton] _ in
             clearButton.frame = CGRect(x: urlField.bounds.width - 19, y: 0, width: 19, height: urlField.bounds.height)
         }
     }
-    /*if show {
-      urlField.bringSubview(toFront: clearButton)
-    }*/
     urlField.setNeedsLayout()
-    /*DispatchQueue.main.async {
-        urlField.setNeedsLayout()
-    }*/
 }
 urlField.addAction(updateUI, for: .editingChanged)
 urlField.addAction(updateUI, for: .editingDidBegin)
@@ -2517,7 +2514,10 @@ urlField.addAction(updateUI, for: .editingDidEnd)
         
         
         urlField.layer.cornerRadius = 5
-        urlField.clipsToBounds = true
+        //urlField.clipsToBounds = true
+        urlField.clipsToBounds = false
+        urlField.layer.masksToBounds = false
+        
         urlField.autocapitalizationType = .none
         urlField.autocorrectionType = UITextAutocorrectionType.no
         
