@@ -236,7 +236,7 @@ class CustomUITextField: UITextField {
     }
     
     override func editingRect(forBounds bounds: CGRect) -> CGRect { 
-        let padding = UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding)
+        let padding = UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding + 2)
         return UIEdgeInsetsInsetRect(bounds, padding) 
     }
     
@@ -2477,8 +2477,10 @@ clearButton.contentHorizontalAlignment = .left
 clearButton.isHidden = true
 
 clearButton.addAction(UIAction(handler: { [weak urlField] _ in
+    if urlField?.delegate?.textFieldShouldClear?(urlField!) ?? true {
     urlField?.text = ""
     urlField?.sendActions(for: .editingChanged)
+    }
 }), for: .touchUpInside)
 
 urlField.addSubview(clearButton)
