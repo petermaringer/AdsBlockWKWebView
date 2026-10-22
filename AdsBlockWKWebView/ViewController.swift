@@ -1990,10 +1990,11 @@ appversion: \(appVersion)
         urlField.frame.size.width = view.frame.width - insetLM - insetRM - elementW - defaultM
       }
       
-      clearButton.frame = CGRect(x: view.frame.width - insetLM - insetRM - 19, y: 0, width: 19, height: elementH)
+      /*clearButton.frame = CGRect(x: view.frame.width - insetLM - insetRM - 19, y: 0, width: 19, height: elementH)
       if button.isDescendant(of: view) {
         clearButton.frame.origin.x = view.frame.width - insetLM - insetRM - elementW - defaultM - 19
-      }
+      }*/
+      clearButton.frame = CGRect(x: view.frame.width - insetLM - insetRM - elementW - defaultM - 19, y: 0, width: 19, height: elementH)
       
       //button.frame = CGRect(x: insetLM + view.frame.width - insetLM - insetRM - elementW, y: insetTM, width: elementW, height: elementH)
       button.frame = CGRect(x: view.frame.width - insetRM - elementW, y: insetTM, width: elementW, height: elementH)
@@ -2522,11 +2523,11 @@ let updateUI = UIAction { [weak urlField, weak clearButton] _ in
     let show = urlField.isEditing && !(urlField.text?.isEmpty ?? true)
     urlField.rightPadding = show ? 34 : 15
     clearButton.isHidden = !show
-    if show {
+    /*if show {
         DispatchQueue.main.async {
             clearButton.frame = CGRect(x: urlField.bounds.width - 19, y: 0, width: 19, height: urlField.bounds.height)
         }
-    }
+    }*/
     urlField.setNeedsLayout()
 }
 urlField.addAction(updateUI, for: .editingChanged)
