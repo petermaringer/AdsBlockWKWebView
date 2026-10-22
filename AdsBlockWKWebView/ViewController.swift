@@ -2503,10 +2503,13 @@ let updateUI = UIAction { [weak urlField, weak clearButton] _ in
             clearButton.frame = CGRect(x: urlField.bounds.width - 19, y: 0, width: 19, height: urlField.bounds.height)
         }
     }*/
-    //urlField.setNeedsLayout()
-    DispatchQueue.main.async {
-        urlField.setNeedsLayout()
+    if show {
+        urlField.bringSubviewToFront(clearButton)
     }
+    //urlField.setNeedsLayout()
+    /*DispatchQueue.main.async {
+        urlField.setNeedsLayout()
+    }*/
 }
 urlField.addAction(updateUI, for: .editingChanged)
 urlField.addAction(updateUI, for: .editingDidBegin)
