@@ -587,6 +587,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   
   //var urlField: UITextField!
   var urlField: CustomUITextField!
+  var clearButton: UIButton!
   var button: UIButton!
   var kvButton: UIButton!
   var kvButton2: UIButton!
@@ -2475,7 +2476,7 @@ urlField.addAction(updateRightViewLayout, for: .editingDidBegin)
 urlField.addAction(updateRightViewLayout, for: .editingDidEnd)*/
         
         
-        let clearButton = UIButton(type: .custom)
+        clearButton = UIButton(type: .custom)
 let config = UIImage.SymbolConfiguration(pointSize: 14, weight: .regular)
 clearButton.setImage(UIImage(systemName: "multiply.circle.fill", withConfiguration: config), for: .normal)
 clearButton.tintColor = UIColor.placeholderText
