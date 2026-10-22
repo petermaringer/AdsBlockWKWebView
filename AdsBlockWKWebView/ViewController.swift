@@ -274,6 +274,17 @@ class CustomUITextField: UITextField {
     return super.gestureRecognizerShouldBegin(gestureRecognizer)
 }
 
+override func caretRect(for position: UITextPosition) -> CGRect {
+    var rect = super.caretRect(for: position)
+    
+    // Die Wurzel packen: Wir runden die X-Position mathematisch ab (floor).
+    // Dadurch wird der Cursor bei ungeraden Werten minimal nach links gesetzt,
+    // rutscht niemals über die Kante und wird folglich NIE rechts abgeschnitten.
+    rect.origin.x = floor(rect.origin.x)
+    
+    return rect
+}
+
 }
 
 
@@ -2301,9 +2312,9 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         urlField.font = UIFont.systemFont(ofSize: 15)
         urlField.textColor = .appBgColor
         urlField.tintColor = .appBgColor
-        //urlField.backgroundColor = .fieldBgColor
-        urlField.backgroundColor = .clear // Das normale Background auf clear setzen
-        urlField.layer.backgroundColor = UIColor.fieldBgColor.cgColor // Hier deine Farbe rein
+        urlField.backgroundColor = .fieldBgColor
+        //urlField.backgroundColor = .clear // Das normale Background auf clear setzen
+        //urlField.layer.backgroundColor = UIColor.fieldBgColor.cgColor // Hier deine Farbe rein
         
         //urlField.borderStyle = UITextField.BorderStyle.roundedRect
         //urlField.layer.borderWidth = 0
@@ -2514,9 +2525,9 @@ urlField.addAction(updateUI, for: .editingDidEnd)
         
         
         urlField.layer.cornerRadius = 5
-        //urlField.clipsToBounds = true
-        urlField.clipsToBounds = false
-        urlField.layer.masksToBounds = false
+        urlField.clipsToBounds = true
+        //urlField.clipsToBounds = false
+        //urlField.layer.masksToBounds = false
         
         urlField.autocapitalizationType = .none
         urlField.autocorrectionType = UITextAutocorrectionType.no
