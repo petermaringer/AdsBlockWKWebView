@@ -281,10 +281,24 @@ override func caretRect(for position: UITextPosition) -> CGRect {
     // Dadurch wird der Cursor bei ungeraden Werten minimal nach links gesetzt,
     // rutscht niemals über die Kante und wird folglich NIE rechts abgeschnitten.
     //rect.origin.x = floor(rect.origin.x)
-    rect.size.width = 8
+    rect.origin.x -= 4
     
     return rect
 }
+
+override func layoutSubviews() {
+    super.layoutSubviews()
+    
+    // Verhindert das ungleichmäßige Maskieren/Abschneiden des Cursors 
+    // an der harten Kante der internen Scroll-Ebene beim Tippen.
+    if isEditing {
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        self.subviews.forEach { $0.setNeedsLayout(); $0.layoutIfNeeded() }
+        CATransaction.commit()
+    }
+}
+
 
 }
 
