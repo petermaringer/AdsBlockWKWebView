@@ -2303,7 +2303,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         urlField.tintColor = .appBgColor
         //urlField.backgroundColor = .fieldBgColor
         urlField.backgroundColor = .clear // Das normale Background auf clear setzen
-        urlField.layer.backgroundColor = .fieldBgColor // Hier deine Farbe rein
+        urlField.layer.backgroundColor = UIColor.fieldBgColor.cgColor // Hier deine Farbe rein
         
         //urlField.borderStyle = UITextField.BorderStyle.roundedRect
         //urlField.layer.borderWidth = 0
