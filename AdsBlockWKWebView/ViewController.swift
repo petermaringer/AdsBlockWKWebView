@@ -2498,15 +2498,15 @@ let updateUI = UIAction { [weak urlField, weak clearButton] _ in
     let show = urlField.isEditing && !(urlField.text?.isEmpty ?? true)
     urlField.rightPadding = show ? 34 : 15
     clearButton.isHidden = !show
-    /*if show {
+    if show {
         DispatchQueue.main.async {
             clearButton.frame = CGRect(x: urlField.bounds.width - 19, y: 0, width: 19, height: urlField.bounds.height)
         }
-    }*/
-    if show {
-      urlField.bringSubview(toFront: clearButton)
     }
-    //urlField.setNeedsLayout()
+    /*if show {
+      urlField.bringSubview(toFront: clearButton)
+    }*/
+    urlField.setNeedsLayout()
     /*DispatchQueue.main.async {
         urlField.setNeedsLayout()
     }*/
