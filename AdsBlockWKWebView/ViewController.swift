@@ -280,7 +280,8 @@ override func caretRect(for position: UITextPosition) -> CGRect {
     // Die Wurzel packen: Wir runden die X-Position mathematisch ab (floor).
     // Dadurch wird der Cursor bei ungeraden Werten minimal nach links gesetzt,
     // rutscht niemals über die Kante und wird folglich NIE rechts abgeschnitten.
-    rect.origin.x = floor(rect.origin.x)
+    //rect.origin.x = floor(rect.origin.x)
+    rect.size.width = 4
     
     return rect
 }
@@ -2522,10 +2523,6 @@ let updateUI = UIAction { [weak urlField, weak clearButton] _ in
 urlField.addAction(updateUI, for: .editingChanged)
 urlField.addAction(updateUI, for: .editingDidBegin)
 urlField.addAction(updateUI, for: .editingDidEnd)
-        
-        urlField.typingAttributes = [
-    .shadow: NSShadow()
-]
         
         
         urlField.layer.cornerRadius = 5
