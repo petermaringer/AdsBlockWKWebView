@@ -274,17 +274,17 @@ class CustomUITextField: UITextField {
     return super.gestureRecognizerShouldBegin(gestureRecognizer)
 }
 
-override func caretRect(for position: UITextPosition) -> CGRect {
+/*override func caretRect(for position: UITextPosition) -> CGRect {
     var rect = super.caretRect(for: position)
     
     // Die Wurzel packen: Wir runden die X-Position mathematisch ab (floor).
     // Dadurch wird der Cursor bei ungeraden Werten minimal nach links gesetzt,
     // rutscht niemals über die Kante und wird folglich NIE rechts abgeschnitten.
     //rect.origin.x = floor(rect.origin.x)
-    rect.origin.x -= 4
+    rect.origin.x -= 2
     
     return rect
-}
+}*/
 
 override func layoutSubviews() {
     super.layoutSubviews()
