@@ -225,24 +225,24 @@ class CustomUITextField: UITextField {
     var leftPadding: CGFloat = 15
     var rightPadding: CGFloat = 15
     // Die 3 System-Methoden setzen das Padding um
-    override func textRect(forBounds bounds: CGRect) -> CGRect { 
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
         let padding = UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding)
-        return UIEdgeInsetsInsetRect(bounds, padding) 
+        return UIEdgeInsetsInsetRect(bounds, padding)
     }
     
-    override func placeholderRect(forBounds bounds: CGRect) -> CGRect { 
+    override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
         let padding = UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding)
-        return UIEdgeInsetsInsetRect(bounds, padding) 
+        return UIEdgeInsetsInsetRect(bounds, padding)
     }
     
-    override func editingRect(forBounds bounds: CGRect) -> CGRect { 
-        let padding = UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding + 2)
-        return UIEdgeInsetsInsetRect(bounds, padding) 
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        let padding = UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding - 4)
+        return UIEdgeInsetsInsetRect(bounds, padding)
     }
     
     var isLeftPaddingClicked: Bool = false
     var isRightPaddingClicked: Bool = false
-
+    
   override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
     let touchPoint = gestureRecognizer.location(in: self)
     
@@ -1968,7 +1968,13 @@ appversion: \(appVersion)
         urlField.frame.size.width = view.frame.width - insetLM - insetRM - elementW - defaultM
       }
       
-      button.frame = CGRect(x: insetLM + view.frame.width - insetLM - insetRM - elementW, y: insetTM, width: elementW, height: elementH)
+      clearButton.frame = CGRect(x: view.frame.width - insetLM - insetRM - 19, y: 0, width: 19, height: elementH)
+      if button.isDescendant(of: view) {
+        //clearButton.frame.origin.x = view.frame.width - insetLM - insetRM - elementW - defaultM - 19
+      }
+      
+      //button.frame = CGRect(x: insetLM + view.frame.width - insetLM - insetRM - elementW, y: insetTM, width: elementW, height: elementH)
+      button.frame = CGRect(x: view.frame.width - insetRM - elementW, y: insetTM, width: elementW, height: elementH)
       
       kvButton.frame = CGRect(x: insetLM, y: defaultM, width: elementW, height: elementH)
       
