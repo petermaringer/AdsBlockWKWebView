@@ -2523,6 +2523,10 @@ urlField.addAction(updateUI, for: .editingChanged)
 urlField.addAction(updateUI, for: .editingDidBegin)
 urlField.addAction(updateUI, for: .editingDidEnd)
         
+        urlField.typingAttributes = [
+    .shadow: NSShadow()
+]
+        
         
         urlField.layer.cornerRadius = 5
         urlField.clipsToBounds = true
