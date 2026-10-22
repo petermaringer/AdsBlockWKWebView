@@ -2504,7 +2504,7 @@ let updateUI = UIAction { [weak urlField, weak clearButton] _ in
         }
     }*/
     if show {
-        urlField.bringSubviewToFront(clearButton)
+      urlField.bringSubview(toFront: clearButton)
     }
     //urlField.setNeedsLayout()
     /*DispatchQueue.main.async {
