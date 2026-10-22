@@ -235,18 +235,18 @@ class CustomUITextField: UITextField {
         return UIEdgeInsetsInsetRect(bounds, padding)
     }
     
-    /*override func editingRect(forBounds bounds: CGRect) -> CGRect {
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
         let padding = UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding)
         return UIEdgeInsetsInsetRect(bounds, padding)
-    }*/
-    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+    }
+    /*override func editingRect(forBounds bounds: CGRect) -> CGRect {
     let padding = UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding)
     var rect = UIEdgeInsetsInsetRect(bounds, padding)
     if let text = self.text, !text.isEmpty {
         rect.size.width += 1.0
     }
     return rect
-    }
+    }*/
     
     
     var isLeftPaddingClicked: Bool = false
@@ -283,24 +283,17 @@ class CustomUITextField: UITextField {
     return super.gestureRecognizerShouldBegin(gestureRecognizer)
 }
 
-/*override func caretRect(for position: UITextPosition) -> CGRect {
+override func caretRect(for position: UITextPosition) -> CGRect {
     var rect = super.caretRect(for: position)
-    
-    // Die Wurzel packen: Wir runden die X-Position mathematisch ab (floor).
-    // Dadurch wird der Cursor bei ungeraden Werten minimal nach links gesetzt,
-    // rutscht niemals über die Kante und wird folglich NIE rechts abgeschnitten.
     //rect.origin.x = floor(rect.origin.x)
-    //rect.origin.x -= 2
     if position == endOfDocument {
-        //rect.origin.x -= 1
         let textWidth = editingRect(forBounds: bounds).width
         if rect.origin.x >= (textWidth - 5) {
-            rect.origin.x -= 1.0
+            rect.origin.x -= 0.5
         }
     }
-    
     return rect
-}*/
+}
 
 }
 
