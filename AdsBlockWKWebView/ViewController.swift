@@ -283,7 +283,11 @@ override func caretRect(for position: UITextPosition) -> CGRect {
     //rect.origin.x = floor(rect.origin.x)
     //rect.origin.x -= 2
     if position == endOfDocument {
-        rect.origin.x -= 2
+        //rect.origin.x -= 1
+        let textWidth = editingRect(forBounds: bounds).width
+        if rect.origin.x >= (textWidth - 5) {
+            rect.origin.x -= 1.0
+        }
     }
     
     return rect
