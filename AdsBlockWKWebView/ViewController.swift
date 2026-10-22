@@ -687,7 +687,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     }
   }
   
-  var shouldPlaceCursorAtStart = false
+  /*var shouldPlaceCursorAtStart = false
   var shouldPlaceCursorAtEnd = false
   
   func textFieldDidChangeSelection(_ textField: UITextField) {
@@ -723,7 +723,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
       shouldPlaceCursorAtEnd = true
       urlField.becomeFirstResponder()
     }
-  }
+  }*/
 /*private var lastCaretRect: CGRect?
 @objc func rightViewTapped() {
     // 1. Erster Klick: Fokus setzen & Cursor ans Ende
@@ -751,7 +751,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
         lastCaretRect = urlField.caretRect(for: urlField.selectedTextRange!.end)
     }
 }*/
-@objc private func fieldTapped(_ gesture: UITapGestureRecognizer) {
+/*@objc private func fieldTapped(_ gesture: UITapGestureRecognizer) {
     let touchPoint = gesture.location(in: urlField)
     
     // Wir warten eine Winzigkeit, bis iOS das Feld aktiviert und das Menü vorbereitet hat
@@ -769,7 +769,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
             urlField.selectedTextRange = urlField.textRange(from: endPosition, to: endPosition)
         }
     }
-}
+}*/
   
   @objc func buttonClicked() {
     urlField.endEditing(true)
@@ -1971,7 +1971,7 @@ appversion: \(appVersion)
       
       clearButton.frame = CGRect(x: view.frame.width - insetLM - insetRM - 19, y: 0, width: 19, height: elementH)
       if button.isDescendant(of: view) {
-        //clearButton.frame.origin.x = view.frame.width - insetLM - insetRM - elementW - defaultM - 19
+        clearButton.frame.origin.x = view.frame.width - insetLM - insetRM - elementW - defaultM - 19
       }
       
       //button.frame = CGRect(x: insetLM + view.frame.width - insetLM - insetRM - elementW, y: insetTM, width: elementW, height: elementH)
@@ -2476,7 +2476,8 @@ urlField.addAction(updateRightViewLayout, for: .editingDidBegin)
 urlField.addAction(updateRightViewLayout, for: .editingDidEnd)*/
         
         
-        clearButton = UIButton(type: .custom)
+        //clearButton = UIButton(type: .custom)
+        clearButton = UIButton(frame: CGRect.zero)
 let config = UIImage.SymbolConfiguration(pointSize: 14, weight: .regular)
 clearButton.setImage(UIImage(systemName: "multiply.circle.fill", withConfiguration: config), for: .normal)
 clearButton.tintColor = UIColor.placeholderText
@@ -2494,22 +2495,16 @@ urlField.addSubview(clearButton)
 
 let updateUI = UIAction { [weak urlField, weak clearButton] _ in
     guard let urlField = urlField, let clearButton = clearButton else { return }
-    
     let show = urlField.isEditing && !(urlField.text?.isEmpty ?? true)
-    
     urlField.rightPadding = show ? 34 : 15
     clearButton.isHidden = !show
-    
-    if show {
-        // Platziert den Button asynchron, sobald die Breite des Feldes feststeht
+    /*if show {
         DispatchQueue.main.async {
             clearButton.frame = CGRect(x: urlField.bounds.width - 19, y: 0, width: 19, height: urlField.bounds.height)
         }
-    }
-    
+    }*/
     urlField.setNeedsLayout()
 }
-
 urlField.addAction(updateUI, for: .editingChanged)
 urlField.addAction(updateUI, for: .editingDidBegin)
 urlField.addAction(updateUI, for: .editingDidEnd)
