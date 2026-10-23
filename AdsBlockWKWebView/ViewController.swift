@@ -309,7 +309,7 @@ override func caretRect(for position: UITextPosition) -> CGRect {
             }
         }
     }*/
-override var textColor: UIColor? {
+/*override var textColor: UIColor? {
     get {
         return super.textColor
     }
@@ -334,7 +334,7 @@ override var textColor: UIColor? {
         
         super.textColor = neueFarbe
     }
-}
+}*/
 
 
 }
@@ -730,7 +730,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
         view.addSubview(button)
         //textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
         //textField.selectAll(nil)
-        textField.textColor = .appBgColor
+        ////textField.textColor = .appBgColor
         
         if let textField = textField as? CustomUITextField {
             DispatchQueue.main.async {
