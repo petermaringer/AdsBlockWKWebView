@@ -811,9 +811,9 @@ if let neuePosition = textField.position(from: textField.beginningOfDocument, of
   }
   
   
-  //private var cursorPosition: UITextRange?
+  /*private var cursorPosition: UITextRange?
   func textFieldDidChangeSelection(_ textField: UITextField) {
-    /*if textField == urlField && cursorPosition != nil {
+    if textField == urlField && cursorPosition != nil {
     if textField.selectedTextRange == textField.textRange(from: textField.endOfDocument, to: textField.endOfDocument) {
       //textField.layer.borderWidth = 2
         let position = cursorPosition
@@ -837,8 +837,10 @@ if let safePosition = position {
         //}
         //}
       }
+      }
     }*/
-    
+
+/*func textFieldDidChangeSelection(_ textField: UITextField) {
     if let textField = textField as? CustomUITextField {
     if textField == urlField && textField.savedCursorPosition != nil {
     if textField.selectedTextRange == textField.textRange(from: textField.endOfDocument, to: textField.endOfDocument) {
@@ -850,7 +852,17 @@ if let safePosition = position {
     }
     }
     }
-    
+}*/
+// 1. Position wird beim Button-Klick wie gewohnt gespeichert (vor dem Alert).
+
+// 2. Sobald das Textfeld wieder den Fokus anfordert (nach dem Alert):
+func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+    guard let textField = textField as? CustomUITextField, textField == urlField else { return true }
+    if let savedPosition = textField.savedCursorPosition {
+        textField.savedCursorPosition = nil
+        textField.selectedTextRange = savedPosition
+    }
+    return true
 }
   
   
