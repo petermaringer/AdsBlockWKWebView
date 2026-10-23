@@ -799,6 +799,21 @@ if let neuePosition = textField.position(from: textField.beginningOfDocument, of
                 
                 textField.textColor = .appBgColor
             }
+            
+            if let savedPosition = textField.savedCursorPosition {
+        textField.savedCursorPosition = nil
+        DispatchQueue.main.async {
+            // 1. Zum Ende springen und Layout erzwingen, um den internen Editor zu triggern
+            textField.selectedTextRange = textField.textRange(from: textField.endOfDocument, to: textField.endOfDocument)
+            textField.layoutIfNeeded()
+            
+            // 2. Sofort danach die echte, gespeicherte Position setzen und neu zeichnen
+            textField.selectedTextRange = savedPosition
+            textField.setNeedsLayout()
+            textField.layoutIfNeeded()
+        }
+    }
+            
         }
         
         /*if cursorPosition != nil {
@@ -856,14 +871,14 @@ if let safePosition = position {
 // 1. Position wird beim Button-Klick wie gewohnt gespeichert (vor dem Alert).
 
 // 2. Sobald das Textfeld wieder den Fokus anfordert (nach dem Alert):
-func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+/*func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
     guard let textField = textField as? CustomUITextField, textField == urlField else { return true }
     if let savedPosition = textField.savedCursorPosition {
         textField.savedCursorPosition = nil
         textField.selectedTextRange = savedPosition
     }
     return true
-}
+}*/
   
   
   /*var shouldPlaceCursorAtStart = false
