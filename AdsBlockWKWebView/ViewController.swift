@@ -757,10 +757,10 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
                 }
                 
                 
-                else if cursorPosition != nil {
+                else if self.cursorPosition != nil {
                   textField.layer.borderWidth = 2
-                  let position = cursorPosition
-                  cursorPosition = nil
+                  let position = self.cursorPosition
+                  self.cursorPosition = nil
                   textField.selectedTextRange = position
                 }
                 
