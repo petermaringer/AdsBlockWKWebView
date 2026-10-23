@@ -743,6 +743,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
                     let start = textField.beginningOfDocument
                     textField.selectedTextRange = textField.textRange(from: start, to: start)
                 }
+                textField.textColor = .appBgColor
             }
         }
         
