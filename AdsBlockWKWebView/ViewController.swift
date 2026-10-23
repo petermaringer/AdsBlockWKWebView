@@ -789,12 +789,12 @@ if let neuePosition = textField.position(from: textField.beginningOfDocument, of
                     //textField.selectedTextRange = textField.textRange(from: end, to: end)
                 
                 //}
-                else if textField.savedCursorPosition != nil {
+                /*else if textField.savedCursorPosition != nil {
                   textField.layer.borderWidth = 2
                   let position = textField.savedCursorPosition
                   textField.savedCursorPosition = nil
                   textField.selectedTextRange = position
-                }
+                }*/
                 
                 
                 textField.textColor = .appBgColor
@@ -812,8 +812,8 @@ if let neuePosition = textField.position(from: textField.beginningOfDocument, of
   
   
   //private var cursorPosition: UITextRange?
-  /*func textFieldDidChangeSelection(_ textField: UITextField) {
-    if textField == urlField && cursorPosition != nil {
+  func textFieldDidChangeSelection(_ textField: UITextField) {
+    /*if textField == urlField && cursorPosition != nil {
     if textField.selectedTextRange == textField.textRange(from: textField.endOfDocument, to: textField.endOfDocument) {
       //textField.layer.borderWidth = 2
         let position = cursorPosition
@@ -837,8 +837,21 @@ if let safePosition = position {
         //}
         //}
       }
+    }*/
+    
+    if let textField = textField as? CustomUITextField {
+    if textField == urlField && textField.savedCursorPosition != nil {
+    if textField.selectedTextRange == textField.textRange(from: textField.endOfDocument, to: textField.endOfDocument) {
+      //textField.layer.borderWidth = 2
+        let position = textField.savedCursorPosition
+        textField.savedCursorPosition = nil
+        //DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {}
+        textField.selectedTextRange = position
     }
-}*/
+    }
+    }
+    
+}
   
   
   /*var shouldPlaceCursorAtStart = false
