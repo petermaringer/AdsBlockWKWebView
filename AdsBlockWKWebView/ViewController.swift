@@ -319,9 +319,13 @@ override var textColor: UIColor? {
             return
         }
         
-        // Swift 4 benötigt zwingend diesen exakten Typ:
-        var attributes: [NSAttributedStringKey: Any] = self.defaultTextAttributes
-        attributes[NSAttributedStringKey.foregroundColor] = neueFarbe
+        // Holt das originale [String: Any]-Dictionary deiner Swift-Version
+        var attributes = self.defaultTextAttributes
+        
+        // Der korrekte, rohe String-Schlüssel für diesen Typ
+        attributes["NSForegroundColor"] = neueFarbe
+        
+        // Die Zuweisung zurück ans Textfeld – ohne jeglichen Typkonflikt
         self.defaultTextAttributes = attributes
         
         if let aktuellerText = self.text {
@@ -331,6 +335,7 @@ override var textColor: UIColor? {
         super.textColor = neueFarbe
     }
 }
+
 
 }
 
