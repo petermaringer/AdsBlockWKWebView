@@ -732,6 +732,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     showAlert(type: "confirm", style: .actionSheet, title: nil, "Clipboard was cleared.", buttonTitles: ["Cancel", "OK"], buttonStyles: [.cancel, .default], sourceView: urlField, disableHaptic: true)
   }
   
+  private var cursorPosition: UITextRange?
+  
   func textFieldDidBeginEditing(_ textField: UITextField) {
     switch textField {
       case urlField:
@@ -757,17 +759,22 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
             }
         }
         
+        if cursorPosition != nil {
+    //if textField.selectedTextRange == textField.textRange(from: textField.endOfDocument, to: textField.endOfDocument) {
+      textField.layer.borderWidth = 3
+      }
+        
       default: break
     }
   }
   
   
-  private var cursorPosition: UITextRange?
+  //private var cursorPosition: UITextRange?
   func textFieldDidChangeSelection(_ textField: UITextField) {
     if textField == urlField && cursorPosition != nil {
     if textField.selectedTextRange == textField.textRange(from: textField.endOfDocument, to: textField.endOfDocument) {
       //textField.layer.borderWidth = 2
-        let position = cursorPosition
+        /*let position = cursorPosition
         cursorPosition = nil
         //UIView.performWithoutAnimation {
         //DispatchQueue.main.async {
@@ -780,7 +787,7 @@ if let safePosition = position {
     if let newPos = textField.position(from: start, offset: offset) {
         textField.selectedTextRange = textField.textRange(from: newPos, to: newPos)
     }
-}
+}*/
 
             
             //textField.setNeedsLayout()
