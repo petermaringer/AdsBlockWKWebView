@@ -1601,6 +1601,19 @@ appversion: \(appVersion)
         //button.frame.origin.x += 85
         textField.frame.size.width += 85
         //progressView.frame.size.width += 85
+        
+        if textField.text == webView.url!.absoluteString {
+      if webView.hasOnlySecureContent {
+        textField.textColor = .successFgColor
+      } else if webView.url!.scheme == "internal" {
+        textField.textColor = .appBgColor
+      } else if webView.url!.host == "localhost" {
+        textField.textColor = .appBgColor
+      } else {
+        textField.textColor = .errorFgColor
+      }
+      }
+        
       default:
         break
     }
