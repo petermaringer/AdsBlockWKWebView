@@ -345,6 +345,17 @@ override func caretRect(for position: UITextPosition) -> CGRect {
         // Normales Scrollen beim Tippen bleibt vollkommen unberührt
         super.scrollRectToVisible(rect, animated: animated)
     }*/
+    
+    var savedCursorPosition: UITextRange?
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        // Wenn das Layout nach dem Alert stabil steht und wir eine Position gerettet haben:
+        if let position = savedCursorPosition {
+            self.savedCursorPosition = nil // Sofort zurücksetzen, um Schleifen zu verhindern
+            self.selectedTextRange = position // iOS zeichnet den Cursor jetzt fehlerfrei auf dem Bildschirm
+        }
+    }
 
 
 }
@@ -732,7 +743,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     showAlert(type: "confirm", style: .actionSheet, title: nil, "Clipboard was cleared.", buttonTitles: ["Cancel", "OK"], buttonStyles: [.cancel, .default], sourceView: urlField, disableHaptic: true)
   }
   
-  private var cursorPosition: UITextRange?
+  //private var cursorPosition: UITextRange?
   
   func textFieldDidBeginEditing(_ textField: UITextField) {
     switch textField {
@@ -757,8 +768,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
                 }
                 
                 
-                else if self.cursorPosition != nil {
-                  textField.layer.borderWidth = 2
+                //else if self.cursorPosition != nil {
+                  //textField.layer.borderWidth = 2
                   /*let position = self.cursorPosition
                   self.cursorPosition = nil
                   textField.selectedTextRange = position*/
@@ -772,10 +783,10 @@ if let neuePosition = textField.position(from: textField.beginningOfDocument, of
     // Start und Ende auf dieselbe Position setzen = Cursor ohne Auswahl
     textField.selectedTextRange = textField.textRange(from: neuePosition, to: neuePosition)
 }*/
- let end = textField.endOfDocument
-                    textField.selectedTextRange = textField.textRange(from: end, to: end)
+ //let end = textField.endOfDocument
+                    //textField.selectedTextRange = textField.textRange(from: end, to: end)
                 
-                }
+                //}
                 
                 
                 textField.textColor = .appBgColor
@@ -983,7 +994,8 @@ let videos = document.querySelectorAll("video");
   }
   
   @objc func kvButton2Clicked() {
-    cursorPosition = urlField.selectedTextRange
+    //cursorPosition = urlField.selectedTextRange
+    urlField.savedCursorPosition = urlField.selectedTextRange
     //urlField.endEditing(true)
     /*if kvButton2.backgroundColor == .appBgColor {
       kvButton2.backgroundColor = .gray
