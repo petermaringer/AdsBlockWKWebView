@@ -1208,7 +1208,7 @@ filecontent: \(text)\n
 prefs: \(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref)\n
 wkpool: \(wkpool)\n
 appversion: \(appVersion)
-\(cursorPosition)
+\(urlField.savedCursorPosition)
 """)
     
   }
