@@ -319,9 +319,9 @@ override var textColor: UIColor? {
             return
         }
         
-        // HIER DER FIX: [NSAttributedString.Key: Any] explizit deklarieren
-        var attributes: [NSAttributedString.Key: Any] = self.defaultTextAttributes
-        attributes[.foregroundColor] = neueFarbe
+        // Swift 4 benötigt zwingend diesen exakten Typ:
+        var attributes: [NSAttributedStringKey: Any] = self.defaultTextAttributes
+        attributes[NSAttributedStringKey.foregroundColor] = neueFarbe
         self.defaultTextAttributes = attributes
         
         if let aktuellerText = self.text {
