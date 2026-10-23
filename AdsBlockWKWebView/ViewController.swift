@@ -755,14 +755,24 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
                     let start = textField.beginningOfDocument
                     textField.selectedTextRange = textField.textRange(from: start, to: start)
                 }
+                
+                
+                else if cursorPosition != nil {
+                  textField.layer.borderWidth = 2
+                  let position = cursorPosition
+                  cursorPosition = nil
+                  textField.selectedTextRange = position
+                }
+                
+                
                 textField.textColor = .appBgColor
             }
         }
         
-        if cursorPosition != nil {
+        /*if cursorPosition != nil {
     //if textField.selectedTextRange == textField.textRange(from: textField.endOfDocument, to: textField.endOfDocument) {
       textField.layer.borderWidth = 3
-      }
+      }*/
         
       default: break
     }
@@ -770,11 +780,11 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   
   
   //private var cursorPosition: UITextRange?
-  func textFieldDidChangeSelection(_ textField: UITextField) {
+  /*func textFieldDidChangeSelection(_ textField: UITextField) {
     if textField == urlField && cursorPosition != nil {
     if textField.selectedTextRange == textField.textRange(from: textField.endOfDocument, to: textField.endOfDocument) {
       //textField.layer.borderWidth = 2
-        /*let position = cursorPosition
+        let position = cursorPosition
         cursorPosition = nil
         //UIView.performWithoutAnimation {
         //DispatchQueue.main.async {
@@ -787,7 +797,7 @@ if let safePosition = position {
     if let newPos = textField.position(from: start, offset: offset) {
         textField.selectedTextRange = textField.textRange(from: newPos, to: newPos)
     }
-}*/
+}
 
             
             //textField.setNeedsLayout()
@@ -796,7 +806,7 @@ if let safePosition = position {
         //}
       }
     }
-}
+}*/
   
   
   /*var shouldPlaceCursorAtStart = false
