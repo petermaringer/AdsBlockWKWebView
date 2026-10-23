@@ -759,9 +759,11 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
       //textField.layer.borderWidth = 2
         let position = cursorPosition
         cursorPosition = nil
-        //DispatchQueue.main.async {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+        UIView.performWithoutAnimation {
+        DispatchQueue.main.async {
+        //DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
             textField.selectedTextRange = position
+        }
         }
       }
     }
