@@ -347,7 +347,7 @@ override func caretRect(for position: UITextPosition) -> CGRect {
     }*/
     
     var savedCursorPosition: UITextRange?
-    override var selectedTextRange: UITextRange? {
+    /*override var selectedTextRange: UITextRange? {
         get { return super.selectedTextRange }
         set {
             if let position = savedCursorPosition {
@@ -357,7 +357,7 @@ override func caretRect(for position: UITextPosition) -> CGRect {
                 super.selectedTextRange = newValue
             }
         }
-    }
+    }*/
 
 
 }
@@ -790,11 +790,11 @@ if let neuePosition = textField.position(from: textField.beginningOfDocument, of
                 
                 //}
                 else if textField.savedCursorPosition != nil {
-    textField.layer.borderWidth = 2
-    
-    // Der Zünder: Das aktiviert sofort den 'set'-Block in der Klasse
-    textField.selectedTextRange = textField.selectedTextRange
-}
+                  textField.layer.borderWidth = 2
+                  let position = textField.savedCursorPosition
+                  textField.savedCursorPosition = nil
+                  textField.selectedTextRange = position
+                }
                 
                 
                 textField.textColor = .appBgColor
