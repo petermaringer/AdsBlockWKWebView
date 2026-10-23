@@ -774,12 +774,12 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
         //DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
         //textField.selectedTextRange = nil
             //textField.selectedTextRange = position
-            if let start = textField.beginningOfDocument, let pos = position {
-                let offset = textField.offset(from: start, to: pos.start)
-                if let newPos = textField.position(from: start, offset: offset) {
-                    textField.selectedTextRange = textField.textRange(from: newPos, to: newPos)
-                }
-            }
+           if let start = textField.beginningOfDocument {
+    let offset = textField.offset(from: start, to: position.start)
+    if let newPos = textField.position(from: start, offset: offset) {
+        textField.selectedTextRange = textField.textRange(from: newPos, to: newPos)
+    }
+}
             
             //textField.setNeedsLayout()
 //textField.layoutIfNeeded()
