@@ -762,10 +762,16 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
                   /*let position = self.cursorPosition
                   self.cursorPosition = nil
                   textField.selectedTextRange = position*/
-                  if let position = self.cursorPosition {
+                  /*if let position = self.cursorPosition {
                     textField.selectedTextRange = textField.textRange(from: position.start, to: position.end)
                   }
-                  self.cursorPosition = nil
+                  self.cursorPosition = nil*/
+                  let zielPosition = 65
+
+if let neuePosition = textField.position(from: textField.beginningOfDocument, offset: zielPosition) {
+    // Start und Ende auf dieselbe Position setzen = Cursor ohne Auswahl
+    textField.selectedTextRange = textField.textRange(from: neuePosition, to: neuePosition)
+}
                 }
                 
                 
