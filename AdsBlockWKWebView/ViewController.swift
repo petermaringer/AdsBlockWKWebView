@@ -789,6 +789,12 @@ if let neuePosition = textField.position(from: textField.beginningOfDocument, of
                     //textField.selectedTextRange = textField.textRange(from: end, to: end)
                 
                 //}
+                else if textField.savedCursorPosition != nil {
+    textField.layer.borderWidth = 2
+    
+    // Der Zünder: Das aktiviert sofort den 'set'-Block in der Klasse
+    textField.selectedTextRange = textField.selectedTextRange
+}
                 
                 
                 textField.textColor = .appBgColor
