@@ -751,6 +751,10 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     }
   }
   
+  
+  private var cursorPosition: UITextRange?
+  
+  
   /*var shouldPlaceCursorAtStart = false
   var shouldPlaceCursorAtEnd = false
   
@@ -912,6 +916,7 @@ let videos = document.querySelectorAll("video");
   }
   
   @objc func kvButton2Clicked() {
+    cursorPosition = urlField.selectedTextRange
     //urlField.endEditing(true)
     /*if kvButton2.backgroundColor == .appBgColor {
       kvButton2.backgroundColor = .gray
@@ -1124,6 +1129,7 @@ filecontent: \(text)\n
 prefs: \(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref)\n
 wkpool: \(wkpool)\n
 appversion: \(appVersion)
+\(cursorPosition)
 """)
     
   }
