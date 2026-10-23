@@ -755,12 +755,14 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   private var cursorPosition: UITextRange?
   func textFieldDidChangeSelection(_ textField: UITextField) {
     if textField == urlField && cursorPosition != nil {
+    if textField.selectedTextRange == textField.textRange(from: textField.endOfDocument, to: textField.endOfDocument) {
       textField.layer.borderWidth = 5
         let position = cursorPosition
         cursorPosition = nil
-        DispatchQueue.main.async {
+        //DispatchQueue.main.async {
             textField.selectedTextRange = position
-        }
+        //}
+      }
     }
 }
   
