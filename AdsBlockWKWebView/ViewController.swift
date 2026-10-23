@@ -295,7 +295,7 @@ override func caretRect(for position: UITextPosition) -> CGRect {
     return rect
 }
 
-override var textColor: UIColor? {
+/*override var textColor: UIColor? {
         get {
             return super.textColor
         }
@@ -308,7 +308,33 @@ override var textColor: UIColor? {
                 self.text = aktuellerText
             }
         }
+    }*/
+override var textColor: UIColor? {
+    get {
+        return super.textColor
     }
+    set {
+        // 1. Wir holen uns die neue Farbe ab
+        guard let neueFarbe = newValue else {
+            super.textColor = nil
+            return
+        }
+        
+        // 2. Wir bannen das direkte Setzen von super.textColor im inaktiven Zustand,
+        // sondern leiten es direkt in die sicheren Standard-Attribute um
+        var attributes = self.defaultTextAttributes
+        attributes[.foregroundColor] = neueFarbe
+        self.defaultTextAttributes = attributes
+        
+        // 3. Den String sofort neu zuweisen, damit das Layout die Farbe einfriert
+        if let aktuellerText = self.text {
+            self.text = aktuellerText
+        }
+        
+        // 4. Der Form halber super.textColor setzen, ohne das Layout zu crashen
+        super.textColor = neueFarbe
+    }
+}
 
 }
 
