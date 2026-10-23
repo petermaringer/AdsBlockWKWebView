@@ -347,13 +347,15 @@ override func caretRect(for position: UITextPosition) -> CGRect {
     }*/
     
     var savedCursorPosition: UITextRange?
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        // Wenn das Layout nach dem Alert stabil steht und wir eine Position gerettet haben:
-        if let position = savedCursorPosition {
-            self.savedCursorPosition = nil // Sofort zurücksetzen, um Schleifen zu verhindern
-            self.selectedTextRange = position // iOS zeichnet den Cursor jetzt fehlerfrei auf dem Bildschirm
+    override var selectedTextRange: UITextRange? {
+        get { return super.selectedTextRange }
+        set {
+            if let position = savedCursorPosition {
+                savedCursorPosition = nil
+                super.selectedTextRange = position
+            } else {
+                super.selectedTextRange = newValue
+            }
         }
     }
 
