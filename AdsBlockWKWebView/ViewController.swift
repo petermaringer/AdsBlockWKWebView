@@ -295,6 +295,21 @@ override func caretRect(for position: UITextPosition) -> CGRect {
     return rect
 }
 
+override var textColor: UIColor? {
+        get {
+            return super.textColor
+        }
+        set {
+            super.textColor = newValue
+            
+            // Löst den UIKit-Bug im inaktiven Zustand auf, ohne visuelles Flackern
+            if !self.isFirstResponder, let aktuellerText = self.text, !aktuellerText.isEmpty {
+                self.text = nil
+                self.text = aktuellerText
+            }
+        }
+    }
+
 }
 
 
