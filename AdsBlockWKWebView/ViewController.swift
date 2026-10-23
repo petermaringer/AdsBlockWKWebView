@@ -335,7 +335,7 @@ override func caretRect(for position: UITextPosition) -> CGRect {
         super.textColor = neueFarbe
     }
 }*/
-override func scrollRectToVisible(_ rect: CGRect, animated: Bool) {
+/*override func scrollRectToVisible(_ rect: CGRect, animated: Bool) {
         // Wenn der Nutzer tippt, ist das rect klein. Wenn iOS beim Re-Entry 
         // das ganze Feld ans Ende scrollen will, blockieren wir diesen Befehl:
         if isFirstResponder && rect.width >= bounds.width {
@@ -344,7 +344,7 @@ override func scrollRectToVisible(_ rect: CGRect, animated: Bool) {
         
         // Normales Scrollen beim Tippen bleibt vollkommen unberührt
         super.scrollRectToVisible(rect, animated: animated)
-    }
+    }*/
 
 
 }
@@ -770,8 +770,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
         let position = cursorPosition
         cursorPosition = nil
         //UIView.performWithoutAnimation {
-        DispatchQueue.main.async {
-        //DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+        //DispatchQueue.main.async {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             textField.selectedTextRange = position
         }
         //}
