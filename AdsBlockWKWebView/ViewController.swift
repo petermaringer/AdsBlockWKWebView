@@ -2030,19 +2030,9 @@ appversion: \(appVersion)
       }*/
     }
     
-     if let presentedAlert = self.presentedViewController as? UIAlertController,
-        presentedAlert.preferredStyle == .actionSheet {
-        alertObjArray.removeFirst()
-        presentedAlert.dismiss(animated: true)
-        /*presentedAlert.dismiss(animated: true) {
-          alertObjArray.removeFirst()
-        }*/
-      }
+    
     
     guard let currentAlert = alertObjArray.first else { return }
-    
-    
-    
     let alert = UIAlertController(title: currentAlert.title, message: currentAlert.message, preferredStyle: currentAlert.style!)
     var button1, button2, button3: UIAlertAction
     func buttonPressed(_ value1: Any?, _ value2: Any?) {
@@ -2050,6 +2040,17 @@ appversion: \(appVersion)
       currentAlert.completionHandler(value1, value2)
       showAlert("nextAlertObj")
     }
+    
+     if let presentedAlert = self.presentedViewController as? UIAlertController,
+        presentedAlert.preferredStyle == .actionSheet {
+        //alertObjArray.removeFirst()
+        //presentedAlert.dismiss(animated: true)
+        presentedAlert.dismiss(animated: true) {
+          alertObjArray.removeFirst()
+          showAlert("nextAlertObj")
+        }
+        return
+      }
     
     if currentAlert.type == "alert" {
       button1 = UIAlertAction(title: currentAlert.buttonTitles![0], style: currentAlert.buttonStyles![0], handler: { _ in
