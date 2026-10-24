@@ -2029,15 +2029,17 @@ appversion: \(appVersion)
         addNextToQueue()
       }*/
     }
-    guard let currentAlert = alertObjArray.first else { return }
     
      if let presentedAlert = self.presentedViewController as? UIAlertController,
         presentedAlert.preferredStyle == .actionSheet {
         presentedAlert.dismiss(animated: true) {
           alertObjArray.removeFirst()
-          //addNextToQueue()
         }
       }
+    
+    guard let currentAlert = alertObjArray.first else { return }
+    
+    
     
     let alert = UIAlertController(title: currentAlert.title, message: currentAlert.message, preferredStyle: currentAlert.style!)
     var button1, button2, button3: UIAlertAction
