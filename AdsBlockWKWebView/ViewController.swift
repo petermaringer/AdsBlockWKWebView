@@ -804,13 +804,15 @@ if let neuePosition = textField.position(from: textField.beginningOfDocument, of
         textField.savedCursorPosition = nil
         DispatchQueue.main.async {
             // 1. Zum Ende springen und Layout erzwingen, um den internen Editor zu triggern
-            textField.selectedTextRange = textField.textRange(from: textField.endOfDocument, to: textField.endOfDocument)
-            textField.layoutIfNeeded()
+            //textField.selectedTextRange = textField.textRange(from: textField.endOfDocument, to: textField.endOfDocument)
+            //textField.layoutIfNeeded()
             
             // 2. Sofort danach die echte, gespeicherte Position setzen und neu zeichnen
             textField.selectedTextRange = savedPosition
-            textField.setNeedsLayout()
-            textField.layoutIfNeeded()
+            textField.resignFirstResponder()
+            textField.becomeFirstResponder()
+            //textField.setNeedsLayout()
+            //textField.layoutIfNeeded()
         }
     }
             
