@@ -346,7 +346,7 @@ override func caretRect(for position: UITextPosition) -> CGRect {
         super.scrollRectToVisible(rect, animated: animated)
     }*/
     
-    var savedCursorPosition: UITextRange?
+    //var savedCursorPosition: UITextRange?
     /*override var selectedTextRange: UITextRange? {
         get { return super.selectedTextRange }
         set {
@@ -358,6 +358,28 @@ override func caretRect(for position: UITextPosition) -> CGRect {
             }
         }
     }*/
+    var savedCursorOffset: Int?
+    override func becomeFirstResponder() -> Bool {
+        let success = super.becomeFirstResponder()
+        
+        if success, let offset = savedCursorOffset {
+            savedCursorOffset = nil
+            
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                
+                // Position anhand des Integer-Offsets neu berechnen
+                if let position = self.position(from: self.beginningOfDocument, offset: offset) {
+                    self.selectedTextRange = self.textRange(from: position, to: position)
+                    
+                    // Zwingt UIKit zum Neuzeichnen des Layouts samt Cursor
+                    self.setNeedsLayout()
+                    self.layoutIfNeeded()
+                }
+            }
+        }
+        return success
+    }
 
 
 }
@@ -800,7 +822,7 @@ if let neuePosition = textField.position(from: textField.beginningOfDocument, of
                 textField.textColor = .appBgColor
             }
             
-            if let savedPosition = textField.savedCursorPosition {
+            /*if let savedPosition = textField.savedCursorPosition {
         textField.savedCursorPosition = nil
         DispatchQueue.main.async {
             // 1. Zum Ende springen und Layout erzwingen, um den internen Editor zu triggern
@@ -814,7 +836,7 @@ if let neuePosition = textField.position(from: textField.beginningOfDocument, of
             //textField.setNeedsLayout()
             //textField.layoutIfNeeded()
         }
-    }
+    }*/
             
         }
         
@@ -1045,7 +1067,10 @@ let videos = document.querySelectorAll("video");
   
   @objc func kvButton2Clicked() {
     //cursorPosition = urlField.selectedTextRange
-    urlField.savedCursorPosition = urlField.selectedTextRange
+    //urlField.savedCursorPosition = urlField.selectedTextRange
+if let range = urlField.selectedTextRange {
+    urlField.savedCursorOffset = urlField.offset(from: urlField.beginningOfDocument, to: range.start)
+}
     //urlField.endEditing(true)
     /*if kvButton2.backgroundColor == .appBgColor {
       kvButton2.backgroundColor = .gray
@@ -1258,7 +1283,7 @@ filecontent: \(text)\n
 prefs: \(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref)\n
 wkpool: \(wkpool)\n
 appversion: \(appVersion)
-\(urlField.savedCursorPosition)
+\(urlField.savedCursorOffset)
 """)
     
   }
