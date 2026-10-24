@@ -2013,6 +2013,8 @@ appversion: \(appVersion)
     }
   }*/
   
+  var allowDismiss = true
+  
   private func showAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], defaultButton: Int? = nil, sourceView: UIView? = nil, disableHaptic: Bool? = false, completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
     if message != "nextAlertObj" {
       alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, defaultButton: defaultButton, sourceView: sourceView, disableHaptic: disableHaptic, completionHandler: completionHandler))
@@ -2045,10 +2047,14 @@ appversion: \(appVersion)
         presentedAlert.preferredStyle == .actionSheet {
         //alertObjArray.removeFirst()
         //presentedAlert.dismiss(animated: true)
+        if allowDismiss {
         presentedAlert.dismiss(animated: true) {
           alertObjArray.removeFirst()
+          allowDismiss = true
           self.showAlert("nextAlertObj")
         }
+        }
+        allowDismiss = false
         return
       }
     
