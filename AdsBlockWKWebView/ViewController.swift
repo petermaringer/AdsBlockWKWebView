@@ -2022,6 +2022,7 @@ appversion: \(appVersion)
       if let presentedAlert = self.presentedViewController as? UIAlertController,
         presentedAlert.preferredStyle == .actionSheet {
         presentedAlert.dismiss(animated: true) {
+          alertObjArray.removeFirst()
           addNextToQueue()
         }
       } else {
