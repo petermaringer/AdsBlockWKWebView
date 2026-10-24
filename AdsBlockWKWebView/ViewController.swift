@@ -346,7 +346,7 @@ override func caretRect(for position: UITextPosition) -> CGRect {
         super.scrollRectToVisible(rect, animated: animated)
     }*/
     
-    //var savedCursorPosition: UITextRange?
+    var savedCursorPosition: UITextRange?
     /*override var selectedTextRange: UITextRange? {
         get { return super.selectedTextRange }
         set {
@@ -358,7 +358,7 @@ override func caretRect(for position: UITextPosition) -> CGRect {
             }
         }
     }*/
-    var savedCursorOffset: Int?
+    //var savedCursorOffset: Int?
     /*override func becomeFirstResponder() -> Bool {
         let success = super.becomeFirstResponder()
         
@@ -780,7 +780,22 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
         ////textField.textColor = .appBgColor
         
         if let textField = textField as? CustomUITextField {
-            DispatchQueue.main.async {
+          
+          if textField.savedCursorPosition != nil {
+            textField.layer.borderWidth = 2
+            /*let position = textField.savedCursorPosition
+            textField.savedCursorPosition = nil
+            textField.selectedTextRange = position*/
+            /*textField.selectedTextRange = textField.savedCursorPosition
+            textField.savedCursorPosition = nil*/
+            if let position = textField.savedCursorPosition {
+              textField.savedCursorPosition = nil
+              //textField.selectedTextRange = textField.textRange(from: position.start, to: position.end)
+              textField.selectedTextRange = textField.textRange(from: position.start, to: position.start)
+            }
+          }
+          
+          DispatchQueue.main.async {
                 if textField.isRightPaddingClicked {
                     textField.isRightPaddingClicked = false
                     let end = textField.endOfDocument
@@ -1067,10 +1082,10 @@ let videos = document.querySelectorAll("video");
   
   @objc func kvButton2Clicked() {
     //cursorPosition = urlField.selectedTextRange
-    //urlField.savedCursorPosition = urlField.selectedTextRange
-if let range = urlField.selectedTextRange {
+    urlField.savedCursorPosition = urlField.selectedTextRange
+/*if let range = urlField.selectedTextRange {
     urlField.savedCursorOffset = urlField.offset(from: urlField.beginningOfDocument, to: range.start)
-}
+}*/
     //urlField.endEditing(true)
     /*if kvButton2.backgroundColor == .appBgColor {
       kvButton2.backgroundColor = .gray
@@ -1283,7 +1298,7 @@ filecontent: \(text)\n
 prefs: \(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref)\n
 wkpool: \(wkpool)\n
 appversion: \(appVersion)
-\(urlField.savedCursorOffset)
+\(urlField.savedCursorPosition)
 """)
     
   }
