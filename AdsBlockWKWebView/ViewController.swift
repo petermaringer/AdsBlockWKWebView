@@ -2032,9 +2032,11 @@ appversion: \(appVersion)
     
      if let presentedAlert = self.presentedViewController as? UIAlertController,
         presentedAlert.preferredStyle == .actionSheet {
-        presentedAlert.dismiss(animated: true) {
+        alertObjArray.removeFirst()
+        presentedAlert.dismiss(animated: true)
+        /*presentedAlert.dismiss(animated: true) {
           alertObjArray.removeFirst()
-        }
+        }*/
       }
     
     guard let currentAlert = alertObjArray.first else { return }
