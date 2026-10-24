@@ -359,7 +359,7 @@ override func caretRect(for position: UITextPosition) -> CGRect {
         }
     }*/
     var savedCursorOffset: Int?
-    override func becomeFirstResponder() -> Bool {
+    /*override func becomeFirstResponder() -> Bool {
         let success = super.becomeFirstResponder()
         
         if success, let offset = savedCursorOffset {
@@ -379,7 +379,7 @@ override func caretRect(for position: UITextPosition) -> CGRect {
             }
         }
         return success
-    }
+    }*/
 
 
 }
