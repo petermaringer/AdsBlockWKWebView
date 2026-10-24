@@ -1285,7 +1285,8 @@ player.play()*/
     
     //showAlert("\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref) \(wkpool)")
     //httpserver: isRunning=\(HttpServer.instance.server.isRunning)\n
-    showAlert("""
+    //showAlert("""
+    let message = """
 navlist(last20): \(navlist)\n
 player: \(isPlaying ? "Playing" : "Paused")\n
 httpserver: isRunning=\(HttpServer.instance.server.isRunning)\n
@@ -1293,9 +1294,10 @@ filecontent: \(text)\n
 prefs: \(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref)\n
 wkpool: \(wkpool)\n
 appversion: \(appVersion)
-\(urlField.savedCursorPosition ?? "nil")
-""")
-    
+\(urlField.savedCursorPosition.map { "\($0)" } ?? "nil")
+"""
+//""")
+    showAlert(message)
   }
   
   @objc func kvButton2Pressed(gesture: UILongPressGestureRecognizer) {
