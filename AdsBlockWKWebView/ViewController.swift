@@ -2047,7 +2047,7 @@ appversion: \(appVersion)
         //presentedAlert.dismiss(animated: true)
         presentedAlert.dismiss(animated: true) {
           alertObjArray.removeFirst()
-          showAlert("nextAlertObj")
+          self.showAlert("nextAlertObj")
         }
         return
       }
