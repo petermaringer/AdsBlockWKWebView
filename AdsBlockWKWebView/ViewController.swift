@@ -2015,7 +2015,18 @@ appversion: \(appVersion)
   
   private func showAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], defaultButton: Int? = nil, sourceView: UIView? = nil, disableHaptic: Bool? = false, completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
     if message != "nextAlertObj" {
-      alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, defaultButton: defaultButton, sourceView: sourceView, disableHaptic: disableHaptic, completionHandler: completionHandler))
+      //alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, defaultButton: defaultButton, sourceView: sourceView, disableHaptic: disableHaptic, completionHandler: completionHandler))
+      let addNextToQueue = {
+        alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, defaultButton: defaultButton, sourceView: sourceView, disableHaptic: disableHaptic, completionHandler: completionHandler))
+      }
+      if let presentedAlert = self.presentedViewController as? UIAlertController,
+        presentedAlert.preferredStyle == .actionSheet {
+        presentedAlert.dismiss(animated: true) {
+          addNextToQueue()
+        }
+      } else {
+        addNextToQueue()
+      }
     }
     guard let currentAlert = alertObjArray.first else { return }
     let alert = UIAlertController(title: currentAlert.title, message: currentAlert.message, preferredStyle: currentAlert.style!)
