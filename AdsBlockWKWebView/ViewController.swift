@@ -782,12 +782,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
         if let textField = textField as? CustomUITextField {
           
           if textField.savedCursorPosition != nil {
-            textField.layer.borderWidth = 2
-            /*let position = textField.savedCursorPosition
-            textField.savedCursorPosition = nil
-            textField.selectedTextRange = position*/
-            /*textField.selectedTextRange = textField.savedCursorPosition
-            textField.savedCursorPosition = nil*/
+            textField.layer.borderWidth = 1
             if let position = textField.savedCursorPosition {
               textField.savedCursorPosition = nil
               //textField.selectedTextRange = textField.textRange(from: position.start, to: position.end)
@@ -1298,7 +1293,7 @@ filecontent: \(text)\n
 prefs: \(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref)\n
 wkpool: \(wkpool)\n
 appversion: \(appVersion)
-\(urlField.savedCursorPosition)
+\(urlField.savedCursorPosition ?? "nil")
 """)
     
   }
