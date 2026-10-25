@@ -179,6 +179,8 @@ struct alertObj {
   var defaultButton: Int?
   var sourceView: UIView?
   var disableHaptic: Bool?
+  //var sourceView: UIView?
+  //var sourceRect: Blabla?
   var completionHandler: (Any?, Any?) -> Void
 }
 //var alertObjArray = [alertObj]()
@@ -2023,11 +2025,8 @@ appversion: \(appVersion)
       }
       addNextToQueue()*/
     }
-    
     guard let currentAlert = alertObjArray.first else { return }
-    
-    if let presentedAlert = self.presentedViewController as? UIAlertController,
-      presentedAlert.preferredStyle == .actionSheet {
+    if let presentedAlert = self.presentedViewController as? UIAlertController, presentedAlert.preferredStyle == .actionSheet {
       if allowAlertDismiss {
         allowAlertDismiss = false
         alertObjArray.removeFirst()
@@ -2039,17 +2038,17 @@ appversion: \(appVersion)
       return
     }
     if alertObjArray.count > 1 {
-      //if currentAlert.disableHaptic == true && alertObjArray[1].disableHaptic == true {}
-      if currentAlert.type == "confirm" && currentAlert.style == .actionSheet {
-        if alertObjArray[1].type == "confirm" && alertObjArray[1].style == .actionSheet {
+      if currentAlert.style == .actionSheet && alertObjArray[1].style == .actionSheet {
+      //if currentAlert.type == "confirm" && currentAlert.style == .actionSheet {}
+        //if alertObjArray[1].type == "confirm" && alertObjArray[1].style == .actionSheet {
           alertObjArray.removeFirst()
           showAlert("nextAlertObj")
           return
-        }
+        //}
       }
     }
-    
-    let alert = UIAlertController(title: currentAlert.title, message: currentAlert.message, preferredStyle: currentAlert.style!)
+    //let alert = UIAlertController(title: currentAlert.title, message: currentAlert.message, preferredStyle: currentAlert.style!)
+    let alert = UIAlertController(title: currentAlert.title, message: currentAlert.message, preferredStyle: currentAlert.style ?? .alert)
     var button1, button2, button3: UIAlertAction
     func buttonPressed(_ value1: Any?, _ value2: Any?) {
       alertObjArray.removeFirst()
