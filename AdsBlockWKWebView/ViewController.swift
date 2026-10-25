@@ -2157,7 +2157,11 @@ appversion: \(appVersion)
           // Optional: Maximale/Minimale Grenzen setzen, damit es auf dem iPad nicht riesig 
           // und auf dem iPhone SE nicht winzig wird
           let finalWidth = min(max(dynamicWidth, 300), 450) // Zwischen 300 und 450 pt
-          presentedView.widthAnchor.constraint(equalToConstant: finalWidth).isActive = true
+          //presentedView.widthAnchor.constraint(equalToConstant: finalWidth).isActive = true
+          let widthConstraint = presentedView.widthAnchor.constraint(equalToConstant: finalWidth)
+          widthConstraint.priority = UILayoutPriority(999)
+          widthConstraint.isActive = true
+          presentedView.superview?.layoutIfNeeded()
         }
       }
       
