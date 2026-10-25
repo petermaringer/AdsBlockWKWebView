@@ -2032,21 +2032,7 @@ appversion: \(appVersion)
       }*/
     }
     
-     /*if let presentedAlert = self.presentedViewController as? UIAlertController,
-        presentedAlert.preferredStyle == .actionSheet {
-        //alertObjArray.removeFirst()
-        //presentedAlert.dismiss(animated: true)
-        if allowDismiss {
-        allowDismiss = false
-        presentedAlert.dismiss(animated: true) {
-          self.allowDismiss = true
-          alertObjArray.removeFirst()
-          self.showAlert("nextAlertObj")
-        }
-        }
-        //allowDismiss = false
-        return
-      }*/
+    
     
     guard let currentAlert = alertObjArray.first else { return }
     let alert = UIAlertController(title: currentAlert.title, message: currentAlert.message, preferredStyle: currentAlert.style!)
@@ -2059,19 +2045,23 @@ appversion: \(appVersion)
     
      if let presentedAlert = self.presentedViewController as? UIAlertController,
         presentedAlert.preferredStyle == .actionSheet {
-        //alertObjArray.removeFirst()
-        //presentedAlert.dismiss(animated: true)
         if allowDismiss {
         allowDismiss = false
         alertObjArray.removeFirst()
         presentedAlert.dismiss(animated: true) {
           self.allowDismiss = true
-         
           self.showAlert("nextAlertObj")
         }
         }
-        //allowDismiss = false
         return
+      }
+      if alertObjArray.count > 1 {
+        //let secondItem = alertObjArray[1]
+        if currentAlert.disableHaptic && alertObjArray[1].disableHaptic {
+          alertObjArray.removeFirst()
+          showAlert("nextAlertObj")
+          return
+        }
       }
     
     if currentAlert.type == "alert" {
