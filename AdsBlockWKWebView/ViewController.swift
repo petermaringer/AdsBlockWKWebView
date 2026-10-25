@@ -2063,9 +2063,10 @@ appversion: \(appVersion)
         //presentedAlert.dismiss(animated: true)
         if allowDismiss {
         allowDismiss = false
+        alertObjArray.removeFirst()
         presentedAlert.dismiss(animated: true) {
           self.allowDismiss = true
-          alertObjArray.removeFirst()
+         
           self.showAlert("nextAlertObj")
         }
         }
