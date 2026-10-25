@@ -2242,6 +2242,22 @@ appversion: \(appVersion)
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     
+    
+    if let alert = presentedViewController as? UIAlertController,
+       alert.preferredStyle == .actionSheet,
+       let presentedView = alert.popoverPresentationController?.presentedView {
+        
+        let targetWidth = min(max(view.bounds.width * 0.85, 300), 450)
+        
+        // Constraint direkt setzen, falls noch nicht aktiv
+        if !presentedView.constraints.contains(where: { $0.firstAttribute == .width }) {
+            let constraint = presentedView.widthAnchor.constraint(equalToConstant: targetWidth)
+            constraint.priority = UILayoutPriority(999)
+            constraint.isActive = true
+        }
+    }
+    
+    
     var deviceOrientation = "pt"
     if (view.frame.width > view.frame.height) {
       deviceOrientation = "ls"
