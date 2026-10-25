@@ -2057,7 +2057,7 @@ appversion: \(appVersion)
       }
       if alertObjArray.count > 1 {
         //let secondItem = alertObjArray[1]
-        if currentAlert.disableHaptic && alertObjArray[1].disableHaptic {
+        if currentAlert.disableHaptic == true && alertObjArray[1].disableHaptic == true {
           alertObjArray.removeFirst()
           showAlert("nextAlertObj")
           return
