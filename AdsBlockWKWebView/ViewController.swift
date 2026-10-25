@@ -2013,7 +2013,7 @@ appversion: \(appVersion)
     }
   }*/
   
-  var allowDismiss = true
+  var allowAlertDismiss = true
   
   private func showAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], defaultButton: Int? = nil, sourceView: UIView? = nil, disableHaptic: Bool? = false, completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
     if message != "nextAlertObj" {
@@ -2028,21 +2028,24 @@ appversion: \(appVersion)
     
     if let presentedAlert = self.presentedViewController as? UIAlertController,
       presentedAlert.preferredStyle == .actionSheet {
-      if allowDismiss {
-        allowDismiss = false
+      if allowAlertDismiss {
+        allowAlertDismiss = false
         alertObjArray.removeFirst()
         presentedAlert.dismiss(animated: true) {
-          self.allowDismiss = true
+          self.allowAlertDismiss = true
           self.showAlert("nextAlertObj")
         }
       }
       return
     }
     if alertObjArray.count > 1 {
-      if currentAlert.disableHaptic == true && alertObjArray[1].disableHaptic == true {
-        alertObjArray.removeFirst()
-        showAlert("nextAlertObj")
-        return
+      //if currentAlert.disableHaptic == true && alertObjArray[1].disableHaptic == true {}
+      if currentAlert.type == "confirm" && currentAlert.style == .actionSheet {
+        if alertObjArray[1].type == "confirm" && alertObjArray[1].style == .actionSheet {
+          alertObjArray.removeFirst()
+          showAlert("nextAlertObj")
+          return
+        }
       }
     }
     
@@ -2053,8 +2056,6 @@ appversion: \(appVersion)
       currentAlert.completionHandler(value1, value2)
       showAlert("nextAlertObj")
     }
-    
-    
     
     if currentAlert.type == "alert" {
       button1 = UIAlertAction(title: currentAlert.buttonTitles![0], style: currentAlert.buttonStyles![0], handler: { _ in
