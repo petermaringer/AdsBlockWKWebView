@@ -2145,7 +2145,22 @@ appversion: \(appVersion)
     }
     //Dispatch
     DispatchQueue.main.async { [unowned self] in
-      self.present(alert, animated: true, completion: nil)
+      //self.present(alert, animated: true, completion: nil)
+      
+      self.present(alert, animated: true) {
+        if alert.preferredStyle == .actionSheet, let presentedView = alert.popoverPresentationController?.presentedView {
+          // Beispiel: Nimm 85% der aktuellen View-Breite (oder des Bildschirms)
+          let screenWidth = self.view.bounds.width
+          let dynamicWidth = screenWidth * 0.85 
+          // Dynamische Breite setzen
+          //presentedView.widthAnchor.constraint(equalToConstant: dynamicWidth).isActive = true
+          // Optional: Maximale/Minimale Grenzen setzen, damit es auf dem iPad nicht riesig 
+          // und auf dem iPhone SE nicht winzig wird
+          let finalWidth = min(max(dynamicWidth, 300), 450) // Zwischen 300 und 450 pt
+          presentedView.widthAnchor.constraint(equalToConstant: finalWidth).isActive = true
+        }
+      }
+      
     }
   }
   
