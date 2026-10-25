@@ -1181,7 +1181,10 @@ player.play()*/
   }
   //BackgroundAudioEnd
   
-  avPVC.player = player
+  //avPVC.player = player
+  let newPlayer = AVPlayer(url: URL(string: "https://player.streamhosting.ch/lounge128.mp3")!)
+  avPVC.player = newPlayer
+  
   let isPlaying: Bool
   if avPVC.player?.timeControlStatus == .playing {
     avPVC.player?.pause()
@@ -2145,9 +2148,9 @@ appversion: \(appVersion)
     }
     //Dispatch
     DispatchQueue.main.async { [unowned self] in
-      //self.present(alert, animated: true, completion: nil)
+      self.present(alert, animated: true, completion: nil)
       
-      self.present(alert, animated: true) {
+      /*self.present(alert, animated: true) {
         if alert.preferredStyle == .actionSheet, let presentedView = alert.popoverPresentationController?.presentedView {
           // Beispiel: Nimm 85% der aktuellen View-Breite (oder des Bildschirms)
           let screenWidth = self.view.bounds.width
@@ -2163,7 +2166,7 @@ appversion: \(appVersion)
           widthConstraint.isActive = true
           presentedView.superview?.layoutIfNeeded()
         }
-      }
+      }*/
       
     }
   }
@@ -2243,19 +2246,17 @@ appversion: \(appVersion)
     super.viewDidLayoutSubviews()
     
     
-    if let alert = presentedViewController as? UIAlertController,
+    /*if let alert = presentedViewController as? UIAlertController,
        alert.preferredStyle == .actionSheet,
        let presentedView = alert.popoverPresentationController?.presentedView {
-        
         let targetWidth = min(max(view.bounds.width * 0.85, 300), 450)
-        
         // Constraint direkt setzen, falls noch nicht aktiv
         if !presentedView.constraints.contains(where: { $0.firstAttribute == .width }) {
             let constraint = presentedView.widthAnchor.constraint(equalToConstant: targetWidth)
             constraint.priority = UILayoutPriority(999)
             constraint.isActive = true
         }
-    }
+    }*/
     
     
     var deviceOrientation = "pt"
