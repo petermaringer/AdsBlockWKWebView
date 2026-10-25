@@ -2021,20 +2021,31 @@ appversion: \(appVersion)
       /*let addNextToQueue = {
         alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, defaultButton: defaultButton, sourceView: sourceView, disableHaptic: disableHaptic, completionHandler: completionHandler))
       }
-      if let presentedAlert = self.presentedViewController as? UIAlertController,
-        presentedAlert.preferredStyle == .actionSheet {
-        presentedAlert.dismiss(animated: true) {
-          alertObjArray.removeFirst()
-          addNextToQueue()
-        }
-      } else {
-        addNextToQueue()
-      }*/
+      addNextToQueue()*/
     }
     
-    
-    
     guard let currentAlert = alertObjArray.first else { return }
+    
+    if let presentedAlert = self.presentedViewController as? UIAlertController,
+      presentedAlert.preferredStyle == .actionSheet {
+      if allowDismiss {
+        allowDismiss = false
+        alertObjArray.removeFirst()
+        presentedAlert.dismiss(animated: true) {
+          self.allowDismiss = true
+          self.showAlert("nextAlertObj")
+        }
+      }
+      return
+    }
+    if alertObjArray.count > 1 {
+      if currentAlert.disableHaptic == true && alertObjArray[1].disableHaptic == true {
+        alertObjArray.removeFirst()
+        showAlert("nextAlertObj")
+        return
+      }
+    }
+    
     let alert = UIAlertController(title: currentAlert.title, message: currentAlert.message, preferredStyle: currentAlert.style!)
     var button1, button2, button3: UIAlertAction
     func buttonPressed(_ value1: Any?, _ value2: Any?) {
@@ -2043,26 +2054,7 @@ appversion: \(appVersion)
       showAlert("nextAlertObj")
     }
     
-     if let presentedAlert = self.presentedViewController as? UIAlertController,
-        presentedAlert.preferredStyle == .actionSheet {
-        if allowDismiss {
-        allowDismiss = false
-        alertObjArray.removeFirst()
-        presentedAlert.dismiss(animated: true) {
-          self.allowDismiss = true
-          self.showAlert("nextAlertObj")
-        }
-        }
-        return
-      }
-      if alertObjArray.count > 1 {
-        //let secondItem = alertObjArray[1]
-        if currentAlert.disableHaptic == true && alertObjArray[1].disableHaptic == true {
-          alertObjArray.removeFirst()
-          showAlert("nextAlertObj")
-          return
-        }
-      }
+    
     
     if currentAlert.type == "alert" {
       button1 = UIAlertAction(title: currentAlert.buttonTitles![0], style: currentAlert.buttonStyles![0], handler: { _ in
