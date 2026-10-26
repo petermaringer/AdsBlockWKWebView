@@ -2977,7 +2977,8 @@ urlField.addAction(updateUI, for: .editingDidEnd)
         //tableView.contentSize.width = 100
         //tableView.clipsToBounds = false
         //tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, -30)
-        tableView.separatorColor = .appBgColor
+        //tableView.separatorColor = .appBgColor
+        tableView.separatorColor = .appBgLightColor
         //tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
         
@@ -4403,6 +4404,20 @@ let logoContainer = document.querySelector("[aria-label='Google']");
     } else {
       completionHandler(.cancelAuthenticationChallenge, nil)
     }
+  }
+  
+  func webView(_ webView: WKWebView, requestMediaCapturePermissionFor origin: WKSecurityOrigin, initiatedByFrame frame: WKFrameInfo, type: WKMediaCaptureType, decisionHandler: @escaping (WKPermissionDecision) -> Void) {
+    if type == .microphone {
+      if origin.host == "gemini.google.com" {
+        decisionHandler(.grant)
+        return
+      }
+    } else if type == .camera {
+      //platzhalter
+    } else if type == .cameraAndMicrophone {
+      //platzhalter
+    }
+    decisionHandler(.prompt)
   }
   
   
