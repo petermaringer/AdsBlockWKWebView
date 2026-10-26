@@ -2048,7 +2048,8 @@ appversion: \(appVersion)
       return
     }
     if alertObjArray.count > 1 {
-      if currentAlert.sourceID == alertObjArray[1].sourceID {
+      //if currentAlert.sourceID == alertObjArray[1].sourceID {}
+      if let currentAlertSourceID = currentAlert.sourceID, let nextAlertSourceID = alertObjArray[1].sourceID, currentAlertSourceID == nextAlertSourceID {
       //if currentAlert.style == .actionSheet && alertObjArray[1].style == .actionSheet {}
       //if currentAlert.type == "confirm" && currentAlert.style == .actionSheet {}
         //if alertObjArray[1].type == "confirm" && alertObjArray[1].style == .actionSheet {
