@@ -190,8 +190,24 @@ struct alertObj {
 var alertObjArray: [alertObj] = []
 
 class PopoverWithoutArrow: UIPopoverBackgroundView {
+  private let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
   private var _arrowOffset: CGFloat = 0
   private var _arrowDirection: UIPopoverArrowDirection = .up
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    addSubview(blurView)
+    clipsToBounds = true
+    layer.cornerRadius = 14
+    layer.borderWidth = 0.5
+    layer.borderColor = UIColor.separator.cgColor
+  }
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    blurView.frame = bounds
+  }
   override class func arrowHeight() -> CGFloat { return 0 }
   override class func arrowBase() -> CGFloat { return 0 }
   override class func contentViewInsets() -> UIEdgeInsets { return .zero }
