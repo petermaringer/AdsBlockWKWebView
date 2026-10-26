@@ -195,6 +195,7 @@ class PopoverWithoutArrow: UIPopoverBackgroundView {
   private var _arrowDirection: UIPopoverArrowDirection = .up
   override init(frame: CGRect) {
     super.init(frame: frame)
+    backgroundColor = .clear
     addSubview(blurView)
     clipsToBounds = true
     layer.cornerRadius = 14
@@ -210,7 +211,9 @@ class PopoverWithoutArrow: UIPopoverBackgroundView {
   }
   override class func arrowHeight() -> CGFloat { return 0 }
   override class func arrowBase() -> CGFloat { return 0 }
-  override class func contentViewInsets() -> UIEdgeInsets { return .zero }
+  override class func contentViewInsets() -> UIEdgeInsets {
+    return UIEdgeInsets(top: 0, left: 0, bottom: 13, right: 0)
+  }
   override var arrowDirection: UIPopoverArrowDirection {
     get { return _arrowDirection }
     set { _arrowDirection = newValue }
