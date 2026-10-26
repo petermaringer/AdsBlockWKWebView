@@ -1305,7 +1305,7 @@ appversion: \(appVersion)
 """
     //showAlert(message)
     //showAlert(type: "confirm", style: .actionSheet, message, sourceView: self.view, disableHaptic: true)
-    showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceView: self.view)
+    showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceView: self.view, sourceRect: CGRect(x: 0, y: 120, width: self.view.bounds.width, height: 1), sourceID: "kvButton2Clicked-01")
   }
   
   @objc func kvButton2Pressed(gesture: UILongPressGestureRecognizer) {
@@ -2048,7 +2048,8 @@ appversion: \(appVersion)
       return
     }
     if alertObjArray.count > 1 {
-      if currentAlert.style == .actionSheet && alertObjArray[1].style == .actionSheet {
+      if currentAlert.sourceID == alertObjArray[1].sourceID {
+      //if currentAlert.style == .actionSheet && alertObjArray[1].style == .actionSheet {}
       //if currentAlert.type == "confirm" && currentAlert.style == .actionSheet {}
         //if alertObjArray[1].type == "confirm" && alertObjArray[1].style == .actionSheet {
           alertObjArray.removeFirst()
