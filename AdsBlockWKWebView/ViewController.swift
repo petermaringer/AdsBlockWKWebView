@@ -769,7 +769,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   @objc internal func onMenu1(sender: UIMenuItem) {
     //HttpServer.instance.server.stop()
     UIPasteboard.general.items = []
-    showAlert(type: "confirm", style: .actionSheet, title: nil, "Clipboard was cleared.", buttonTitles: ["Cancel", "OK"], buttonStyles: [.cancel, .default], sourceView: urlField, disableHaptic: true)
+    //showAlert(type: "confirm", style: .actionSheet, title: nil, "Clipboard was cleared.", buttonTitles: ["Cancel", "OK"], buttonStyles: [.cancel, .default], sourceView: urlField, disableHaptic: true)
+    showAlert(type: "confirm", style: .actionSheet, title: nil, "Clipboard was cleared.", buttonTitles: ["Cancel", "OK"], buttonStyles: [.cancel, .default], disableHaptic: true, sourceView: urlField)
   }
   
   //private var cursorPosition: UITextRange?
@@ -1303,7 +1304,8 @@ appversion: \(appVersion)
 \ntemp: \(urlField.savedCursorPosition.map { "\($0)" } ?? "nil")
 """
     //showAlert(message)
-    showAlert(type: "confirm", style: .actionSheet, message, sourceView: self.view, disableHaptic: true)
+    //showAlert(type: "confirm", style: .actionSheet, message, sourceView: self.view, disableHaptic: true)
+    showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceView: self.view)
   }
   
   @objc func kvButton2Pressed(gesture: UILongPressGestureRecognizer) {
@@ -1323,7 +1325,8 @@ appversion: \(appVersion)
             self.lb.text! += " RES:\(response ?? "nil")"
           }
           self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive], defaultButton: 0)
-          self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], sourceView: self.view, disableHaptic: true)
+          //self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], sourceView: self.view, disableHaptic: true)
+          self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], disableHaptic: true, sourceView: self.view)
         }
       }
     }
