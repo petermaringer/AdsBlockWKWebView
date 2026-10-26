@@ -189,6 +189,22 @@ struct alertObj {
 }
 var alertObjArray: [alertObj] = []
 
+class PopoverWithoutArrow: UIPopoverBackgroundView {
+  private var _arrowOffset: CGFloat = 0
+  private var _arrowDirection: UIPopoverArrowDirection = .up
+  override class func arrowHeight() -> CGFloat { return 0 }
+  override class func arrowBase() -> CGFloat { return 0 }
+  override class func contentViewInsets() -> UIEdgeInsets { return .zero }
+  override var arrowDirection: UIPopoverArrowDirection {
+    get { return _arrowDirection }
+    set { _arrowDirection = newValue }
+  }
+  override var arrowOffset: CGFloat {
+    get { return _arrowOffset }
+    set { _arrowOffset = newValue }
+  }
+}
+
 
 var wkpool = "wkp"
 func initPool() -> WKProcessPool {
@@ -2147,7 +2163,8 @@ appversion: \(appVersion)
       popover.sourceRect = currentAlert.sourceRect ?? sourceView.bounds
       //popover.permittedArrowDirections = []
       if currentAlert.sourceArrow == false {
-        popover.permittedArrowDirections = []
+        //popover.permittedArrowDirections = []
+        popover.popoverBackgroundViewClass = PopoverWithoutArrow.self
       }
     }
     if currentAlert.disableHaptic != true {
