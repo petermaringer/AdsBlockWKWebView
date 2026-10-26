@@ -1372,6 +1372,20 @@ appversion: \(appVersion)
         if response as? Bool == true {
           self.showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default], defaultButton: 0) { (response, _) in
             self.lb.text! += " RES:\(response!)"
+            
+            /*if response as? Int == 1 {
+              
+            } else if response as? Int == 2 {
+              
+            } else if response as? Int == 3 {
+              
+            }*/
+            if let selected = response as? Int, (1...3).contains(selected) {
+              currentStationIndex = selected - 1
+              player = AVPlayer(url: audioUrls[currentStationIndex])
+              player?.play()
+            }
+            
           }
           self.showAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident", defaultButton: 0) { (response, _) in
             self.lb.text! += " RES:\(response ?? "nil")"
