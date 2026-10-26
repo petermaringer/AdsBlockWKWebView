@@ -189,7 +189,7 @@ struct alertObj {
 }
 var alertObjArray: [alertObj] = []
 
-class PopoverWithoutArrow: UIPopoverBackgroundView {
+/*class PopoverWithoutArrow: UIPopoverBackgroundView {
   private let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
   private var _arrowOffset: CGFloat = 0
   private var _arrowDirection: UIPopoverArrowDirection = .up
@@ -223,7 +223,7 @@ class PopoverWithoutArrow: UIPopoverBackgroundView {
     get { return _arrowOffset }
     set { _arrowOffset = newValue }
   }
-}
+}*/
 
 
 var wkpool = "wkp"
@@ -2183,8 +2183,8 @@ appversion: \(appVersion)
       popover.sourceRect = currentAlert.sourceRect ?? sourceView.bounds
       //popover.permittedArrowDirections = []
       if currentAlert.sourceArrow == false {
-        //popover.permittedArrowDirections = []
-        popover.popoverBackgroundViewClass = PopoverWithoutArrow.self
+        popover.permittedArrowDirections = []
+        //popover.popoverBackgroundViewClass = PopoverWithoutArrow.self
       }
     }
     if currentAlert.disableHaptic != true {
