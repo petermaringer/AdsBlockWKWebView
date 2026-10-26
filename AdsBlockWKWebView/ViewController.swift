@@ -2149,7 +2149,8 @@ appversion: \(appVersion)
       //popover.sourceView = self.view
       //popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
       popover.sourceView = sourceView
-      popover.sourceRect = sourceView.bounds
+      //popover.sourceRect = sourceView.bounds
+      popover.sourceRect = currentAlert.sourceRect ?? sourceView.bounds
       //popover.permittedArrowDirections = []
     }
     if currentAlert.disableHaptic != true {
