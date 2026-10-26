@@ -195,8 +195,9 @@ class PopoverWithoutArrow: UIPopoverBackgroundView {
   private var _arrowDirection: UIPopoverArrowDirection = .up
   override init(frame: CGRect) {
     super.init(frame: frame)
-    backgroundColor = .systemBackground
-    //addSubview(blurView)
+    backgroundColor = .clear
+    isOpaque = false
+    addSubview(blurView)
     clipsToBounds = true
     layer.cornerRadius = 14
     layer.borderWidth = 0.5
