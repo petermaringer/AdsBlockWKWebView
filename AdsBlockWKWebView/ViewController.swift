@@ -171,21 +171,21 @@ func loadUserPrefs() {
 
 
 struct alertObj {
-  var type: String?
-  var style: UIAlertController.Style?
-  var title: String?
-  var message: String?
-  var input: String?
-  var buttonTitles: [String]?
-  var buttonStyles: [UIAlertAction.Style]?
-  var defaultButton: Int?
-  var sourceView: UIView?
-  var disableHaptic: Bool?
-  //var sourceView: UIView?
-  //var sourceRect: Blabla?
-  var completionHandler: (Any?, Any?) -> Void
+  let type: String?
+  let style: UIAlertController.Style?
+  let title: String?
+  let message: String?
+  let input: String?
+  let buttonTitles: [String]?
+  let buttonStyles: [UIAlertAction.Style]?
+  let defaultButton: Int?
+  let sourceView: UIView?
+  let disableHaptic: Bool?
+  //let sourceView: UIView?
+  //let sourceRect: Blabla?
+  //let sourceID: String?
+  let completionHandler: (Any?, Any?) -> Void
 }
-//var alertObjArray = [alertObj]()
 var alertObjArray: [alertObj] = []
 
 
