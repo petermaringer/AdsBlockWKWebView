@@ -143,7 +143,15 @@ let hapticFB = UINotificationFeedbackGenerator()
 
 //let player = AVPlayer(url: URL(string: "http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.m3u")!)
 //let player = AVPlayer(url: URL(string: "https://player.streamhosting.ch/lounge128.mp3")!)
-var player: AVPlayer?
+//var player: AVPlayer?
+let audioUrls: [URL] = [
+  URL(string: "https://player.streamhosting.ch/lounge128.mp3")!,
+  URL(string: "http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.m3u")!,
+  URL(string: "https://deine-dritte-url.mp3")!
+]
+var currentStationIndex = 0
+var player: AVPlayer? = AVPlayer(url: audioUrls[0])
+
 var restoreUrlsJson: String!
 
 
@@ -1220,7 +1228,7 @@ player.play()*/
   }
   //BackgroundAudioEnd
   
-  player = AVPlayer(url: URL(string: "https://player.streamhosting.ch/lounge128.mp3")!)
+  //player = AVPlayer(url: URL(string: "https://player.streamhosting.ch/lounge128.mp3")!)
   
   let isPlaying: Bool
   if player?.timeControlStatus == .playing {
