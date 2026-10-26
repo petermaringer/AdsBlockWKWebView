@@ -1305,7 +1305,7 @@ appversion: \(appVersion)
 """
     //showAlert(message)
     //showAlert(type: "confirm", style: .actionSheet, message, sourceView: self.view, disableHaptic: true)
-    showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceView: self.view, sourceRect: CGRect(x: 0, y: 120, width: self.view.bounds.width, height: 1), sourceID: "kvButton2Clicked-01")
+    showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceView: self.view, sourceRect: CGRect(x: 0, y: 120, width: self.view.bounds.width, height: 1), sourceID: "kvButton2Clicked-01")
   }
   
   @objc func kvButton2Pressed(gesture: UILongPressGestureRecognizer) {
