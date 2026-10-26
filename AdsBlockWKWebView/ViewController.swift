@@ -179,11 +179,12 @@ struct alertObj {
   let buttonTitles: [String]?
   let buttonStyles: [UIAlertAction.Style]?
   let defaultButton: Int?
-  let sourceView: UIView?
-  let disableHaptic: Bool?
   //let sourceView: UIView?
-  //let sourceRect: Blabla?
-  //let sourceID: String?
+  let disableHaptic: Bool?
+  let sourceView: UIView?
+  let sourceRect: CGRect?
+  let sourceID: String?
+  let custom: Any?
   let completionHandler: (Any?, Any?) -> Void
 }
 var alertObjArray: [alertObj] = []
@@ -2021,11 +2022,13 @@ appversion: \(appVersion)
   
   var allowAlertDismiss = true
   
-  private func showAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], defaultButton: Int? = nil, sourceView: UIView? = nil, disableHaptic: Bool? = false, completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
+  //private func showAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], defaultButton: Int? = nil, sourceView: UIView? = nil, disableHaptic: Bool? = false, completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
+  private func showAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], defaultButton: Int? = nil, disableHaptic: Bool? = false, sourceView: UIView? = nil, sourceRect: CGRect? = nil, sourceID: String? = nil, custom: Any? = nil, completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
     if message != "nextAlertObj" {
-      alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, defaultButton: defaultButton, sourceView: sourceView, disableHaptic: disableHaptic, completionHandler: completionHandler))
+      //alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, defaultButton: defaultButton, sourceView: sourceView, disableHaptic: disableHaptic, completionHandler: completionHandler))
+      alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, defaultButton: defaultButton, disableHaptic: disableHaptic, sourceView: sourceView, sourceRect: sourceRect, sourceID: sourceID, custom: custom, completionHandler: completionHandler))
       /*let addNextToQueue = {
-        alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, defaultButton: defaultButton, sourceView: sourceView, disableHaptic: disableHaptic, completionHandler: completionHandler))
+        alertObjArray.append(alertObj(blabla))
       }
       addNextToQueue()*/
     }
