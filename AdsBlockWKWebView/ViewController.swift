@@ -2146,6 +2146,9 @@ appversion: \(appVersion)
       //popover.sourceRect = sourceView.bounds
       popover.sourceRect = currentAlert.sourceRect ?? sourceView.bounds
       //popover.permittedArrowDirections = []
+      if currentAlert.sourceArrow == false {
+        popover.permittedArrowDirections = []
+      }
     }
     if currentAlert.disableHaptic != true {
       hapticFB.notificationOccurred(.success)
