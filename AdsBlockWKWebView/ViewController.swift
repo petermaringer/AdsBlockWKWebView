@@ -823,7 +823,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
         if let textField = textField as? CustomUITextField {
           
           if textField.savedCursorPosition != nil {
-            textField.layer.borderWidth = 1
+            //textField.layer.borderWidth = 1
             if let position = textField.savedCursorPosition {
               textField.savedCursorPosition = nil
               //textField.selectedTextRange = textField.textRange(from: position.start, to: position.end)
@@ -1222,7 +1222,16 @@ player.play()*/
   
   player = AVPlayer(url: URL(string: "https://player.streamhosting.ch/lounge128.mp3")!)
   
-  avPVC.player = player
+  let isPlaying: Bool
+  if player?.timeControlStatus == .playing {
+    player?.pause()
+    isPlaying = false
+  } else {
+    player?.play()
+    isPlaying = true
+  }
+  
+  /*avPVC.player = player
   let isPlaying: Bool
   if avPVC.player?.timeControlStatus == .playing {
     avPVC.player?.pause()
@@ -1230,7 +1239,7 @@ player.play()*/
   } else {
     avPVC.player?.play()
     isPlaying = true
-  }
+  }*/
   
   /*//BackgroundAudioBegin
   let session = AVAudioSession.sharedInstance()
