@@ -1303,7 +1303,7 @@ appversion: \(appVersion)
 \ntemp: \(urlField.savedCursorPosition.map { "\($0)" } ?? "nil")
 """
     //showAlert(message)
-    showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceView: self.view, sourceRect: CGRect(x: 0, y: 120, width: self.view.bounds.width, height: 1), sourceArrow: false, sourceID: "kvButton2Clicked-01")
+    showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceView: self.view, sourceRect: CGRect(x: 0, y: 120, width: self.view.bounds.width, height: 1), sourceArrow: false, sourceID: "kvButton2Clicked-01")
   }
   
   @objc func kvButton2Pressed(gesture: UILongPressGestureRecognizer) {
@@ -2022,9 +2022,9 @@ appversion: \(appVersion)
   
   var allowAlertDismiss = true
   
-  private func showAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], defaultButton: Int? = nil, disableHaptic: Bool? = false, sourceView: UIView? = nil, sourceRect: CGRect? = nil, sourceArrow: Bool? = nil, sourceID: String? = nil, custom: Any? = nil, completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
+  private func showAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], defaultButton: Int? = nil, disableHaptic: Bool? = false, sourceView: UIView? = nil, sourceRect: CGRect? = nil, sourceArrow: Bool? = nil, sourceID: String? = nil, custom: Any? = nil, completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
     if message != "nextAlertObj" {
-      alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, defaultButton: defaultButton, disableHaptic: disableHaptic, sourceView: sourceView, sourceRect: sourceRect, sourceArrow: sourceArrow, sourceID: sourceID, custom: custom, completionHandler: completionHandler))
+      alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, defaultButton: defaultButton, disableHaptic: disableHaptic, sourceView: sourceView, sourceRect: sourceRect, sourceArrow: sourceArrow, sourceID: sourceID, custom: custom, completionHandler: completionHandler))
       /*let addNextToQueue = {
         alertObjArray.append(alertObj(blabla))
       }
