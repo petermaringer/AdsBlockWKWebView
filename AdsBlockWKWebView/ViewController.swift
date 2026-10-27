@@ -143,7 +143,8 @@ let hapticFB = UINotificationFeedbackGenerator()
 
 func setAudioSession(
   category: String = AVAudioSessionCategoryPlayback,
-  options: AVAudioSessionCategoryOptions = [.mixWithOthers],
+  //options: AVAudioSessionCategoryOptions = [.mixWithOthers],
+  options: AVAudioSessionCategoryOptions = [],
   mode: String = AVAudioSessionModeDefault,
   notifyOnDeactivation: Bool = true,
   deactivateOnly: Bool = false
