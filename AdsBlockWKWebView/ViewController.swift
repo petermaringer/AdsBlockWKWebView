@@ -186,12 +186,6 @@ func updateNowPlayingInfo() {
   if let url = Bundle.main.url(forResource: "nowPlayingInfoArtwork", withExtension: "jpg"), let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
     nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
   }
-  ////nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 1.0
-  //nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = player?.rate ?? 0.0
-  //if let name = (((Bundle.main.infoDictionary?["CFBundleIcons"] as? [String: Any])?["CFBundlePrimaryIcon"] as? [String: Any])?["CFBundleIconFiles"] as? [String])?.last, let image = UIImage(named: name) {}
-  ////nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = player?.currentTime().seconds ?? 0.0
-  //let time = player?.currentTime().seconds ?? 0.0
-  //nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = time.isNaN ? 0.0 : time
   MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
 }
 
@@ -3204,7 +3198,9 @@ urlField.addAction(updateUI, for: .editingDidEnd)
     }
     commandCenter.nextTrackCommand.addTarget { event in
       setAudioSession()
-      currentStreamIndex = (currentStreamIndex + 1) % 4
+      //currentStreamIndex = (currentStreamIndex + 1) % 4
+      //currentStreamIndex = currentStreamIndex < 3 ? currentStreamIndex + 1 : 0
+      currentStreamIndex = currentStreamIndex < streams.count - 1 ? currentStreamIndex + 1 : 0
       let item = AVPlayerItem(url: streams[currentStreamIndex].url)
       player?.replaceCurrentItem(with: item)
       player?.play()
@@ -3213,7 +3209,9 @@ urlField.addAction(updateUI, for: .editingDidEnd)
     }
     commandCenter.previousTrackCommand.addTarget { event in
       setAudioSession()
-      currentStreamIndex = (currentStreamIndex - 1 + 4) % 4
+      //currentStreamIndex = (currentStreamIndex - 1 + 4) % 4
+      //currentStreamIndex = currentStreamIndex > 0 ? currentStreamIndex - 1 : 3
+      currentStreamIndex = currentStreamIndex > 0 ? currentStreamIndex - 1 : streams.count - 1
       let item = AVPlayerItem(url: streams[currentStreamIndex].url)
       player?.replaceCurrentItem(with: item)
       player?.play()
