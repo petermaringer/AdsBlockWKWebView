@@ -169,13 +169,21 @@ func setAudioSession(
 }
 //let player = AVPlayer(url: URL(string: "http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.m3u")!)
 //var player: AVPlayer?
-let audioUrls: [URL] = [
+/*let audioUrls: [URL] = [
   URL(string: "https://player.streamhosting.ch/lounge128.mp3")!,
   URL(string: "http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.m3u")!,
   URL(string: "https://secureonair.krone.at/eurodance.aac")!
 ]
 var currentStationIndex = 0
-var player: AVPlayer? = AVPlayer(url: audioUrls[0])
+var player: AVPlayer? = AVPlayer(url: audioUrls[0])*/
+struct Stream { let name: String; let url: URL }
+let streams: [Stream] = [
+  Stream(name: "Lounge 128", url: URL(string: "https://player.streamhosting.ch/lounge128.mp3")!),
+  Stream(name: "TSF Jazz", url: URL(string: "http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.m3u")!),
+  Stream(name: "Eurodance", url: URL(string: "https://secureonair.krone.at/eurodance.aac")!)
+]
+var currentStationIndex = 0
+var player: AVPlayer? = AVPlayer(url: streams[0].url)
 
 var restoreUrlsJson: String!
 
@@ -1270,7 +1278,8 @@ player.play()*/
     isPlaying = false
   } else {
     if player?.currentItem == nil || player?.currentItem?.status == .failed || player?.currentItem?.error != nil {
-      let item = AVPlayerItem(url: audioUrls[currentStationIndex])
+      //let item = AVPlayerItem(url: audioUrls[currentStationIndex])
+      let item = AVPlayerItem(url: streams[currentStationIndex].url)
       player?.replaceCurrentItem(with: item)
     }
     player?.play()
@@ -1385,6 +1394,7 @@ player.play()*/
     //httpserver: isRunning=\(HttpServer.instance.server.isRunning)\n
     let message = """
 navlist(last20): \(navlist)\n
+stream: \(streams[currentStationIndex].name)
 player: \(isPlaying ? "isPlaying" : "isPaused")\n
 httpserver: isRunning=\(HttpServer.instance.server.isRunning)\n
 filecontent: \(text)\n
@@ -1415,7 +1425,8 @@ appversion: \(appVersion)
               setAudioSession()
               currentStationIndex = selected - 1
               //player = AVPlayer(url: audioUrls[currentStationIndex])
-              let item = AVPlayerItem(url: audioUrls[currentStationIndex])
+              //let item = AVPlayerItem(url: audioUrls[currentStationIndex])
+              let item = AVPlayerItem(url: streams[currentStationIndex].url)
               player?.replaceCurrentItem(with: item)
               player?.play()
             }
