@@ -178,7 +178,7 @@ var currentStationIndex = 0
 var player: AVPlayer? = AVPlayer(url: audioUrls[0])*/
 struct Stream { let name: String; let url: URL }
 let streams: [Stream] = [
-  Stream(name: "Lounge 128", url: URL(string: "https://player.streamhosting.ch/lounge128.mp3")!),
+  Stream(name: "Lounge-Radio", url: URL(string: "https://player.streamhosting.ch/lounge128.mp3")!),
   Stream(name: "TSF Jazz", url: URL(string: "http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.m3u")!),
   Stream(name: "Eurodance", url: URL(string: "https://secureonair.krone.at/eurodance.aac")!)
 ]
@@ -1429,14 +1429,27 @@ appversion: \(appVersion)
               let item = AVPlayerItem(url: streams[currentStationIndex].url)
               player?.replaceCurrentItem(with: item)
               player?.play()
+              
+              self.showAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident or \(streams[currentStationIndex].name)", defaultButton: 0) { (response, _) in
+                self.lb.text! += " RES:\(response ?? "nil")"
+                
+                if response != nil {
+                  self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive], defaultButton: 0)
+                  self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], disableHaptic: true, sourceView: self.view)
+                }
+                
+              }
+              /*self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive], defaultButton: 0)
+              self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], disableHaptic: true, sourceView: self.view)*/
+              
             }
             
           }
-          self.showAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident", defaultButton: 0) { (response, _) in
+          /*self.showAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident", defaultButton: 0) { (response, _) in
             self.lb.text! += " RES:\(response ?? "nil")"
           }
           self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive], defaultButton: 0)
-          self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], disableHaptic: true, sourceView: self.view)
+          self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], disableHaptic: true, sourceView: self.view)*/
         }
       }
     }
