@@ -174,7 +174,8 @@ struct Stream { let name: String; let url: URL }
 let streams: [Stream] = [
   Stream(name: "Lounge-Radio", url: URL(string: "https://player.streamhosting.ch/lounge128.mp3")!),
   Stream(name: "TSF Jazz", url: URL(string: "http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.m3u")!),
-  Stream(name: "Eurodance", url: URL(string: "https://secureonair.krone.at/eurodance.aac")!)
+  Stream(name: "Eurodance", url: URL(string: "https://secureonair.krone.at/eurodance.aac")!),
+  Stream(name: "Radio Fantasy", url: URL(string: "http://stream.radio-fantasy.at")!)
 ]
 var currentStreamIndex = 0
 var player: AVPlayer? = AVPlayer(url: streams[0].url)
@@ -3198,8 +3199,6 @@ urlField.addAction(updateUI, for: .editingDidEnd)
     }
     commandCenter.nextTrackCommand.addTarget { event in
       setAudioSession()
-      //currentStreamIndex = (currentStreamIndex + 1) % 4
-      //currentStreamIndex = currentStreamIndex < 3 ? currentStreamIndex + 1 : 0
       currentStreamIndex = currentStreamIndex < streams.count - 1 ? currentStreamIndex + 1 : 0
       let item = AVPlayerItem(url: streams[currentStreamIndex].url)
       player?.replaceCurrentItem(with: item)
@@ -3209,8 +3208,6 @@ urlField.addAction(updateUI, for: .editingDidEnd)
     }
     commandCenter.previousTrackCommand.addTarget { event in
       setAudioSession()
-      //currentStreamIndex = (currentStreamIndex - 1 + 4) % 4
-      //currentStreamIndex = currentStreamIndex > 0 ? currentStreamIndex - 1 : 3
       currentStreamIndex = currentStreamIndex > 0 ? currentStreamIndex - 1 : streams.count - 1
       let item = AVPlayerItem(url: streams[currentStreamIndex].url)
       player?.replaceCurrentItem(with: item)
