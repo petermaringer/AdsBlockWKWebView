@@ -1400,6 +1400,7 @@ appversion: \(appVersion)
             self.lb.text! += " RES:\(response!)"
             
             if let selected = response as? Int, (1...3).contains(selected) {
+              setAudioSession()
               currentStationIndex = selected - 1
               //player = AVPlayer(url: audioUrls[currentStationIndex])
               let item = AVPlayerItem(url: audioUrls[currentStationIndex])
