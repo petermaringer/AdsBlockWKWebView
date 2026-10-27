@@ -170,30 +170,27 @@ func setAudioSession(
 }
 //let player = AVPlayer(url: URL(string: "http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.m3u")!)
 //var player: AVPlayer?
-/*let audioUrls: [URL] = [
-  URL(string: "https://player.streamhosting.ch/lounge128.mp3")!,
-  URL(string: "http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.m3u")!,
-  URL(string: "https://secureonair.krone.at/eurodance.aac")!
-]
-var currentStationIndex = 0
-var player: AVPlayer? = AVPlayer(url: audioUrls[0])*/
 struct Stream { let name: String; let url: URL }
 let streams: [Stream] = [
   Stream(name: "Lounge-Radio", url: URL(string: "https://player.streamhosting.ch/lounge128.mp3")!),
   Stream(name: "TSF Jazz", url: URL(string: "http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.m3u")!),
   Stream(name: "Eurodance", url: URL(string: "https://secureonair.krone.at/eurodance.aac")!)
 ]
-var currentStationIndex = 0
+var currentStreamIndex = 0
 var player: AVPlayer? = AVPlayer(url: streams[0].url)
 func updateNowPlayingInfo() {
   var nowPlayingInfo = [String: Any]()
-  nowPlayingInfo[MPMediaItemPropertyTitle] = streams[currentStationIndex].name
+  nowPlayingInfo[MPMediaItemPropertyTitle] = streams[currentStreamIndex].name
   nowPlayingInfo[MPMediaItemPropertyArtist] = "Live Stream"
-  //nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 1.0
-  nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = player?.rate ?? 0.0
-  //nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = player?.currentTime().seconds ?? 0.0
-  let time = player?.currentTime().seconds ?? 0.0
-  nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = time.isNaN ? 0.0 : time
+  ////nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 1.0
+  //nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = player?.rate ?? 0.0
+  nowPlayingInfo[MPNowPlayingInfoPropertyIsLiveStream] = isLive
+  if let name = (((Bundle.main.infoDictionary?["CFBundleIcons"] as? [String: Any])?["CFBundlePrimaryIcon"] as? [String: Any])?["CFBundleIconFiles"] as? [String])?.last, let image = UIImage(named: name) {
+    nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
+  }
+  ////nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = player?.currentTime().seconds ?? 0.0
+  //let time = player?.currentTime().seconds ?? 0.0
+  //nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = time.isNaN ? 0.0 : time
   MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
 }
 
@@ -1276,22 +1273,14 @@ player.play()*/
   
   //player = AVPlayer(url: URL(string: "https://player.streamhosting.ch/lounge128.mp3")!)
   
-  /*let isPlaying: Bool
-  if player?.timeControlStatus == .playing {
-    player?.pause()
-    isPlaying = false
-  } else {
-    player?.play()
-    isPlaying = true
-  }*/
   let isPlaying: Bool
   if player?.timeControlStatus == .playing {
     player?.pause()
+    //?
     isPlaying = false
   } else {
     if player?.currentItem == nil || player?.currentItem?.status == .failed || player?.currentItem?.error != nil {
-      //let item = AVPlayerItem(url: audioUrls[currentStationIndex])
-      let item = AVPlayerItem(url: streams[currentStationIndex].url)
+      let item = AVPlayerItem(url: streams[currentStreamIndex].url)
       player?.replaceCurrentItem(with: item)
     }
     player?.play()
@@ -1407,7 +1396,7 @@ player.play()*/
     //httpserver: isRunning=\(HttpServer.instance.server.isRunning)\n
     let message = """
 navlist(last20): \(navlist)\n
-stream: \(streams[currentStationIndex].name)
+stream: \(streams[currentStreamIndex].name)
 player: \(isPlaying ? "isPlaying" : "isPaused")\n
 httpserver: isRunning=\(HttpServer.instance.server.isRunning)\n
 filecontent: \(text)\n
@@ -1433,37 +1422,22 @@ appversion: \(appVersion)
         if response as? Bool == true {
           self.showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default], defaultButton: 0) { (response, _) in
             self.lb.text! += " RES:\(response!)"
-            
             if let selected = response as? Int, (1...3).contains(selected) {
               setAudioSession()
-              currentStationIndex = selected - 1
-              //player = AVPlayer(url: audioUrls[currentStationIndex])
-              //let item = AVPlayerItem(url: audioUrls[currentStationIndex])
-              let item = AVPlayerItem(url: streams[currentStationIndex].url)
+              currentStreamIndex = selected - 1
+              let item = AVPlayerItem(url: streams[currentStreamIndex].url)
               player?.replaceCurrentItem(with: item)
               player?.play()
               updateNowPlayingInfo()
-              
               self.showAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident or \(streams[currentStationIndex].name)", defaultButton: 0) { (response, _) in
                 self.lb.text! += " RES:\(response ?? "nil")"
-                
                 if response != nil {
                   self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive], defaultButton: 0)
                   self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], disableHaptic: true, sourceView: self.view)
                 }
-                
               }
-              /*self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive], defaultButton: 0)
-              self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], disableHaptic: true, sourceView: self.view)*/
-              
             }
-            
           }
-          /*self.showAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident", defaultButton: 0) { (response, _) in
-            self.lb.text! += " RES:\(response ?? "nil")"
-          }
-          self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive], defaultButton: 0)
-          self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], disableHaptic: true, sourceView: self.view)*/
         }
       }
     }
@@ -3214,25 +3188,25 @@ urlField.addAction(updateUI, for: .editingDidEnd)
       return .success
     }*/
     let commandCenter = MPRemoteCommandCenter.shared()
-    commandCenter.playCommand.isEnabled = true
-    //commandCenter.playCommand.addTarget { [weak self] event in
+    //commandCenter.playCommand.isEnabled = true
+    ////commandCenter.playCommand.addTarget { [weak self] event in
     commandCenter.playCommand.addTarget { event in
-      //guard let self = self else { return .commandFailed }
+      ////guard let self = self else { return .commandFailed }
       setAudioSession()
       if player?.currentItem == nil || player?.currentItem?.status == .failed || player?.currentItem?.error != nil {
-        let item = AVPlayerItem(url: streams[currentStationIndex].url)
+        let item = AVPlayerItem(url: streams[currentStreamIndex].url)
         player?.replaceCurrentItem(with: item)
       }
       player?.play()
       updateNowPlayingInfo()
       return .success
     }
-    commandCenter.pauseCommand.isEnabled = true
-    //commandCenter.pauseCommand.addTarget { [weak self] event in
+    //commandCenter.pauseCommand.isEnabled = true
+    ////commandCenter.pauseCommand.addTarget { [weak self] event in
     commandCenter.pauseCommand.addTarget { event in
-      //guard let self = self else { return .commandFailed }
+      ////guard let self = self else { return .commandFailed }
       player?.pause()
-      updateNowPlayingInfo()
+      //updateNowPlayingInfo()
       return .success
     }
     
