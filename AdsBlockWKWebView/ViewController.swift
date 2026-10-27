@@ -1256,11 +1256,23 @@ player.play()*/
   
   //player = AVPlayer(url: URL(string: "https://player.streamhosting.ch/lounge128.mp3")!)
   
+  /*let isPlaying: Bool
+  if player?.timeControlStatus == .playing {
+    player?.pause()
+    isPlaying = false
+  } else {
+    player?.play()
+    isPlaying = true
+  }*/
   let isPlaying: Bool
   if player?.timeControlStatus == .playing {
     player?.pause()
     isPlaying = false
   } else {
+    if player?.currentItem == nil || player?.currentItem?.status == .failed || player?.currentItem?.error != nil {
+      let item = AVPlayerItem(url: audioUrls[currentStationIndex])
+      player?.replaceCurrentItem(with: item)
+    }
     player?.play()
     isPlaying = true
   }
