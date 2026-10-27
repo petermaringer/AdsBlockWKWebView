@@ -190,7 +190,9 @@ func updateNowPlayingInfo() {
   nowPlayingInfo[MPMediaItemPropertyArtist] = "Live Stream"
   //nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 1.0
   nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = player?.rate ?? 0.0
-  nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = player?.currentTime().seconds ?? 0.0
+  //nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = player?.currentTime().seconds ?? 0.0
+  let time = player?.currentTime().seconds ?? 0.0
+  nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = time.isNaN ? 0.0 : time
   MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
 }
 
@@ -3212,8 +3214,9 @@ urlField.addAction(updateUI, for: .editingDidEnd)
     }*/
     let commandCenter = MPRemoteCommandCenter.shared()
     commandCenter.playCommand.isEnabled = true
-    commandCenter.playCommand.addTarget { [weak self] event in
-      guard let self = self else { return .commandFailed }
+    //commandCenter.playCommand.addTarget { [weak self] event in
+    commandCenter.playCommand.addTarget { event in
+      //guard let self = self else { return .commandFailed }
       setAudioSession()
       if player?.currentItem == nil || player?.currentItem?.status == .failed || player?.currentItem?.error != nil {
         let item = AVPlayerItem(url: streams[currentStationIndex].url)
@@ -3224,8 +3227,9 @@ urlField.addAction(updateUI, for: .editingDidEnd)
       return .success
     }
     commandCenter.pauseCommand.isEnabled = true
-    commandCenter.pauseCommand.addTarget { [weak self] event in
-      guard let self = self else { return .commandFailed }
+    //commandCenter.pauseCommand.addTarget { [weak self] event in
+    commandCenter.pauseCommand.addTarget { event in
+      //guard let self = self else { return .commandFailed }
       player?.pause()
       updateNowPlayingInfo()
       return .success
