@@ -181,7 +181,6 @@ var player: AVPlayer? = AVPlayer(url: streams[0].url)
 func updateNowPlayingInfo() {
   var nowPlayingInfo = [String: Any]()
   nowPlayingInfo[MPMediaItemPropertyTitle] = streams[currentStreamIndex].name
-  //nowPlayingInfo[MPMediaItemPropertyArtist] = "Live Stream"
   nowPlayingInfo[MPMediaItemPropertyArtist] = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? "Live Stream"
   nowPlayingInfo[MPNowPlayingInfoPropertyIsLiveStream] = true
   if let url = Bundle.main.url(forResource: "nowPlayingInfoArtwork", withExtension: "jpg"), let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
@@ -1278,7 +1277,6 @@ player.play()*/
   let isPlaying: Bool
   if player?.timeControlStatus == .playing {
     player?.pause()
-    //?
     isPlaying = false
   } else {
     if player?.currentItem == nil || player?.currentItem?.status == .failed || player?.currentItem?.error != nil {
@@ -3190,10 +3188,7 @@ urlField.addAction(updateUI, for: .editingDidEnd)
       return .success
     }*/
     let commandCenter = MPRemoteCommandCenter.shared()
-    //commandCenter.playCommand.isEnabled = true
-    ////commandCenter.playCommand.addTarget { [weak self] event in
     commandCenter.playCommand.addTarget { event in
-      ////guard let self = self else { return .commandFailed }
       setAudioSession()
       if player?.currentItem == nil || player?.currentItem?.status == .failed || player?.currentItem?.error != nil {
         let item = AVPlayerItem(url: streams[currentStreamIndex].url)
@@ -3203,12 +3198,26 @@ urlField.addAction(updateUI, for: .editingDidEnd)
       updateNowPlayingInfo()
       return .success
     }
-    //commandCenter.pauseCommand.isEnabled = true
-    ////commandCenter.pauseCommand.addTarget { [weak self] event in
     commandCenter.pauseCommand.addTarget { event in
-      ////guard let self = self else { return .commandFailed }
       player?.pause()
-      //updateNowPlayingInfo()
+      return .success
+    }
+    commandCenter.nextTrackCommand.addTarget { event in
+      setAudioSession()
+      currentStreamIndex = (currentStreamIndex + 1) % 4
+      let item = AVPlayerItem(url: streams[currentStreamIndex].url)
+      player?.replaceCurrentItem(with: item)
+      player?.play()
+      updateNowPlayingInfo()
+      return .success
+    }
+    commandCenter.previousTrackCommand.addTarget { event in
+      setAudioSession()
+      currentStreamIndex = (currentStreamIndex - 1 + 4) % 4
+      let item = AVPlayerItem(url: streams[currentStreamIndex].url)
+      player?.replaceCurrentItem(with: item)
+      player?.play()
+      updateNowPlayingInfo()
       return .success
     }
     
