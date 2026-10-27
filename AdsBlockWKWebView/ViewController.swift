@@ -184,7 +184,7 @@ func updateNowPlayingInfo() {
   nowPlayingInfo[MPMediaItemPropertyArtist] = "Live Stream"
   ////nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 1.0
   //nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = player?.rate ?? 0.0
-  nowPlayingInfo[MPNowPlayingInfoPropertyIsLiveStream] = isLive
+  nowPlayingInfo[MPNowPlayingInfoPropertyIsLiveStream] = true
   if let name = (((Bundle.main.infoDictionary?["CFBundleIcons"] as? [String: Any])?["CFBundlePrimaryIcon"] as? [String: Any])?["CFBundleIconFiles"] as? [String])?.last, let image = UIImage(named: name) {
     nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
   }
@@ -1429,7 +1429,7 @@ appversion: \(appVersion)
               player?.replaceCurrentItem(with: item)
               player?.play()
               updateNowPlayingInfo()
-              self.showAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident or \(streams[currentStationIndex].name)", defaultButton: 0) { (response, _) in
+              self.showAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident or \(streams[currentStreamIndex].name)", defaultButton: 0) { (response, _) in
                 self.lb.text! += " RES:\(response ?? "nil")"
                 if response != nil {
                   self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive], defaultButton: 0)
