@@ -188,7 +188,9 @@ func updateNowPlayingInfo() {
   var nowPlayingInfo = [String: Any]()
   nowPlayingInfo[MPMediaItemPropertyTitle] = streams[currentStationIndex].name
   nowPlayingInfo[MPMediaItemPropertyArtist] = "Live Stream"
-  nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 1.0
+  //nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 1.0
+  nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = player?.rate ?? 0.0
+  nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = player?.currentTime().seconds ?? 0.0
   MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
 }
 
@@ -3209,6 +3211,7 @@ urlField.addAction(updateUI, for: .editingDidEnd)
       return .success
     }*/
     let commandCenter = MPRemoteCommandCenter.shared()
+    commandCenter.playCommand.isEnabled = true
     commandCenter.playCommand.addTarget { [weak self] event in
       guard let self = self else { return .commandFailed }
       setAudioSession()
@@ -3220,9 +3223,11 @@ urlField.addAction(updateUI, for: .editingDidEnd)
       updateNowPlayingInfo()
       return .success
     }
+    commandCenter.pauseCommand.isEnabled = true
     commandCenter.pauseCommand.addTarget { [weak self] event in
       guard let self = self else { return .commandFailed }
       player?.pause()
+      updateNowPlayingInfo()
       return .success
     }
     
