@@ -141,6 +141,32 @@ var messages: [String] = []
 var alertCounter: Int = 0
 let hapticFB = UINotificationFeedbackGenerator()
 
+func setAudioSession(
+  category: String = AVAudioSessionCategoryPlayback,
+  options: AVAudioSessionCategoryOptions = [.mixWithOthers],
+  mode: String = AVAudioSessionModeDefault,
+  notifyOnDeactivation: Bool = true,
+  deactivateOnly: Bool = false
+) {
+  let session = AVAudioSession.sharedInstance()
+  do {
+    let deactivationOptions: AVAudioSessionSetActiveOptions = notifyOnDeactivation ? [.notifyOthersOnDeactivation] : []
+    if deactivateOnly {
+      try session.setActive(false, with: deactivationOptions)
+      return
+    }
+    if session.category == category && session.mode == mode && session.categoryOptions == options {
+      try session.setActive(true)
+      return
+    }
+    try session.setActive(false, with: deactivationOptions)
+    try session.setCategory(category, with: options)
+    try session.setMode(mode)
+    try session.setActive(true)
+  } catch {
+    print("Fehler bei der Audio-Session-Konfiguration: \(error)")
+  }
+}
 //let player = AVPlayer(url: URL(string: "http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.m3u")!)
 //var player: AVPlayer?
 let audioUrls: [URL] = [
@@ -1211,7 +1237,7 @@ player.play()*/
   }
   }
   
-  //BackgroundAudioBegin
+  /*//BackgroundAudioBegin
   let session = AVAudioSession.sharedInstance()
   let desiredCategory = AVAudioSessionCategoryPlayback
   let desiredOptions: AVAudioSessionCategoryOptions = [.mixWithOthers]
@@ -1225,7 +1251,8 @@ player.play()*/
     }
     lb.text! += " \(session.category)"
   }
-  //BackgroundAudioEnd
+  //BackgroundAudioEnd*/
+  setAudioSession()
   
   //player = AVPlayer(url: URL(string: "https://player.streamhosting.ch/lounge128.mp3")!)
   
