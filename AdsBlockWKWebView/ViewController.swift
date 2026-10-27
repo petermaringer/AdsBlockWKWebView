@@ -184,6 +184,12 @@ let streams: [Stream] = [
 ]
 var currentStationIndex = 0
 var player: AVPlayer? = AVPlayer(url: streams[0].url)
+func updateNowPlayingInfo() {
+  var nowPlayingInfo = [String: Any]()
+  nowPlayingInfo[MPMediaItemPropertyTitle] = streams[currentStationIndex].name
+  nowPlayingInfo[MPMediaItemPropertyArtist] = "Live Stream"
+  MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+}
 
 var restoreUrlsJson: String!
 
@@ -1283,6 +1289,7 @@ player.play()*/
       player?.replaceCurrentItem(with: item)
     }
     player?.play()
+    updateNowPlayingInfo()
     isPlaying = true
   }
   
@@ -1429,6 +1436,7 @@ appversion: \(appVersion)
               let item = AVPlayerItem(url: streams[currentStationIndex].url)
               player?.replaceCurrentItem(with: item)
               player?.play()
+              updateNowPlayingInfo()
               
               self.showAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident or \(streams[currentStationIndex].name)", defaultButton: 0) { (response, _) in
                 self.lb.text! += " RES:\(response ?? "nil")"
@@ -3190,13 +3198,30 @@ urlField.addAction(updateUI, for: .editingDidEnd)
     NotificationCenter.default.addObserver(self, selector: #selector(resignActive), name: .UIApplicationWillResignActive, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(becomeActive), name: .UIApplicationDidBecomeActive, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(willTerminate), name: .UIApplicationWillTerminate, object: nil)
-    let commandCenter = MPRemoteCommandCenter.shared()
+    /*let commandCenter = MPRemoteCommandCenter.shared()
     commandCenter.togglePlayPauseCommand.addTarget { [unowned self] event in
       if self.avPVC.player!.rate == 0.0 {
         self.avPVC.player!.play()
       } else {
         self.avPVC.player!.pause()
       }
+      return .success
+    }*/
+    let commandCenter = MPRemoteCommandCenter.shared()
+    commandCenter.playCommand.addTarget { [weak self] event in
+      guard let self = self else { return .commandFailed }
+      setAudioSession()
+      if player?.currentItem == nil || player?.currentItem?.status == .failed || player?.currentItem?.error != nil {
+        let item = AVPlayerItem(url: streams[currentStationIndex].url)
+        player?.replaceCurrentItem(with: item)
+      }
+      player?.play()
+      updateNowPlayingInfo()
+      return .success
+    }
+    commandCenter.pauseCommand.addTarget { [weak self] event in
+      guard let self = self else { return .commandFailed }
+      player?.pause()
       return .success
     }
     
