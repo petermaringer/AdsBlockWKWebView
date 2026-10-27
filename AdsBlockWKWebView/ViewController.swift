@@ -142,12 +142,11 @@ var alertCounter: Int = 0
 let hapticFB = UINotificationFeedbackGenerator()
 
 //let player = AVPlayer(url: URL(string: "http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.m3u")!)
-//let player = AVPlayer(url: URL(string: "https://player.streamhosting.ch/lounge128.mp3")!)
 //var player: AVPlayer?
 let audioUrls: [URL] = [
   URL(string: "https://player.streamhosting.ch/lounge128.mp3")!,
   URL(string: "http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.m3u")!,
-  URL(string: "https://deine-dritte-url.mp3")!
+  URL(string: "https://secureonair.krone.at/eurodance.aac")!
 ]
 var currentStationIndex = 0
 var player: AVPlayer? = AVPlayer(url: audioUrls[0])
@@ -1373,16 +1372,11 @@ appversion: \(appVersion)
           self.showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default], defaultButton: 0) { (response, _) in
             self.lb.text! += " RES:\(response!)"
             
-            /*if response as? Int == 1 {
-              
-            } else if response as? Int == 2 {
-              
-            } else if response as? Int == 3 {
-              
-            }*/
             if let selected = response as? Int, (1...3).contains(selected) {
               currentStationIndex = selected - 1
-              player = AVPlayer(url: audioUrls[currentStationIndex])
+              //player = AVPlayer(url: audioUrls[currentStationIndex])
+              let item = AVPlayerItem(url: audioUrls[currentStationIndex])
+              player?.replaceCurrentItem(with: item)
               player?.play()
             }
             
