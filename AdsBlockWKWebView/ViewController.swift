@@ -185,7 +185,10 @@ func updateNowPlayingInfo() {
   ////nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 1.0
   //nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = player?.rate ?? 0.0
   nowPlayingInfo[MPNowPlayingInfoPropertyIsLiveStream] = true
-  if let name = (((Bundle.main.infoDictionary?["CFBundleIcons"] as? [String: Any])?["CFBundlePrimaryIcon"] as? [String: Any])?["CFBundleIconFiles"] as? [String])?.last, let image = UIImage(named: name) {
+  /*if let name = (((Bundle.main.infoDictionary?["CFBundleIcons"] as? [String: Any])?["CFBundlePrimaryIcon"] as? [String: Any])?["CFBundleIconFiles"] as? [String])?.last, let image = UIImage(named: name) {
+    nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
+  }*/
+  if let data = Data(base64Encoded: AppAssets.nowPlayingInfoArtworkBase64), let image = UIImage(data: data) {
     nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
   }
   ////nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = player?.currentTime().seconds ?? 0.0
