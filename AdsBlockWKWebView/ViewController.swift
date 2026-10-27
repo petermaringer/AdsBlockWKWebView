@@ -188,6 +188,7 @@ func updateNowPlayingInfo() {
   var nowPlayingInfo = [String: Any]()
   nowPlayingInfo[MPMediaItemPropertyTitle] = streams[currentStationIndex].name
   nowPlayingInfo[MPMediaItemPropertyArtist] = "Live Stream"
+  nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 1.0
   MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
 }
 
