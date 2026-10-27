@@ -188,7 +188,10 @@ func updateNowPlayingInfo() {
   /*if let name = (((Bundle.main.infoDictionary?["CFBundleIcons"] as? [String: Any])?["CFBundlePrimaryIcon"] as? [String: Any])?["CFBundleIconFiles"] as? [String])?.last, let image = UIImage(named: name) {
     nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
   }*/
-  if let data = Data(base64Encoded: AppAssets.nowPlayingInfoArtworkBase64), let image = UIImage(data: data) {
+  /*if let data = Data(base64Encoded: AppAssets.nowPlayingInfoArtworkBase64), let image = UIImage(data: data) {
+    nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
+  }*/
+  if let url = Bundle.main.url(forResource: "nowPlayingInfoArtwork", withExtension: "jpg"), let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
     nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
   }
   ////nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = player?.currentTime().seconds ?? 0.0
