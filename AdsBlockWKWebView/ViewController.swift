@@ -181,19 +181,15 @@ var player: AVPlayer? = AVPlayer(url: streams[0].url)
 func updateNowPlayingInfo() {
   var nowPlayingInfo = [String: Any]()
   nowPlayingInfo[MPMediaItemPropertyTitle] = streams[currentStreamIndex].name
-  nowPlayingInfo[MPMediaItemPropertyArtist] = "Live Stream"
-  ////nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 1.0
-  //nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = player?.rate ?? 0.0
+  //nowPlayingInfo[MPMediaItemPropertyArtist] = "Live Stream"
+  nowPlayingInfo[MPMediaItemPropertyArtist] = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? "Live Stream"
   nowPlayingInfo[MPNowPlayingInfoPropertyIsLiveStream] = true
-  /*if let name = (((Bundle.main.infoDictionary?["CFBundleIcons"] as? [String: Any])?["CFBundlePrimaryIcon"] as? [String: Any])?["CFBundleIconFiles"] as? [String])?.last, let image = UIImage(named: name) {
-    nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
-  }*/
-  /*if let data = Data(base64Encoded: AppAssets.nowPlayingInfoArtworkBase64), let image = UIImage(data: data) {
-    nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
-  }*/
   if let url = Bundle.main.url(forResource: "nowPlayingInfoArtwork", withExtension: "jpg"), let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
     nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
   }
+  ////nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 1.0
+  //nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = player?.rate ?? 0.0
+  //if let name = (((Bundle.main.infoDictionary?["CFBundleIcons"] as? [String: Any])?["CFBundlePrimaryIcon"] as? [String: Any])?["CFBundleIconFiles"] as? [String])?.last, let image = UIImage(named: name) {}
   ////nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = player?.currentTime().seconds ?? 0.0
   //let time = player?.currentTime().seconds ?? 0.0
   //nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = time.isNaN ? 0.0 : time
