@@ -1410,9 +1410,9 @@ appversion: \(appVersion)
     if gesture.state == .began {
       //urlField.endEditing(true)
       showAlert(title: "Important", buttonTitles: ["Acknowledge"], defaultButton: 0)
-      showAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response, _) in
+      /*showAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response, _) in
         self.lb.text! += " RES:\(response!)"
-      }
+      }*/
       showAlert(type: "confirm", title: "Alert2", "Want to die?", defaultButton: 1) { (response, _) in
         self.lb.text! += " RES:\(response!)"
         if response as? Bool == true {
