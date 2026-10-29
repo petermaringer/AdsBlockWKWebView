@@ -143,18 +143,12 @@ fileprivate let ruleId2 = "MyRuleID 002"
 let userDefaults = UserDefaults.standard
 let userDefGroup = UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")!
 
-var messages: [String] = []
+//var messages: [String] = []
 var alertCounter: Int = 0
 let hapticFB = UINotificationFeedbackGenerator()
+let hapticImpactFB = UIImpactFeedbackGenerator(style: .medium)
 
-func setAudioSession(
-  category: String = AVAudioSessionCategoryPlayback,
-  //options: AVAudioSessionCategoryOptions = [.mixWithOthers],
-  options: AVAudioSessionCategoryOptions = [],
-  mode: String = AVAudioSessionModeDefault,
-  notifyOnDeactivation: Bool = true,
-  deactivateOnly: Bool = false
-) {
+func setAudioSession(category: String = AVAudioSessionCategoryPlayback, options: AVAudioSessionCategoryOptions = [], mode: String = AVAudioSessionModeDefault, notifyOnDeactivation: Bool = true, deactivateOnly: Bool = false) {
   let session = AVAudioSession.sharedInstance()
   do {
     let deactivationOptions: AVAudioSessionSetActiveOptions = notifyOnDeactivation ? [.notifyOthersOnDeactivation] : []
@@ -171,7 +165,7 @@ func setAudioSession(
     try session.setMode(mode)
     try session.setActive(true)
   } catch {
-    print("Fehler bei der Audio-Session-Konfiguration: \(error)")
+    print("Error: \(error)")
   }
 }
 //let player = AVPlayer(url: URL(string: "http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.m3u")!)
@@ -318,17 +312,15 @@ class CustomUITextField: UITextField {
     }*/
     var leftPadding: CGFloat = 15
     var rightPadding: CGFloat = 15
-    // Die 3 System-Methoden setzen das Padding um
+    
     override func textRect(forBounds bounds: CGRect) -> CGRect {
         let padding = UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding)
         return UIEdgeInsetsInsetRect(bounds, padding)
     }
-    
     override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
         let padding = UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding)
         return UIEdgeInsetsInsetRect(bounds, padding)
     }
-    
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
         let padding = UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding)
         return UIEdgeInsetsInsetRect(bounds, padding)
@@ -342,25 +334,19 @@ class CustomUITextField: UITextField {
     return rect
     }*/
     
-    
     var isLeftPaddingClicked: Bool = false
     var isRightPaddingClicked: Bool = false
     
   override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
     let touchPoint = gestureRecognizer.location(in: self)
-    
-    // 1. NUR EINMAL SETZEN
     isLeftPaddingClicked = touchPoint.x <= leftPadding
     isRightPaddingClicked = touchPoint.x >= (bounds.width - rightPadding)
-    
-    // 2. CURSOR ZWINGEN & DANACH DIREKT AUF FALSE ZURÜCKSETZEN
     if isFirstResponder {
         if isLeftPaddingClicked {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 let start = beginningOfDocument
                 selectedTextRange = textRange(from: start, to: start)
-                // Hier das echte Zurücksetzen nach dem Sprung!
                 isLeftPaddingClicked = false
             }
         } else if isRightPaddingClicked {
@@ -368,15 +354,13 @@ class CustomUITextField: UITextField {
                 guard let self = self else { return }
                 let end = endOfDocument
                 selectedTextRange = textRange(from: end, to: end)
-                // Hier das echte Zurücksetzen nach dem Sprung!
                 isRightPaddingClicked = false
             }
         }
     }
-    
     return super.gestureRecognizerShouldBegin(gestureRecognizer)
-}
-
+  }
+  
 override func caretRect(for position: UITextPosition) -> CGRect {
     var rect = super.caretRect(for: position)
     //rect.origin.x = floor(rect.origin.x)
@@ -858,9 +842,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   @objc internal func onMenu1(sender: UIMenuItem) {
     //HttpServer.instance.server.stop()
     UIPasteboard.general.items = []
-    //showAlert(type: "confirm", style: .actionSheet, title: nil, "Clipboard was cleared.", buttonTitles: ["Cancel", "OK"], buttonStyles: [.cancel, .default], disableHaptic: true, sourceView: urlField)
-    //showAlert(type: "alert", style: .actionSheet, title: nil, "Clipboard was cleared.", buttonTitles: ["Cancel"], buttonStyles: [.cancel], disableHaptic: true, sourceView: urlField)
-    showAlert(style: .actionSheet, title: nil, "Clipboard was cleared.", buttonStyles: [.cancel], disableHaptic: true, sourceView: urlField, sourceRect: CGRect(x: urlField.bounds.midX, y: urlField.bounds.maxY + 43, width: 0, height: 0), sourceArrow: false, autoDismissAfter: 1.0)
+    showAlert(style: .actionSheet, title: nil, "Clipboard was cleared.", buttonStyles: [.cancel], disableHaptic: true, sourceView: urlField, sourceRect: CGRect(x: urlField.bounds.midX, y: urlField.bounds.maxY + 43, width: 0, height: 0), sourceArrow: false, autoDismissAfter: 0.5)
   }
   
   //private var cursorPosition: UITextRange?
@@ -1101,8 +1083,9 @@ if let safePosition = position {
   
   @objc func buttonPressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
-      UIImpactFeedbackGenerator(style: .medium).impactOccurred()
       //hapticFB.notificationOccurred(.success)
+      //UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+      hapticImpactFB.impactOccurred()
       urlField.endEditing(true)
       changeUserAgent()
     }
@@ -1274,7 +1257,8 @@ player.play()*/
     lb.text! += " \(session.category)"
   }
   //BackgroundAudioEnd*/
-  setAudioSession()
+  setAudioSession(options: [.mixWithOthers])
+  //setAudioSession()
   
   //player = AVPlayer(url: URL(string: "https://player.streamhosting.ch/lounge128.mp3")!)
   
@@ -1410,17 +1394,16 @@ appversion: \(appVersion)
 \ntemp: \(urlField.savedCursorPosition.map { "\($0)" } ?? "nil")
 """
     //showAlert(message)
-    showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceView: self.view, sourceRect: CGRect(x: 0, y: self.urlField.frame.maxY + 5, width: self.view.bounds.width, height: 1), sourceArrow: true, sourceID: "kvButton2Clicked-01")
     //showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceView: kvButton2, sourceRect: CGRect(x: kvButton2.bounds.width, y: 0, width: 0, height: 0), sourceID: "kvButton2Clicked-01")
+    showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceView: self.view, sourceRect: CGRect(x: 0, y: self.urlField.frame.maxY + 5, width: self.view.bounds.width, height: 1), sourceArrow: true, sourceID: "kvButton2Clicked-01")
   }
   
   @objc func kvButton2Pressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
       //urlField.endEditing(true)
-      showAlert(title: "Important", buttonTitles: ["Acknowledge"], defaultButton: 0)
-      /*showAlert(type: "alert", title: "Alert", "Clipboard was cleared.") { (response, _) in
+      showAlert(title: "Important", buttonTitles: ["Acknowledge"], defaultButton: 0) { (response, _) in
         self.lb.text! += " RES:\(response!)"
-      }*/
+      }
       showAlert(type: "confirm", title: "Alert2", "Want to die?", defaultButton: 1) { (response, _) in
         self.lb.text! += " RES:\(response!)"
         if response as? Bool == true {
@@ -1922,7 +1905,6 @@ appversion: \(appVersion)
         }
         navUrlArray = []
         lb.text = "log:"
-        //adjustLabel()
       default:
         break
     }
@@ -2143,16 +2125,13 @@ appversion: \(appVersion)
   private func showAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], defaultButton: Int? = nil, disableHaptic: Bool? = false, sourceView: UIView? = nil, sourceRect: CGRect? = nil, sourceArrow: Bool? = nil, sourceID: String? = nil, autoDismissAfter: Double? = nil, custom: Any? = nil, completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
     if message != "nextAlertObj" {
       alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, defaultButton: defaultButton, disableHaptic: disableHaptic, sourceView: sourceView, sourceRect: sourceRect, sourceArrow: sourceArrow, sourceID: sourceID, autoDismissAfter: autoDismissAfter, custom: custom, completionHandler: completionHandler))
-      /*let addNextToQueue = {
-        alertObjArray.append(alertObj(blabla))
-      }
+      /*let addNextToQueue = { alertObjArray.append(alertObj(blabla)) }
       addNextToQueue()*/
     }
     guard let currentAlert = alertObjArray.first else { return }
     if let presentedAlert = self.presentedViewController as? UIAlertController, presentedAlert.preferredStyle == .actionSheet {
       if allowAlertDismiss {
         allowAlertDismiss = false
-        //alertObjArray.removeFirst()
         alertObjArray.safeRemoveFirst()
         presentedAlert.dismiss(animated: false) {
           self.allowAlertDismiss = true
@@ -2163,21 +2142,14 @@ appversion: \(appVersion)
     }
     if alertObjArray.count > 1 {
       if let currentAlertSourceID = currentAlert.sourceID, let nextAlertSourceID = alertObjArray[1].sourceID, currentAlertSourceID == nextAlertSourceID {
-      //if currentAlert.style == .actionSheet && alertObjArray[1].style == .actionSheet {}
-      //if currentAlert.type == "confirm" && currentAlert.style == .actionSheet {}
-        //if alertObjArray[1].type == "confirm" && alertObjArray[1].style == .actionSheet {
-          //alertObjArray.removeFirst()
-          alertObjArray.safeRemoveFirst()
-          showAlert("nextAlertObj")
-          return
-        //}
+        alertObjArray.safeRemoveFirst()
+        showAlert("nextAlertObj")
+        return
       }
     }
-    //let alert = UIAlertController(title: currentAlert.title, message: currentAlert.message, preferredStyle: currentAlert.style!)
     let alert = UIAlertController(title: currentAlert.title, message: currentAlert.message, preferredStyle: currentAlert.style ?? .alert)
     var button1, button2, button3: UIAlertAction
     func buttonPressed(_ value1: Any?, _ value2: Any?) {
-      //alertObjArray.removeFirst()
       alertObjArray.safeRemoveFirst()
       currentAlert.completionHandler(value1, value2)
       showAlert("nextAlertObj")
@@ -2185,7 +2157,8 @@ appversion: \(appVersion)
     
     if currentAlert.type == "alert" {
       button1 = UIAlertAction(title: currentAlert.buttonTitles![0], style: currentAlert.buttonStyles![0], handler: { _ in
-        buttonPressed(currentAlert.message ?? "", nil)
+        //buttonPressed(currentAlert.message ?? "", nil)
+        buttonPressed(currentAlert.message ?? currentAlert.title ?? "", nil)
       })
       alert.addAction(button1)
     }
@@ -2264,9 +2237,7 @@ appversion: \(appVersion)
       //popover.sourceView = self.view
       //popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
       popover.sourceView = sourceView
-      //popover.sourceRect = sourceView.bounds
       popover.sourceRect = currentAlert.sourceRect ?? sourceView.bounds
-      //popover.permittedArrowDirections = []
       if currentAlert.sourceArrow == false {
         popover.permittedArrowDirections = []
         //popover.popoverBackgroundViewClass = PopoverWithoutArrow.self
@@ -2280,33 +2251,24 @@ appversion: \(appVersion)
       //self.present(alert, animated: true, completion: nil)
       
       self.present(alert, animated: true) {
-        
         if currentAlert.autoDismissAfter != nil {
-        DispatchQueue.main.asyncAfter(deadline: .now() + currentAlert.autoDismissAfter!) {
-          if let presentedAlert = self.presentedViewController as? UIAlertController, presentedAlert == alert {
-            if self.allowAlertDismiss {
-              self.allowAlertDismiss = false
-              //alertObjArray.removeFirst()
-              alertObjArray.safeRemoveFirst()
-              alert.dismiss(animated: true) {
-                self.allowAlertDismiss = true
-                self.showAlert("nextAlertObj")
+          DispatchQueue.main.asyncAfter(deadline: .now() + currentAlert.autoDismissAfter!) {
+            if let presentedAlert = self.presentedViewController as? UIAlertController, presentedAlert == alert {
+              if self.allowAlertDismiss {
+                self.allowAlertDismiss = false
+                alertObjArray.safeRemoveFirst()
+                alert.dismiss(animated: true) {
+                  self.allowAlertDismiss = true
+                  self.showAlert("nextAlertObj")
+                }
               }
             }
           }
         }
-        }
-        
         /*if alert.preferredStyle == .actionSheet, let presentedView = alert.popoverPresentationController?.presentedView {
-          // Beispiel: Nimm 85% der aktuellen View-Breite (oder des Bildschirms)
           let screenWidth = self.view.bounds.width
-          let dynamicWidth = screenWidth * 0.85 
-          // Dynamische Breite setzen
-          //presentedView.widthAnchor.constraint(equalToConstant: dynamicWidth).isActive = true
-          // Optional: Maximale/Minimale Grenzen setzen, damit es auf dem iPad nicht riesig 
-          // und auf dem iPhone SE nicht winzig wird
-          let finalWidth = min(max(dynamicWidth, 300), 450) // Zwischen 300 und 450 pt
-          //presentedView.widthAnchor.constraint(equalToConstant: finalWidth).isActive = true
+          let dynamicWidth = screenWidth * 0.85
+          let finalWidth = min(max(dynamicWidth, 300), 450)
           let widthConstraint = presentedView.widthAnchor.constraint(equalToConstant: finalWidth)
           widthConstraint.priority = UILayoutPriority(999)
           widthConstraint.isActive = true
@@ -2396,7 +2358,6 @@ appversion: \(appVersion)
        alert.preferredStyle == .actionSheet,
        let presentedView = alert.popoverPresentationController?.presentedView {
         let targetWidth = min(max(view.bounds.width * 0.85, 300), 450)
-        // Constraint direkt setzen, falls noch nicht aktiv
         if !presentedView.constraints.contains(where: { $0.firstAttribute == .width }) {
             let constraint = presentedView.widthAnchor.constraint(equalToConstant: targetWidth)
             constraint.priority = UILayoutPriority(999)
@@ -2429,13 +2390,8 @@ appversion: \(appVersion)
         urlField.frame.size.width = view.frame.width - insetLM - insetRM - elementW - defaultM
       }
       
-      /*clearButton.frame = CGRect(x: view.frame.width - insetLM - insetRM - 19, y: 0, width: 19, height: elementH)
-      if button.isDescendant(of: view) {
-        clearButton.frame.origin.x = view.frame.width - insetLM - insetRM - elementW - defaultM - 19
-      }*/
       clearButton.frame = CGRect(x: view.frame.width - insetLM - insetRM - elementW - defaultM - 19, y: 0, width: 19, height: elementH)
       
-      //button.frame = CGRect(x: insetLM + view.frame.width - insetLM - insetRM - elementW, y: insetTM, width: elementW, height: elementH)
       button.frame = CGRect(x: view.frame.width - insetRM - elementW, y: insetTM, width: elementW, height: elementH)
       
       kvButton.frame = CGRect(x: insetLM, y: defaultM, width: elementW, height: elementH)
@@ -2763,15 +2719,11 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         urlField.textColor = .appBgColor
         urlField.tintColor = .appBgColor
         urlField.backgroundColor = .fieldBgColor
-        //urlField.backgroundColor = .clear // Das normale Background auf clear setzen
-        //urlField.layer.backgroundColor = UIColor.fieldBgColor.cgColor // Hier deine Farbe rein
-        
         //urlField.borderStyle = UITextField.BorderStyle.roundedRect
         //urlField.layer.borderWidth = 0
         
         /*urlField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 30))
         urlField.leftViewMode = .always
-        
         let leftViewGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(leftViewTapped))
         leftViewGesture.numberOfTapsRequired = 1
         urlField.leftView?.isUserInteractionEnabled = true
@@ -2962,11 +2914,6 @@ let updateUI = UIAction { [weak urlField, weak clearButton] _ in
     let show = urlField.isEditing && !(urlField.text?.isEmpty ?? true)
     urlField.rightPadding = show ? 34 : 15
     clearButton.isHidden = !show
-    /*if show {
-        DispatchQueue.main.async {
-            clearButton.frame = CGRect(x: urlField.bounds.width - 19, y: 0, width: 19, height: urlField.bounds.height)
-        }
-    }*/
     urlField.setNeedsLayout()
 }
 urlField.addAction(updateUI, for: .editingChanged)
@@ -2976,9 +2923,6 @@ urlField.addAction(updateUI, for: .editingDidEnd)
         
         urlField.layer.cornerRadius = 5
         urlField.clipsToBounds = true
-        //urlField.clipsToBounds = false
-        //urlField.layer.masksToBounds = false
-        
         urlField.autocapitalizationType = .none
         urlField.autocorrectionType = UITextAutocorrectionType.no
         
@@ -2989,7 +2933,6 @@ urlField.addAction(updateUI, for: .editingDidEnd)
         urlField.inputAccessoryView = keyboardView
         
         kvButton = UIButton(frame: CGRect.zero)
-        //kvButton.frame = CGRect(x: 5, y: 5, width: 80, height: 30)
         kvButton.backgroundColor = .appBgColor
         kvButton.layer.cornerRadius = 5
         kvButton.clipsToBounds = true
@@ -3202,15 +3145,7 @@ urlField.addAction(updateUI, for: .editingDidEnd)
     NotificationCenter.default.addObserver(self, selector: #selector(resignActive), name: .UIApplicationWillResignActive, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(becomeActive), name: .UIApplicationDidBecomeActive, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(willTerminate), name: .UIApplicationWillTerminate, object: nil)
-    /*let commandCenter = MPRemoteCommandCenter.shared()
-    commandCenter.togglePlayPauseCommand.addTarget { [unowned self] event in
-      if self.avPVC.player!.rate == 0.0 {
-        self.avPVC.player!.play()
-      } else {
-        self.avPVC.player!.pause()
-      }
-      return .success
-    }*/
+    
     let commandCenter = MPRemoteCommandCenter.shared()
     commandCenter.playCommand.addTarget { event in
       setAudioSession()
@@ -3753,8 +3688,6 @@ downloadTask.resume()
       let targetURL = URL.docDir.appendingPathComponent(String(relativePath.drop(while: { $0 == "/" })))
       webView.loadFileURL(targetURL, allowingReadAccessTo: URL.docDir)
     } else {
-      /*let request = URLRequest(url: urlobj!, timeoutInterval: 10.0)
-      webView.load(request)*/
       webView.load(URLRequest(url: urlobj!, timeoutInterval: 10.0))
     }
     
@@ -3769,13 +3702,11 @@ downloadTask.resume()
   
   
   @available(iOS 14.5, *)
-  //@available(iOS 15, *)
   func webView(_ webView: WKWebView, navigationAction: WKNavigationAction, didBecome download: WKDownload) {
     download.delegate = self
   }
   
   @available(iOS 14.5, *)
-  //@available(iOS 15, *)
   func webView(_ webView: WKWebView, navigationResponse: WKNavigationResponse, didBecome download: WKDownload) {
     download.delegate = self
   }
@@ -3845,7 +3776,6 @@ downloadTask.resume()
       if unilinkStop == true {
         webView.load(navigationAction.request)
         lb.text! += " uni:\(navigationAction.request.url!.absoluteString)"
-        //adjustLabel()
         decisionHandler(.cancel)
         return
       }
@@ -3861,7 +3791,6 @@ downloadTask.resume()
     if desktopStop == true {
       webView.customUserAgent = desktopUserAgent
       lb.text! += " desk:\(navigationAction.request.url!.absoluteString)"
-      //adjustLabel()
       decisionHandler(.allow)
       return
     }
@@ -3973,7 +3902,6 @@ downloadTask.resume()
       return
     }
     
-    //if #available(iOS 15, *) {
     if #available(iOS 14.5, *) {
       if navigationAction.shouldPerformDownload {
         lb.text! += " nAsPD"
@@ -3983,7 +3911,6 @@ downloadTask.resume()
     }
     if navTypeDownload {
       navTypeDownload = false
-      //if #available(iOS 15, *) {
       if #available(iOS 14.5, *) {
         lb.text! += " nTD"
         decisionHandler(.download)
@@ -4032,7 +3959,6 @@ downloadTask.resume()
     
     showFrameLoadError = true
     if !navigationResponse.canShowMIMEType {
-      //if #available(iOS 15, *) {
       if #available(iOS 14.5, *) {
         showFrameLoadError = false
         lb.text! += " nRcSMT"
