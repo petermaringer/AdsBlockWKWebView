@@ -1083,8 +1083,6 @@ if let safePosition = position {
   
   @objc func buttonPressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
-      //hapticFB.notificationOccurred(.success)
-      //UIImpactFeedbackGenerator(style: .medium).impactOccurred()
       hapticImpactFB.impactOccurred()
       urlField.endEditing(true)
       changeUserAgent()
@@ -1113,7 +1111,7 @@ if let safePosition = position {
   @objc func kvButtonPressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
       urlField.endEditing(true)
-      //hapticFB.notificationOccurred(.success)
+      //hapticImpactFB.impactOccurred()
       var autoRotateInfo: String = "Enabled"
       if allowedOrientations == .all {
         if lastDeviceOrientation == "ls" {
@@ -1257,8 +1255,8 @@ player.play()*/
     lb.text! += " \(session.category)"
   }
   //BackgroundAudioEnd*/
-  setAudioSession(options: [.mixWithOthers])
-  //setAudioSession()
+  //setAudioSession(options: [.mixWithOthers])
+  setAudioSession()
   
   //player = AVPlayer(url: URL(string: "https://player.streamhosting.ch/lounge128.mp3")!)
   
@@ -1401,6 +1399,7 @@ appversion: \(appVersion)
   @objc func kvButton2Pressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
       //urlField.endEditing(true)
+      //hapticImpactFB.impactOccurred()
       showAlert(title: "Important", buttonTitles: ["Acknowledge"], defaultButton: 0) { (response, _) in
         self.lb.text! += " RES:\(response!)"
       }
@@ -2157,7 +2156,6 @@ appversion: \(appVersion)
     
     if currentAlert.type == "alert" {
       button1 = UIAlertAction(title: currentAlert.buttonTitles![0], style: currentAlert.buttonStyles![0], handler: { _ in
-        //buttonPressed(currentAlert.message ?? "", nil)
         buttonPressed(currentAlert.message ?? currentAlert.title ?? "", nil)
       })
       alert.addAction(button1)
@@ -2894,31 +2892,31 @@ urlField.addAction(updateRightViewLayout, for: .editingDidEnd)*/
         
         //clearButton = UIButton(type: .custom)
         clearButton = UIButton(frame: CGRect.zero)
-let config = UIImage.SymbolConfiguration(pointSize: 14, weight: .regular)
-clearButton.setImage(UIImage(systemName: "multiply.circle.fill", withConfiguration: config), for: .normal)
-clearButton.tintColor = UIColor.placeholderText
-clearButton.contentHorizontalAlignment = .left
-clearButton.isHidden = true
-
-clearButton.addAction(UIAction(handler: { [weak urlField] _ in
-    if urlField?.delegate?.textFieldShouldClear?(urlField!) ?? true {
-    urlField?.text = ""
-    urlField?.sendActions(for: .editingChanged)
-    }
-}), for: .touchUpInside)
-
-urlField.addSubview(clearButton)
-
-let updateUI = UIAction { [weak urlField, weak clearButton] _ in
-    guard let urlField = urlField, let clearButton = clearButton else { return }
-    let show = urlField.isEditing && !(urlField.text?.isEmpty ?? true)
-    urlField.rightPadding = show ? 34 : 15
-    clearButton.isHidden = !show
-    urlField.setNeedsLayout()
-}
-urlField.addAction(updateUI, for: .editingChanged)
-urlField.addAction(updateUI, for: .editingDidBegin)
-urlField.addAction(updateUI, for: .editingDidEnd)
+        let config = UIImage.SymbolConfiguration(pointSize: 14, weight: .regular)
+        clearButton.setImage(UIImage(systemName: "multiply.circle.fill", withConfiguration: config), for: .normal)
+        clearButton.tintColor = UIColor.placeholderText
+        clearButton.contentHorizontalAlignment = .left
+        clearButton.isHidden = true
+        
+        clearButton.addAction(UIAction(handler: { [weak urlField] _ in
+          if urlField?.delegate?.textFieldShouldClear?(urlField!) ?? true {
+            urlField?.text = ""
+            urlField?.sendActions(for: .editingChanged)
+          }
+        }), for: .touchUpInside)
+        
+        urlField.addSubview(clearButton)
+        
+        let updateUI = UIAction { [weak urlField, weak clearButton] _ in
+          guard let urlField = urlField, let clearButton = clearButton else { return }
+          let show = urlField.isEditing && !(urlField.text?.isEmpty ?? true)
+          urlField.rightPadding = show ? 34 : 15
+          clearButton.isHidden = !show
+          urlField.setNeedsLayout()
+        }
+        urlField.addAction(updateUI, for: .editingChanged)
+        urlField.addAction(updateUI, for: .editingDidBegin)
+        urlField.addAction(updateUI, for: .editingDidEnd)
         
         
         urlField.layer.cornerRadius = 5
