@@ -851,7 +851,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   @objc internal func onMenu1(sender: UIMenuItem) {
     //HttpServer.instance.server.stop()
     UIPasteboard.general.items = []
-    showAlert(type: "confirm", style: .actionSheet, title: nil, "Clipboard was cleared.", buttonTitles: ["Cancel", "OK"], buttonStyles: [.cancel, .default], disableHaptic: true, sourceView: urlField)
+    //showAlert(type: "confirm", style: .actionSheet, title: nil, "Clipboard was cleared.", buttonTitles: ["Cancel", "OK"], buttonStyles: [.cancel, .default], disableHaptic: true, sourceView: urlField)
+    showAlert(type: "alert", style: .actionSheet, title: nil, "Clipboard was cleared.", buttonTitles: ["Cancel"], buttonStyles: [.cancel], disableHaptic: true, sourceView: urlField)
   }
   
   //private var cursorPosition: UITextRange?
@@ -2265,10 +2266,15 @@ appversion: \(appVersion)
     }
     //Dispatch
     DispatchQueue.main.async { [unowned self] in
-      self.present(alert, animated: true, completion: nil)
+      //self.present(alert, animated: true, completion: nil)
       
-      /*self.present(alert, animated: true) {
-        if alert.preferredStyle == .actionSheet, let presentedView = alert.popoverPresentationController?.presentedView {
+      self.present(alert, animated: true) {
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+          alertController.dismiss(animated: true)
+        }
+        
+        /*if alert.preferredStyle == .actionSheet, let presentedView = alert.popoverPresentationController?.presentedView {
           // Beispiel: Nimm 85% der aktuellen View-Breite (oder des Bildschirms)
           let screenWidth = self.view.bounds.width
           let dynamicWidth = screenWidth * 0.85 
@@ -2282,8 +2288,8 @@ appversion: \(appVersion)
           widthConstraint.priority = UILayoutPriority(999)
           widthConstraint.isActive = true
           presentedView.superview?.layoutIfNeeded()
-        }
-      }*/
+        }*/
+      }
       
     }
   }
