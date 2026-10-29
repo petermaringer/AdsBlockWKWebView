@@ -859,7 +859,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     UIPasteboard.general.items = []
     //showAlert(type: "confirm", style: .actionSheet, title: nil, "Clipboard was cleared.", buttonTitles: ["Cancel", "OK"], buttonStyles: [.cancel, .default], disableHaptic: true, sourceView: urlField)
     //showAlert(type: "alert", style: .actionSheet, title: nil, "Clipboard was cleared.", buttonTitles: ["Cancel"], buttonStyles: [.cancel], disableHaptic: true, sourceView: urlField)
-    showAlert(style: .actionSheet, title: nil, "Clipboard was cleared.", buttonStyles: [.cancel], disableHaptic: true, sourceView: urlField, sourceRect: CGRect(x: urlField.bounds.midX, y: urlField.bounds.maxY + 45, width: 0, height: 0), sourceArrow: false)
+    showAlert(style: .actionSheet, title: nil, "Clipboard was cleared.", buttonStyles: [.cancel], disableHaptic: true, sourceView: urlField, sourceRect: CGRect(x: urlField.bounds.midX, y: urlField.bounds.maxY + 43, width: 0, height: 0), sourceArrow: false)
   }
   
   //private var cursorPosition: UITextRange?
@@ -2151,7 +2151,8 @@ appversion: \(appVersion)
     if let presentedAlert = self.presentedViewController as? UIAlertController, presentedAlert.preferredStyle == .actionSheet {
       if allowAlertDismiss {
         allowAlertDismiss = false
-        alertObjArray.removeFirst()
+        //alertObjArray.removeFirst()
+        alertObjArray.safeRemoveFirst()
         presentedAlert.dismiss(animated: false) {
           self.allowAlertDismiss = true
           self.showAlert("nextAlertObj")
@@ -2164,7 +2165,8 @@ appversion: \(appVersion)
       //if currentAlert.style == .actionSheet && alertObjArray[1].style == .actionSheet {}
       //if currentAlert.type == "confirm" && currentAlert.style == .actionSheet {}
         //if alertObjArray[1].type == "confirm" && alertObjArray[1].style == .actionSheet {
-          alertObjArray.removeFirst()
+          //alertObjArray.removeFirst()
+          alertObjArray.safeRemoveFirst()
           showAlert("nextAlertObj")
           return
         //}
@@ -2174,7 +2176,8 @@ appversion: \(appVersion)
     let alert = UIAlertController(title: currentAlert.title, message: currentAlert.message, preferredStyle: currentAlert.style ?? .alert)
     var button1, button2, button3: UIAlertAction
     func buttonPressed(_ value1: Any?, _ value2: Any?) {
-      alertObjArray.removeFirst()
+      //alertObjArray.removeFirst()
+      alertObjArray.safeRemoveFirst()
       currentAlert.completionHandler(value1, value2)
       showAlert("nextAlertObj")
     }
