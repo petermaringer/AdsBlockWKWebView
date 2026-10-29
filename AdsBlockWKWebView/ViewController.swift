@@ -1923,16 +1923,17 @@ appversion: \(appVersion)
         //progressView.frame.size.width += 85
         
         if textField.text == webView.url!.absoluteString {
-      if webView.hasOnlySecureContent {
-        textField.textColor = .successFgColor
-      } else if webView.url!.scheme == "internal" {
-        textField.textColor = .appBgColor
-      } else if webView.url!.host == "localhost" {
-        textField.textColor = .appBgColor
-      } else {
-        textField.textColor = .errorFgColor
-      }
-      }
+          /*if webView.hasOnlySecureContent {
+            textField.textColor = .successFgColor
+          } else if webView.url!.scheme == "internal" {
+            textField.textColor = .appBgColor
+          } else if webView.url!.host == "localhost" {
+            textField.textColor = .appBgColor
+          } else {
+            textField.textColor = .errorFgColor
+          }*/
+          setUrlFieldColor()
+        }
         
       default:
         break
@@ -4248,11 +4249,23 @@ downloadTask.resume()
     
   }
   
+  func setUrlFieldColor() {
+    if webView.hasOnlySecureContent {
+      urlField.textColor = .successFgColor
+    } else if webView.url!.scheme == "internal" {
+      urlField.textColor = .appBgColor
+    } else if webView.url!.host == "localhost" {
+      urlField.textColor = .appBgColor
+    } else {
+      urlField.textColor = .errorFgColor
+    }
+  }
+  
   func webViewDidFinish() {
     //if webView.url!.absoluteString.hasPrefix("http://localhost:6571/errors/error.html") == false && webView.url!.absoluteString.hasPrefix("internal://local/restore?") == false {
     if webView.url!.absoluteString.hasPrefix("internal://local/restore?") == false {
       urlField.text = webView.url!.absoluteString
-      if webView.hasOnlySecureContent {
+      /*if webView.hasOnlySecureContent {
         urlField.textColor = .successFgColor
       } else if webView.url!.scheme == "internal" {
         urlField.textColor = .appBgColor
@@ -4260,7 +4273,8 @@ downloadTask.resume()
         urlField.textColor = .appBgColor
       } else {
         urlField.textColor = .errorFgColor
-      }
+      }*/
+      setUrlFieldColor()
       //if #available(iOS 15, *) {
         //lb.text! += " mT:\(webView.mediaType ?? "nil") tC:\(webView.themeColor) uC:\(webView.underPageBackgroundColor)"
       //}
