@@ -2271,7 +2271,7 @@ appversion: \(appVersion)
       self.present(alert, animated: true) {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
-          alertController.dismiss(animated: true)
+          alert.dismiss(animated: true)
         }
         
         /*if alert.preferredStyle == .actionSheet, let presentedView = alert.popoverPresentationController?.presentedView {
