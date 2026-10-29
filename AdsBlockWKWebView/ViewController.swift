@@ -2271,7 +2271,21 @@ appversion: \(appVersion)
       self.present(alert, animated: true) {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
-          alert.dismiss(animated: true)
+          //alert.dismiss(animated: true)
+          
+          //if let presentedAlert = self.presentedViewController as? UIAlertController {
+            if allowAlertDismiss {
+              allowAlertDismiss = false
+              alertObjArray.removeFirst()
+              //presentedAlert.dismiss(animated: true) {}
+              alert.dismiss(animated: true) {
+                self.allowAlertDismiss = true
+                self.showAlert("nextAlertObj")
+              }
+            }
+            //return
+          //}
+          
         }
         
         /*if alert.preferredStyle == .actionSheet, let presentedView = alert.popoverPresentationController?.presentedView {
