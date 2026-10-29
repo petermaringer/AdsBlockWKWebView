@@ -38,6 +38,12 @@ extension String {
   }
 }
 
+extension Array {
+  mutating func safeRemoveFirst() {
+    _ = isEmpty ? nil : removeFirst()
+  }
+}
+
 extension UIColor {
   public convenience init(r: Int, g: Int, b: Int, a: Int) {
     self.init(red: CGFloat(r) / 255.0, green: CGFloat(g) / 255.0, blue: CGFloat(b) / 255.0, alpha: CGFloat(a) / 255.0)
@@ -853,7 +859,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     UIPasteboard.general.items = []
     //showAlert(type: "confirm", style: .actionSheet, title: nil, "Clipboard was cleared.", buttonTitles: ["Cancel", "OK"], buttonStyles: [.cancel, .default], disableHaptic: true, sourceView: urlField)
     //showAlert(type: "alert", style: .actionSheet, title: nil, "Clipboard was cleared.", buttonTitles: ["Cancel"], buttonStyles: [.cancel], disableHaptic: true, sourceView: urlField)
-    showAlert(style: .actionSheet, title: nil, "Clipboard was cleared.", buttonStyles: [.cancel], disableHaptic: true, sourceView: urlField, sourceRect: CGRect(x: urlField.bounds.midX, y: urlField.bounds.maxY + 35, width: 0, height: 0), sourceArrow: false)
+    showAlert(style: .actionSheet, title: nil, "Clipboard was cleared.", buttonStyles: [.cancel], disableHaptic: true, sourceView: urlField, sourceRect: CGRect(x: urlField.bounds.midX, y: urlField.bounds.maxY + 45, width: 0, height: 0), sourceArrow: false)
   }
   
   //private var cursorPosition: UITextRange?
@@ -2275,7 +2281,8 @@ appversion: \(appVersion)
           if let presentedAlert = self.presentedViewController as? UIAlertController, presentedAlert == alert {
             if self.allowAlertDismiss {
               self.allowAlertDismiss = false
-              alertObjArray.removeFirst()
+              //alertObjArray.removeFirst()
+              alertObjArray.safeRemoveFirst()
               alert.dismiss(animated: true) {
                 self.allowAlertDismiss = true
                 self.showAlert("nextAlertObj")
