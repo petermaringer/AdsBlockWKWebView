@@ -852,7 +852,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     //HttpServer.instance.server.stop()
     UIPasteboard.general.items = []
     //showAlert(type: "confirm", style: .actionSheet, title: nil, "Clipboard was cleared.", buttonTitles: ["Cancel", "OK"], buttonStyles: [.cancel, .default], disableHaptic: true, sourceView: urlField)
-    showAlert(type: "alert", style: .actionSheet, title: nil, "Clipboard was cleared.", buttonTitles: ["Cancel"], buttonStyles: [.cancel], disableHaptic: true, sourceView: urlField)
+    //showAlert(type: "alert", style: .actionSheet, title: nil, "Clipboard was cleared.", buttonTitles: ["Cancel"], buttonStyles: [.cancel], disableHaptic: true, sourceView: urlField)
+    showAlert(style: .actionSheet, title: nil, "Clipboard was cleared.", buttonStyles: [.cancel], disableHaptic: true, sourceView: urlField, sourceArrow: false)
   }
   
   //private var cursorPosition: UITextRange?
@@ -2273,18 +2274,18 @@ appversion: \(appVersion)
         DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
           //alert.dismiss(animated: true)
           
-          //if let presentedAlert = self.presentedViewController as? UIAlertController {
+          if let presentedAlert = self.presentedViewController as? UIAlertController {
             if allowAlertDismiss {
               allowAlertDismiss = false
               alertObjArray.removeFirst()
-              //presentedAlert.dismiss(animated: true) {}
-              alert.dismiss(animated: true) {
+              presentedAlert.dismiss(animated: true) {
+              //alert.dismiss(animated: true) {}
                 self.allowAlertDismiss = true
                 self.showAlert("nextAlertObj")
               }
             }
             //return
-          //}
+          }
           
         }
         
