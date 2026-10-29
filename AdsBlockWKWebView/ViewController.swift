@@ -236,6 +236,7 @@ struct alertObj {
   let sourceRect: CGRect?
   let sourceArrow: Bool?
   let sourceID: String?
+  let autoDismissAfter: Double?
   let custom: Any?
   let completionHandler: (Any?, Any?) -> Void
 }
@@ -859,7 +860,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     UIPasteboard.general.items = []
     //showAlert(type: "confirm", style: .actionSheet, title: nil, "Clipboard was cleared.", buttonTitles: ["Cancel", "OK"], buttonStyles: [.cancel, .default], disableHaptic: true, sourceView: urlField)
     //showAlert(type: "alert", style: .actionSheet, title: nil, "Clipboard was cleared.", buttonTitles: ["Cancel"], buttonStyles: [.cancel], disableHaptic: true, sourceView: urlField)
-    showAlert(style: .actionSheet, title: nil, "Clipboard was cleared.", buttonStyles: [.cancel], disableHaptic: true, sourceView: urlField, sourceRect: CGRect(x: urlField.bounds.midX, y: urlField.bounds.maxY + 43, width: 0, height: 0), sourceArrow: false)
+    showAlert(style: .actionSheet, title: nil, "Clipboard was cleared.", buttonStyles: [.cancel], disableHaptic: true, sourceView: urlField, sourceRect: CGRect(x: urlField.bounds.midX, y: urlField.bounds.maxY + 43, width: 0, height: 0), sourceArrow: false, autoDismissAfter: 1.0)
   }
   
   //private var cursorPosition: UITextRange?
@@ -2139,9 +2140,9 @@ appversion: \(appVersion)
   
   var allowAlertDismiss = true
   
-  private func showAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], defaultButton: Int? = nil, disableHaptic: Bool? = false, sourceView: UIView? = nil, sourceRect: CGRect? = nil, sourceArrow: Bool? = nil, sourceID: String? = nil, custom: Any? = nil, completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
+  private func showAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], defaultButton: Int? = nil, disableHaptic: Bool? = false, sourceView: UIView? = nil, sourceRect: CGRect? = nil, sourceArrow: Bool? = nil, sourceID: String? = nil, autoDismissAfter: Double? = nil, custom: Any? = nil, completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
     if message != "nextAlertObj" {
-      alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, defaultButton: defaultButton, disableHaptic: disableHaptic, sourceView: sourceView, sourceRect: sourceRect, sourceArrow: sourceArrow, sourceID: sourceID, custom: custom, completionHandler: completionHandler))
+      alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, defaultButton: defaultButton, disableHaptic: disableHaptic, sourceView: sourceView, sourceRect: sourceRect, sourceArrow: sourceArrow, sourceID: sourceID, autoDismissAfter: autoDismissAfter, custom: custom, completionHandler: completionHandler))
       /*let addNextToQueue = {
         alertObjArray.append(alertObj(blabla))
       }
@@ -2280,7 +2281,8 @@ appversion: \(appVersion)
       
       self.present(alert, animated: true) {
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+        if currentAlert.autoDismissAfter != nil {
+        DispatchQueue.main.asyncAfter(deadline: .now() + currentAlert.autoDismissAfter!) {
           if let presentedAlert = self.presentedViewController as? UIAlertController, presentedAlert == alert {
             if self.allowAlertDismiss {
               self.allowAlertDismiss = false
@@ -2292,6 +2294,7 @@ appversion: \(appVersion)
               }
             }
           }
+        }
         }
         
         /*if alert.preferredStyle == .actionSheet, let presentedView = alert.popoverPresentationController?.presentedView {
