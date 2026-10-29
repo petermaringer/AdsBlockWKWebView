@@ -4239,11 +4239,11 @@ downloadTask.resume()
     if webView.hasOnlySecureContent {
       urlField.textColor = .successFgColor
     } else if webView.url!.scheme == "internal" {
-      urlField.textColor = .appBgColor
+      urlField.textColor = .darkGray
     } else if webView.url!.scheme == "file" {
       urlField.textColor = .gray
     } else if webView.url!.host == "localhost" {
-      urlField.textColor = .appBgColor
+      urlField.textColor = .gray
     } else {
       urlField.textColor = .errorFgColor
     }
