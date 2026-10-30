@@ -4241,9 +4241,9 @@ downloadTask.resume()
     } else if webView.url!.scheme == "internal" {
       urlField.textColor = .darkGray
     } else if webView.url!.scheme == "file" {
-      urlField.textColor = .gray
+      urlField.textColor = .darkGray
     } else if webView.url!.host == "localhost" {
-      urlField.textColor = .gray
+      urlField.textColor = .darkGray
     } else {
       urlField.textColor = .errorFgColor
     }
