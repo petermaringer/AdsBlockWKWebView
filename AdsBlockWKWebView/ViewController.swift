@@ -323,8 +323,8 @@ class CustomUITextField: UITextField {
       if let uiAction = action as? UIAction, uiAction.title == "Automatisch ausfüllen" {
         uiAction.title = "AutoFill"
       }
-      return action
-    }
+      //return action
+    //{}
     /*if let clearIndex = modifiedActions.firstIndex(where: { ($0 as? UIAction)?.title == "Clear" }) {
       let clearAction = modifiedActions.remove(at: clearIndex)
       if let uiAction = clearAction as? UIAction {
@@ -338,6 +338,9 @@ class CustomUITextField: UITextField {
         }
       }
     }*/
+    guard let menu = element as? UIMenu else { return element }
+    var children = menu.children
+    
     if UIPasteboard.general.numberOfItems > 0 {
       let clearAction = UIAction(
         title: "Clear",
@@ -356,15 +359,20 @@ class CustomUITextField: UITextField {
       } else {
         modifiedActions.append(clearAction)
       }*/
-      if let pasteIndex = modifiedActions.firstIndex(where: { element in
-        guard let uiAction = element as? UIAction else { return false }
+      if let pasteIndex = children.firstIndex(where: { child in
+        guard let uiAction = child as? UIAction else { return false }
         return uiAction.identifier.rawValue.lowercased().contains("paste")
       }) {
-        modifiedActions.insert(clearAction, at: pasteIndex + 1)
+        children.insert(clearAction, at: pasteIndex + 1)
       } else {
-        modifiedActions.append(clearAction)
+        children.append(clearAction)
       }
+      
     }
+    
+    return menu.settingChildren(children)
+    }
+    
     return UIMenu(children: modifiedActions)
   }
 }
