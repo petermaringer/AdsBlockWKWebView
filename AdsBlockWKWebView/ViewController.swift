@@ -350,13 +350,18 @@ class CustomUITextField: UITextField {
       } else {
         children.append(clearAction)
       }*/
-      if !inserted, let pasteIndex = children.firstIndex(where: { child in
-                guard let uiAction = child as? UIAction else { return false }
-                return uiAction.identifier.rawValue.lowercased().contains("paste")
-              }) {
-                children.insert(clearAction, at: pasteIndex + 1)
-                inserted = true
-              }
+      if !inserted {
+      if let pasteIndex = children.firstIndex(where: { child in
+        guard let uiAction = child as? UIAction else { return false }
+        return uiAction.identifier == .paste
+      }) {
+        children.insert(clearAction, at: pasteIndex + 1)
+        inserted = true
+      } else {
+        children.append(clearAction)
+        inserted = true
+      }
+    }
       
     }
     //return menu.settingChildren(children)
