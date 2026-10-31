@@ -323,6 +323,7 @@ class CustomUITextField: UITextField {
       guard let self = self else { return }
       let selector = #selector(ViewController.onMenu1(sender:))
       UIApplication.shared.sendAction(selector, to: nil, from: self, for: nil)
+      self?.setNeedsMenuUpdate()
     }
     var modifiedActions = suggestedActions
     if UIPasteboard.general.numberOfItems > 0 {
@@ -922,7 +923,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
       return false
     }
   }
-  
   @objc internal func onMenu1(sender: UIMenuItem) {
     //HttpServer.instance.server.stop()
     UIPasteboard.general.items = []
@@ -945,7 +945,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     switch textField {
       case urlField:
         textField.frame.size.width -= 85
-        //button.frame.origin.x -= 85
         view.addSubview(button)
         //textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
         //textField.selectAll(nil)
@@ -1788,7 +1787,6 @@ appversion: \(appVersion)
         }
         textField.selectedTextRange = nil
         button.removeFromSuperview()
-        //button.frame.origin.x += 85
         textField.frame.size.width += 85
         //progressView.frame.size.width += 85
         
@@ -1814,7 +1812,6 @@ appversion: \(appVersion)
             textField.text!.removeFirst()
             navTypeDownload = true
           }
-          
           alertCounter = 0
           if textField.text!.hasPrefix("javascript:") {
             webView.evaluateJavaScript(String(textField.text!.dropFirst(11)), completionHandler: nil)
@@ -1823,9 +1820,6 @@ appversion: \(appVersion)
             url = textField.text!
             startLoading()
           }
-          
-          //url = textField.text!
-          //startLoading()
         }
       default: break
     }
@@ -2097,7 +2091,6 @@ appversion: \(appVersion)
       popover.sourceRect = currentAlert.sourceRect ?? sourceView.bounds
       if currentAlert.sourceArrow == false {
         popover.permittedArrowDirections = []
-        //popover.popoverBackgroundViewClass = PopoverWithoutArrow.self
       }
     }
     if currentAlert.disableHaptic != true {
@@ -2106,7 +2099,6 @@ appversion: \(appVersion)
     //Dispatch
     DispatchQueue.main.async { [unowned self] in
       //self.present(alert, animated: true, completion: nil)
-      
       self.present(alert, animated: true) {
         if currentAlert.autoDismissAfter != nil {
           DispatchQueue.main.asyncAfter(deadline: .now() + currentAlert.autoDismissAfter!) {
@@ -2132,7 +2124,6 @@ appversion: \(appVersion)
           presentedView.superview?.layoutIfNeeded()
         }*/
       }
-      
     }
   }
   
@@ -2830,14 +2821,14 @@ urlField.addAction(updateRightViewLayout, for: .editingDidEnd)*/
         if #unavailable(iOS 16.0) {
           let menuController: UIMenuController = UIMenuController.shared
           menuController.isMenuVisible = true
-        menuController.arrowDirection = UIMenuControllerArrowDirection.down
-        menuController.setTargetRect(CGRect.zero, in: self.view)
-        let menuItem_1: UIMenuItem = UIMenuItem(title: "Clear", action: #selector(onMenu1(sender:)))
-        //let menuItem_2: UIMenuItem = UIMenuItem(title: "Menu2", action: #selector(onMenu2(sender:)))
-        //let menuItem_3: UIMenuItem = UIMenuItem(title: "Menu3", action: #selector(onMenu3(sender:)))
-        //let myMenuItems: [UIMenuItem] = [menuItem_1, menuItem_2, menuItem_3]
-        let myMenuItems: [UIMenuItem] = [menuItem_1]
-        menuController.menuItems = myMenuItems
+          menuController.arrowDirection = UIMenuControllerArrowDirection.down
+          menuController.setTargetRect(CGRect.zero, in: self.view)
+          let menuItem_1: UIMenuItem = UIMenuItem(title: "Clear", action: #selector(onMenu1(sender:)))
+          //let menuItem_2: UIMenuItem = UIMenuItem(title: "Menu2", action: #selector(onMenu2(sender:)))
+          //let menuItem_3: UIMenuItem = UIMenuItem(title: "Menu3", action: #selector(onMenu3(sender:)))
+          //let myMenuItems: [UIMenuItem] = [menuItem_1, menuItem_2, menuItem_3]
+          let myMenuItems: [UIMenuItem] = [menuItem_1]
+          menuController.menuItems = myMenuItems
         }
         
         button = UIButton(frame: CGRect.zero)
