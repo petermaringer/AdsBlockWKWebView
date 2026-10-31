@@ -327,17 +327,14 @@ class CustomUITextField: UITextField {
       identifier: UIAction.Identifier("com.app.custom.clear")
     ) { [weak self] _ in
       guard let self = self else { return }
-      //let selector = Selector(("onMenu1WithSender:"))
-      //UIApplication.shared.sendAction(selector, to: nil, from: self, for: nil)
-      //self.onMenu1(sender: self)
-      //self?.onMenu1(sender: self as Any)
       let selector = #selector(ViewController.onMenu1(sender:))
       UIApplication.shared.sendAction(selector, to: nil, from: self, for: nil)
     }
     var finalActions: [UIMenuElement] = []
-    for element in suggestedActions {
+    //for element in suggestedActions {}
+    for (index, element) in suggestedActions.enumerated() {
       finalActions.append(element)
-      let identifierRawValue: String? = {
+      /*let identifierRawValue: String? = {
         if let action = element as? UIAction { return action.identifier.rawValue }
         if let menu = element as? UIMenu { return menu.identifier.rawValue }
         return nil
@@ -347,14 +344,15 @@ class CustomUITextField: UITextField {
          identifierRawValue == "paste:" || 
          titel.contains("paste") || 
          titel.contains("einfügen") {
-        if UIPasteboard.general.numberOfItems > 0 {
+        if UIPasteboard.general.numberOfItems > 0 {}*/
+        if index == 0 && UIPasteboard.general.numberOfItems > 0 {
           finalActions.append(clearAction)
         }
-      }
+      //}
     }
-    if !finalActions.contains(where: { $0 === clearAction }) {
-      finalActions.append(clearAction)
-    }
+    //if !finalActions.contains(where: { $0 === clearAction }) {
+      //finalActions.append(clearAction)
+    //}
     return UIMenu(children: finalActions)
   }
   /*@available(iOS 16.0, *)
