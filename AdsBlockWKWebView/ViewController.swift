@@ -341,7 +341,7 @@ class CustomUITextField: UITextField {
             discoverabilityTitle: uiAction.discoverabilityTitle,
             attributes: uiAction.attributes,
             state: uiAction.state,
-            handler: uiAction.handler
+            handler: { _ in }
           )
         } else {
           actionToUse = uiAction
@@ -367,7 +367,7 @@ class CustomUITextField: UITextField {
             discoverabilityTitle: childAction.discoverabilityTitle,
             attributes: childAction.attributes,
             state: childAction.state,
-            handler: childAction.handler
+            handler: { _ in }
           )
         }
       }
