@@ -319,8 +319,8 @@ class CustomUITextField: UITextField {
   
   @available(iOS 16.0, *)
   override func editMenu(for textRange: UITextRange, suggestedActions: [UIMenuElement]) -> UIMenu? {
-    var modifiedActions = suggestedActions.map { action -> UIMenuElement in
-      if let uiAction = action as? UIAction, uiAction.title == "Automatisch ausfüllen" {
+    var modifiedElements = suggestedActions.map { element -> UIMenuElement in
+      if let uiAction = element as? UIAction, uiAction.title == "Automatisch ausfüllen" {
         uiAction.title = "AutoFill"
       }
       //return action
@@ -373,7 +373,7 @@ class CustomUITextField: UITextField {
     return menu.settingChildren(children)
     }
     
-    return UIMenu(children: modifiedActions)
+    return UIMenu(children: modifiedElements)
   }
 }
 
