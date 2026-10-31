@@ -326,8 +326,10 @@ class CustomUITextField: UITextField {
       image: UIImage(systemName: "xmark.circle")
     ) { [weak self] _ in
       guard let self = self else { return }
-      let selector = Selector(("onMenu1WithSender:"))
-      UIApplication.shared.sendAction(selector, to: nil, from: self, for: nil)
+      //let selector = Selector(("onMenu1WithSender:"))
+      //UIApplication.shared.sendAction(selector, to: nil, from: self, for: nil)
+      //self.onMenu1(sender: self)
+      self?.onMenu1(sender: self as Any)
     }
     var finalActions: [UIMenuElement] = []
     for element in suggestedActions {
@@ -342,7 +344,9 @@ class CustomUITextField: UITextField {
          identifierRawValue == "paste:" || 
          titel.contains("paste") || 
          titel.contains("einfügen") {
-        finalActions.append(clearAction)
+        if UIPasteboard.general.numberOfItems > 0 {
+          finalActions.append(clearAction)
+        }
       }
     }
     //if !finalActions.contains(where: { $0 === deinEigenerButton }) {
@@ -906,7 +910,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     return allowedOrientations
   }
   
-  override func canPerformAction(_ action: Selector, withSender sender: Any!) -> Bool {
+  /*override func canPerformAction(_ action: Selector, withSender sender: Any!) -> Bool {
     //if [#selector(onMenu1(sender:)), #selector(onMenu2(sender:)), #selector(onMenu3(sender:))].contains(action) {
     if [#selector(onMenu1(sender:))].contains(action) && UIPasteboard.general.numberOfItems > 0 {
       return true
@@ -917,6 +921,18 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   
   @objc internal func onMenu1(sender: UIMenuItem) {
     //HttpServer.instance.server.stop()
+    UIPasteboard.general.items = []
+    showAlert(style: .actionSheet, title: nil, "Clipboard was cleared.", buttonStyles: [.cancel], disableHaptic: true, sourceView: urlField, sourceRect: CGRect(x: urlField.bounds.midX, y: urlField.bounds.maxY + 43, width: 0, height: 0), sourceArrow: false, autoDismissAfter: 0.25)
+  }*/
+  
+  override func canPerformAction(_ action: Selector, withSender sender: Any!) -> Bool {
+    if action == #selector(onMenu1(sender:)) {
+      return UIPasteboard.general.numberOfItems > 0
+    }
+    return super.canPerformAction(action, withSender: sender)
+  }
+  
+  @objc internal func onMenu1(sender: Any) {
     UIPasteboard.general.items = []
     showAlert(style: .actionSheet, title: nil, "Clipboard was cleared.", buttonStyles: [.cancel], disableHaptic: true, sourceView: urlField, sourceRect: CGRect(x: urlField.bounds.midX, y: urlField.bounds.maxY + 43, width: 0, height: 0), sourceArrow: false, autoDismissAfter: 0.25)
   }
