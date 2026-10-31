@@ -329,6 +329,30 @@ class CustomUITextField: UITextField {
       let selector = Selector(("onMenu1WithSender:"))
       UIApplication.shared.sendAction(selector, to: nil, from: self, for: nil)
     }
+    var finalActions: [UIMenuElement] = []
+    for element in suggestedActions {
+      finalActions.append(element)
+      if element.identifier.rawValue == "com.apple.menu.paste" {
+        finalActions.append(clearAction)
+      }
+    }
+    //if !finalActions.contains(where: { $0 === deinEigenerButton }) {
+      //finalActions.append(deinEigenerButton)
+    //}
+    return UIMenu(children: finalActions)
+  }
+  /*@available(iOS 16.0, *)
+  override func editMenu(for textRange: UITextRange, suggestedActions: [UIMenuElement]) -> UIMenu? {
+    var inserted = false
+    let clearAction = UIAction(
+      title: "Clear",
+      subtitle: "Text komplett löschen",
+      image: UIImage(systemName: "xmark.circle")
+    ) { [weak self] _ in
+      guard let self = self else { return }
+      let selector = Selector(("onMenu1WithSender:"))
+      UIApplication.shared.sendAction(selector, to: nil, from: self, for: nil)
+    }
     var modifiedElements: [UIMenuElement] = []
     for element in suggestedActions {
       if let uiAction = element as? UIAction {
@@ -398,7 +422,7 @@ class CustomUITextField: UITextField {
       }
     }
     return UIMenu(children: modifiedElements)
-  }
+  }*/
   /*@available(iOS 16.0, *)
   override func editMenu(for textRange: UITextRange, suggestedActions: [UIMenuElement]) -> UIMenu? {
     var inserted = false
