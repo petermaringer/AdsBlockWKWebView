@@ -324,6 +324,7 @@ class CustomUITextField: UITextField {
       title: "Clear",
       subtitle: "Text komplett löschen",
       image: UIImage(systemName: "xmark.circle")
+      identifier: UIAction.Identifier("com.app.custom.clear")
     ) { [weak self] _ in
       guard let self = self else { return }
       //let selector = Selector(("onMenu1WithSender:"))
