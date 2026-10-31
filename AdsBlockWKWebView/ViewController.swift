@@ -329,47 +329,57 @@ class CustomUITextField: UITextField {
       let selector = Selector(("onMenu1WithSender:"))
       UIApplication.shared.sendAction(selector, to: nil, from: self, for: nil)
     }
-
     var modifiedElements: [UIMenuElement] = []
-
     for element in suggestedActions {
-      // 1. Prüfen, ob das Element direkt eine Top-Level-Action ist (z.B. Paste oder AutoFill)
       if let uiAction = element as? UIAction {
+        let actionToUse: UIAction
         if uiAction.title == "Automatisch ausfüllen" {
-          uiAction.title = "AutoFill"
+          actionToUse = UIAction(
+            title: "AutoFill",
+            image: uiAction.image,
+            identifier: uiAction.identifier,
+            discoverabilityTitle: uiAction.discoverabilityTitle,
+            attributes: uiAction.attributes,
+            state: uiAction.state,
+            handler: uiAction.handler
+          )
+        } else {
+          actionToUse = uiAction
         }
-        modifiedElements.append(uiAction)
-        
-        // Wenn dieser direkte Button Paste ist, fügen wir Clear direkt dahinter ein
-        if !inserted, UIPasteboard.general.numberOfItems > 0, uiAction.identifier == .paste {
+        modifiedElements.append(actionToUse)
+        if !inserted, UIPasteboard.general.numberOfItems > 0, (actionToUse.identifier == .paste || actionToUse.title == "Einfügen") {
           modifiedElements.append(clearAction)
           inserted = true
         }
         continue
       }
-      
-      // 2. Wenn es ein Menü-Container ist, durchsuchen wir dessen children
       guard let menu = element as? UIMenu else {
         modifiedElements.append(element)
         continue
       }
-      
       var children = menu.children
-      
-      // Auch in den Children normal mit einer Schleife nach "Automatisch ausfüllen" suchen und anpassen
-      for child in children {
+      for (index, child) in children.enumerated() {
         if let childAction = child as? UIAction, childAction.title == "Automatisch ausfüllen" {
-          childAction.title = "AutoFill"
+          children[index] = UIAction(
+            title: "AutoFill",
+            image: childAction.image,
+            identifier: childAction.identifier,
+            discoverabilityTitle: childAction.discoverabilityTitle,
+            attributes: childAction.attributes,
+            state: childAction.state,
+            handler: childAction.handler
+          )
         }
       }
-      
       if !inserted, UIPasteboard.general.numberOfItems > 0 {
-        if let pasteIndex = children.firstIndex(where: { ($0 as? UIAction)?.identifier == .paste }) {
+        if let pasteIndex = children.firstIndex(where: { 
+          guard let action = $0 as? UIAction else { return false }
+          return action.identifier == .paste || action.title == "Einfügen"
+        }) {
           children.insert(clearAction, at: pasteIndex + 1)
           inserted = true
         }
       }
-      
       modifiedElements.append(UIMenu(
         title: menu.title,
         image: menu.image,
@@ -378,8 +388,6 @@ class CustomUITextField: UITextField {
         children: children
       ))
     }
-    
-    // 3. Fallback, falls Paste absolut nirgends gefunden wurde
     if !inserted, UIPasteboard.general.numberOfItems > 0 {
       if var firstMenu = modifiedElements.first as? UIMenu {
         var children = firstMenu.children
@@ -389,7 +397,6 @@ class CustomUITextField: UITextField {
         modifiedElements.append(clearAction)
       }
     }
-
     return UIMenu(children: modifiedElements)
   }
   /*@available(iOS 16.0, *)
