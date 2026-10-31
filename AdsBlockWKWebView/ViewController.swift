@@ -316,6 +316,29 @@ class CustomUITextField: UITextField {
   }
   
   var savedCursorPosition: UITextRange?
+  
+  @available(iOS 16.0, *)
+  override func editMenu(for textRange: UITextRange, suggestedActions: [UIMenuElement]) -> UIMenu? {
+    var modifiedActions = suggestedActions.map { action -> UIMenuElement in
+      if let uiAction = action as? UIAction, uiAction.title == "Automatisch ausfüllen" {
+        return UIAction(title: "AutoFill", image: uiAction.image, identifier: uiAction.identifier, handler: uiAction.handler)
+      }
+      return action
+    }
+    if let clearIndex = modifiedActions.firstIndex(where: { ($0 as? UIAction)?.title == "Clear" }) {
+      let clearAction = modifiedActions.remove(at: clearIndex)
+      if let uiAction = clearAction as? UIAction {
+        let updatedClear = UIAction(title: uiAction.title, subtitle: "Text komplett löschen", image: UIImage(systemName: "xmark.circle"), identifier: uiAction.identifier, handler: uiAction.handler)
+        if let pasteIndex = modifiedActions.firstIndex(where: { ($0 as? UIAction)?.identifier == .paste }) {
+          modifiedActions.insert(updatedClear, at: pasteIndex + 1)
+        } else {
+          let safeIndex = min(clearIndex, modifiedActions.count)
+          modifiedActions.insert(updatedClear, at: safeIndex)
+        }
+      }
+    }
+    return UIMenu(children: modifiedActions)
+  }
 }
 
 
