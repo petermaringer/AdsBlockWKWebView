@@ -317,7 +317,7 @@ class CustomUITextField: UITextField {
   
   var savedCursorPosition: UITextRange?
   
-  /*@available(iOS 16.0, *)
+  @available(iOS 16.0, *)
   override func editMenu(for textRange: UITextRange, suggestedActions: [UIMenuElement]) -> UIMenu? {
     var modifiedElements = suggestedActions.map { element -> UIMenuElement in
       if let uiAction = element as? UIAction, uiAction.title == "Automatisch ausfüllen" {
@@ -362,8 +362,8 @@ class CustomUITextField: UITextField {
 )
     }
     return UIMenu(children: modifiedElements)
-  }*/
-  @available(iOS 16.0, *)
+  }
+  /*@available(iOS 16.0, *)
   override func editMenu(for textRange: UITextRange, suggestedActions: [UIMenuElement]) -> UIMenu? {
     let clearAction = UIAction(
       title: "Clear",
@@ -406,7 +406,7 @@ class CustomUITextField: UITextField {
       modifiedElements.append(clearAction)
     }
     return UIMenu(children: modifiedElements)
-  }
+  }*/
   
 }
 
