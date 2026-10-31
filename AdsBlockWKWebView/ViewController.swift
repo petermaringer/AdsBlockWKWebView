@@ -370,7 +370,8 @@ class CustomUITextField: UITextField {
       
     }
     
-    return menu.settingChildren(children)
+    //return menu.settingChildren(children)
+    return menu.byReplacingChildren(children)
     }
     
     return UIMenu(children: modifiedElements)
