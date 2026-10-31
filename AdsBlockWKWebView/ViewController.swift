@@ -357,10 +357,10 @@ class CustomUITextField: UITextField {
       }) {
         children.insert(clearAction, at: pasteIndex + 1)
         inserted = true
-      } else {
-        children.append(clearAction)
-        inserted = true
-      }
+      } //else {
+        //children.append(clearAction)
+        //inserted = true
+      //}
     }
       
     }
