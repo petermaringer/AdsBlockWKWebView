@@ -337,7 +337,11 @@ class CustomUITextField: UITextField {
         if let menu = element as? UIMenu { return menu.identifier.rawValue }
         return nil
       }()
-      if identifierRawValue == "com.apple.menu.paste" {
+      let titel = element.title.lowercased()
+      if identifierRawValue == "com.apple.menu.paste" || 
+         identifierRawValue == "paste:" || 
+         titel.contains("paste") || 
+         titel.contains("einfügen") {
         finalActions.append(clearAction)
       }
     }
