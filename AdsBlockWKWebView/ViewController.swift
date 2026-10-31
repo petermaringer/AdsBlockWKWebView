@@ -319,6 +319,7 @@ class CustomUITextField: UITextField {
   
   @available(iOS 16.0, *)
   override func editMenu(for textRange: UITextRange, suggestedActions: [UIMenuElement]) -> UIMenu? {
+    var inserted = false
     var modifiedElements = suggestedActions.map { element -> UIMenuElement in
       if let uiAction = element as? UIAction, uiAction.title == "Automatisch ausfüllen" {
         uiAction.title = "AutoFill"
@@ -341,14 +342,21 @@ class CustomUITextField: UITextField {
         UIApplication.shared.sendAction(selector, to: nil, from: self, for: nil)
       }
       //if let pasteIndex = modifiedActions.firstIndex(where: { ($0 as? UIAction)?.identifier == .paste }) {}
-      if let pasteIndex = children.firstIndex(where: { child in
+      /*if let pasteIndex = children.firstIndex(where: { child in
         guard let uiAction = child as? UIAction else { return false }
         return uiAction.identifier.rawValue.lowercased().contains("paste")
       }) {
         children.insert(clearAction, at: pasteIndex + 1)
       } else {
         children.append(clearAction)
-      }
+      }*/
+      if !inserted, let pasteIndex = children.firstIndex(where: { child in
+                guard let uiAction = child as? UIAction else { return false }
+                return uiAction.identifier.rawValue.lowercased().contains("paste")
+              }) {
+                children.insert(clearAction, at: pasteIndex + 1)
+                inserted = true
+              }
       
     }
     //return menu.settingChildren(children)
