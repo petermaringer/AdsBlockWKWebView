@@ -323,7 +323,7 @@ class CustomUITextField: UITextField {
     let clearAction = UIAction(
       title: "Clear",
       subtitle: "Text komplett löschen",
-      image: UIImage(systemName: "xmark.circle")
+      image: UIImage(systemName: "xmark.circle"),
       identifier: UIAction.Identifier("com.app.custom.clear")
     ) { [weak self] _ in
       guard let self = self else { return }
