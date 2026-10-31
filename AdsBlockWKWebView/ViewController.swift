@@ -7,7 +7,7 @@ import UIKit
 import WebKit
 
 import AVFoundation
-import AVKit
+import AVKit //remove
 import MediaPlayer
 
 import Security
@@ -59,6 +59,7 @@ extension UIColor {
   //static let errorFgColor: UIColor = .red
   static let errorFgColor: UIColor = UIColor(r: 200, g: 55, b: 60, a: 255)
   static let successFgColor: UIColor = UIColor(r: 0, g: 102, b: 0, a: 255)
+  static let neutralFgColor: UIColor = .darkGray
 }
 
 extension URL {
@@ -236,42 +237,6 @@ struct alertObj {
 }
 var alertObjArray: [alertObj] = []
 
-/*class PopoverWithoutArrow: UIPopoverBackgroundView {
-  private let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
-  private var _arrowOffset: CGFloat = 0
-  private var _arrowDirection: UIPopoverArrowDirection = .up
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-    backgroundColor = .clear
-    isOpaque = false
-    addSubview(blurView)
-    clipsToBounds = true
-    layer.cornerRadius = 14
-    layer.borderWidth = 0.5
-    layer.borderColor = UIColor.separator.cgColor
-  }
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    blurView.frame = bounds
-  }
-  override class func arrowHeight() -> CGFloat { return 0 }
-  override class func arrowBase() -> CGFloat { return 0 }
-  override class func contentViewInsets() -> UIEdgeInsets {
-    return UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
-  }
-  override var arrowDirection: UIPopoverArrowDirection {
-    get { return _arrowDirection }
-    set { _arrowDirection = newValue }
-  }
-  override var arrowOffset: CGFloat {
-    get { return _arrowOffset }
-    set { _arrowOffset = newValue }
-  }
-}*/
-
 
 var wkpool = "wkp"
 func initPool() -> WKProcessPool {
@@ -290,176 +255,65 @@ let processPool: WKProcessPool = initPool()
 
 
 class CustomUITextField: UITextField {
-  /*override func layoutSubviews() {
-    CATransaction.begin()
-    CATransaction.setDisableActions(true)
-    super.layoutSubviews()
-    if let clearButton = self.value(forKey: "_clearButton") as? UIButton {
-      clearButton.layer.removeAllAnimations()
-    }
-    CATransaction.commit()
-  }*/
-  /*override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
-        let showClearButton = self.isEditing && !(self.text?.isEmpty ?? true)
-        
-        if showClearButton {
-            // Zeigt die vollen 34px (15px Geste + 19px Button)
-            return CGRect(x: bounds.width - 34, y: 0, width: 34, height: bounds.height)
-        } else {
-            // Schneidet den Button ab Pixel 15 hart ab. Der Platz links daneben ist sofort klickbar!
-            return CGRect(x: bounds.width - 15, y: 0, width: 15, height: bounds.height)
-        }
-    }*/
-    var leftPadding: CGFloat = 15
-    var rightPadding: CGFloat = 15
-    
-    override func textRect(forBounds bounds: CGRect) -> CGRect {
-        let padding = UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding)
-        return UIEdgeInsetsInsetRect(bounds, padding)
-    }
-    override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
-        let padding = UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding)
-        return UIEdgeInsetsInsetRect(bounds, padding)
-    }
-    override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        let padding = UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding)
-        return UIEdgeInsetsInsetRect(bounds, padding)
-    }
-    /*override func editingRect(forBounds bounds: CGRect) -> CGRect {
-    let padding = UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding)
-    var rect = UIEdgeInsetsInsetRect(bounds, padding)
+  
+  var leftPadding: CGFloat = 15
+  var rightPadding: CGFloat = 15
+  override func textRect(forBounds bounds: CGRect) -> CGRect {
+    return UIEdgeInsetsInsetRect(bounds, UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding))
+  }
+  override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+    return UIEdgeInsetsInsetRect(bounds, UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding))
+  }
+  override func editingRect(forBounds bounds: CGRect) -> CGRect {
+    return UIEdgeInsetsInsetRect(bounds, UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding))
+  }
+  /*override func editingRect(forBounds bounds: CGRect) -> CGRect {
+    var rect = UIEdgeInsetsInsetRect(bounds, UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding))
     if let text = self.text, !text.isEmpty {
-        rect.size.width += 1.0
+      rect.size.width += 1.0
     }
     return rect
-    }*/
-    
-    var isLeftPaddingClicked: Bool = false
-    var isRightPaddingClicked: Bool = false
-    
+  }*/
+  
+  var isLeftPaddingClicked: Bool = false
+  var isRightPaddingClicked: Bool = false
   override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
     let touchPoint = gestureRecognizer.location(in: self)
     isLeftPaddingClicked = touchPoint.x <= leftPadding
     isRightPaddingClicked = touchPoint.x >= (bounds.width - rightPadding)
     if isFirstResponder {
-        if isLeftPaddingClicked {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                let start = beginningOfDocument
-                selectedTextRange = textRange(from: start, to: start)
-                isLeftPaddingClicked = false
-            }
-        } else if isRightPaddingClicked {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                let end = endOfDocument
-                selectedTextRange = textRange(from: end, to: end)
-                isRightPaddingClicked = false
-            }
+      if isLeftPaddingClicked {
+        DispatchQueue.main.async { [weak self] in
+          guard let self = self else { return }
+          let start = beginningOfDocument
+          selectedTextRange = textRange(from: start, to: start)
+          isLeftPaddingClicked = false //^^
         }
+      } else if isRightPaddingClicked {
+        DispatchQueue.main.async { [weak self] in
+          guard let self = self else { return }
+          let end = endOfDocument
+          selectedTextRange = textRange(from: end, to: end)
+          isRightPaddingClicked = false //^^
+        }
+      }
     }
     return super.gestureRecognizerShouldBegin(gestureRecognizer)
   }
   
-override func caretRect(for position: UITextPosition) -> CGRect {
+  override func caretRect(for position: UITextPosition) -> CGRect {
     var rect = super.caretRect(for: position)
     //rect.origin.x = floor(rect.origin.x)
     if position == endOfDocument {
-        let textWidth = editingRect(forBounds: bounds).width
-        if rect.origin.x >= (textWidth - 5) {
-            rect.origin.x -= 0.5
-        }
+      let textWidth = editingRect(forBounds: bounds).width
+      if rect.origin.x >= (textWidth - 5) {
+        rect.origin.x -= 0.5
+      }
     }
     return rect
-}
-
-/*override var textColor: UIColor? {
-        get {
-            return super.textColor
-        }
-        set {
-            super.textColor = newValue
-            
-            // Löst den UIKit-Bug im inaktiven Zustand auf, ohne visuelles Flackern
-            if !self.isFirstResponder, let aktuellerText = self.text, !aktuellerText.isEmpty {
-                self.text = nil
-                self.text = aktuellerText
-            }
-        }
-    }*/
-/*override var textColor: UIColor? {
-    get {
-        return super.textColor
-    }
-    set {
-        guard let neueFarbe = newValue else {
-            super.textColor = nil
-            return
-        }
-        
-        // Holt das originale [String: Any]-Dictionary deiner Swift-Version
-        var attributes = self.defaultTextAttributes
-        
-        // Der korrekte, rohe String-Schlüssel für diesen Typ
-        attributes["NSForegroundColor"] = neueFarbe
-        
-        // Die Zuweisung zurück ans Textfeld – ohne jeglichen Typkonflikt
-        self.defaultTextAttributes = attributes
-        
-        if let aktuellerText = self.text {
-            self.text = aktuellerText
-        }
-        
-        super.textColor = neueFarbe
-    }
-}*/
-/*override func scrollRectToVisible(_ rect: CGRect, animated: Bool) {
-        // Wenn der Nutzer tippt, ist das rect klein. Wenn iOS beim Re-Entry 
-        // das ganze Feld ans Ende scrollen will, blockieren wir diesen Befehl:
-        if isFirstResponder && rect.width >= bounds.width {
-            return // Blockiert die kaputte iOS-Animation synchron im Keim!
-        }
-        
-        // Normales Scrollen beim Tippen bleibt vollkommen unberührt
-        super.scrollRectToVisible(rect, animated: animated)
-    }*/
-    
-    var savedCursorPosition: UITextRange?
-    /*override var selectedTextRange: UITextRange? {
-        get { return super.selectedTextRange }
-        set {
-            if let position = savedCursorPosition {
-                savedCursorPosition = nil
-                super.selectedTextRange = position
-            } else {
-                super.selectedTextRange = newValue
-            }
-        }
-    }*/
-    //var savedCursorOffset: Int?
-    /*override func becomeFirstResponder() -> Bool {
-        let success = super.becomeFirstResponder()
-        
-        if success, let offset = savedCursorOffset {
-            savedCursorOffset = nil
-            
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                
-                // Position anhand des Integer-Offsets neu berechnen
-                if let position = self.position(from: self.beginningOfDocument, offset: offset) {
-                    self.selectedTextRange = self.textRange(from: position, to: position)
-                    
-                    // Zwingt UIKit zum Neuzeichnen des Layouts samt Cursor
-                    self.setNeedsLayout()
-                    self.layoutIfNeeded()
-                }
-            }
-        }
-        return success
-    }*/
-
-
+  }
+  
+  var savedCursorPosition: UITextRange?
 }
 
 
@@ -842,10 +696,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   @objc internal func onMenu1(sender: UIMenuItem) {
     //HttpServer.instance.server.stop()
     UIPasteboard.general.items = []
-    showAlert(style: .actionSheet, title: nil, "Clipboard was cleared.", buttonStyles: [.cancel], disableHaptic: true, sourceView: urlField, sourceRect: CGRect(x: urlField.bounds.midX, y: urlField.bounds.maxY + 43, width: 0, height: 0), sourceArrow: false, autoDismissAfter: 0.5)
+    showAlert(style: .actionSheet, title: nil, "Clipboard was cleared.", buttonStyles: [.cancel], disableHaptic: true, sourceView: urlField, sourceRect: CGRect(x: urlField.bounds.midX, y: urlField.bounds.maxY + 43, width: 0, height: 0), sourceArrow: false, autoDismissAfter: 0.25)
   }
-  
-  //private var cursorPosition: UITextRange?
   
   func textFieldDidBeginEditing(_ textField: UITextField) {
     switch textField {
@@ -869,213 +721,40 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
           }
           
           DispatchQueue.main.async {
-                if textField.isRightPaddingClicked {
-                    textField.isRightPaddingClicked = false
-                    let end = textField.endOfDocument
-                    textField.selectedTextRange = textField.textRange(from: end, to: end)
-                } else if textField.isLeftPaddingClicked {
-                    textField.isLeftPaddingClicked = false
-                    let start = textField.beginningOfDocument
-                    textField.selectedTextRange = textField.textRange(from: start, to: start)
-                }
-                
-                
-                //else if self.cursorPosition != nil {
-                  //textField.layer.borderWidth = 2
-                  /*let position = self.cursorPosition
-                  self.cursorPosition = nil
-                  textField.selectedTextRange = position*/
-                  /*if let position = self.cursorPosition {
-                    textField.selectedTextRange = textField.textRange(from: position.start, to: position.end)
-                  }
-                  self.cursorPosition = nil*/
-                  /*let zielPosition = 65
-
-if let neuePosition = textField.position(from: textField.beginningOfDocument, offset: zielPosition) {
-    // Start und Ende auf dieselbe Position setzen = Cursor ohne Auswahl
-    textField.selectedTextRange = textField.textRange(from: neuePosition, to: neuePosition)
-}*/
- //let end = textField.endOfDocument
-                    //textField.selectedTextRange = textField.textRange(from: end, to: end)
-                
-                //}
-                /*else if textField.savedCursorPosition != nil {
-                  textField.layer.borderWidth = 2
-                  let position = textField.savedCursorPosition
-                  textField.savedCursorPosition = nil
-                  textField.selectedTextRange = position
-                }*/
-                
-                
-                textField.textColor = .appBgColor
+            if textField.isRightPaddingClicked {
+              textField.isRightPaddingClicked = false
+              let end = textField.endOfDocument
+              textField.selectedTextRange = textField.textRange(from: end, to: end)
+            } else if textField.isLeftPaddingClicked {
+              textField.isLeftPaddingClicked = false
+              let start = textField.beginningOfDocument
+              textField.selectedTextRange = textField.textRange(from: start, to: start)
             }
-            
-            /*if let savedPosition = textField.savedCursorPosition {
-        textField.savedCursorPosition = nil
-        DispatchQueue.main.async {
-            // 1. Zum Ende springen und Layout erzwingen, um den internen Editor zu triggern
-            //textField.selectedTextRange = textField.textRange(from: textField.endOfDocument, to: textField.endOfDocument)
-            //textField.layoutIfNeeded()
-            
-            // 2. Sofort danach die echte, gespeicherte Position setzen und neu zeichnen
-            textField.selectedTextRange = savedPosition
-            textField.resignFirstResponder()
-            textField.becomeFirstResponder()
-            //textField.setNeedsLayout()
-            //textField.layoutIfNeeded()
+            textField.textColor = .appBgColor
+          }
+          
         }
-    }*/
-            
-        }
-        
-        /*if cursorPosition != nil {
-    //if textField.selectedTextRange == textField.textRange(from: textField.endOfDocument, to: textField.endOfDocument) {
-      textField.layer.borderWidth = 3
-      }*/
-        
       default: break
     }
   }
   
-  
-  /*private var cursorPosition: UITextRange?
-  func textFieldDidChangeSelection(_ textField: UITextField) {
-    if textField == urlField && cursorPosition != nil {
-    if textField.selectedTextRange == textField.textRange(from: textField.endOfDocument, to: textField.endOfDocument) {
-      //textField.layer.borderWidth = 2
-        let position = cursorPosition
-        cursorPosition = nil
-        //UIView.performWithoutAnimation {
-        //DispatchQueue.main.async {
-        //DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-        //textField.selectedTextRange = nil
-            //textField.selectedTextRange = position
-          let start = textField.beginningOfDocument
-if let safePosition = position {
-    let offset = textField.offset(from: start, to: safePosition.start)
-    if let newPos = textField.position(from: start, offset: offset) {
-        textField.selectedTextRange = textField.textRange(from: newPos, to: newPos)
-    }
-}
-
-            
-            //textField.setNeedsLayout()
-//textField.layoutIfNeeded()
-        //}
-        //}
-      }
-      }
-    }*/
-
-/*func textFieldDidChangeSelection(_ textField: UITextField) {
+  /*func textFieldDidChangeSelection(_ textField: UITextField) {
     if let textField = textField as? CustomUITextField {
     if textField == urlField && textField.savedCursorPosition != nil {
     if textField.selectedTextRange == textField.textRange(from: textField.endOfDocument, to: textField.endOfDocument) {
-      //textField.layer.borderWidth = 2
-        let position = textField.savedCursorPosition
-        textField.savedCursorPosition = nil
-        //DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {}
-        textField.selectedTextRange = position
-    }
-    }
-    }
-}*/
-// 1. Position wird beim Button-Klick wie gewohnt gespeichert (vor dem Alert).
-
-// 2. Sobald das Textfeld wieder den Fokus anfordert (nach dem Alert):
-/*func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+    //doSomething()
+  } } } }*/
+  /*func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
     guard let textField = textField as? CustomUITextField, textField == urlField else { return true }
-    if let savedPosition = textField.savedCursorPosition {
-        textField.savedCursorPosition = nil
-        textField.selectedTextRange = savedPosition
-    }
+    //doSomething()
     return true
-}*/
-  
-  
-  /*var shouldPlaceCursorAtStart = false
-  var shouldPlaceCursorAtEnd = false
-  
-  func textFieldDidChangeSelection(_ textField: UITextField) {
-    if textField == urlField && shouldPlaceCursorAtStart {
-      shouldPlaceCursorAtStart = false
-      let startPosition = textField.beginningOfDocument
-      textField.selectedTextRange = textField.textRange(from: startPosition, to: startPosition)
-    }
-    if textField == urlField && shouldPlaceCursorAtEnd {
-      shouldPlaceCursorAtEnd = false
-      DispatchQueue.main.async {
-      let endPosition = textField.endOfDocument
-      textField.selectedTextRange = textField.textRange(from: endPosition, to: endPosition)
-      }
-    }
-  }
-  
-  @objc func leftViewTapped() {
-    if urlField.isFirstResponder {
-      let startPosition = urlField.beginningOfDocument
-      urlField.selectedTextRange = urlField.textRange(from: startPosition, to: startPosition)
-    } else {
-      shouldPlaceCursorAtStart = true
-      urlField.becomeFirstResponder()
-    }
-  }
-  
-  @objc func rightViewTapped() {
-    if urlField.isFirstResponder {
-      let endPosition = urlField.endOfDocument
-      urlField.selectedTextRange = urlField.textRange(from: endPosition, to: endPosition)
-    } else {
-      shouldPlaceCursorAtEnd = true
-      urlField.becomeFirstResponder()
-    }
   }*/
-/*private var lastCaretRect: CGRect?
-@objc func rightViewTapped() {
-    // 1. Erster Klick: Fokus setzen & Cursor ans Ende
-    if !urlField.isFirstResponder {
-        urlField.becomeFirstResponder()
-        urlField.selectedTextRange = urlField.textRange(from: urlField.endOfDocument, to: urlField.endOfDocument)
-        lastCaretRect = nil
-        return
-    }
-    
-    // 2. Zweiter Klick: Menü toggeln
-    guard let selectedRange = urlField.selectedTextRange else { return }
-    let currentCaretRect = urlField.caretRect(for: selectedRange.end)
-    
-    if lastCaretRect == currentCaretRect {
-        let menu = UIMenuController.shared
-        if menu.isMenuVisible {
-            menu.hideMenu()
-        } else {
-            // Zeigt das Standard-Menü exakt am Cursor an
-            menu.showMenu(from: urlField, rect: currentCaretRect)
-        }
-    } else {
-        urlField.selectedTextRange = urlField.textRange(from: urlField.endOfDocument, to: urlField.endOfDocument)
-        lastCaretRect = urlField.caretRect(for: urlField.selectedTextRange!.end)
-    }
-}*/
-/*@objc private func fieldTapped(_ gesture: UITapGestureRecognizer) {
-    let touchPoint = gesture.location(in: urlField)
-    
-    // Wir warten eine Winzigkeit, bis iOS das Feld aktiviert und das Menü vorbereitet hat
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [weak urlField] in
-        guard let urlField = urlField, urlField.isFirstResponder else { return }
-        
-        // 1. Klick war im linken Padding -> Nur den Cursor an den absoluten Start zwingen
-        if touchPoint.x <= 15 {
-            let startPosition = urlField.beginningOfDocument
-            urlField.selectedTextRange = urlField.textRange(from: startPosition, to: startPosition)
-        } 
-        // 2. Klick war im rechten Padding -> Nur den Cursor an das absolute Ende zwingen
-        else if touchPoint.x >= (urlField.bounds.width - urlField.rightPadding) {
-            let endPosition = urlField.endOfDocument
-            urlField.selectedTextRange = urlField.textRange(from: endPosition, to: endPosition)
-        }
-    }
-}*/
+  /*let menu = UIMenuController.shared
+  if menu.isMenuVisible {
+    menu.hideMenu()
+  } else {
+    menu.showMenu(from: urlField, rect: currentCaretRect)
+  }*/
   
   @objc func buttonClicked() {
     urlField.endEditing(true)
@@ -1153,12 +832,7 @@ let videos = document.querySelectorAll("video");
   }
   
   @objc func kvButton2Clicked() {
-    //cursorPosition = urlField.selectedTextRange
     urlField.savedCursorPosition = urlField.selectedTextRange
-/*if let range = urlField.selectedTextRange {
-    urlField.savedCursorOffset = urlField.offset(from: urlField.beginningOfDocument, to: range.start)
-}*/
-    //urlField.endEditing(true)
     /*if kvButton2.backgroundColor == .appBgColor {
       kvButton2.backgroundColor = .gray
     } else {
@@ -1181,27 +855,22 @@ player.play()*/
     
     
     lb.text! += " \(UIApplication.shared.windows.count)"
-    //adjustLabel()
     
     //func findAVPlayerViewController(controller: UIViewController) -> AVPlayerViewController? {
     func findAVPlayerViewController(controller: UIViewController) {
   if controller is AVPlayerViewController {
     lb.text! += " a2"
-    //adjustLabel()
     //return controller as? AVPlayerViewController
   } else {
     //lb.text! += " a3"
-    //adjustLabel()
     for subcontroller in controller.childViewControllers {
       lb.text! += " a4 \(subcontroller)"
-      //adjustLabel()
       //if subcontroller is AVPlayerViewController {
       //return subcontroller as? AVPlayerViewController
       //}
       
       //if let result = findAVPlayerViewController(controller: subcontroller) {
         //lb.text! += " a5"
-        //adjustLabel()
         //return result
       //}
     }
@@ -1214,18 +883,15 @@ player.play()*/
     if let rootController = UIApplication.shared.windows[4].rootViewController {
     //lb.text! += " a1 \((UIApplication.shared.keyWindow?.rootViewController)!)"
     lb.text! += " a1 \((UIApplication.shared.windows[4].rootViewController)!)"
-    //adjustLabel()
     findAVPlayerViewController(controller: rootController)
     //if let avPlayerViewController = findAVPlayerViewController(controller: rootController) {
       //lb.text! += " aX \(avPlayerViewController.player!)"
-      //adjustLabel()
     //}
   }
   }
   
   //if UIApplication.shared.windows.count > 4 {
   //lb.text! += " a1 \((UIApplication.shared.windows[4].rootViewController)!)"
-  //adjustLabel()
   //}
   
   if UIApplication.shared.windows.count >= 3 {
@@ -1236,7 +902,6 @@ player.play()*/
   if avPVC.player != nil {
   lb.text! += " VCP:\(avPVC!.player!)"
   }
-  //adjustLabel()
   }
   }
   
@@ -1254,12 +919,12 @@ player.play()*/
     }
     lb.text! += " \(session.category)"
   }
+  //try session.setCategory(AVAudioSessionCategoryPlayAndRecord, with: [.mixWithOthers, .allowBluetooth, .defaultToSpeaker])
+  //try session.setActive(true, with: .notifyOthersOnDeactivation)
   //BackgroundAudioEnd*/
+  
   //setAudioSession(options: [.mixWithOthers])
   setAudioSession()
-  
-  //player = AVPlayer(url: URL(string: "https://player.streamhosting.ch/lounge128.mp3")!)
-  
   let isPlaying: Bool
   if player?.timeControlStatus == .playing {
     player?.pause()
@@ -1274,45 +939,17 @@ player.play()*/
     isPlaying = true
   }
   
-  /*avPVC.player = player
-  let isPlaying: Bool
-  if avPVC.player?.timeControlStatus == .playing {
-    avPVC.player?.pause()
-    isPlaying = false
-  } else {
-    avPVC.player?.play()
-    isPlaying = true
-  }*/
-  
-  /*//BackgroundAudioBegin
-  let session = AVAudioSession.sharedInstance()
-  do {
-    //try session.setActive(false, with: .notifyOthersOnDeactivation)
-    //try session.setCategory(AVAudioSessionCategoryPlayback)
-    try session.setCategory(AVAudioSessionCategoryPlayback, with: .mixWithOthers)
-    try session.setActive(true)
-    //try session.setCategory(AVAudioSessionCategoryPlayAndRecord, with: [.mixWithOthers, .allowBluetooth, .defaultToSpeaker])
-    //try session.setActive(true, with: .notifyOthersOnDeactivation)
-  } catch {
-    print(error.localizedDescription)
-  }
-  lb.text! += " \(session.category)"
-  //BackgroundAudioEnd*/
-  
-  //var navlist = "navlist:"
   var navlist = ""
   navUrlArray.forEach { url in
     //navlist = navlist + "\n\n" + url
     navlist = "\n\n" + url + navlist
   }
-  //navlist = "navlist(last20):" + navlist
     
     /*var viewlist = "list:"
     func findViewWithAVPlayerLayer(view: UIView) -> UIView? {
     //if view.layer is AVPlayerLayer {
     if view.layer.isKind(of:AVPlayerLayer.self) {
         lb.text! += " a1"
-        //adjustLabel()
         return view
     }
     
@@ -1330,7 +967,6 @@ player.play()*/
         }
         if let found = findViewWithAVPlayerLayer(view: v) {
             lb.text! += " a4"
-            //adjustLabel()
             return found
         }
     }
@@ -1339,18 +975,15 @@ player.play()*/
     
     if let viewWithAVPlayerLayer = findViewWithAVPlayerLayer(view: self.view) {
       lb.text! += " aX"
-      //adjustLabel()
     }
     showAlert(viewlist)*/
     
     
     let deviceToken = delegate.sesscat
     lb.text! += " \(deviceToken)"
-    //adjustLabel()
     
     /*let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
     userDefaults.set(appVersion, forKey: "versionInfo")*/
-    //let appVersion = "\(Bundle.main.object(forInfoDictionaryKey: \"CFBundleShortVersionString\")!) Build \(Bundle.main.object(forInfoDictionaryKey: \"CFBundleVersion\")!)"
     let shortVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? ""
     let buildVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? ""
     let appVersion = "\(shortVersion) Build \(buildVersion)"
@@ -1358,7 +991,6 @@ player.play()*/
     //let file = Bundle.main.path(forResource: "Info", ofType: "plist")!
     //let p = URL(fileURLWithPath: file)
     //let text = try? String(contentsOf: p)
-    
     var text = "error"
     if let path = Bundle.main.path(forResource: "Info", ofType: "plist") {
       do {
@@ -1398,7 +1030,6 @@ appversion: \(appVersion)
   
   @objc func kvButton2Pressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
-      //urlField.endEditing(true)
       //hapticImpactFB.impactOccurred()
       showAlert(title: "Important", buttonTitles: ["Acknowledge"], defaultButton: 0) { (response, _) in
         self.lb.text! += " RES:\(response!)"
@@ -1889,7 +1520,6 @@ appversion: \(appVersion)
     //showAlert("D:\(url)")
     //lb.text! += " D"
     lb.text! += " \(defaultUserAgent) \(server)"
-    //adjustLabel()
   }
   
   func textFieldShouldClear(_ textField: UITextField) -> Bool {
@@ -4239,11 +3869,11 @@ downloadTask.resume()
     if webView.hasOnlySecureContent {
       urlField.textColor = .successFgColor
     } else if webView.url!.scheme == "internal" {
-      urlField.textColor = .darkGray
+      urlField.textColor = .neutralFgColor
     } else if webView.url!.scheme == "file" {
-      urlField.textColor = .darkGray
+      urlField.textColor = .neutralFgColor
     } else if webView.url!.host == "localhost" {
-      urlField.textColor = .darkGray
+      urlField.textColor = .neutralFgColor
     } else {
       urlField.textColor = .errorFgColor
     }
