@@ -27,15 +27,17 @@ extension Date {
 
 extension String {
   var localized: String {
-    return NSLocalizedString(self, comment: "\(self)_comment")
-  }
-  func localized(_ args: [CVarArg]) -> String {
-    //return localized(args)
-    return String(format: localized, args)
+    //return NSLocalizedString(self, comment: "\(self)_comment")
+    return NSLocalizedString(self, comment: "")
   }
   func localized(_ args: CVarArg...) -> String {
-    return String(format: localized, args)
+    //return String(format: localized, args)
+    return String(format: localized, arguments: args)
   }
+  /*func localized(_ args: [CVarArg]) -> String {
+    //return localized(args)
+    return String(format: localized, args)
+  }*/
 }
 
 extension Array {
@@ -1824,10 +1826,10 @@ appversion: \(appVersion)
     
     if currentAlert.type == "auth" {
       alert.addTextField(configurationHandler: { (textField) in
-        textField.placeholder = "USER_ID".localized
+        textField.placeholder = "showAlert.auth.textField.userID".localized
       })
       alert.addTextField(configurationHandler: { (textField) in
-        textField.placeholder = "PASSWORD".localized
+        textField.placeholder = "showAlert.auth.textField.password".localized
         textField.isSecureTextEntry = true
       })
       //title: "BUTTON_OK".localized

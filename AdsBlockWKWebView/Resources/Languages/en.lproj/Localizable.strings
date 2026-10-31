@@ -1,0 +1,4 @@
+//en.lproj/Localizable.strings
+
+"showAlert.auth.textField.userID" = "User ID";
+"showAlert.auth.textField.password" = "Password";
