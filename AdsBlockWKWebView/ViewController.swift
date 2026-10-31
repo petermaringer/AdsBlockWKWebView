@@ -317,7 +317,7 @@ class CustomUITextField: UITextField {
   
   var savedCursorPosition: UITextRange?
   
-  @available(iOS 16.0, *)
+  /*@available(iOS 16.0, *)
   override func editMenu(for textRange: UITextRange, suggestedActions: [UIMenuElement]) -> UIMenu? {
     var modifiedElements = suggestedActions.map { element -> UIMenuElement in
       if let uiAction = element as? UIAction, uiAction.title == "Automatisch ausfüllen" {
@@ -325,22 +325,8 @@ class CustomUITextField: UITextField {
       }
       //return action
     //{}
-    /*if let clearIndex = modifiedActions.firstIndex(where: { ($0 as? UIAction)?.title == "Clear" }) {
-      let clearAction = modifiedActions.remove(at: clearIndex)
-      if let uiAction = clearAction as? UIAction {
-        uiAction.subtitle = "Text komplett löschen"
-        uiAction.image = UIImage(systemName: "xmark.circle")
-        if let pasteIndex = modifiedActions.firstIndex(where: { ($0 as? UIAction)?.identifier == .paste }) {
-          modifiedActions.insert(uiAction, at: pasteIndex + 1)
-        } else {
-          let safeIndex = min(clearIndex, modifiedActions.count)
-          modifiedActions.insert(uiAction, at: safeIndex)
-        }
-      }
-    }*/
     guard let menu = element as? UIMenu else { return element }
     var children = menu.children
-    
     if UIPasteboard.general.numberOfItems > 0 {
       let clearAction = UIAction(
         title: "Clear",
@@ -354,11 +340,7 @@ class CustomUITextField: UITextField {
         let selector = Selector(("onMenu1WithSender:"))
         UIApplication.shared.sendAction(selector, to: nil, from: self, for: nil)
       }
-      /*if let pasteIndex = modifiedActions.firstIndex(where: { ($0 as? UIAction)?.identifier == .paste }) {
-        modifiedActions.insert(clearAction, at: pasteIndex + 1)
-      } else {
-        modifiedActions.append(clearAction)
-      }*/
+      //if let pasteIndex = modifiedActions.firstIndex(where: { ($0 as? UIAction)?.identifier == .paste }) {}
       if let pasteIndex = children.firstIndex(where: { child in
         guard let uiAction = child as? UIAction else { return false }
         return uiAction.identifier.rawValue.lowercased().contains("paste")
@@ -369,7 +351,6 @@ class CustomUITextField: UITextField {
       }
       
     }
-    
     //return menu.settingChildren(children)
     //return menu.byReplacingChildren(children)
     return UIMenu(
@@ -380,9 +361,53 @@ class CustomUITextField: UITextField {
     children: children
 )
     }
-    
+    return UIMenu(children: modifiedElements)
+  }*/
+  @available(iOS 16.0, *)
+  override func editMenu(for textRange: UITextRange, suggestedActions: [UIMenuElement]) -> UIMenu? {
+    let clearAction = UIAction(
+      title: "Clear",
+      subtitle: "Text komplett löschen",
+      image: UIImage(systemName: "xmark.circle")
+    ) { [weak self] _ in
+      guard let self = self else { return }
+      let selector = Selector(("onMenu1WithSender:"))
+      UIApplication.shared.sendAction(selector, to: nil, from: self, for: nil)
+    }
+    var inserted = false
+    var modifiedElements = suggestedActions.map { element -> UIMenuElement in
+      if let uiAction = element as? UIAction {
+        if uiAction.title == "Automatisch ausfüllen" {
+          uiAction.title = "AutoFill"
+        }
+        return uiAction
+      }
+      guard let menu = element as? UIMenu else { return element }
+      var children = menu.children.map { child -> UIMenuElement in
+        if let action = child as? UIAction, action.title == "Automatisch ausfüllen" {
+          action.title = "AutoFill"
+        }
+        return child
+      }
+      if !inserted, UIPasteboard.general.numberOfItems > 0,
+         let pasteIndex = children.firstIndex(where: { ($0 as? UIAction)?.identifier.rawValue.lowercased().contains("paste") == true }) {
+        children.insert(clearAction, at: pasteIndex + 1)
+        inserted = true
+      }
+      return UIMenu(
+        title: menu.title,
+        image: menu.image,
+        identifier: menu.identifier,
+        options: menu.options,
+        children: children
+      )
+    }
+    if !inserted, UIPasteboard.general.numberOfItems > 0 {
+      modifiedElements.append(clearAction)
+    }
     return UIMenu(children: modifiedElements)
   }
+  
 }
 
 
