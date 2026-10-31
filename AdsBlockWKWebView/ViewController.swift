@@ -319,25 +319,15 @@ class CustomUITextField: UITextField {
   
   @available(iOS 16.0, *)
   override func editMenu(for textRange: UITextRange, suggestedActions: [UIMenuElement]) -> UIMenu? {
-    var inserted = false
-    let clearAction = UIAction(
-      title: "Clear",
-      subtitle: "Clear Clipboard",
-      image: UIImage(systemName: "xmark.circle"),
-      //identifier: UIAction.Identifier("com.app.custom.clear")
-    ) { [weak self] _ in
+    let clearAction = UIAction(title: "Clear", subtitle: "Clear Clipboard", image: UIImage(systemName: "xmark.circle")) { [weak self] _ in
       guard let self = self else { return }
       let selector = #selector(ViewController.onMenu1(sender:))
       UIApplication.shared.sendAction(selector, to: nil, from: self, for: nil)
     }
     var modifiedActions = suggestedActions
     if UIPasteboard.general.numberOfItems > 0 {
-      //if modifiedActions.count >= 1 {
-        modifiedActions.insert(clearAction, at: 1)
-      //} else {
-        //modifiedActions.append(clearAction)
-      //}
-      //modifiedActions.append(clearAction)
+      //modifiedActions.insert(clearAction, at: 1)
+      modifiedActions.append(clearAction)
     }
     return UIMenu(children: modifiedActions)
   }
