@@ -347,7 +347,9 @@ class CustomUITextField: UITextField {
         //self?.text = ""
         //self?.onMenu1(sender: nil)
         guard let self = self else { return }
-        UIApplication.shared.sendAction(#selector(onMenu1(sender:)), to: nil, from: self, for: nil)
+        //UIApplication.shared.sendAction(#selector(onMenu1(sender:)), to: nil, from: self, for: nil)
+        let selector = Selector(("onMenu1WithSender:"))
+        UIApplication.shared.sendAction(selector, to: nil, from: self, for: nil)
       }
       if let pasteIndex = modifiedActions.firstIndex(where: { ($0 as? UIAction)?.identifier == .paste }) {
         modifiedActions.insert(clearAction, at: pasteIndex + 1)
