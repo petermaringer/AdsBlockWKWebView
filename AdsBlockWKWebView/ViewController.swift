@@ -329,7 +329,9 @@ class CustomUITextField: UITextField {
       //let selector = Selector(("onMenu1WithSender:"))
       //UIApplication.shared.sendAction(selector, to: nil, from: self, for: nil)
       //self.onMenu1(sender: self)
-      self?.onMenu1(sender: self as Any)
+      //self?.onMenu1(sender: self as Any)
+      let selector = #selector(ViewController.onMenu1(sender:))
+      UIApplication.shared.sendAction(selector, to: nil, from: self, for: nil)
     }
     var finalActions: [UIMenuElement] = []
     for element in suggestedActions {
