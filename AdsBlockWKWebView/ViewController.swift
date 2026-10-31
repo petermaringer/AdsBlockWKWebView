@@ -332,7 +332,12 @@ class CustomUITextField: UITextField {
     var finalActions: [UIMenuElement] = []
     for element in suggestedActions {
       finalActions.append(element)
-      if element.identifier.rawValue == "com.apple.menu.paste" {
+      let identifierRawValue: String? = {
+        if let action = element as? UIAction { return action.identifier.rawValue }
+        if let menu = element as? UIMenu { return menu.identifier.rawValue }
+        return nil
+      }()
+      if identifierRawValue == "com.apple.menu.paste" {
         finalActions.append(clearAction)
       }
     }
