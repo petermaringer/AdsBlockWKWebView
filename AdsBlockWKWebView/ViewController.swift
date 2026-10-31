@@ -352,9 +352,9 @@ class CustomUITextField: UITextField {
         }
       }
     }
-    //if !finalActions.contains(where: { $0 === deinEigenerButton }) {
-      //finalActions.append(deinEigenerButton)
-    //}
+    if !finalActions.contains(where: { $0 === clearAction }) {
+      finalActions.append(clearAction)
+    }
     return UIMenu(children: finalActions)
   }
   /*@available(iOS 16.0, *)
