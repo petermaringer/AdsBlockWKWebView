@@ -322,18 +322,30 @@ class CustomUITextField: UITextField {
     var inserted = false
     let clearAction = UIAction(
       title: "Clear",
-      subtitle: "Text komplett löschen",
+      subtitle: "Clear Clipboard",
       image: UIImage(systemName: "xmark.circle"),
-      identifier: UIAction.Identifier("com.app.custom.clear")
+      //identifier: UIAction.Identifier("com.app.custom.clear")
     ) { [weak self] _ in
       guard let self = self else { return }
       let selector = #selector(ViewController.onMenu1(sender:))
       UIApplication.shared.sendAction(selector, to: nil, from: self, for: nil)
     }
-    var finalActions: [UIMenuElement] = []
-    //for element in suggestedActions {}
-    for (index, element) in suggestedActions.enumerated() {
-      finalActions.append(element)
+    var modifiedActions = suggestedActions
+    if UIPasteboard.general.numberOfItems > 0 {
+      //if modifiedActions.count >= 1 {
+        modifiedActions.insert(clearAction, at: 1)
+      //} else {
+        //modifiedActions.append(clearAction)
+      //}
+      //modifiedActions.append(clearAction)
+    }
+    return UIMenu(children: modifiedActions)
+  }
+  
+    //var finalActions: [UIMenuElement] = []
+    //for element in suggestedActions {
+    //for (index, element) in suggestedActions.enumerated() {}
+      //finalActions.append(element)
       /*let identifierRawValue: String? = {
         if let action = element as? UIAction { return action.identifier.rawValue }
         if let menu = element as? UIMenu { return menu.identifier.rawValue }
@@ -345,16 +357,17 @@ class CustomUITextField: UITextField {
          titel.contains("paste") || 
          titel.contains("einfügen") {
         if UIPasteboard.general.numberOfItems > 0 {}*/
-        if index == 0 && UIPasteboard.general.numberOfItems > 0 {
-          finalActions.append(clearAction)
-        }
+        //if index == 0 && UIPasteboard.general.numberOfItems > 0 {}
+        //if element == suggestedActions.first && UIPasteboard.general.numberOfItems > 0 {
+          //finalActions.append(clearAction)
+        //}
       //}
-    }
+    //}
     //if !finalActions.contains(where: { $0 === clearAction }) {
       //finalActions.append(clearAction)
     //}
-    return UIMenu(children: finalActions)
-  }
+    //return UIMenu(children: finalActions)
+  //}
   /*@available(iOS 16.0, *)
   override func editMenu(for textRange: UITextRange, suggestedActions: [UIMenuElement]) -> UIMenu? {
     var inserted = false
