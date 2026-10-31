@@ -325,7 +325,7 @@ class CustomUITextField: UITextField {
       }
       return action
     }
-    if let clearIndex = modifiedActions.firstIndex(where: { ($0 as? UIAction)?.title == "Clear" }) {
+    /*if let clearIndex = modifiedActions.firstIndex(where: { ($0 as? UIAction)?.title == "Clear" }) {
       let clearAction = modifiedActions.remove(at: clearIndex)
       if let uiAction = clearAction as? UIAction {
         uiAction.subtitle = "Text komplett löschen"
@@ -336,6 +336,27 @@ class CustomUITextField: UITextField {
           let safeIndex = min(clearIndex, modifiedActions.count)
           modifiedActions.insert(uiAction, at: safeIndex)
         }
+      }
+    }*/
+    let shouldShowClearButton = {
+      if UIPasteboard.general.numberOfItems > 0 {
+        return true
+      }
+      return false
+    }
+    if shouldShowClearButton {
+      let clearAction = UIAction(
+        title: "Clear",
+        subtitle: "Text komplett löschen",
+        image: UIImage(systemName: "xmark.circle")
+      ) { [weak self] _ in
+        //self?.text = ""
+        self?.onMenu1(sender: nil)
+      }
+      if let pasteIndex = modifiedActions.firstIndex(where: { ($0 as? UIAction)?.identifier == .paste }) {
+        modifiedActions.insert(clearAction, at: pasteIndex + 1)
+      } else {
+        modifiedActions.append(clearAction)
       }
     }
     return UIMenu(children: modifiedActions)
@@ -2611,8 +2632,9 @@ urlField.addAction(updateRightViewLayout, for: .editingDidEnd)*/
     //urlField.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 5.0).isActive = true
     //urlField.bottomAnchor.constraint(equalTo: urlField.topAnchor, constant: 30.0).isActive = true
         
-        let menuController: UIMenuController = UIMenuController.shared
-        menuController.isMenuVisible = true
+        if #unavailable(iOS 16.0) {
+          let menuController: UIMenuController = UIMenuController.shared
+          menuController.isMenuVisible = true
         menuController.arrowDirection = UIMenuControllerArrowDirection.down
         menuController.setTargetRect(CGRect.zero, in: self.view)
         let menuItem_1: UIMenuItem = UIMenuItem(title: "Clear", action: #selector(onMenu1(sender:)))
@@ -2621,7 +2643,7 @@ urlField.addAction(updateRightViewLayout, for: .editingDidEnd)*/
         //let myMenuItems: [UIMenuItem] = [menuItem_1, menuItem_2, menuItem_3]
         let myMenuItems: [UIMenuItem] = [menuItem_1]
         menuController.menuItems = myMenuItems
-        
+        }
         
         button = UIButton(frame: CGRect.zero)
         //button.frame = CGRectMake(15, -50, 300, 500)
