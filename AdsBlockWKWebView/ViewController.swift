@@ -320,6 +320,81 @@ class CustomUITextField: UITextField {
   @available(iOS 16.0, *)
   override func editMenu(for textRange: UITextRange, suggestedActions: [UIMenuElement]) -> UIMenu? {
     var inserted = false
+    let clearAction = UIAction(
+      title: "Clear",
+      subtitle: "Text komplett löschen",
+      image: UIImage(systemName: "xmark.circle")
+    ) { [weak self] _ in
+      guard let self = self else { return }
+      let selector = Selector(("onMenu1WithSender:"))
+      UIApplication.shared.sendAction(selector, to: nil, from: self, for: nil)
+    }
+
+    var modifiedElements: [UIMenuElement] = []
+
+    for element in suggestedActions {
+      // 1. Prüfen, ob das Element direkt eine Top-Level-Action ist (z.B. Paste oder AutoFill)
+      if let uiAction = element as? UIAction {
+        if uiAction.title == "Automatisch ausfüllen" {
+          uiAction.title = "AutoFill"
+        }
+        modifiedElements.append(uiAction)
+        
+        // Wenn dieser direkte Button Paste ist, fügen wir Clear direkt dahinter ein
+        if !inserted, UIPasteboard.general.numberOfItems > 0, uiAction.identifier == .paste {
+          modifiedElements.append(clearAction)
+          inserted = true
+        }
+        continue
+      }
+      
+      // 2. Wenn es ein Menü-Container ist, durchsuchen wir dessen children
+      guard let menu = element as? UIMenu else {
+        modifiedElements.append(element)
+        continue
+      }
+      
+      var children = menu.children
+      
+      // Auch in den Children normal mit einer Schleife nach "Automatisch ausfüllen" suchen und anpassen
+      for child in children {
+        if let childAction = child as? UIAction, childAction.title == "Automatisch ausfüllen" {
+          childAction.title = "AutoFill"
+        }
+      }
+      
+      if !inserted, UIPasteboard.general.numberOfItems > 0 {
+        if let pasteIndex = children.firstIndex(where: { ($0 as? UIAction)?.identifier == .paste }) {
+          children.insert(clearAction, at: pasteIndex + 1)
+          inserted = true
+        }
+      }
+      
+      modifiedElements.append(UIMenu(
+        title: menu.title,
+        image: menu.image,
+        identifier: menu.identifier,
+        options: menu.options,
+        children: children
+      ))
+    }
+    
+    // 3. Fallback, falls Paste absolut nirgends gefunden wurde
+    if !inserted, UIPasteboard.general.numberOfItems > 0 {
+      if var firstMenu = modifiedElements.first as? UIMenu {
+        var children = firstMenu.children
+        children.append(clearAction)
+        modifiedElements[0] = UIMenu(title: firstMenu.title, image: firstMenu.image, identifier: firstMenu.identifier, options: firstMenu.options, children: children)
+      } else {
+        modifiedElements.append(clearAction)
+      }
+    }
+
+    return UIMenu(children: modifiedElements)
+  }
+  /*@available(iOS 16.0, *)
+  override func editMenu(for textRange: UITextRange, suggestedActions: [UIMenuElement]) -> UIMenu? {
+    var inserted = false
     var modifiedElements = suggestedActions.map { element -> UIMenuElement in
       if let uiAction = element as? UIAction, uiAction.title == "Automatisch ausfüllen" {
         uiAction.title = "AutoFill"
@@ -342,14 +417,14 @@ class CustomUITextField: UITextField {
         UIApplication.shared.sendAction(selector, to: nil, from: self, for: nil)
       }
       //if let pasteIndex = modifiedActions.firstIndex(where: { ($0 as? UIAction)?.identifier == .paste }) {}
-      /*if let pasteIndex = children.firstIndex(where: { child in
-        guard let uiAction = child as? UIAction else { return false }
-        return uiAction.identifier.rawValue.lowercased().contains("paste")
-      }) {
-        children.insert(clearAction, at: pasteIndex + 1)
-      } else {
-        children.append(clearAction)
-      }*/
+      //if let pasteIndex = children.firstIndex(where: { child in
+        //guard let uiAction = child as? UIAction else { return false }
+        //return uiAction.identifier.rawValue.lowercased().contains("paste")
+      //}) {
+        //children.insert(clearAction, at: pasteIndex + 1)
+      //} else {
+        //children.append(clearAction)
+      //}
       if !inserted {
       if let pasteIndex = children.firstIndex(where: { child in
         guard let uiAction = child as? UIAction else { return false }
@@ -375,7 +450,7 @@ class CustomUITextField: UITextField {
 )
     }
     return UIMenu(children: modifiedElements)
-  }
+  }*/
   /*@available(iOS 16.0, *)
   override func editMenu(for textRange: UITextRange, suggestedActions: [UIMenuElement]) -> UIMenu? {
     let clearAction = UIAction(
