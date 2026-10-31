@@ -323,7 +323,8 @@ class CustomUITextField: UITextField {
       guard let self = self else { return }
       let selector = #selector(ViewController.onMenu1(sender:))
       UIApplication.shared.sendAction(selector, to: nil, from: self, for: nil)
-      self?.setNeedsMenuUpdate()
+      let updateSelector = #selector(UIResponder.setNeedsMenuUpdate)
+      UIApplication.shared.sendAction(updateSelector, to: nil, from: nil, for: nil)
     }
     var modifiedActions = suggestedActions
     if UIPasteboard.general.numberOfItems > 0 {
