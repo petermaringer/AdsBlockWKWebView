@@ -4317,11 +4317,16 @@ let logoContainer = document.querySelector("[aria-label='Google']");
   
   func webView(_ webView: WKWebView, contextMenuConfigurationForElement elementInfo: WKContextMenuElementInfo, completionHandler: @escaping (UIContextMenuConfiguration?) -> Void) {
     let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions in
-      var actions = suggestedActions
-      let customAction = UIAction(title: "Open", image: UIImage(systemName: "star")) { _ in
+      //var actions = suggestedActions
+      var actions = suggestedActions.filter { action in
+        guard let uiAction = action as? UIAction else { return true }
+        let title = uiAction.title.lowercased()
+        return !title.contains("reading list") && !title.contains("leseliste")
+      }
+      let customAction = UIAction(title: "Open", image: UIImage(systemName: "globe")) { _ in
         if let url = elementInfo.linkURL {
-          //print("Ausgewählte URL: \(url)")
           self.urlField.text = url.absoluteString
+          self.webView.load(url)
         }
       }
       actions.insert(customAction, at: 0)
