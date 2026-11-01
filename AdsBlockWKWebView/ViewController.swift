@@ -323,12 +323,20 @@ class CustomUITextField: UITextField {
       UIApplication.shared.sendAction(selector, to: nil, from: self, for: nil)
       //let updateSelector = NSSelectorFromString("setNeedsMenuUpdate")
       //UIApplication.shared.sendAction(updateSelector, to: nil, from: nil, for: nil)
-      if let interaction = self.interactions.compactMap({ $0 as? UIEditMenuInteraction }).first {
-        let config = UIEditMenuConfiguration(identifier: nil, sourcePoint: .zero)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-          interaction.presentEditMenu(with: config)
-        }
+           if let interaction = self.interactions.compactMap({ $0 as? UIEditMenuInteraction }).first {
+          // Wir holen uns die genaue Position des Cursors/der Auswahl im Textfeld
+          let selectedRange = self.selectedTextRange ?? self.beginningOfDocument
+          let caretRect = self.caretRect(for: selectedRange.start)
+          
+          // Wir nehmen die Mitte des Cursors als Startpunkt für das Menü
+          let targetPoint = CGPoint(x: caretRect.midX, y: caretRect.minY)
+          let config = UIEditMenuConfiguration(identifier: nil, sourcePoint: targetPoint)
+          
+          DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+              interaction.presentEditMenu(with: config)
+          }
       }
+
     }
     var modifiedActions = suggestedActions
     if UIPasteboard.general.numberOfItems > 0 {
@@ -857,8 +865,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var webView: WKWebView!
   //var httpServer: HttpServer!
   
-  //var topNavBgView: UIView!
-  var topNavBgView: UIVisualEffectView!
+  var topNavBgView: UIView!
+  //var topNavBgView: UIVisualEffectView!
   var progressView: UIProgressView!
   
   var urlField: CustomUITextField!
@@ -2540,13 +2548,13 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         
         lb.addObserver(self, forKeyPath: "text", options: [.old, .new], context: nil)
         
-        ////topNavBgView = UIView(frame: CGRect.zero)
+        topNavBgView = UIView(frame: CGRect.zero)
         //topNavBgView.backgroundColor = UIColor.viewBgColor.withAlphaComponent(0.85)
         //topNavBgView.backgroundColor = .viewBgColor
-        ////topNavBgView.backgroundColor = .appBgColor
-        topNavBgView = UIVisualEffectView(frame: CGRect.zero)
-        topNavBgView.effect = UIBlurEffect(style: UIBlurEffect.Style.regular)
-        topNavBgView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        topNavBgView.backgroundColor = .appBgColor
+        //topNavBgView = UIVisualEffectView(frame: CGRect.zero)
+        //topNavBgView.effect = UIBlurEffect(style: UIBlurEffect.Style.regular)
+        //topNavBgView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(topNavBgView)
         
         progressView = UIProgressView(frame: CGRect.zero)
