@@ -613,7 +613,7 @@ final class HttpServer: NSObject {
     //try! server.stop()
     let name = request.params["name"] ?? "stranger"
     //return HTTPResponse(content: "Hi \(name.capitalized) ö")
-    return HTTPResponse(content: .localized(name.capitalized, "ö"))
+    return HTTPResponse(content: "HttpServer.handleHi.name".localized(name.capitalized, "ö"))
   }
 }
 extension HttpServer: ServerDelegate {
