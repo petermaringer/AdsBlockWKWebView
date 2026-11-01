@@ -936,7 +936,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   func textFieldDidBeginEditing(_ textField: UITextField) {
     switch textField {
       case urlField:
-        textField.frame.size.width -= 85
+        //textField.frame.size.width -= 85
+        textField.frame.size.width -= 45
         view.addSubview(button)
         //textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
         //textField.selectAll(nil)
@@ -1760,7 +1761,8 @@ version: \(appVersion)
         }
         textField.selectedTextRange = nil
         button.removeFromSuperview()
-        textField.frame.size.width += 85
+        //textField.frame.size.width += 85
+        textField.frame.size.width += 45
         //progressView.frame.size.width += 85
         
         if textField.text == webView.url!.absoluteString {
@@ -2205,16 +2207,16 @@ version: \(appVersion)
       if insetRM == 0 { insetRM = defaultM }
       let elementH: CGFloat = 30
       let elementW: CGFloat = 80
+      let elementW2: CGFloat = 40
       
       urlField.frame = CGRect(x: insetLM, y: insetTM, width: view.frame.width - insetLM - insetRM, height: elementH)
       if button.isDescendant(of: view) {
-        urlField.frame.size.width = view.frame.width - insetLM - insetRM - elementW - defaultM
+        urlField.frame.size.width = view.frame.width - insetLM - insetRM - elementW2 - defaultM
       }
       
-      clearButton.frame = CGRect(x: view.frame.width - insetLM - insetRM - elementW - defaultM - 19, y: 0, width: 19, height: elementH)
+      clearButton.frame = CGRect(x: view.frame.width - insetLM - insetRM - elementW2 - defaultM - 19, y: 0, width: 19, height: elementH)
       
-      //button.frame = CGRect(x: view.frame.width - insetRM - elementW, y: insetTM, width: elementW, height: elementH)
-      button.frame = CGRect(x: view.frame.width - insetRM - 40, y: insetTM, width: 40, height: elementH)
+      button.frame = CGRect(x: view.frame.width - insetRM - elementW2, y: insetTM, width: elementW2, height: elementH)
       
       kvButton.frame = CGRect(x: insetLM, y: defaultM, width: elementW, height: elementH)
       
