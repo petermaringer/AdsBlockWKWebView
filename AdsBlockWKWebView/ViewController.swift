@@ -4326,7 +4326,7 @@ let logoContainer = document.querySelector("[aria-label='Google']");
       let customAction = UIAction(title: "Open", image: UIImage(systemName: "globe")) { _ in
         if let url = elementInfo.linkURL {
           self.urlField.text = url.absoluteString
-          self.webView.load(url)
+          self.webView.load(URLRequest(url: url, timeoutInterval: 10.0))
         }
       }
       actions.insert(customAction, at: 0)
