@@ -324,23 +324,11 @@ class CustomUITextField: UITextField {
       //let updateSelector = NSSelectorFromString("setNeedsMenuUpdate")
       //UIApplication.shared.sendAction(updateSelector, to: nil, from: nil, for: nil)
       
-          if let interaction = self.interactions.compactMap({ $0 as? UIEditMenuInteraction }).first {
-    // Sichere Bestimmung der Position für das caretRect
-    let targetPosition: UITextPosition
-    if let selectedRange = self.selectedTextRange {
-        targetPosition = selectedRange.start
-    } else {
-        targetPosition = self.beginningOfDocument
+         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        if let selectedRange = self.selectedTextRange {
+            self.selectedTextRange = selectedRange
+        }
     }
-    
-    let caretRect = self.caretRect(for: targetPosition)
-    let targetPoint = CGPoint(x: caretRect.midX, y: caretRect.minY)
-    let config = UIEditMenuConfiguration(identifier: nil, sourcePoint: targetPoint)
-    
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-        interaction.presentEditMenu(with: config)
-    }
-}
 
 
     }
