@@ -332,10 +332,10 @@ class CustomUITextField: UITextField {
     
     var modifiedActions = suggestedActions.map { element -> UIMenuElement in
             // Prüfe, ob es sich um eine UIAction handelt (z.B. die "Kopieren"-Aktion)
-            if let action = element as? UIAction {
+           
                 
-              if action.identifier == UIAction.Identifier(UICommand.Identifier.copy.rawValue) {
-                
+             if let action = element as? UIAction, action.accessibilityIdentifier == "copy:" || String(describing: action.sender).contains("copy") {
+               
                 // 2. Erstelle die Aktion mit neuem Namen, aber behalte das originale System-Verhalten bei
                 return UIAction(
                     title: "Text sichern", 
@@ -346,7 +346,7 @@ class CustomUITextField: UITextField {
                     UIApplication.shared.sendAction(#selector(self.copy(_:)), to: nil, from: nil, for: nil)
                 }
             }
-            }
+            
             return element
         }
     
