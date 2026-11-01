@@ -27,13 +27,8 @@ extension Date {
 
 extension String {
   var localized: String {
-    //return NSLocalizedString(self, comment: "\(self)_comment")
     return NSLocalizedString(self, comment: "")
   }
-  /*func localized(_ args: CVarArg...) -> String {
-    //return String(format: localized, args)
-    return String(format: localized, arguments: args)
-  }*/
   func localized(_ args: Any...) -> String {
     var text = self.localized
     for (index, arg) in args.enumerated() {
@@ -42,10 +37,6 @@ extension String {
     }
     return text
   }
-  /*func localized(_ args: [CVarArg]) -> String {
-    //return localized(args)
-    return String(format: localized, args)
-  }*/
 }
 
 extension Array {
