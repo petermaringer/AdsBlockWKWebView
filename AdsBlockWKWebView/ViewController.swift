@@ -321,8 +321,14 @@ class CustomUITextField: UITextField {
       guard let self = self else { return }
       let selector = #selector(ViewController.onMenu1(sender:))
       UIApplication.shared.sendAction(selector, to: nil, from: self, for: nil)
-      let updateSelector = NSSelectorFromString("setNeedsMenuUpdate")
-      UIApplication.shared.sendAction(updateSelector, to: nil, from: nil, for: nil)
+      //let updateSelector = NSSelectorFromString("setNeedsMenuUpdate")
+      //UIApplication.shared.sendAction(updateSelector, to: nil, from: nil, for: nil)
+      if let interaction = self.interactions.compactMap({ $0 as? UIEditMenuInteraction }).first {
+        let config = UIEditMenuConfiguration(identifier: nil, sourcePoint: .zero)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+          interaction.presentEditMenu(with: config)
+        }
+      }
     }
     var modifiedActions = suggestedActions
     if UIPasteboard.general.numberOfItems > 0 {
@@ -1259,7 +1265,7 @@ appversion: \(appVersion)
   
   @objc func kvButton2Pressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
-      hapticImpactFB.impactOccurred()
+      //hapticImpactFB.impactOccurred()
       showAlert(title: "Important", buttonTitles: ["Acknowledge"], defaultButton: 0) { (response, _) in
         self.lb.text! += " RES:\(response!)"
       }
@@ -2540,7 +2546,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         ////topNavBgView.backgroundColor = .appBgColor
         topNavBgView = UIVisualEffectView(frame: CGRect.zero)
         topNavBgView.effect = UIBlurEffect(style: UIBlurEffect.Style.regular)
-        //topNavBgView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        topNavBgView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(topNavBgView)
         
         progressView = UIProgressView(frame: CGRect.zero)
