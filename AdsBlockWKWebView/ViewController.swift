@@ -4321,7 +4321,7 @@ let logoContainer = document.querySelector("[aria-label='Google']");
       let customAction = UIAction(title: "Open", image: UIImage(systemName: "star")) { _ in
         if let url = elementInfo.linkURL {
           //print("Ausgewählte URL: \(url)")
-          urlField.text = url.absoluteString
+          self.urlField.text = url.absoluteString
         }
       }
       actions.insert(customAction, at: 0)
