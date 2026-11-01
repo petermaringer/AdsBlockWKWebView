@@ -148,7 +148,7 @@ let userDefGroup = UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebVi
 var alertCounter: Int = 0
 let hapticFB = UINotificationFeedbackGenerator()
 let hapticImpactFB = UIImpactFeedbackGenerator(style: .medium)
-let defaultCornerRadius = 10 //5
+let defaultCornerRadius: CGFloat = 10 //5
 
 var restoreUrlsJson: String!
 
