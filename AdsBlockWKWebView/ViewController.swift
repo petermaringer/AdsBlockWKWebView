@@ -334,13 +334,18 @@ class CustomUITextField: UITextField {
             // Prüfe, ob es sich um eine UIAction handelt (z.B. die "Kopieren"-Aktion)
             if let action = element as? UIAction {
                 
-                // Ändere den Namen für die Standard-"Kopieren"-Aktion (bzw. den entsprechenden Identifier)
-                if action.identifier == .init("com.apple.menu.copy") || action.title == "Kopieren" {
-                    return UIAction(title: "Text sichern", image: action.image, identifier: action.identifier) { _ in
-                        // Rufe die originale Logik auf
-                        self.copy(nil)
-                    }
+               if action.identifier == .copy {
+                
+                // 2. Erstelle die Aktion mit neuem Namen, aber behalte das originale System-Verhalten bei
+                return UIAction(
+                    title: "Text sichern", 
+                    image: action.image, 
+                    identifier: action.identifier
+                ) { _ in
+                    // 3. Rufe die Kopieren-Aktion sauber über die Responder-Chain auf
+                    UIApplication.shared.sendAction(#selector(self.copy(_:)), to: nil, from: nil, for: nil)
                 }
+            }
             }
             return element
         }
