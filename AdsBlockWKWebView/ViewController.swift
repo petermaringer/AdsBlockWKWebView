@@ -148,6 +148,10 @@ let userDefGroup = UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebVi
 var alertCounter: Int = 0
 let hapticFB = UINotificationFeedbackGenerator()
 let hapticImpactFB = UIImpactFeedbackGenerator(style: .medium)
+let defaultCornerRadius = 10 //5
+
+var restoreUrlsJson: String!
+
 
 func setAudioSession(category: String = AVAudioSessionCategoryPlayback, options: AVAudioSessionCategoryOptions = [], mode: String = AVAudioSessionModeDefault, notifyOnDeactivation: Bool = true, deactivateOnly: Bool = false) {
   let session = AVAudioSession.sharedInstance()
@@ -188,8 +192,6 @@ func updateNowPlayingInfo() {
   }
   MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
 }
-
-var restoreUrlsJson: String!
 
 
 ////////// USERPREFS //////////
@@ -2506,7 +2508,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         lb.font = lb.font.withSize(12)
         lb.backgroundColor = .devBgColor
         
-        lb.layer.cornerRadius = 5
+        lb.layer.cornerRadius = defaultCornerRadius
         //lb.layer.masksToBounds = true
         lb.clipsToBounds = true
         
@@ -2740,7 +2742,7 @@ urlField.addAction(updateRightViewLayout, for: .editingDidEnd)*/
         urlField.addAction(updateUI, for: .editingDidEnd)
         
         
-        urlField.layer.cornerRadius = 5
+        urlField.layer.cornerRadius = defaultCornerRadius
         urlField.clipsToBounds = true
         urlField.autocapitalizationType = .none
         urlField.autocorrectionType = UITextAutocorrectionType.no
@@ -2753,7 +2755,7 @@ urlField.addAction(updateRightViewLayout, for: .editingDidEnd)*/
         
         kvButton = UIButton(frame: CGRect.zero)
         kvButton.backgroundColor = .appBgColor
-        kvButton.layer.cornerRadius = 5
+        kvButton.layer.cornerRadius = defaultCornerRadius
         kvButton.clipsToBounds = true
         kvButton.setTitle("Test", for: .normal)
         kvButton.setTitleColor(.buttonFgColor, for: .normal)
@@ -2765,7 +2767,7 @@ urlField.addAction(updateRightViewLayout, for: .editingDidEnd)*/
         
         kvButton2 = UIButton(frame: CGRect.zero)
         kvButton2.backgroundColor = .appBgColor
-        kvButton2.layer.cornerRadius = 5
+        kvButton2.layer.cornerRadius = defaultCornerRadius
         kvButton2.clipsToBounds = true
         kvButton2.setTitle("Test2", for: .normal)
         kvButton2.setTitleColor(.buttonFgColor, for: .normal)
@@ -2807,7 +2809,7 @@ urlField.addAction(updateRightViewLayout, for: .editingDidEnd)*/
         //button.frame = CGRect(x: 100, y: 400, width: 100, height: 50)
         button.backgroundColor = .appBgColor
         
-        button.layer.cornerRadius = 5
+        button.layer.cornerRadius = defaultCornerRadius
         button.clipsToBounds = true
         
         //button.setTitle("Cancel", for: .normal)
