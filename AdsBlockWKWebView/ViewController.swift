@@ -3171,7 +3171,7 @@ downloadTask.resume()
   
   @objc private func enterBackground() {
     UIApplication.shared.isIdleTimerDisabled = false
-    avPVC.player = nil
+    //avPVC.player = nil
     lb.text! += " eBg"
     
     if #available(iOS 11, *) {
@@ -3196,7 +3196,7 @@ downloadTask.resume()
   @objc private func enterForeground() {
     UIApplication.shared.isIdleTimerDisabled = true
     loadUserPrefs()
-    avPVC.player = player
+    //avPVC.player = player
     lb.text! += " eFg"
     
     //DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { /*AppCrashes self.showAlert(iwashere)*/ }
