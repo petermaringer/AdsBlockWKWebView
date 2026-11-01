@@ -146,7 +146,6 @@ fileprivate let ruleId2 = "MyRuleID 002"
 let userDefaults = UserDefaults.standard
 let userDefGroup = UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebView")!
 
-//var messages: [String] = []
 var alertCounter: Int = 0
 let hapticFB = UINotificationFeedbackGenerator()
 let hapticImpactFB = UIImpactFeedbackGenerator(style: .medium)
@@ -171,8 +170,6 @@ func setAudioSession(category: String = AVAudioSessionCategoryPlayback, options:
     print("Error: \(error)")
   }
 }
-//let player = AVPlayer(url: URL(string: "http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.m3u")!)
-//var player: AVPlayer?
 struct Stream { let name: String; let url: URL }
 let streams: [Stream] = [
   Stream(name: "Lounge-Radio", url: URL(string: "https://player.streamhosting.ch/lounge128.mp3")!),
@@ -206,6 +203,7 @@ var goBackOnEditPref: Int = 2
 var autoVideoDownloadPref: Bool = false
 //AlleSeitenHinzuStatt+
 //IdleTimerEinAus
+//topNavBgThemeColor
 
 func loadUserPrefs() {
   tableMaxLinesPref = userDefaults.fetch(key: "tableMaxLinesPref", or: tableMaxLinesPref)
@@ -853,11 +851,10 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var webView: WKWebView!
   //var httpServer: HttpServer!
   
-  var topNavBgView: UIView!
-  //var topNavBgView: UIVisualEffectView!
+  //var topNavBgView: UIView!
+  var topNavBgView: UIVisualEffectView!
   var progressView: UIProgressView!
   
-  //var urlField: UITextField!
   var urlField: CustomUITextField!
   var clearButton: UIButton!
   var button: UIButton!
@@ -916,30 +913,20 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     return allowedOrientations
   }
   
-  /*override func canPerformAction(_ action: Selector, withSender sender: Any!) -> Bool {
-    //if [#selector(onMenu1(sender:)), #selector(onMenu2(sender:)), #selector(onMenu3(sender:))].contains(action) {
-    if [#selector(onMenu1(sender:))].contains(action) && UIPasteboard.general.numberOfItems > 0 {
-      return true
-    } else {
-      return false
-    }
-  }
-  @objc internal func onMenu1(sender: UIMenuItem) {
-    //HttpServer.instance.server.stop()
-    UIPasteboard.general.items = []
-    showAlert(style: .actionSheet, title: nil, "Clipboard was cleared.", buttonStyles: [.cancel], disableHaptic: true, sourceView: urlField, sourceRect: CGRect(x: urlField.bounds.midX, y: urlField.bounds.maxY + 43, width: 0, height: 0), sourceArrow: false, autoDismissAfter: 0.25)
-  }*/
-  
   override func canPerformAction(_ action: Selector, withSender sender: Any!) -> Bool {
+    //if [#selector(onMenu1(sender:)), #selector(onMenu2(sender:)), #selector(onMenu3(sender:))].contains(action) {}
+    //if [#selector(onMenu1(sender:))].contains(action) && UIPasteboard.general.numberOfItems > 0 { return true } else { return false }
     if action == #selector(onMenu1(sender:)) {
       return UIPasteboard.general.numberOfItems > 0
     }
     return super.canPerformAction(action, withSender: sender)
   }
   
+  //@objc internal func onMenu1(sender: UIMenuItem) {}
   @objc internal func onMenu1(sender: Any) {
+    //HttpServer.instance.server.stop()
     UIPasteboard.general.items = []
-    showAlert(style: .actionSheet, title: nil, "Clipboard was cleared.", buttonStyles: [.cancel], disableHaptic: true, sourceView: urlField, sourceRect: CGRect(x: urlField.bounds.midX, y: urlField.bounds.maxY + 43, width: 0, height: 0), sourceArrow: false, autoDismissAfter: 0.25)
+    //showAlert(style: .actionSheet, title: nil, "Clipboard was cleared.", buttonStyles: [.cancel], disableHaptic: true, sourceView: urlField, sourceRect: CGRect(x: urlField.bounds.midX, y: urlField.bounds.maxY + 43, width: 0, height: 0), sourceArrow: false, autoDismissAfter: 0.25)
   }
   
   func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -1272,7 +1259,7 @@ appversion: \(appVersion)
   
   @objc func kvButton2Pressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
-      //hapticImpactFB.impactOccurred()
+      hapticImpactFB.impactOccurred()
       showAlert(title: "Important", buttonTitles: ["Acknowledge"], defaultButton: 0) { (response, _) in
         self.lb.text! += " RES:\(response!)"
       }
@@ -1828,7 +1815,8 @@ appversion: \(appVersion)
   }
   
   
-  /*private func showAlertOld(message: String? = nil) {
+  /*var messages: [String] = [] //globaleVariable
+  private func showAlertOld(message: String? = nil) {
     if let message = message {
       messages.append(message)
     }
@@ -2546,12 +2534,12 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         
         lb.addObserver(self, forKeyPath: "text", options: [.old, .new], context: nil)
         
-        topNavBgView = UIView(frame: CGRect.zero)
+        ////topNavBgView = UIView(frame: CGRect.zero)
         //topNavBgView.backgroundColor = UIColor.viewBgColor.withAlphaComponent(0.85)
         //topNavBgView.backgroundColor = .viewBgColor
-        topNavBgView.backgroundColor = .appBgColor
-        //topNavBgView = UIVisualEffectView(frame: CGRect.zero)
-        //topNavBgView.effect = UIBlurEffect(style: UIBlurEffect.Style.regular)
+        ////topNavBgView.backgroundColor = .appBgColor
+        topNavBgView = UIVisualEffectView(frame: CGRect.zero)
+        topNavBgView.effect = UIBlurEffect(style: UIBlurEffect.Style.regular)
         //topNavBgView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(topNavBgView)
         
@@ -2561,7 +2549,6 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         progressView.trackTintColor = .clear
         view.addSubview(progressView)
         
-        //urlField = UITextField(frame: CGRect.zero)
         urlField = CustomUITextField(frame: CGRect.zero)
         urlField.placeholder = "Type your Address"
         urlField.font = UIFont.systemFont(ofSize: 15)
@@ -2989,6 +2976,7 @@ urlField.addAction(updateRightViewLayout, for: .editingDidEnd)*/
     view.addSubview(webView3)
     
     avPVC = AVPlayerViewController()
+    
     NotificationCenter.default.addObserver(self, selector: #selector(focusNewWindow), name: .UIWindowDidResignKey, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(enterBackground), name: .UIApplicationDidEnterBackground, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(enterForeground), name: .UIApplicationWillEnterForeground, object: nil)
