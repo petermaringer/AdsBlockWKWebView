@@ -323,20 +323,28 @@ class CustomUITextField: UITextField {
       UIApplication.shared.sendAction(selector, to: nil, from: self, for: nil)
       //let updateSelector = NSSelectorFromString("setNeedsMenuUpdate")
       //UIApplication.shared.sendAction(updateSelector, to: nil, from: nil, for: nil)
-      
-         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-        if let selectedRange = self.selectedTextRange {
-            self.selectedTextRange = selectedRange
-        }
     }
-
-
-    }
-    var modifiedActions = suggestedActions
+    /*var modifiedActions = suggestedActions
     if UIPasteboard.general.numberOfItems > 0 {
       //modifiedActions.insert(clearAction, at: 1)
       modifiedActions.append(clearAction)
-    }
+    }*/
+    
+    var modifiedActions = suggestedActions.map { element -> UIMenuElement in
+            // Prüfe, ob es sich um eine UIAction handelt (z.B. die "Kopieren"-Aktion)
+            if let action = element as? UIAction {
+                
+                // Ändere den Namen für die Standard-"Kopieren"-Aktion (bzw. den entsprechenden Identifier)
+                if action.identifier == .init("com.apple.menu.copy") || action.title == "Kopieren" {
+                    return UIAction(title: "Text sichern", image: action.image, identifier: action.identifier) { _ in
+                        // Rufe die originale Logik auf
+                        self.copy(nil)
+                    }
+                }
+            }
+            return element
+        }
+    
     return UIMenu(children: modifiedActions)
   }
   
@@ -921,7 +929,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     return allowedOrientations
   }
   
-  override func canPerformAction(_ action: Selector, withSender sender: Any!) -> Bool {
+  //override func canPerformAction(_ action: Selector, withSender sender: Any!) -> Bool {}
+  override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
     //if [#selector(onMenu1(sender:)), #selector(onMenu2(sender:)), #selector(onMenu3(sender:))].contains(action) {}
     //if [#selector(onMenu1(sender:))].contains(action) && UIPasteboard.general.numberOfItems > 0 { return true } else { return false }
     if action == #selector(onMenu1(sender:)) {
