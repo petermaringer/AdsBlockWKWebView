@@ -1083,10 +1083,9 @@ player.play()*/
     delegate.playerViewController.player!.play()
     }*/
     
-    
     lb.text! += " \(UIApplication.shared.windows.count)"
     
-    //func findAVPlayerViewController(controller: UIViewController) -> AVPlayerViewController? {
+    /*//func findAVPlayerViewController(controller: UIViewController) -> AVPlayerViewController? {}
     func findAVPlayerViewController(controller: UIViewController) {
   if controller is AVPlayerViewController {
     lb.text! += " a2"
@@ -1107,9 +1106,8 @@ player.play()*/
   }
   //return nil
 }
-    
     if UIApplication.shared.windows.count > 99 {
-    //if let rootController = UIApplication.shared.keyWindow?.rootViewController {
+    //if let rootController = UIApplication.shared.keyWindow?.rootViewController {}
     if let rootController = UIApplication.shared.windows[4].rootViewController {
     //lb.text! += " a1 \((UIApplication.shared.keyWindow?.rootViewController)!)"
     lb.text! += " a1 \((UIApplication.shared.windows[4].rootViewController)!)"
@@ -1119,11 +1117,9 @@ player.play()*/
     //}
   }
   }
-  
   //if UIApplication.shared.windows.count > 4 {
   //lb.text! += " a1 \((UIApplication.shared.windows[4].rootViewController)!)"
   //}
-  
   if UIApplication.shared.windows.count >= 3 {
   if let targetSC = UIApplication.shared.windows[2].rootViewController!.childViewControllers.first(where: { $0 is AVPlayerViewController }) as? AVPlayerViewController {
   avPVC = targetSC
@@ -1133,7 +1129,7 @@ player.play()*/
   lb.text! += " VCP:\(avPVC!.player!)"
   }
   }
-  }
+  }*/
   
   /*//BackgroundAudioBegin
   let session = AVAudioSession.sharedInstance()
@@ -1177,12 +1173,11 @@ player.play()*/
     
     /*var viewlist = "list:"
     func findViewWithAVPlayerLayer(view: UIView) -> UIView? {
-    //if view.layer is AVPlayerLayer {
+    //if view.layer is AVPlayerLayer {}
     if view.layer.isKind(of:AVPlayerLayer.self) {
         lb.text! += " a1"
         return view
     }
-    
     if let sublayers = view.layer.sublayers {
     for layer in sublayers {
     if !(layer is CALayer) {
@@ -1190,7 +1185,6 @@ player.play()*/
         }
     }
 }
-    
     for v in view.subviews {
     if !(v.layer is CALayer) {
         viewlist = viewlist + " a3:\(v.layer)"
@@ -1202,12 +1196,10 @@ player.play()*/
     }
     return nil
 }
-    
     if let viewWithAVPlayerLayer = findViewWithAVPlayerLayer(view: self.view) {
       lb.text! += " aX"
     }
     showAlert(viewlist)*/
-    
     
     let deviceToken = delegate.sesscat
     lb.text! += " \(deviceToken)"
