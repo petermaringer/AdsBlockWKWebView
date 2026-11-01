@@ -937,19 +937,16 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
         view.addSubview(button)
         //textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
         //textField.selectAll(nil)
-        ////textField.textColor = .appBgColor
+        //textField.textColor = .appBgColor
         
         if let textField = textField as? CustomUITextField {
-          
           if textField.savedCursorPosition != nil {
-            //textField.layer.borderWidth = 1
             if let position = textField.savedCursorPosition {
               textField.savedCursorPosition = nil
               //textField.selectedTextRange = textField.textRange(from: position.start, to: position.end)
               textField.selectedTextRange = textField.textRange(from: position.start, to: position.start)
             }
           }
-          
           DispatchQueue.main.async {
             if textField.isRightPaddingClicked {
               textField.isRightPaddingClicked = false
@@ -962,7 +959,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
             }
             textField.textColor = .appBgColor
           }
-          
         }
       default: break
     }
@@ -2542,7 +2538,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         urlField.tintColor = .appBgColor
         urlField.backgroundColor = .fieldBgColor
         //urlField.borderStyle = UITextField.BorderStyle.roundedRect
-        //urlField.layer.borderWidth = 0
+        //urlField.layer.borderWidth = 1
         
         /*urlField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 30))
         urlField.leftViewMode = .always
@@ -4317,6 +4313,21 @@ let logoContainer = document.querySelector("[aria-label='Google']");
       return
     }
     decisionHandler(.prompt)
+  }
+  
+  func webView(_ webView: WKWebView, contextMenuConfigurationForElement elementInfo: WKContextMenuElementInfo, completionHandler: @escaping (UIContextMenuConfiguration?) -> Void) {
+    let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions in
+      var actions = suggestedActions
+      let customAction = UIAction(title: "Open", image: UIImage(systemName: "star")) { _ in
+        if let url = elementInfo.linkURL {
+          //print("Ausgewählte URL: \(url)")
+          urlField.text = url.absoluteString
+        }
+      }
+      actions.insert(customAction, at: 0)
+      return UIMenu(title: "", children: actions)
+    }
+    completionHandler(config)
   }
   
   
