@@ -1212,15 +1212,11 @@ player.play()*/
     let deviceToken = delegate.sesscat
     lb.text! += " \(deviceToken)"
     
-    /*let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
-    userDefaults.set(appVersion, forKey: "versionInfo")*/
     let shortVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? ""
     let buildVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? ""
     let appVersion = "\(shortVersion) Build \(buildVersion)"
+    //userDefaults.set(appVersion, forKey: "versionInfo")
     
-    //let file = Bundle.main.path(forResource: "Info", ofType: "plist")!
-    //let p = URL(fileURLWithPath: file)
-    //let text = try? String(contentsOf: p)
     var text = "error"
     if let path = Bundle.main.path(forResource: "Info", ofType: "plist") {
       do {
@@ -1252,8 +1248,8 @@ wkpool: \(wkpool)\n
 version: \(appVersion)
 """
     //showAlert(message)
-    showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceView: kvButton2, sourceRect: CGRect(x: kvButton2.bounds.width, y: 0, width: 0, height: 0), sourceID: "kvButton2Clicked-01")
-    //showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceView: self.view, sourceRect: CGRect(x: 0, y: self.urlField.frame.maxY + 5, width: self.view.bounds.width, height: 1), sourceArrow: true, sourceID: "kvButton2Clicked-01")
+    //showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceView: kvButton2, sourceRect: CGRect(x: kvButton2.bounds.width, y: 0, width: 0, height: 0), sourceID: "kvButton2Clicked-01")
+    showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceView: self.view, sourceRect: CGRect(x: 0, y: self.urlField.frame.maxY + 5, width: self.view.bounds.width, height: 1), sourceArrow: true, sourceID: "kvButton2Clicked-01")
   }
   
   @objc func kvButton2Pressed(gesture: UILongPressGestureRecognizer) {
