@@ -4343,17 +4343,17 @@ let logoContainer = document.querySelector("[aria-label='Google']");
         }
       }
       let subMenu = UIMenu(title: "More", image: UIImage(systemName: "ellipsis.circle"), children: [
-        UIAction(title: "Link kopieren", image: UIImage(systemName: "doc.on.doc")) { _ in
-          if let url = elementInfo.linkURL {
-            //logik
+        UIAction(title: "Go back by \(goBackOnEditPref)", image: UIImage(systemName: "chevron.backward.2")) { _ in
+          var goBackBy = goBackOnEditPref
+          if goBackBy > webView.backForwardList.backList.count {
+            goBackBy = webView.backForwardList.backList.count
           }
+          webView.go(to: webView.backForwardList.item(at: goBackBy * -1)!)
         },
-        UIAction(title: "Teilen...", image: UIImage(systemName: "square.and.arrow.up")) { _ in
-          //logik
-        }
+        customAction2
       ])
       actions.insert(customAction1, at: 0)
-      actions.insert(customAction2, at: 1)
+      //actions.insert(customAction2, at: 1)
       actions.append(subMenu)
       return UIMenu(title: "", children: actions)
     }
