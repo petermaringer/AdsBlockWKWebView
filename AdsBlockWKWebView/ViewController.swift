@@ -2213,7 +2213,8 @@ version: \(appVersion)
       
       clearButton.frame = CGRect(x: view.frame.width - insetLM - insetRM - elementW - defaultM - 19, y: 0, width: 19, height: elementH)
       
-      button.frame = CGRect(x: view.frame.width - insetRM - elementW, y: insetTM, width: elementW, height: elementH)
+      //button.frame = CGRect(x: view.frame.width - insetRM - elementW, y: insetTM, width: elementW, height: elementH)
+      button.frame = CGRect(x: view.frame.width - insetRM - 40, y: insetTM, width: 40, height: elementH)
       
       kvButton.frame = CGRect(x: insetLM, y: defaultM, width: elementW, height: elementH)
       
@@ -4341,8 +4342,19 @@ let logoContainer = document.querySelector("[aria-label='Google']");
           UIApplication.shared.open(url)
         }
       }
+      let subMenu = UIMenu(title: "More", image: UIImage(systemName: "ellipsis.circle"), children: [
+        UIAction(title: "Link kopieren", image: UIImage(systemName: "doc.on.doc")) { _ in
+          if let url = elementInfo.linkURL {
+            //logik
+          }
+        },
+        UIAction(title: "Teilen...", image: UIImage(systemName: "square.and.arrow.up")) { _ in
+          //logik
+        }
+      ])
       actions.insert(customAction1, at: 0)
       actions.insert(customAction2, at: 1)
+      actions.append(subMenu)
       return UIMenu(title: "", children: actions)
     }
     completionHandler(config)
