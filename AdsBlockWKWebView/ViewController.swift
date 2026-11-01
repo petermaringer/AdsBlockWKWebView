@@ -7,7 +7,7 @@ import UIKit
 import WebKit
 
 import AVFoundation
-import AVKit //remove
+//import AVKit //remove
 import MediaPlayer
 
 import Security
@@ -282,18 +282,18 @@ class CustomUITextField: UITextField {
     isRightPaddingClicked = touchPoint.x >= (bounds.width - rightPadding)
     if isFirstResponder {
       if isLeftPaddingClicked {
+        isLeftPaddingClicked = false
         DispatchQueue.main.async { [weak self] in
           guard let self = self else { return }
           let start = beginningOfDocument
           selectedTextRange = textRange(from: start, to: start)
-          isLeftPaddingClicked = false //^^
         }
       } else if isRightPaddingClicked {
+        isRightPaddingClicked = false
         DispatchQueue.main.async { [weak self] in
           guard let self = self else { return }
           let end = endOfDocument
           selectedTextRange = textRange(from: end, to: end)
-          isRightPaddingClicked = false //^^
         }
       }
     }
