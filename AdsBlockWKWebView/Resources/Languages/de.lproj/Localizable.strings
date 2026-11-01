@@ -1,4 +1,6 @@
 //de.lproj/Localizable.strings
 
+"HttpServer.handleHi.name" = "Hallo %1 %2";
+
 "showAlert.auth.textField.userID" = "Benutzer-ID";
 "showAlert.auth.textField.password" = "Passwort";

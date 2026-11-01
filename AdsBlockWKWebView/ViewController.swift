@@ -30,9 +30,17 @@ extension String {
     //return NSLocalizedString(self, comment: "\(self)_comment")
     return NSLocalizedString(self, comment: "")
   }
-  func localized(_ args: CVarArg...) -> String {
+  /*func localized(_ args: CVarArg...) -> String {
     //return String(format: localized, args)
     return String(format: localized, arguments: args)
+  }*/
+  func localized(_ args: Any...) -> String {
+    var text = self.localized
+    for (index, arg) in args.enumerated() {
+      let placeholder = "%\(index + 1)"
+      text = text.replacingOccurrences(of: placeholder, with: String(describing: arg))
+    }
+    return text
   }
   /*func localized(_ args: [CVarArg]) -> String {
     //return localized(args)
@@ -604,7 +612,8 @@ final class HttpServer: NSObject {
   func handleHi(request: HTTPRequest) -> HTTPResponse {
     //try! server.stop()
     let name = request.params["name"] ?? "stranger"
-    return HTTPResponse(content: "Hi \(name.capitalized) ö")
+    //return HTTPResponse(content: "Hi \(name.capitalized) ö")
+    return HTTPResponse(content: .localized(name.capitalized, "ö"))
   }
 }
 extension HttpServer: ServerDelegate {
