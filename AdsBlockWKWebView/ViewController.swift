@@ -334,7 +334,7 @@ class CustomUITextField: UITextField {
             // Prüfe, ob es sich um eine UIAction handelt (z.B. die "Kopieren"-Aktion)
             if let action = element as? UIAction {
                 
-               if action.identifier == .copy {
+              if action.identifier == UIAction.Identifier(UICommand.Identifier.copy.rawValue) {
                 
                 // 2. Erstelle die Aktion mit neuem Namen, aber behalte das originale System-Verhalten bei
                 return UIAction(
