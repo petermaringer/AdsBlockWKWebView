@@ -1241,17 +1241,17 @@ player.play()*/
     */
     
     //showAlert("\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref) \(wkpool)")
-    //httpserver: isRunning=\(HttpServer.instance.server.isRunning)\n
+    //\ntemp: \(urlField.savedCursorPosition.map { "\($0)" } ?? "nil")
     let message = """
 navlist(last20): \(navlist)\n
 stream: \(streams[currentStreamIndex].name)
 player: \(isPlaying ? "isPlaying" : "isPaused")\n
 httpserver: isRunning=\(HttpServer.instance.server.isRunning)\n
+httpserver: \(HttpServer.instance.server.isRunning ? "isRunning" : "isNotRunning")\n
 filecontent: \(text)\n
 prefs: \(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref)\n
 wkpool: \(wkpool)\n
-appversion: \(appVersion)
-\ntemp: \(urlField.savedCursorPosition.map { "\($0)" } ?? "nil")
+version: \(appVersion)
 """
     //showAlert(message)
     //showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceView: kvButton2, sourceRect: CGRect(x: kvButton2.bounds.width, y: 0, width: 0, height: 0), sourceID: "kvButton2Clicked-01")
@@ -4320,6 +4320,15 @@ let logoContainer = document.querySelector("[aria-label='Google']");
       //platzhalter
     } else if type == .cameraAndMicrophone {
       //platzhalter
+    }
+    decisionHandler(.prompt)
+  }
+  
+  @available(iOS 27, *)
+  func webView(_ webView: WKWebView, requestGeolocationPermissionFor origin: WKSecurityOrigin, initiatedByFrame frame: WKFrameInfo, decisionHandler: @escaping (WKPermissionDecision) -> Void) {
+    if origin.host == "www.obi.at" {
+      decisionHandler(.grant)
+      return
     }
     decisionHandler(.prompt)
   }
