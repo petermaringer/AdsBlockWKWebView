@@ -2294,6 +2294,7 @@ version: \(appVersion)
         //view.backgroundColor = .lightGray
         //view.backgroundColor = UIColor(white: 0.90, alpha: 1)
         view.backgroundColor = .viewBgColor
+        view.tintColor = .appBgColor
         
         UserDefaults.standard.register(defaults: [
             ruleId1 : false,
@@ -4317,19 +4318,29 @@ let logoContainer = document.querySelector("[aria-label='Google']");
   
   func webView(_ webView: WKWebView, contextMenuConfigurationForElement elementInfo: WKContextMenuElementInfo, completionHandler: @escaping (UIContextMenuConfiguration?) -> Void) {
     let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions in
-      //var actions = suggestedActions
       var actions = suggestedActions.filter { action in
         guard let uiAction = action as? UIAction else { return true }
         let title = uiAction.title.lowercased()
-        return !title.contains("reading list") && !title.contains("leseliste")
+        //return !title.contains("reading list") && !title.contains("leseliste")
+        //let itemToRemove1 = title.contains("open") || title.contains("öffnen")
+        let itemToRemove1 = title == "open" || title == "öffnen"
+        let itemToRemove2 = title.contains("reading list") || title.contains("leseliste")
+        return !itemToRemove1 && !itemToRemove2
       }
-      let customAction = UIAction(title: "Open", image: UIImage(systemName: "globe")) { _ in
+      //let customAction1 = UIAction(title: "Open", image: UIImage(systemName: "globe.americas.fill")) { _ in }
+      let customAction1 = UIAction(title: "Open", image: UIImage(systemName: "globe.americas.fill")?.withTintColor(.red, renderingMode: .alwaysOriginal)) { _ in
         if let url = elementInfo.linkURL {
           self.urlField.text = url.absoluteString
           self.webView.load(URLRequest(url: url, timeoutInterval: 10.0))
         }
       }
-      actions.insert(customAction, at: 0)
+      let customAction2 = UIAction(title: "Open in Safari", image: UIImage(systemName: "safari")) { _ in
+        if let url = elementInfo.linkURL {
+          UIApplication.shared.open(url)
+        }
+      }
+      actions.insert(customAction1, at: 0)
+      actions.insert(customAction2, at: 1)
       return UIMenu(title: "", children: actions)
     }
     completionHandler(config)
