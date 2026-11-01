@@ -2810,8 +2810,12 @@ urlField.addAction(updateRightViewLayout, for: .editingDidEnd)*/
         button.layer.cornerRadius = 5
         button.clipsToBounds = true
         
-        button.setTitle("Cancel", for: .normal)
-        button.setTitleColor(.buttonFgColor, for: .normal)
+        //button.setTitle("Cancel", for: .normal)
+        //button.setTitleColor(.buttonFgColor, for: .normal)
+        button.setTitle(nil, for: .normal)
+        button.setImage(UIImage(systemName: "keyboard.chevron.compact.down"), for: .normal)
+        button.tintColor = .buttonFgColor
+        
         button.addTarget(self, action: #selector(self.buttonClicked), for: .touchUpInside)
         
         //let tapGesture = UITapGestureRecognizer(target: self, action: #selector(buttonClicked))
@@ -4321,16 +4325,12 @@ let logoContainer = document.querySelector("[aria-label='Google']");
       var actions = suggestedActions.filter { action in
         guard let uiAction = action as? UIAction else { return true }
         let title = uiAction.title.lowercased()
-        //return !title.contains("reading list") && !title.contains("leseliste")
-        //let itemToRemove1 = title.contains("open") || title.contains("öffnen")
         let itemToRemove1 = title == "open" || title == "öffnen"
         let itemToRemove2 = title.contains("reading list") || title.contains("leseliste")
         return !itemToRemove1 && !itemToRemove2
       }
-      //let customAction1 = UIAction(title: "Open", image: UIImage(systemName: "globe.americas.fill")) { _ in }
-      let customAction1 = UIAction(title: "Open", image: UIImage(systemName: "globe.americas.fill")?.withTintColor(.red, renderingMode: .alwaysOriginal)) { _ in
+      let customAction1 = UIAction(title: "Open", image: UIImage(systemName: "globe.americas.fill")?.withTintColor(.appBgColor, renderingMode: .alwaysOriginal)) { _ in
         if let url = elementInfo.linkURL {
-          self.urlField.text = url.absoluteString
           self.webView.load(URLRequest(url: url, timeoutInterval: 10.0))
         }
       }
