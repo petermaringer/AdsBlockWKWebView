@@ -1240,22 +1240,20 @@ player.play()*/
     showAlert("\(navlist) \(blitem) \(blcount1)/\(blcount2) \(appVersion!) \(text!)")
     */
     
-    //showAlert("\(navlist)\n\nfilecontent: \(text)\n\nappversion: \(appVersion!)\n\(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref) \(wkpool)")
     //\ntemp: \(urlField.savedCursorPosition.map { "\($0)" } ?? "nil")
     let message = """
 navlist(last20): \(navlist)\n
 stream: \(streams[currentStreamIndex].name)
 player: \(isPlaying ? "isPlaying" : "isPaused")\n
-httpserver: isRunning=\(HttpServer.instance.server.isRunning)\n
 httpserver: \(HttpServer.instance.server.isRunning ? "isRunning" : "isNotRunning")\n
 filecontent: \(text)\n
-prefs: \(webViewStartPagePref) \(webViewRestorePref) \(webViewSearchUrlPref) \(goBackOnEditPref) \(autoVideoDownloadPref)\n
+prefs: \(webViewStartPagePref), \(webViewRestorePref), \(webViewSearchUrlPref), \(goBackOnEditPref), \(autoVideoDownloadPref)\n
 wkpool: \(wkpool)\n
 version: \(appVersion)
 """
     //showAlert(message)
-    //showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceView: kvButton2, sourceRect: CGRect(x: kvButton2.bounds.width, y: 0, width: 0, height: 0), sourceID: "kvButton2Clicked-01")
-    showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceView: self.view, sourceRect: CGRect(x: 0, y: self.urlField.frame.maxY + 5, width: self.view.bounds.width, height: 1), sourceArrow: true, sourceID: "kvButton2Clicked-01")
+    showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceView: kvButton2, sourceRect: CGRect(x: kvButton2.bounds.width, y: 0, width: 0, height: 0), sourceID: "kvButton2Clicked-01")
+    //showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceView: self.view, sourceRect: CGRect(x: 0, y: self.urlField.frame.maxY + 5, width: self.view.bounds.width, height: 1), sourceArrow: true, sourceID: "kvButton2Clicked-01")
   }
   
   @objc func kvButton2Pressed(gesture: UILongPressGestureRecognizer) {
