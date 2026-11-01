@@ -7,7 +7,7 @@ import UIKit
 import WebKit
 
 import AVFoundation
-//import AVKit //remove
+//import AVKit
 import MediaPlayer
 
 import Security
@@ -890,7 +890,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var webView3: WebView!
   var webViewPrefs: WKPreferences!
   var webViewConfig: WKWebViewConfiguration!
-  var avPVC: AVPlayerViewController!
+  //var avPVC: AVPlayerViewController!
   var navUrl: String!
   var navUrlArray: Array<String> = []
   
@@ -2961,7 +2961,7 @@ urlField.addAction(updateRightViewLayout, for: .editingDidEnd)*/
     //webView3.scrollView.bounces = false
     view.addSubview(webView3)
     
-    avPVC = AVPlayerViewController()
+    //avPVC = AVPlayerViewController()
     
     NotificationCenter.default.addObserver(self, selector: #selector(focusNewWindow), name: .UIWindowDidResignKey, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(enterBackground), name: .UIApplicationDidEnterBackground, object: nil)
