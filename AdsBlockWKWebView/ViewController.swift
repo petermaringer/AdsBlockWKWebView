@@ -324,32 +324,11 @@ class CustomUITextField: UITextField {
       //let updateSelector = NSSelectorFromString("setNeedsMenuUpdate")
       //UIApplication.shared.sendAction(updateSelector, to: nil, from: nil, for: nil)
     }
-    /*var modifiedActions = suggestedActions
+    var modifiedActions = suggestedActions
     if UIPasteboard.general.numberOfItems > 0 {
       //modifiedActions.insert(clearAction, at: 1)
       modifiedActions.append(clearAction)
-    }*/
-    
-    var modifiedActions = suggestedActions.map { element -> UIMenuElement in
-            // Prüfe, ob es sich um eine UIAction handelt (z.B. die "Kopieren"-Aktion)
-           
-                
-             if let action = element as? UIAction, action.accessibilityIdentifier == "copy:" || String(describing: action.sender).contains("copy") {
-               
-                // 2. Erstelle die Aktion mit neuem Namen, aber behalte das originale System-Verhalten bei
-                return UIAction(
-                    title: "Text sichern", 
-                    image: action.image, 
-                    identifier: action.identifier
-                ) { _ in
-                    // 3. Rufe die Kopieren-Aktion sauber über die Responder-Chain auf
-                    UIApplication.shared.sendAction(#selector(self.copy(_:)), to: nil, from: nil, for: nil)
-                }
-            }
-            
-            return element
-        }
-    
+    }
     return UIMenu(children: modifiedActions)
   }
   
@@ -948,7 +927,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   @objc internal func onMenu1(sender: Any) {
     //HttpServer.instance.server.stop()
     UIPasteboard.general.items = []
-    //showAlert(style: .actionSheet, title: nil, "Clipboard was cleared.", buttonStyles: [.cancel], disableHaptic: true, sourceView: urlField, sourceRect: CGRect(x: urlField.bounds.midX, y: urlField.bounds.maxY + 43, width: 0, height: 0), sourceArrow: false, autoDismissAfter: 0.25)
+    showAlert(style: .actionSheet, title: nil, "Clipboard was cleared.", buttonStyles: [.cancel], disableHaptic: true, sourceView: urlField, sourceRect: CGRect(x: urlField.bounds.midX, y: urlField.bounds.maxY + 43, width: 0, height: 0), sourceArrow: false, autoDismissAfter: 0.25)
   }
   
   func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -2109,7 +2088,6 @@ appversion: \(appVersion)
     }
     //Dispatch
     DispatchQueue.main.async { [unowned self] in
-      //self.present(alert, animated: true, completion: nil)
       self.present(alert, animated: true) {
         if currentAlert.autoDismissAfter != nil {
           DispatchQueue.main.asyncAfter(deadline: .now() + currentAlert.autoDismissAfter!) {
