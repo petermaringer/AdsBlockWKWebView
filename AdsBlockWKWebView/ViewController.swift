@@ -148,7 +148,8 @@ let userDefGroup = UserDefaults(suiteName: "group.at.co.weinmann.AdsBlockWKWebVi
 var alertCounter: Int = 0
 let hapticFB = UINotificationFeedbackGenerator()
 let hapticImpactFB = UIImpactFeedbackGenerator(style: .medium)
-let defaultCornerRadius: CGFloat = 10 //5
+let defaultCornerRadius: CGFloat = 5 //5
+let defaultTimeoutInterval: Double = 10 //10
 
 var restoreUrlsJson: String!
 
@@ -1061,6 +1062,7 @@ let videos = document.querySelectorAll("video");
   
   @objc func kvButton2Clicked() {
     urlField.savedCursorPosition = urlField.selectedTextRange
+    
     /*if kvButton2.backgroundColor == .appBgColor {
       kvButton2.backgroundColor = .gray
     } else {
@@ -1075,14 +1077,12 @@ self.view.layer.addSublayer(playerLayer)
 player.play()*/
     
     let delegate = UIApplication.shared.delegate as! AppDelegate
-    
     /*delegate.playerViewController.player = delegate.player
     self.present(delegate.playerViewController, animated: true) {
     delegate.playerViewController.player!.play()
     }*/
     
-    lb.text! += " \(UIApplication.shared.windows.count)"
-    
+    //lb.text! += " \(UIApplication.shared.windows.count)"
     /*//func findAVPlayerViewController(controller: UIViewController) -> AVPlayerViewController? {}
     func findAVPlayerViewController(controller: UIViewController) {
   if controller is AVPlayerViewController {
@@ -3516,7 +3516,7 @@ downloadTask.resume()
       let targetURL = URL.docDir.appendingPathComponent(String(relativePath.drop(while: { $0 == "/" })))
       webView.loadFileURL(targetURL, allowingReadAccessTo: URL.docDir)
     } else {
-      webView.load(URLRequest(url: urlobj!, timeoutInterval: 10.0))
+      webView.load(URLRequest(url: urlobj!, timeoutInterval: defaultTimeoutInterval))
     }
     
   }
@@ -4332,9 +4332,10 @@ let logoContainer = document.querySelector("[aria-label='Google']");
         let itemToRemove2 = title.contains("reading list") || title.contains("leseliste")
         return !itemToRemove1 && !itemToRemove2
       }
-      let customAction1 = UIAction(title: "Open", image: UIImage(systemName: "globe.americas.fill")?.withTintColor(.appBgColor, renderingMode: .alwaysOriginal)) { _ in
+      //let customAction1 = UIAction(title: "Open", image: UIImage(systemName: "globe.americas.fill")?.withTintColor(.appBgColor, renderingMode: .alwaysOriginal)) { _ in }
+      let customAction1 = UIAction(title: "Open", image: UIImage(systemName: "globe.americas.fill")) { _ in
         if let url = elementInfo.linkURL {
-          self.webView.load(URLRequest(url: url, timeoutInterval: 10.0))
+          self.webView.load(URLRequest(url: url, timeoutInterval: defaultTimeoutInterval))
         }
       }
       let customAction2 = UIAction(title: "Open in Safari", image: UIImage(systemName: "safari")) { _ in
@@ -4342,18 +4343,15 @@ let logoContainer = document.querySelector("[aria-label='Google']");
           UIApplication.shared.open(url)
         }
       }
-      let subMenu = UIMenu(title: "More", image: UIImage(systemName: "ellipsis.circle"), children: [
-        UIAction(title: "Go back by \(goBackOnEditPref)", image: UIImage(systemName: "chevron.backward.2")) { _ in
-          var goBackBy = goBackOnEditPref
-          if goBackBy > webView.backForwardList.backList.count {
-            goBackBy = webView.backForwardList.backList.count
-          }
-          webView.go(to: webView.backForwardList.item(at: goBackBy * -1)!)
-        },
-        customAction2
-      ])
+      let customAction3 = UIAction(title: "Go back by \(goBackOnEditPref)", image: UIImage(systemName: "chevron.backward.2")) { _ in
+        var goBackBy = goBackOnEditPref
+        if goBackBy > webView.backForwardList.backList.count {
+          goBackBy = webView.backForwardList.backList.count
+        }
+        webView.go(to: webView.backForwardList.item(at: goBackBy * -1)!)
+      }
+      let subMenu = UIMenu(title: "More", image: UIImage(systemName: "ellipsis.circle"), children: [customAction2, customAction3])
       actions.insert(customAction1, at: 0)
-      //actions.insert(customAction2, at: 1)
       actions.append(subMenu)
       return UIMenu(title: "", children: actions)
     }
