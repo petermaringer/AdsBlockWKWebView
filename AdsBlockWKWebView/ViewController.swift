@@ -903,10 +903,10 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var insetL: CGFloat = 0
   var insetR: CGFloat = 0
   
-  var insetTM: CGFloat = insetT
-  //var insetBM: CGFloat = insetB
-  var insetLM: CGFloat = insetL
-  var insetRM: CGFloat = insetR
+  var insetTM: CGFloat = 0
+  //var insetBM: CGFloat = 0
+  var insetLM: CGFloat = 0
+  var insetRM: CGFloat = 0
   
   let defaultM: CGFloat = 5
   let elementH: CGFloat = 30
