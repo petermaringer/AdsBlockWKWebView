@@ -1768,7 +1768,8 @@ version: \(appVersion)
         textField.selectedTextRange = nil
         button.removeFromSuperview()
         //textField.frame.size.width += 85
-        textField.frame.size.width += 45
+        //textField.frame.size.width += 45
+        textField.frame.size.width += elementW2 + defaultM
         //progressView.frame.size.width += 85
         
         if textField.text == webView.url!.absoluteString {
