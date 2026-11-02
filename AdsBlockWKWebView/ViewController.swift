@@ -902,6 +902,11 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var insetL: CGFloat = 0
   var insetR: CGFloat = 0
   
+  let defaultM: CGFloat = 5
+  let elementH: CGFloat = 30
+  let elementW: CGFloat = 80
+  let elementW2: CGFloat = 40
+  
   var lastDeviceOrientation: String = "initial"
   var allowedOrientations: UIInterfaceOrientationMask = .all
   
@@ -937,7 +942,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     switch textField {
       case urlField:
         //textField.frame.size.width -= 85
-        textField.frame.size.width -= 45
+        //textField.frame.size.width -= 45
+        textField.frame.size.width -= elementW2 + defaultM
         view.addSubview(button)
         //textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
         //textField.selectAll(nil)
@@ -2196,7 +2202,7 @@ version: \(appVersion)
     
     if !(deviceOrientation == lastDeviceOrientation) {
       
-      let defaultM: CGFloat = 5
+      ////let defaultM: CGFloat = 5
       var insetTM: CGFloat = insetT
       //var insetBM: CGFloat = insetB
       var insetLM: CGFloat = insetL
@@ -2205,9 +2211,9 @@ version: \(appVersion)
       //if insetBM == 0 { insetBM = defaultM }
       if insetLM == 0 { insetLM = defaultM }
       if insetRM == 0 { insetRM = defaultM }
-      let elementH: CGFloat = 30
-      let elementW: CGFloat = 80
-      let elementW2: CGFloat = 40
+      ////let elementH: CGFloat = 30
+      ////let elementW: CGFloat = 80
+      ////let elementW2: CGFloat = 40
       
       urlField.frame = CGRect(x: insetLM, y: insetTM, width: view.frame.width - insetLM - insetRM, height: elementH)
       if button.isDescendant(of: view) {
