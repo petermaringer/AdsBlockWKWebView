@@ -1353,7 +1353,7 @@ version: \(appVersion)
     let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath as IndexPath)
     cell.backgroundColor = .clear
     
-    cell.layoutMargins = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+    cell.layoutMargins = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
     
     cell.textLabel!.font = UIFont.systemFont(ofSize: 15)
     cell.textLabel!.textColor = .appBgColor
