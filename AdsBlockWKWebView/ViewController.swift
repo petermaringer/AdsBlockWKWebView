@@ -1355,7 +1355,9 @@ version: \(appVersion)
     //cell.textLabel!.textColor = .appBgColor
     //cell.textLabel!.text = "\(array[indexPath.row])"
     
-    cell.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5)
+    cell.preservesSuperviewLayoutMargins = false
+    cell.directionalLayoutMargins.leading = 5
+    cell.directionalLayoutMargins.trailing = 5
     var content = cell.defaultContentConfiguration()
     content.text = "\(array[indexPath.row])"
     content.textProperties.font = UIFont.systemFont(ofSize: 15)
