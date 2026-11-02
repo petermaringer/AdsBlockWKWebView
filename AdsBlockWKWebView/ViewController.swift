@@ -903,6 +903,11 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var insetL: CGFloat = 0
   var insetR: CGFloat = 0
   
+  var insetTM: CGFloat = insetT
+  //var insetBM: CGFloat = insetB
+  var insetLM: CGFloat = insetL
+  var insetRM: CGFloat = insetR
+  
   let defaultM: CGFloat = 5
   let elementH: CGFloat = 30
   let elementW: CGFloat = 80
@@ -944,7 +949,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
       case urlField:
         //textField.frame.size.width -= 85
         //textField.frame.size.width -= 45
-        textField.frame.size.width -= elementW2 + defaultM
+        //textField.frame.size.width -= elementW2 + defaultM
+        textField.frame.size.width = view.frame.width - insetLM - insetRM - elementW2 - defaultM
         view.addSubview(button)
         //textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
         //textField.selectAll(nil)
@@ -1770,7 +1776,8 @@ version: \(appVersion)
         button.removeFromSuperview()
         //textField.frame.size.width += 85
         //textField.frame.size.width += 45
-        textField.frame.size.width += elementW2 + defaultM
+        //textField.frame.size.width += elementW2 + defaultM
+        textField.frame.size.width = view.frame.width - insetLM - insetRM
         //progressView.frame.size.width += 85
         
         if textField.text == webView.url!.absoluteString {
@@ -2205,10 +2212,16 @@ version: \(appVersion)
     if !(deviceOrientation == lastDeviceOrientation) {
       
       ////let defaultM: CGFloat = 5
-      var insetTM: CGFloat = insetT
-      //var insetBM: CGFloat = insetB
-      var insetLM: CGFloat = insetL
-      var insetRM: CGFloat = insetR
+      ////var insetTM: CGFloat = insetT
+      //////var insetBM: CGFloat = insetB
+      ////var insetLM: CGFloat = insetL
+      ////var insetRM: CGFloat = insetR
+      
+      insetTM = insetT
+      //insetBM = insetB
+      insetLM = insetL
+      insetRM = insetR
+      
       if insetTM == 0 { insetTM = defaultM }
       //if insetBM == 0 { insetBM = defaultM }
       if insetLM == 0 { insetLM = defaultM }
