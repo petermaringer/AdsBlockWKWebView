@@ -1355,11 +1355,11 @@ version: \(appVersion)
     //cell.textLabel!.textColor = .appBgColor
     //cell.textLabel!.text = "\(array[indexPath.row])"
     
+    cell.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5)
     var content = cell.defaultContentConfiguration()
     content.text = "\(array[indexPath.row])"
     content.textProperties.font = UIFont.systemFont(ofSize: 15)
     content.textProperties.color = .appBgColor
-    content.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5)
     cell.contentConfiguration = content
     
     return cell
