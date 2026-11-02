@@ -1355,9 +1355,10 @@ version: \(appVersion)
     //cell.textLabel!.textColor = .appBgColor
     //cell.textLabel!.text = "\(array[indexPath.row])"
     
-    cell.preservesSuperviewLayoutMargins = false
-    cell.directionalLayoutMargins.leading = 5
-    cell.directionalLayoutMargins.trailing = 5
+    cell.contentView.preservesSuperviewLayoutMargins = false
+    cell.contentView.layoutMargins.left = 5
+    cell.contentView.layoutMargins.right = 5
+    
     var content = cell.defaultContentConfiguration()
     content.text = "\(array[indexPath.row])"
     content.textProperties.font = UIFont.systemFont(ofSize: 15)
