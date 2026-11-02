@@ -905,7 +905,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   let defaultM: CGFloat = 5
   let elementH: CGFloat = 30
   let elementW: CGFloat = 80
-  let elementW2: CGFloat = 40
+  let elementW2: CGFloat = 50
   
   var lastDeviceOrientation: String = "initial"
   var allowedOrientations: UIInterfaceOrientationMask = .all
