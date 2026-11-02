@@ -1348,16 +1348,20 @@ version: \(appVersion)
   //cell.layer.backgroundColor = UIColor.gray.cgColor
   //cell.selectionStyle = .blue
   
-  
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath as IndexPath)
     cell.backgroundColor = .clear
+    //cell.textLabel!.font = UIFont.systemFont(ofSize: 15)
+    //cell.textLabel!.textColor = .appBgColor
+    //cell.textLabel!.text = "\(array[indexPath.row])"
     
-    cell.layoutMargins = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+    var content = cell.defaultContentConfiguration()
+    content.text = "\(array[indexPath.row])"
+    content.textProperties.font = UIFont.systemFont(ofSize: 15)
+    content.textProperties.color = .appBgColor
+    content.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5)
+    cell.contentConfiguration = content
     
-    cell.textLabel!.font = UIFont.systemFont(ofSize: 15)
-    cell.textLabel!.textColor = .appBgColor
-    cell.textLabel!.text = "\(array[indexPath.row])"
     return cell
   }
   
@@ -1431,7 +1435,7 @@ version: \(appVersion)
     }
   }
   
-  func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+  /*func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
     let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
       self.deleteButtonClicked(url: self.array[indexPath.row])
     }
@@ -1445,7 +1449,7 @@ version: \(appVersion)
     }
     dev.backgroundColor = .devBgColor
     return [delete, edit, dev]
-  }
+  }*/
   
   @available(iOS 11.0, *)
   func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
