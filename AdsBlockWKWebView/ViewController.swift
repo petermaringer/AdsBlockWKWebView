@@ -53,7 +53,8 @@ extension UIColor {
   static let viewBgColor: UIColor = UIColor(white: 0.90, alpha: 1)
   static let viewBgLightColor: UIColor = UIColor(white: 0.95, alpha: 1)
   static let appBgColor: UIColor = UIColor(r: 66, g: 46, b: 151, a: 255)
-  static let appBgLightColor: UIColor = UIColor(r: 216, g: 213, b: 234, a: 255)
+  //static let appBgLightColor: UIColor = UIColor(r: 216, g: 213, b: 234, a: 255)
+  static let appBgLightColor: UIColor = .appBgColor.withAlphaComponent(0.2)
   static let devBgColor: UIColor = .orange
   static let fieldBgColor: UIColor = .white
   static let buttonFgColor: UIColor = .white
