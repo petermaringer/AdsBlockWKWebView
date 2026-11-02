@@ -53,8 +53,8 @@ extension UIColor {
   static let viewBgColor: UIColor = UIColor(white: 0.90, alpha: 1)
   static let viewBgLightColor: UIColor = UIColor(white: 0.95, alpha: 1)
   static let appBgColor: UIColor = UIColor(r: 66, g: 46, b: 151, a: 255)
-  //static let appBgLightColor: UIColor = UIColor(r: 216, g: 213, b: 234, a: 255)
-  static let appBgLightColor: UIColor = .appBgColor.withAlphaComponent(0.2)
+  static let appBgLightColor: UIColor = UIColor(r: 216, g: 213, b: 234, a: 255)
+  //static let appBgLightColor: UIColor = .appBgColor.withAlphaComponent(0.2)
   static let devBgColor: UIColor = .orange
   static let fieldBgColor: UIColor = .white
   static let buttonFgColor: UIColor = .white
@@ -1352,6 +1352,9 @@ version: \(appVersion)
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath as IndexPath)
     cell.backgroundColor = .clear
+    
+    cell.layoutMargins = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+    
     cell.textLabel!.font = UIFont.systemFont(ofSize: 15)
     cell.textLabel!.textColor = .appBgColor
     cell.textLabel!.text = "\(array[indexPath.row])"
