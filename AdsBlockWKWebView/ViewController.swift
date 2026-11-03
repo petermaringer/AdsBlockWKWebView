@@ -150,6 +150,7 @@ var alertCounter: Int = 0
 let hapticFB = UINotificationFeedbackGenerator()
 let hapticImpactFB = UIImpactFeedbackGenerator(style: .medium)
 let defaultCornerRadius: CGFloat = 5 //5
+let defaultPadding: CGFloat = 15 //15
 let defaultTimeoutInterval: Double = 10 //10
 
 var restoreUrlsJson: String!
@@ -259,8 +260,8 @@ let processPool: WKProcessPool = initPool()
 
 class CustomUITextField: UITextField {
   
-  var leftPadding: CGFloat = 15
-  var rightPadding: CGFloat = 15
+  var leftPadding: CGFloat = defaultPadding
+  var rightPadding: CGFloat = defaultPadding
   override func textRect(forBounds bounds: CGRect) -> CGRect {
     return UIEdgeInsetsInsetRect(bounds, UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding))
   }
@@ -873,7 +874,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var array: Array<String> = []
   var moverIndex: Int = -1
   var editButtonBgColor: UIColor = .appBgColor
-  var horizontalCellPadding: CGFloat = 0
+  var horizontalCellPadding: CGFloat = defaultPadding
   
   var url: String!
   var currentUserAgent: String = "default"
@@ -1352,10 +1353,9 @@ version: \(appVersion)
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath as IndexPath)
     cell.backgroundColor = .clear
-    //cell.textLabel!.font = UIFont.systemFont(ofSize: 15)
-    //cell.textLabel!.textColor = .appBgColor
-    //cell.textLabel!.text = "\(array[indexPath.row])"
-    
+    /*cell.textLabel!.font = UIFont.systemFont(ofSize: 15)
+    cell.textLabel!.textColor = .appBgColor
+    cell.textLabel!.text = "\(array[indexPath.row])"*/
     var content = cell.defaultContentConfiguration()
     content.text = "\(array[indexPath.row])"
     content.textProperties.font = UIFont.systemFont(ofSize: 15)
@@ -1363,7 +1363,6 @@ version: \(appVersion)
     content.axesPreservingSuperviewLayoutMargins = []
     content.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: horizontalCellPadding, bottom: 0, trailing: horizontalCellPadding)
     cell.contentConfiguration = content
-    
     return cell
   }
   
@@ -2220,24 +2219,28 @@ version: \(appVersion)
     
     if !(deviceOrientation == lastDeviceOrientation) {
       
-      ////let defaultM: CGFloat = 5
-      ////var insetTM: CGFloat = insetT
-      //////var insetBM: CGFloat = insetB
-      ////var insetLM: CGFloat = insetL
-      ////var insetRM: CGFloat = insetR
+      /*let defaultM: CGFloat = 5
+      let elementH: CGFloat = 30
+      let elementW: CGFloat = 80
+      let elementW2: CGFloat = 40
+      var insetTM: CGFloat = insetT
+      //var insetBM: CGFloat = insetB
+      var insetLM: CGFloat = insetL
+      var insetRM: CGFloat = insetR*/
       
-      insetTM = insetT
+      /*insetTM = insetT
       //insetBM = insetB
       insetLM = insetL
       insetRM = insetR
-      
       if insetTM == 0 { insetTM = defaultM }
       //if insetBM == 0 { insetBM = defaultM }
       if insetLM == 0 { insetLM = defaultM }
-      if insetRM == 0 { insetRM = defaultM }
-      ////let elementH: CGFloat = 30
-      ////let elementW: CGFloat = 80
-      ////let elementW2: CGFloat = 40
+      if insetRM == 0 { insetRM = defaultM }*/
+      
+      insetTM = (insetT == 0) ? defaultM : insetT
+      //insetBM = (insetB == 0) ? defaultM : insetB
+      insetLM = (insetL == 0) ? defaultM : insetL
+      insetRM = (insetR == 0) ? defaultM : insetR
       
       urlField.frame = CGRect(x: insetLM, y: insetTM, width: view.frame.width - insetLM - insetRM, height: elementH)
       if button.isDescendant(of: view) {
@@ -2258,7 +2261,7 @@ version: \(appVersion)
       progressView.transform = progressView.transform.scaledBy(x: 1, y: 0.5)
       
       tableView.frame = CGRect(x: insetL, y: insetTM + elementH + defaultM, width: view.frame.width - insetL - insetR, height: 0)
-      horizontalCellPadding = (insetL == 0) ? 20 : 15
+      horizontalCellPadding = (insetL == 0) ? defaultPadding + defaultM : defaultPadding
       tableView.reloadData()
       
       webView.frame = CGRect(x: insetL, y: insetTM + elementH + defaultM, width: view.frame.width - insetL - insetR, height: view.frame.height - insetTM - elementH - defaultM)
