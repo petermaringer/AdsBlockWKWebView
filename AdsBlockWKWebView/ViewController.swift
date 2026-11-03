@@ -1364,11 +1364,9 @@ version: \(appVersion)
     content.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: horizontalCellPadding, bottom: 0, trailing: horizontalCellPadding)
     cell.contentConfiguration = content
     
-    cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-
+    /*cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
     var bgConfig = UIBackgroundConfiguration.clear()
     bgConfig.backgroundColor = .systemBackground
-
     let container = UIView()
     let linie = UIView()
     linie.backgroundColor = .separator
@@ -1376,7 +1374,6 @@ version: \(appVersion)
     container.addSubview(linie)
     bgConfig.customView = container
     cell.backgroundConfiguration = bgConfig
-
    NSLayoutConstraint.activate([
     linie.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 5),
     // GEÄNDERT: Zieht die Linie jetzt auch rechts um 5 Punkte nach innen
@@ -1384,7 +1381,8 @@ version: \(appVersion)
     linie.bottomAnchor.constraint(equalTo: container.bottomAnchor),
     // GEÄNDERT: Auf 1.0 gesetzt für die originale, kräftigere System-Dicke
     linie.heightAnchor.constraint(equalToConstant: 1.0)
-])
+])*/
+    cell.preservesSuperviewLayoutMargins = true
     
     return cell
   }
@@ -2907,11 +2905,11 @@ urlField.addAction(updateRightViewLayout, for: .editingDidEnd)*/
         //tableView.contentSize.width = 100
         //tableView.clipsToBounds = false
         //tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, -30)
-        //tableView.separatorColor = .appBgColor
-    //tableView.separatorColor = .appBgLightColor
-        //tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
-    //tableView.separatorInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
-    tableView.separatorStyle = .none
+    tableView.separatorStyle = .singleLine
+    //tableView.separatorColor = .appBgColor
+    tableView.separatorColor = .appBgLightColor
+    tableView.separatorInsetReference = .fromAutomaticInsets
+    tableView.separatorInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
         
         
         if (UserDefaults.standard.object(forKey: "urls") != nil) {
