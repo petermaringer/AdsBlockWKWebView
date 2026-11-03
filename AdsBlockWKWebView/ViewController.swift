@@ -1364,13 +1364,11 @@ version: \(appVersion)
     content.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: horizontalCellPadding, bottom: 0, trailing: horizontalCellPadding)
     cell.contentConfiguration = content
     
-    cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-    cell.layer.sublayers?.filter({ $0.name == "starreLinie" }).forEach({ $0.removeFromSuperlayer() })
-    let linie = CALayer()
-    linie.name = "starreLinie"
-    linie.backgroundColor = UIColor.separator.cgColor
-    linie.frame = CGRect(x: 5, y: 30 - 0.5, width: cell.frame.width - 5, height: 0.5)
-    cell.layer.addSublayer(linie)
+    var backgroundConfig = UIBackgroundConfiguration.listCell()
+    backgroundConfig.backgroundColor = .systemBackground
+    backgroundConfig.separatorConfiguration.color = .separator
+    backgroundConfig.separatorConfiguration.inset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+    cell.backgroundConfiguration = backgroundConfig
     
     return cell
   }
