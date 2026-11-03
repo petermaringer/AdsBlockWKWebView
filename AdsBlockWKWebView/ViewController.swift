@@ -1402,11 +1402,11 @@ version: \(appVersion)
     staticLine.tag = separatorTag
     staticLine.backgroundColor = .appBgLightColor //.separator
     tableView.addSubview(staticLine)
-    DispatchQueue.main.async {
+    //DispatchQueue.main.async {
       let pixelHeight = 1.0 // / UIScreen.main.scale
       let cellFrame = tableView.rectForRow(at: indexPath)
       staticLine.frame = CGRect(x: cellFrame.origin.x + defaultM, y: cellFrame.origin.y + cellFrame.height - pixelHeight, width: cellFrame.width - 2 * defaultM, height: pixelHeight)
-    }
+    //}
     
     return cell
   }
