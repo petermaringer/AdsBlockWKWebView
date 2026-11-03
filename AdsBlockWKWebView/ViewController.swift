@@ -1363,6 +1363,15 @@ version: \(appVersion)
     content.axesPreservingSuperviewLayoutMargins = []
     content.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: horizontalCellPadding, bottom: 0, trailing: horizontalCellPadding)
     cell.contentConfiguration = content
+    
+    cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+    cell.layer.sublayers?.filter({ $0.name == "starreLinie" }).forEach({ $0.removeFromSuperlayer() })
+    let linie = CALayer()
+    linie.name = "starreLinie"
+    linie.backgroundColor = UIColor.separator.cgColor
+    linie.frame = CGRect(x: 5, y: 30 - 0.5, width: cell.frame.width - 5, height: 0.5)
+    cell.layer.addSublayer(linie)
+    
     return cell
   }
   
@@ -2885,9 +2894,10 @@ urlField.addAction(updateRightViewLayout, for: .editingDidEnd)*/
         //tableView.clipsToBounds = false
         //tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, -30)
         //tableView.separatorColor = .appBgColor
-        tableView.separatorColor = .appBgLightColor
+    //tableView.separatorColor = .appBgLightColor
         //tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
-        tableView.separatorInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+    //tableView.separatorInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+    tableView.separatorStyle = .none
         
         
         if (UserDefaults.standard.object(forKey: "urls") != nil) {
