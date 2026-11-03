@@ -1396,7 +1396,8 @@ version: \(appVersion)
 ])*/
     //cell.preservesSuperviewLayoutMargins = true
     
-    let separatorTag = 999_000 + indexPath.row
+    //let separatorTag = 999_000 + indexPath.row
+    let separatorTag = cell.hash
     tableView.viewWithTag(separatorTag)?.removeFromSuperview()
     let staticLine = UIView()
     staticLine.tag = separatorTag
