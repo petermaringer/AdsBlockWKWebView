@@ -865,6 +865,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var button: UIButton!
   var kvButton: UIButton!
   var kvButton2: UIButton!
+  var kvButton3: UIButton!
   //var lb: UITextView!
   var lb: UILabel!
   var lbcounter: Int = 0
@@ -1290,6 +1291,17 @@ version: \(appVersion)
     }
   }
   
+  @objc func kvButton3Clicked() {
+    
+  }
+  
+  @objc func kvButton3Pressed(gesture: UILongPressGestureRecognizer) {
+    if gesture.state == .began {
+      //hapticImpactFB.impactOccurred()
+      
+    }
+  }
+  
   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
     switch textField {
       case urlField:
@@ -1393,7 +1405,7 @@ version: \(appVersion)
     DispatchQueue.main.async {
       let pixelHeight = 1.0 // / UIScreen.main.scale
       let cellFrame = tableView.rectForRow(at: indexPath)
-      staticLine.frame = CGRect(x: cellFrame.origin.x + 5, y: cellFrame.origin.y + cellFrame.height - pixelHeight, width: cellFrame.width - 10, height: pixelHeight)
+      staticLine.frame = CGRect(x: cellFrame.origin.x + defaultM, y: cellFrame.origin.y + cellFrame.height - pixelHeight, width: cellFrame.width - 2 * defaultM, height: pixelHeight)
     }
     
     return cell
@@ -1517,11 +1529,11 @@ version: \(appVersion)
     tableView.reloadData()
     tableView.isEditing = true
     
-    var goBackBy = goBackOnEditPref
+    /*var goBackBy = goBackOnEditPref
     if goBackBy > webView.backForwardList.backList.count {
       goBackBy = webView.backForwardList.backList.count
     }
-    webView.go(to: webView.backForwardList.item(at: goBackBy * -1)!)
+    webView.go(to: webView.backForwardList.item(at: goBackBy * -1)!)*/
     
     if #available(iOS 11, *) {
       if editButtonBgColor == .appBgColor {
@@ -2288,6 +2300,8 @@ version: \(appVersion)
       
       kvButton2.frame = CGRect(x: insetLM + elementW + defaultM, y: defaultM, width: elementW, height: elementH)
       
+      kvButton3.frame = CGRect(x: insetLM + 2 * elementW + 2 * defaultM, y: defaultM, width: elementW, height: elementH)
+      
       topNavBgView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: insetTM + elementH + defaultM)
       
       progressView.frame = CGRect(x: insetLM, y: insetTM + elementH + 2, width: view.frame.width - insetLM - insetRM, height: 2)
@@ -2846,6 +2860,18 @@ urlField.addAction(updateRightViewLayout, for: .editingDidEnd)*/
         //kvButton2LongPress.minimumPressDuration = 3
         kvButton2.addGestureRecognizer(kvButton2LongPress)
         keyboardView.addSubview(kvButton2)
+        
+        kvButton3 = UIButton(frame: CGRect.zero)
+        kvButton3.backgroundColor = .appBgColor
+        kvButton3.layer.cornerRadius = defaultCornerRadius
+        kvButton3.clipsToBounds = true
+        kvButton3.setTitle("Test3", for: .normal)
+        kvButton3.setTitleColor(.buttonFgColor, for: .normal)
+        kvButton3.addTarget(self, action: #selector(self.kvButton3Clicked), for: .touchUpInside)
+        let kvButton3LongPress = UILongPressGestureRecognizer(target: self, action: #selector(kvButton3Pressed(gesture:)))
+        //kvButton3LongPress.minimumPressDuration = 3
+        kvButton3.addGestureRecognizer(kvButton3LongPress)
+        keyboardView.addSubview(kvButton3)
         
         urlField.keyboardType = UIKeyboardType.webSearch
         urlField.returnKeyType = UIReturnKeyType.done
