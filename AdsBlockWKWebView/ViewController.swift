@@ -873,7 +873,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var array: Array<String> = []
   var moverIndex: Int = -1
   var editButtonBgColor: UIColor = .appBgColor
-  var horizontalCellPadding: CGFloat = 5
+  var horizontalCellPadding: CGFloat
   
   var url: String!
   var currentUserAgent: String = "default"
@@ -2258,7 +2258,7 @@ version: \(appVersion)
       progressView.transform = progressView.transform.scaledBy(x: 1, y: 0.5)
       
       tableView.frame = CGRect(x: insetL, y: insetTM + elementH + defaultM, width: view.frame.width - insetL - insetR, height: 0)
-      horizontalCellPadding = (insetL == 0) ? 10 : 5
+      horizontalCellPadding = (insetL == 0) ? 20 : 15
       tableView.reloadData()
       
       webView.frame = CGRect(x: insetL, y: insetTM + elementH + defaultM, width: view.frame.width - insetL - insetR, height: view.frame.height - insetTM - elementH - defaultM)
