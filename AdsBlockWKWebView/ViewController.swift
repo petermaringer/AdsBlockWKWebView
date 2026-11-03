@@ -1351,7 +1351,24 @@ version: \(appVersion)
   //cell.selectionStyle = .blue
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath as IndexPath)
+    //let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath as IndexPath)
+    
+    class MiniZelle: UITableViewCell {
+        let line = UIView()
+        override func layoutSubviews() {
+          super.layoutSubviews()
+          if line.superview == nil {
+            line.backgroundColor = .separator
+            addSubview(line)
+          }
+          bringSubviewToFront(line)
+          let pixel: CGFloat = 1.0 / UIScreen.main.scale
+          line.frame = CGRect(x: 5, y: bounds.height - pixel, width: bounds.width - 10, height: pixel)
+        }
+      }
+      let id = "MiniCell"
+      let cell = tableView.dequeueReusableCell(withIdentifier: id) as? MiniZelle ?? MiniZelle(style: .default, reuseIdentifier: id)
+    
     cell.backgroundColor = .clear
     /*cell.textLabel!.font = UIFont.systemFont(ofSize: 15)
     cell.textLabel!.textColor = .appBgColor
@@ -1382,7 +1399,7 @@ version: \(appVersion)
     // GEÄNDERT: Auf 1.0 gesetzt für die originale, kräftigere System-Dicke
     linie.heightAnchor.constraint(equalToConstant: 1.0)
 ])*/
-    cell.preservesSuperviewLayoutMargins = true
+    //cell.preservesSuperviewLayoutMargins = true
     
     return cell
   }
@@ -2905,11 +2922,11 @@ urlField.addAction(updateRightViewLayout, for: .editingDidEnd)*/
         //tableView.contentSize.width = 100
         //tableView.clipsToBounds = false
         //tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, -30)
-    tableView.separatorStyle = .singleLine
-    //tableView.separatorColor = .appBgColor
-    tableView.separatorColor = .appBgLightColor
-    tableView.separatorInsetReference = .fromAutomaticInsets
-    tableView.separatorInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+    tableView.separatorStyle = .none
+        //tableView.separatorColor = .appBgColor
+    //tableView.separatorColor = .appBgLightColor
+        //tableView.separatorInsetReference = .fromAutomaticInsets
+    //tableView.separatorInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
         
         
         if (UserDefaults.standard.object(forKey: "urls") != nil) {
