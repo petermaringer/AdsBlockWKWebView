@@ -1377,12 +1377,14 @@ version: \(appVersion)
     bgConfig.customView = container
     cell.backgroundConfiguration = bgConfig
 
-    NSLayoutConstraint.activate([
-        linie.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 5),
-        linie.trailingAnchor.constraint(equalTo: container.trailingAnchor),
-        linie.bottomAnchor.constraint(equalTo: container.bottomAnchor),
-        linie.heightAnchor.constraint(equalToConstant: 0.5)
-    ])
+   NSLayoutConstraint.activate([
+    linie.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 5),
+    // GEÄNDERT: Zieht die Linie jetzt auch rechts um 5 Punkte nach innen
+    linie.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -5),
+    linie.bottomAnchor.constraint(equalTo: container.bottomAnchor),
+    // GEÄNDERT: Auf 1.0 gesetzt für die originale, kräftigere System-Dicke
+    linie.heightAnchor.constraint(equalToConstant: 1.0)
+])
     
     return cell
   }
