@@ -873,7 +873,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var array: Array<String> = []
   var moverIndex: Int = -1
   var editButtonBgColor: UIColor = .appBgColor
-  var horizontalCellPadding: CGFloat
+  var horizontalCellPadding: CGFloat = 0
   
   var url: String!
   var currentUserAgent: String = "default"
