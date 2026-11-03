@@ -873,6 +873,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var array: Array<String> = []
   var moverIndex: Int = -1
   var editButtonBgColor: UIColor = .appBgColor
+  var horizontalCellPadding: CGFloat = 5
   
   var url: String!
   var currentUserAgent: String = "default"
@@ -1360,7 +1361,7 @@ version: \(appVersion)
     content.textProperties.font = UIFont.systemFont(ofSize: 15)
     content.textProperties.color = .appBgColor
     content.axesPreservingSuperviewLayoutMargins = []
-    content.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5)
+    content.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: horizontalCellPadding, bottom: 0, trailing: horizontalCellPadding)
     cell.contentConfiguration = content
     
     return cell
@@ -2257,6 +2258,7 @@ version: \(appVersion)
       progressView.transform = progressView.transform.scaledBy(x: 1, y: 0.5)
       
       tableView.frame = CGRect(x: insetL, y: insetTM + elementH + defaultM, width: view.frame.width - insetL - insetR, height: 0)
+      horizontalCellPadding = (insetL == 0) ? 10 : 5
       tableView.reloadData()
       
       webView.frame = CGRect(x: insetL, y: insetTM + elementH + defaultM, width: view.frame.width - insetL - insetR, height: view.frame.height - insetTM - elementH - defaultM)
