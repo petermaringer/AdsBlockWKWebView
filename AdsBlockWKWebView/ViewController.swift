@@ -1366,22 +1366,21 @@ version: \(appVersion)
     
     cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
 
-    // 2. Erstellt die absolut starre Hintergrund-Ebene
     var bgConfig = UIBackgroundConfiguration.clear()
-    bgConfig.backgroundColor = .systemBackground // Deine gewünschte Zellenfarbe
+    bgConfig.backgroundColor = .systemBackground
 
-    // 3. Verankert eine echte Trennlinie direkt im unbeweglichen Hintergrund
+    let container = UIView()
     let linie = UIView()
     linie.backgroundColor = .separator
     linie.translatesAutoresizingMaskIntoConstraints = false
-    bgConfig.customView = linie
+    container.addSubview(linie)
+    bgConfig.customView = container
     cell.backgroundConfiguration = bgConfig
 
-    // 4. Setzt das Inset auf 5pt und fixiert die Linie bombensicher
     NSLayoutConstraint.activate([
-        linie.leadingAnchor.constraint(equalTo: cell.leadingAnchor, constant: 5),
-        linie.trailingAnchor.constraint(equalTo: cell.trailingAnchor),
-        linie.bottomAnchor.constraint(equalTo: cell.bottomAnchor),
+        linie.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 5),
+        linie.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+        linie.bottomAnchor.constraint(equalTo: container.bottomAnchor),
         linie.heightAnchor.constraint(equalToConstant: 0.5)
     ])
     
