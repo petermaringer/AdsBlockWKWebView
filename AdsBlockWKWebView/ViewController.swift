@@ -1351,25 +1351,7 @@ version: \(appVersion)
   //cell.selectionStyle = .blue
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    //let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath as IndexPath)
-    
-    class MiniZelle: UITableViewCell {
-        let line = UIView()
-        override func layoutSubviews() {
-          super.layoutSubviews()
-          if line.superview == nil {
-            line.backgroundColor = .separator
-            addSubview(line)
-          }
-          //bringSubviewToFront(line)
-          bringSubview(toFront: line)
-          let pixel: CGFloat = 1.0 / UIScreen.main.scale
-          line.frame = CGRect(x: 5, y: bounds.height - pixel, width: bounds.width - 10, height: pixel)
-        }
-      }
-      let id = "MiniCell"
-      let cell = tableView.dequeueReusableCell(withIdentifier: id) as? MiniZelle ?? MiniZelle(style: .default, reuseIdentifier: id)
-    
+    let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath as IndexPath)
     cell.backgroundColor = .clear
     /*cell.textLabel!.font = UIFont.systemFont(ofSize: 15)
     cell.textLabel!.textColor = .appBgColor
@@ -1401,6 +1383,28 @@ version: \(appVersion)
     linie.heightAnchor.constraint(equalToConstant: 1.0)
 ])*/
     //cell.preservesSuperviewLayoutMargins = true
+    
+    let separatorTag = 999_000 + indexPath.row
+    tableView.viewWithTag(separatorTag)?.removeFromSuperview()
+    
+    // Neue, eigenständige Linie direkt auf die TableView setzen
+    let staticLine = UIView()
+    staticLine.tag = separatorTag
+    staticLine.backgroundColor = .separator // Oder deine Wunschfarbe
+    tableView.addSubview(staticLine)
+    
+    // Exakte Position auf der TableView berechnen (Immun gegen Zell-Wischen)
+    DispatchQueue.main.async {
+        let pixelHeight = 1.0 / UIScreen.main.scale // Liefert die echte 1-Pixel-Dicke des Displays
+        let cellFrame = tableView.rectForRow(at: indexPath)
+        
+        staticLine.frame = CGRect(
+            x: cellFrame.origin.x + 16, // Dein linker Abstand (Standard ist meist 16)
+            y: cellFrame.origin.y + cellFrame.height - pixelHeight, // Ganz unten an der Zelle platziert
+            width: cellFrame.width - 16, // Breite minus Abstand
+            height: pixelHeight
+        )
+    }
     
     return cell
   }
