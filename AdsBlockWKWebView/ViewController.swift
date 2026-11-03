@@ -1386,24 +1386,14 @@ version: \(appVersion)
     
     let separatorTag = 999_000 + indexPath.row
     tableView.viewWithTag(separatorTag)?.removeFromSuperview()
-    
-    // Neue, eigenständige Linie direkt auf die TableView setzen
     let staticLine = UIView()
     staticLine.tag = separatorTag
-    staticLine.backgroundColor = .separator // Oder deine Wunschfarbe
+    staticLine.backgroundColor = .appBgLightColor //.separator
     tableView.addSubview(staticLine)
-    
-    // Exakte Position auf der TableView berechnen (Immun gegen Zell-Wischen)
     DispatchQueue.main.async {
-        let pixelHeight = 1.0 / UIScreen.main.scale // Liefert die echte 1-Pixel-Dicke des Displays
-        let cellFrame = tableView.rectForRow(at: indexPath)
-        
-        staticLine.frame = CGRect(
-            x: cellFrame.origin.x + 16, // Dein linker Abstand (Standard ist meist 16)
-            y: cellFrame.origin.y + cellFrame.height - pixelHeight, // Ganz unten an der Zelle platziert
-            width: cellFrame.width - 16, // Breite minus Abstand
-            height: pixelHeight
-        )
+      let pixelHeight = 1.0 // / UIScreen.main.scale
+      let cellFrame = tableView.rectForRow(at: indexPath)
+      staticLine.frame = CGRect(x: cellFrame.origin.x + 5, y: cellFrame.origin.y + cellFrame.height - pixelHeight, width: cellFrame.width - 10, height: pixelHeight)
     }
     
     return cell
