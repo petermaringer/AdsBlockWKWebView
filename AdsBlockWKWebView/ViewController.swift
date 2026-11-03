@@ -1361,7 +1361,8 @@ version: \(appVersion)
             line.backgroundColor = .separator
             addSubview(line)
           }
-          bringSubviewToFront(line)
+          //bringSubviewToFront(line)
+          bringSubview(toFront: line)
           let pixel: CGFloat = 1.0 / UIScreen.main.scale
           line.frame = CGRect(x: 5, y: bounds.height - pixel, width: bounds.width - 10, height: pixel)
         }
