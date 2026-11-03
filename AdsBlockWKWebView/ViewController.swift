@@ -1364,11 +1364,26 @@ version: \(appVersion)
     content.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: horizontalCellPadding, bottom: 0, trailing: horizontalCellPadding)
     cell.contentConfiguration = content
     
-    var backgroundConfig = UIBackgroundConfiguration.listCell()
-    backgroundConfig.backgroundColor = .systemBackground
-    backgroundConfig.separatorConfiguration.color = .separator
-    backgroundConfig.separatorConfiguration.inset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
-    cell.backgroundConfiguration = backgroundConfig
+    cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+
+    // 2. Erstellt die absolut starre Hintergrund-Ebene
+    var bgConfig = UIBackgroundConfiguration.clear()
+    bgConfig.backgroundColor = .systemBackground // Deine gewünschte Zellenfarbe
+
+    // 3. Verankert eine echte Trennlinie direkt im unbeweglichen Hintergrund
+    let linie = UIView()
+    linie.backgroundColor = .separator
+    linie.translatesAutoresizingMaskIntoConstraints = false
+    bgConfig.customView = linie
+    cell.backgroundConfiguration = bgConfig
+
+    // 4. Setzt das Inset auf 5pt und fixiert die Linie bombensicher
+    NSLayoutConstraint.activate([
+        linie.leadingAnchor.constraint(equalTo: cell.leadingAnchor, constant: 5),
+        linie.trailingAnchor.constraint(equalTo: cell.trailingAnchor),
+        linie.bottomAnchor.constraint(equalTo: cell.bottomAnchor),
+        linie.heightAnchor.constraint(equalToConstant: 0.5)
+    ])
     
     return cell
   }
