@@ -1355,18 +1355,12 @@ version: \(appVersion)
     //cell.textLabel!.textColor = .appBgColor
     //cell.textLabel!.text = "\(array[indexPath.row])"
     
-    //cell.preservesSuperviewLayoutMargins = false
-    //cell.layoutMargins.left = 5
-    //cell.layoutMargins.right = 5
-    
     var content = cell.defaultContentConfiguration()
     content.text = "\(array[indexPath.row])"
     content.textProperties.font = UIFont.systemFont(ofSize: 15)
     content.textProperties.color = .appBgColor
-    
     content.axesPreservingSuperviewLayoutMargins = []
-    content.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 8, leading: 5, bottom: 8, trailing: 10)
-    
+    content.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5)
     cell.contentConfiguration = content
     
     return cell
