@@ -1392,7 +1392,7 @@ version: \(appVersion)
     staticLine.backgroundColor = .separator
     tableView.addSubview(staticLine)*/
     
-   if let oldLine = objc_getAssociatedObject(cell, UnsafeRawPointer(bitPattern: 999_000)!) as? UIView {
+   /*if let oldLine = objc_getAssociatedObject(cell, UnsafeRawPointer(bitPattern: 999_000)!) as? UIView {
         oldLine.removeFromSuperview()
     }
     
@@ -1409,17 +1409,60 @@ version: \(appVersion)
       let pixelHeight = 1.0 // / UIScreen.main.scale
       let cellFrame = tableView.rectForRow(at: indexPath)
       staticLine.frame = CGRect(x: cellFrame.origin.x + defaultM, y: cellFrame.origin.y + cellFrame.height - pixelHeight, width: cellFrame.width - 2 * defaultM, height: pixelHeight)
-    //}
+    //}*/
     
     return cell
   }
   
-  /*func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-    // Sobald eine Zelle vom Bildschirm verschwindet oder recycelt wird,
-    // löschen wir ihre Linie restlos von der TableView.
-    let separatorTag = cell.hash
-    tableView.viewWithTag(separatorTag)?.removeFromSuperview()
-}*/
+func tableView(
+  _ tableView: UITableView,
+  willDisplay cell: UITableViewCell,
+  forRowAt indexPath: IndexPath
+) {
+  let staticLine = UIView()
+  staticLine.backgroundColor = .separator
+  staticLine.isUserInteractionEnabled = false
+
+  tableView.addSubview(staticLine)
+
+  objc_setAssociatedObject(
+    cell,
+    &separatorKey,
+    staticLine,
+    .OBJC_ASSOCIATION_RETAIN_NONATOMIC
+  )
+
+  let pixelHeight = 1.0 / UIScreen.main.scale
+  let cellFrame = tableView.rectForRow(at: indexPath)
+
+  staticLine.frame = CGRect(
+    x: cellFrame.origin.x + defaultM,
+    y: cellFrame.origin.y + cellFrame.height - pixelHeight,
+    width: cellFrame.width - 2 * defaultM,
+    height: pixelHeight
+  )
+}
+
+func tableView(
+  _ tableView: UITableView,
+  didEndDisplaying cell: UITableViewCell,
+  forRowAt indexPath: IndexPath
+) {
+  if let oldLine = objc_getAssociatedObject(
+    cell,
+    &separatorKey
+  ) as? UIView {
+
+    oldLine.removeFromSuperview()
+
+    objc_setAssociatedObject(
+      cell,
+      &separatorKey,
+      nil,
+      .OBJC_ASSOCIATION_RETAIN_NONATOMIC
+    )
+  }
+}
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     tableView.frame.size.height = CGFloat(min(array.count * 30, tableMaxLinesPref * 30 + 5))
