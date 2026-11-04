@@ -1363,45 +1363,32 @@ version: \(appVersion)
   //cell.selectionStyle = .blue
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath as IndexPath)
+    //let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath as IndexPath)
+    let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath)
     cell.backgroundColor = .clear
     /*cell.textLabel!.font = UIFont.systemFont(ofSize: 15)
     cell.textLabel!.textColor = .appBgColor
     cell.textLabel!.text = "\(array[indexPath.row])"*/
     var content = cell.defaultContentConfiguration()
-    content.text = "\(array[indexPath.row])"
+    //content.text = "\(array[indexPath.row])"
+    content.text = array[indexPath.row]
     content.textProperties.font = UIFont.systemFont(ofSize: 15)
     content.textProperties.color = .appBgColor
     content.axesPreservingSuperviewLayoutMargins = []
     content.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: horizontalCellPadding, bottom: 0, trailing: horizontalCellPadding)
     cell.contentConfiguration = content
     
-    /*cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-    var bgConfig = UIBackgroundConfiguration.clear()
+    /*var bgConfig = UIBackgroundConfiguration.clear()
     bgConfig.backgroundColor = .systemBackground
-    let container = UIView()
-    let linie = UIView()
-    linie.backgroundColor = .separator
-    linie.translatesAutoresizingMaskIntoConstraints = false
-    container.addSubview(linie)
-    bgConfig.customView = container
-    cell.backgroundConfiguration = bgConfig
-   NSLayoutConstraint.activate([
-    linie.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 5),
-    // GEÄNDERT: Zieht die Linie jetzt auch rechts um 5 Punkte nach innen
-    linie.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -5),
-    linie.bottomAnchor.constraint(equalTo: container.bottomAnchor),
-    // GEÄNDERT: Auf 1.0 gesetzt für die originale, kräftigere System-Dicke
-    linie.heightAnchor.constraint(equalToConstant: 1.0)
-])*/
-    //cell.preservesSuperviewLayoutMargins = true
+    cell.backgroundConfiguration = bgConfig*/
     
     //let separatorTag = 999_000 + indexPath.row
     let separatorTag = cell.hash
     tableView.viewWithTag(separatorTag)?.removeFromSuperview()
     let staticLine = UIView()
     staticLine.tag = separatorTag
-    staticLine.backgroundColor = .appBgLightColor //.separator
+    //staticLine.backgroundColor = .appBgLightColor //.separator
+    staticLine.backgroundColor = .separator
     tableView.addSubview(staticLine)
     //DispatchQueue.main.async {
       let pixelHeight = 1.0 // / UIScreen.main.scale
