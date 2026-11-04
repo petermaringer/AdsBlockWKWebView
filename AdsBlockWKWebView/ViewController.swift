@@ -1420,23 +1420,35 @@ func tableView(
   willDisplay cell: UITableViewCell,
   forRowAt indexPath: IndexPath
 ) {
-  let staticLine = UIView()
-  staticLine.backgroundColor = .separator
-  staticLine.isUserInteractionEnabled = false
-
-  tableView.addSubview(staticLine)
-
-  objc_setAssociatedObject(
+  var staticLine = objc_getAssociatedObject(
     cell,
-    &separatorKey,
-    staticLine,
-    .OBJC_ASSOCIATION_RETAIN_NONATOMIC
-  )
+    &separatorKey
+  ) as? UIView
 
-  let pixelHeight = 1.0 // / UIScreen.main.scale
+  // Nur eine neue Linie erstellen, wenn noch keine existiert
+  if staticLine == nil || staticLine?.superview !== tableView {
+
+    staticLine?.removeFromSuperview()
+
+    staticLine = UIView()
+    staticLine!.backgroundColor = .separator
+    staticLine!.isUserInteractionEnabled = false
+
+    tableView.addSubview(staticLine!)
+
+    objc_setAssociatedObject(
+      cell,
+      &separatorKey,
+      staticLine!,
+      .OBJC_ASSOCIATION_RETAIN_NONATOMIC
+    )
+  }
+
+  // Position aktualisieren
+  let pixelHeight = 1.0
   let cellFrame = tableView.rectForRow(at: indexPath)
 
-  staticLine.frame = CGRect(
+  staticLine!.frame = CGRect(
     x: cellFrame.origin.x + defaultM,
     y: cellFrame.origin.y + cellFrame.height - pixelHeight,
     width: cellFrame.width - 2 * defaultM,
