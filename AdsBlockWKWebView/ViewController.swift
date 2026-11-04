@@ -1383,21 +1383,14 @@ version: \(appVersion)
     bgConfig.backgroundColor = .systemBackground
     cell.backgroundConfiguration = bgConfig*/
     
-    /*//let separatorTag = 999_000 + indexPath.row
+    //let separatorTag = 999_000 + indexPath.row
     let separatorTag = cell.hash
-    tableView.viewWithTag(separatorTag)?.removeFromSuperview()
+    //tableView.viewWithTag(separatorTag)?.removeFromSuperview()
     let staticLine = UIView()
     staticLine.tag = separatorTag
     //staticLine.backgroundColor = .appBgLightColor //.separator
     staticLine.backgroundColor = .separator
-    tableView.addSubview(staticLine)*/
-    
-   let customTag = abs(cell.hash ^ indexPath.row)
-tableView.viewWithTag(customTag)?.removeFromSuperview()
-let staticLine = UIView()
-staticLine.tag = customTag
-staticLine.backgroundColor = .separator
-tableView.addSubview(staticLine)
+    tableView.addSubview(staticLine)
     
     //DispatchQueue.main.async {
       let pixelHeight = 1.0 // / UIScreen.main.scale
@@ -1407,6 +1400,13 @@ tableView.addSubview(staticLine)
     
     return cell
   }
+  
+  func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    // Sobald eine Zelle vom Bildschirm verschwindet oder recycelt wird,
+    // löschen wir ihre Linie restlos von der TableView.
+    let separatorTag = cell.hash
+    tableView.viewWithTag(separatorTag)?.removeFromSuperview()
+}
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     tableView.frame.size.height = CGFloat(min(array.count * 30, tableMaxLinesPref * 30 + 5))
