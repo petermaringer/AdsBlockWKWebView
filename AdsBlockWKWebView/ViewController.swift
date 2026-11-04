@@ -1365,6 +1365,7 @@ version: \(appVersion)
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     //let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath as IndexPath)
     let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath)
+      cell.selectionStyle = .none
     cell.backgroundColor = .clear
     /*cell.textLabel!.font = UIFont.systemFont(ofSize: 15)
     cell.textLabel!.textColor = .appBgColor
@@ -1382,14 +1383,23 @@ version: \(appVersion)
     bgConfig.backgroundColor = .systemBackground
     cell.backgroundConfiguration = bgConfig*/
     
-    //let separatorTag = 999_000 + indexPath.row
+    /*//let separatorTag = 999_000 + indexPath.row
     let separatorTag = cell.hash
     tableView.viewWithTag(separatorTag)?.removeFromSuperview()
     let staticLine = UIView()
     staticLine.tag = separatorTag
     //staticLine.backgroundColor = .appBgLightColor //.separator
     staticLine.backgroundColor = .separator
+    tableView.addSubview(staticLine)*/
+    
+    for subview in tableView.subviews where subview.accessibilityIdentifier == "CustomSeparator" {
+      subview.removeFromSuperview()
+    }
+    let staticLine = UIView()
+    staticLine.accessibilityIdentifier = "CustomSeparator"
+    staticLine.backgroundColor = .separator
     tableView.addSubview(staticLine)
+    
     //DispatchQueue.main.async {
       let pixelHeight = 1.0 // / UIScreen.main.scale
       let cellFrame = tableView.rectForRow(at: indexPath)
