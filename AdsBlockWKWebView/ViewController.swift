@@ -1379,11 +1379,31 @@ version: \(appVersion)
     content.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: horizontalCellPadding, bottom: 0, trailing: horizontalCellPadding)
     cell.contentConfiguration = content
     
-    /*var bgConfig = UIBackgroundConfiguration.clear()
+    var bgConfig = UIBackgroundConfiguration.clear()
     bgConfig.backgroundColor = .systemBackground
-    cell.backgroundConfiguration = bgConfig*/
     
-    //let separatorTag = 999_000 + indexPath.row
+    let container = UIView()
+    let linie = UIView()
+    linie.backgroundColor = .separator
+    linie.translatesAutoresizingMaskIntoConstraints = false
+    container.addSubview(linie)
+    
+    // 4. Der magische Kniff: Auto Layout bindet die Linie an die Zelle
+    NSLayoutConstraint.activate([
+        linie.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: defaultM),
+        linie.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -defaultM),
+        linie.bottomAnchor.constraint(equalTo: container.bottomAnchor),
+        linie.heightAnchor.constraint(equalToConstant: 1.0)
+    ])
+    
+    // 5. Dem Container sagen, dass er sich beim Wischen und Highlighten NICHT verändern darf
+    container.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    
+    bgConfig.customView = container
+    
+    cell.backgroundConfiguration = bgConfig
+    
+    /*//let separatorTag = 999_000 + indexPath.row
     let separatorTag = cell.hash
     //tableView.viewWithTag(separatorTag)?.removeFromSuperview()
     let staticLine = UIView()
@@ -1396,17 +1416,17 @@ version: \(appVersion)
       let pixelHeight = 1.0 // / UIScreen.main.scale
       let cellFrame = tableView.rectForRow(at: indexPath)
       staticLine.frame = CGRect(x: cellFrame.origin.x + defaultM, y: cellFrame.origin.y + cellFrame.height - pixelHeight, width: cellFrame.width - 2 * defaultM, height: pixelHeight)
-    //}
+    //}*/
     
     return cell
   }
   
-  func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+  /*func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
     // Sobald eine Zelle vom Bildschirm verschwindet oder recycelt wird,
     // löschen wir ihre Linie restlos von der TableView.
     let separatorTag = cell.hash
     tableView.viewWithTag(separatorTag)?.removeFromSuperview()
-}
+}*/
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     tableView.frame.size.height = CGFloat(min(array.count * 30, tableMaxLinesPref * 30 + 5))
