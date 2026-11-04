@@ -1362,25 +1362,17 @@ version: \(appVersion)
   //cell.layer.backgroundColor = UIColor.gray.cgColor
   //cell.selectionStyle = .blue
   
+  private var AssociatedLineKey: UInt8 = 0
+extension UITableViewCell {
+    var mySeparatorLine: UIView? {
+        get { objc_getAssociatedObject(self, &AssociatedLineKey) as? UIView }
+        set { objc_setAssociatedObject(self, &AssociatedLineKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+    }
+}
+  
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     //let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath as IndexPath)
-    //let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath)
-      
-      class MyCell: UITableViewCell {
-        var mySeparatorLine: UIView?
-        
-        override func prepareForReuse() {
-            super.prepareForReuse()
-            mySeparatorLine?.removeFromSuperview()
-            mySeparatorLine = nil
-        }
-    }
-    
-    guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath) as? MyCell else {
-        return UITableViewCell()
-    }
-      
-      
+    let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath)
       cell.selectionStyle = .none
     cell.backgroundColor = .clear
     /*cell.textLabel!.font = UIFont.systemFont(ofSize: 15)
