@@ -1433,7 +1433,7 @@ func tableView(
     .OBJC_ASSOCIATION_RETAIN_NONATOMIC
   )
 
-  let pixelHeight = 1.0 / UIScreen.main.scale
+  let pixelHeight = 1.0 // / UIScreen.main.scale
   let cellFrame = tableView.rectForRow(at: indexPath)
 
   staticLine.frame = CGRect(
