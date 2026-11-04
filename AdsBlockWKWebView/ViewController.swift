@@ -1364,7 +1364,23 @@ version: \(appVersion)
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     //let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath as IndexPath)
-    let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath)
+    //let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath)
+      
+      class MyCell: UITableViewCell {
+        var mySeparatorLine: UIView?
+        
+        override func prepareForReuse() {
+            super.prepareForReuse()
+            mySeparatorLine?.removeFromSuperview()
+            mySeparatorLine = nil
+        }
+    }
+    
+    guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath) as? MyCell else {
+        return UITableViewCell()
+    }
+      
+      
       cell.selectionStyle = .none
     cell.backgroundColor = .clear
     /*cell.textLabel!.font = UIFont.systemFont(ofSize: 15)
@@ -1381,26 +1397,6 @@ version: \(appVersion)
     
     var bgConfig = UIBackgroundConfiguration.clear()
     bgConfig.backgroundColor = .systemBackground
-    
-    let container = UIView()
-    let linie = UIView()
-    linie.backgroundColor = .separator
-    linie.translatesAutoresizingMaskIntoConstraints = false
-    container.addSubview(linie)
-    
-    // 4. Der magische Kniff: Auto Layout bindet die Linie an die Zelle
-    NSLayoutConstraint.activate([
-        linie.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: defaultM),
-        linie.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -defaultM),
-        linie.bottomAnchor.constraint(equalTo: container.bottomAnchor),
-        linie.heightAnchor.constraint(equalToConstant: 1.0)
-    ])
-    
-    // 5. Dem Container sagen, dass er sich beim Wischen und Highlighten NICHT verändern darf
-    container.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    
-    bgConfig.customView = container
-    
     cell.backgroundConfiguration = bgConfig
     
     /*//let separatorTag = 999_000 + indexPath.row
@@ -1410,13 +1406,23 @@ version: \(appVersion)
     staticLine.tag = separatorTag
     //staticLine.backgroundColor = .appBgLightColor //.separator
     staticLine.backgroundColor = .separator
+    tableView.addSubview(staticLine)*/
+    
+    cell.mySeparatorLine?.removeFromSuperview()
+    
+    // 3. Neue Linie auf der TableView erstellen (Bleibt starr beim Wischen)
+    let staticLine = UIView()
+    staticLine.backgroundColor = .separator
     tableView.addSubview(staticLine)
+    
+    // 4. Die Zelle merkt sich diese neue Linie direkt im Speicher
+    cell.mySeparatorLine = staticLine
     
     //DispatchQueue.main.async {
       let pixelHeight = 1.0 // / UIScreen.main.scale
       let cellFrame = tableView.rectForRow(at: indexPath)
       staticLine.frame = CGRect(x: cellFrame.origin.x + defaultM, y: cellFrame.origin.y + cellFrame.height - pixelHeight, width: cellFrame.width - 2 * defaultM, height: pixelHeight)
-    //}*/
+    //}
     
     return cell
   }
