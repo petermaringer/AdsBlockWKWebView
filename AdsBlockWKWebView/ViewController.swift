@@ -1362,14 +1362,6 @@ version: \(appVersion)
   //cell.layer.backgroundColor = UIColor.gray.cgColor
   //cell.selectionStyle = .blue
   
-  private var AssociatedLineKey: UInt8 = 0
-extension UITableViewCell {
-    var mySeparatorLine: UIView? {
-        get { objc_getAssociatedObject(self, &AssociatedLineKey) as? UIView }
-        set { objc_setAssociatedObject(self, &AssociatedLineKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
-    }
-}
-  
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     //let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath as IndexPath)
     let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath)
@@ -1400,7 +1392,9 @@ extension UITableViewCell {
     staticLine.backgroundColor = .separator
     tableView.addSubview(staticLine)*/
     
-    cell.mySeparatorLine?.removeFromSuperview()
+   if let oldLine = objc_getAssociatedObject(cell, UnsafeRawPointer(bitPattern: 999_000)!) as? UIView {
+        oldLine.removeFromSuperview()
+    }
     
     // 3. Neue Linie auf der TableView erstellen (Bleibt starr beim Wischen)
     let staticLine = UIView()
@@ -1408,7 +1402,8 @@ extension UITableViewCell {
     tableView.addSubview(staticLine)
     
     // 4. Die Zelle merkt sich diese neue Linie direkt im Speicher
-    cell.mySeparatorLine = staticLine
+   objc_setAssociatedObject(cell, UnsafeRawPointer(bitPattern: 999_000)!, staticLine, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+   
     
     //DispatchQueue.main.async {
       let pixelHeight = 1.0 // / UIScreen.main.scale
