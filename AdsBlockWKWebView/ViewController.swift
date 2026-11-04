@@ -1392,13 +1392,12 @@ version: \(appVersion)
     staticLine.backgroundColor = .separator
     tableView.addSubview(staticLine)*/
     
-    for subview in tableView.subviews where subview.accessibilityIdentifier == "CustomSeparator" {
-      subview.removeFromSuperview()
-    }
-    let staticLine = UIView()
-    staticLine.accessibilityIdentifier = "CustomSeparator"
-    staticLine.backgroundColor = .separator
-    tableView.addSubview(staticLine)
+   let customTag = abs(cell.hash ^ indexPath.row)
+tableView.viewWithTag(customTag)?.removeFromSuperview()
+let staticLine = UIView()
+staticLine.tag = customTag
+staticLine.backgroundColor = .separator
+tableView.addSubview(staticLine)
     
     //DispatchQueue.main.async {
       let pixelHeight = 1.0 // / UIScreen.main.scale
