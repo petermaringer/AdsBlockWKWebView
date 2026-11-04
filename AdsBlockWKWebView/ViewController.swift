@@ -152,6 +152,7 @@ let hapticImpactFB = UIImpactFeedbackGenerator(style: .medium)
 let defaultCornerRadius: CGFloat = 5 //5
 let defaultPadding: CGFloat = 15 //15
 let defaultTimeoutInterval: Double = 10 //10
+private var separatorKey: UInt8 = 0
 
 var restoreUrlsJson: String!
 
