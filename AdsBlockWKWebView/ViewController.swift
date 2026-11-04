@@ -1445,8 +1445,9 @@ func tableView(
   }
 
   // Position aktualisieren
-  let pixelHeight = 0.0
-  let cellFrame = tableView.rectForRow(at: indexPath)
+  let pixelHeight = 1.0
+  //let cellFrame = tableView.rectForRow(at: indexPath)
+  let cellFrame = cell.convert(cell.bounds, to: tableView)
 
   staticLine!.frame = CGRect(
     x: cellFrame.origin.x + defaultM,
