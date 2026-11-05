@@ -878,6 +878,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var editButtonBgColor: UIColor = .appBgColor
   var horizontalCellPadding: CGFloat = defaultPadding
   static var separatorKey: UInt8 = 0
+  static var sideMaskKey: UInt8 = 0
   
   var url: String!
   var currentUserAgent: String = "default"
@@ -1417,6 +1418,54 @@ version: \(appVersion)
   }
   
   func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+  var staticLine = objc_getAssociatedObject(cell, &Self.separatorKey) as? UIView
+  if staticLine == nil || staticLine?.superview !== tableView {
+    staticLine?.removeFromSuperview()
+    staticLine = UIView()
+    staticLine!.backgroundColor = .systemBackground
+    staticLine!.isUserInteractionEnabled = false
+    let separatorLayer = CALayer()
+    separatorLayer.backgroundColor = UIColor.separator.cgColor
+    staticLine!.layer.addSublayer(separatorLayer)
+    tableView.addSubview(staticLine!)
+    objc_setAssociatedObject(cell, &Self.separatorKey, staticLine!, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+  }
+  let pixelHeight = 1.0
+  let cellFrame = cell.convert(cell.bounds, to: tableView)
+  staticLine!.frame = CGRect(x: cellFrame.origin.x, y: cellFrame.origin.y + cellFrame.height - pixelHeight, width: cellFrame.width, height: pixelHeight)
+  staticLine!.layer.sublayers?.first?.frame = CGRect(x: defaultM, y: 0, width: staticLine!.bounds.width - 2 * defaultM, height: pixelHeight)
+  var sideMasks = objc_getAssociatedObject(cell, &Self.sideMaskKey) as? UIView
+  if sideMasks == nil || sideMasks?.superview !== tableView {
+    sideMasks?.removeFromSuperview()
+    sideMasks = UIView()
+    sideMasks!.backgroundColor = .clear
+    sideMasks!.isUserInteractionEnabled = false
+    let leftMask = UIView()
+    leftMask.backgroundColor = .systemBackground
+    sideMasks!.addSubview(leftMask)
+    let rightMask = UIView()
+    rightMask.backgroundColor = .systemBackground
+    sideMasks!.addSubview(rightMask)
+    tableView.addSubview(sideMasks!)
+    objc_setAssociatedObject(cell, &Self.sideMaskKey, sideMasks!, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+  }
+  sideMasks!.frame = cellFrame
+  sideMasks!.subviews[0].frame = CGRect(x: 0, y: 0, width: defaultM, height: cellFrame.height)
+  sideMasks!.subviews[1].frame = CGRect(x: cellFrame.width - defaultM, y: 0, width: defaultM, height: cellFrame.height)
+}
+
+func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+  if let oldLine = objc_getAssociatedObject(cell, &Self.separatorKey) as? UIView {
+    oldLine.removeFromSuperview()
+    objc_setAssociatedObject(cell, &Self.separatorKey, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+  }
+  if let oldMasks = objc_getAssociatedObject(cell, &Self.sideMaskKey) as? UIView {
+    oldMasks.removeFromSuperview()
+    objc_setAssociatedObject(cell, &Self.sideMaskKey, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+  }
+}
+  
+  /*func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
     var staticLine = objc_getAssociatedObject(cell, &Self.separatorKey) as? UIView
     if staticLine == nil || staticLine?.superview !== tableView {
       staticLine?.removeFromSuperview()
@@ -1440,7 +1489,7 @@ version: \(appVersion)
       oldLine.removeFromSuperview()
       objc_setAssociatedObject(cell, &Self.separatorKey, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
-  }
+  }*/
   
 /*func tableView(
   _ tableView: UITableView,
