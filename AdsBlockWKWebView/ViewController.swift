@@ -152,7 +152,6 @@ let hapticImpactFB = UIImpactFeedbackGenerator(style: .medium)
 let defaultCornerRadius: CGFloat = 5 //5
 let defaultPadding: CGFloat = 15 //15
 let defaultTimeoutInterval: Double = 10 //10
-//private var separatorKey: UInt8 = 0
 
 var restoreUrlsJson: String!
 
@@ -1366,7 +1365,6 @@ version: \(appVersion)
   //cell.selectionStyle = .blue
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    //let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath as IndexPath)
     let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath)
       cell.selectionStyle = .none
     cell.backgroundColor = .clear
@@ -1374,7 +1372,6 @@ version: \(appVersion)
     cell.textLabel!.textColor = .appBgColor
     cell.textLabel!.text = "\(array[indexPath.row])"*/
     var content = cell.defaultContentConfiguration()
-    //content.text = "\(array[indexPath.row])"
     content.text = array[indexPath.row]
     content.textProperties.font = UIFont.systemFont(ofSize: 15)
     content.textProperties.color = .appBgColor
@@ -1386,54 +1383,10 @@ version: \(appVersion)
     bgConfig.backgroundColor = .systemBackground
     cell.backgroundConfiguration = bgConfig
     
-    /*//let separatorTag = 999_000 + indexPath.row
-    let separatorTag = cell.hash
-    //tableView.viewWithTag(separatorTag)?.removeFromSuperview()
-    let staticLine = UIView()
-    staticLine.tag = separatorTag
-    //staticLine.backgroundColor = .appBgLightColor //.separator
-    staticLine.backgroundColor = .separator
-    tableView.addSubview(staticLine)*/
-    
-   /*if let oldLine = objc_getAssociatedObject(cell, UnsafeRawPointer(bitPattern: 999_000)!) as? UIView {
-        oldLine.removeFromSuperview()
-    }
-    
-    // 3. Neue Linie auf der TableView erstellen (Bleibt starr beim Wischen)
-    let staticLine = UIView()
-    staticLine.backgroundColor = .separator
-    tableView.addSubview(staticLine)
-    
-    // 4. Die Zelle merkt sich diese neue Linie direkt im Speicher
-   objc_setAssociatedObject(cell, UnsafeRawPointer(bitPattern: 999_000)!, staticLine, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-   
-    
-    //DispatchQueue.main.async {
-      let pixelHeight = 1.0 // / UIScreen.main.scale
-      let cellFrame = tableView.rectForRow(at: indexPath)
-      staticLine.frame = CGRect(x: cellFrame.origin.x + defaultM, y: cellFrame.origin.y + cellFrame.height - pixelHeight, width: cellFrame.width - 2 * defaultM, height: pixelHeight)
-    //}*/
-    
     return cell
   }
   
-  /*func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-  var staticLine = objc_getAssociatedObject(cell, &Self.separatorKey) as? UIView
-  if staticLine == nil || staticLine?.superview !== tableView {
-    staticLine?.removeFromSuperview()
-    staticLine = UIView()
-    staticLine!.backgroundColor = .systemBackground
-    staticLine!.isUserInteractionEnabled = false
-    let separatorLayer = CALayer()
-    separatorLayer.backgroundColor = UIColor.separator.cgColor
-    staticLine!.layer.addSublayer(separatorLayer)
-    tableView.addSubview(staticLine!)
-    objc_setAssociatedObject(cell, &Self.separatorKey, staticLine!, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-  }
-  let pixelHeight = 1.0
-  let cellFrame = cell.convert(cell.bounds, to: tableView)
-  staticLine!.frame = CGRect(x: cellFrame.origin.x, y: cellFrame.origin.y + cellFrame.height - pixelHeight, width: cellFrame.width, height: pixelHeight)
-  staticLine!.layer.sublayers?.first?.frame = CGRect(x: defaultM, y: 0, width: staticLine!.bounds.width - 2 * defaultM, height: pixelHeight)
+  /*
   var sideMasks = objc_getAssociatedObject(cell, &Self.sideMaskKey) as? UIView
   if sideMasks == nil || sideMasks?.superview !== tableView {
     sideMasks?.removeFromSuperview()
@@ -1452,18 +1405,13 @@ version: \(appVersion)
   sideMasks!.frame = cellFrame
   sideMasks!.subviews[0].frame = CGRect(x: 0, y: 0, width: defaultM, height: cellFrame.height)
   sideMasks!.subviews[1].frame = CGRect(x: cellFrame.width - defaultM, y: 0, width: defaultM, height: cellFrame.height)
-}
-
-func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-  if let oldLine = objc_getAssociatedObject(cell, &Self.separatorKey) as? UIView {
-    oldLine.removeFromSuperview()
-    objc_setAssociatedObject(cell, &Self.separatorKey, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-  }
+  
+  
   if let oldMasks = objc_getAssociatedObject(cell, &Self.sideMaskKey) as? UIView {
     oldMasks.removeFromSuperview()
     objc_setAssociatedObject(cell, &Self.sideMaskKey, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
   }
-}*/
+  */
   
   func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
     var staticLine = objc_getAssociatedObject(cell, &Self.separatorKey) as? UIView
@@ -1479,6 +1427,7 @@ func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell,
       objc_setAssociatedObject(cell, &Self.separatorKey, staticLine!, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
     let pixelHeight = 1.0
+    //let cellFrame = tableView.rectForRow(at: indexPath)
     let cellFrame = cell.convert(cell.bounds, to: tableView)
     staticLine!.frame = CGRect(x: cellFrame.origin.x, y: cellFrame.origin.y + cellFrame.height - pixelHeight, width: cellFrame.width, height: pixelHeight)
     staticLine!.layer.sublayers?.first?.frame = CGRect(x: defaultM, y: 0, width: staticLine!.bounds.width - 2 * defaultM, height: pixelHeight)
@@ -1491,96 +1440,28 @@ func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell,
     }
   }
   
-/*func tableView(
-  _ tableView: UITableView,
-  willDisplay cell: UITableViewCell,
-  forRowAt indexPath: IndexPath
-) {
-  var staticLine = objc_getAssociatedObject(
-    cell,
-    &separatorKey
-  ) as? UIView
-
-  // Nur eine neue Linie erstellen, wenn noch keine existiert
-  if staticLine == nil || staticLine?.superview !== tableView {
-
-    staticLine?.removeFromSuperview()
-
-    staticLine = UIView()
-    staticLine!.backgroundColor = .separator
-    staticLine!.isUserInteractionEnabled = false
-
-    tableView.addSubview(staticLine!)
-
-    objc_setAssociatedObject(
-      cell,
-      &separatorKey,
-      staticLine!,
-      .OBJC_ASSOCIATION_RETAIN_NONATOMIC
-    )
-  }
-  
-  // Position aktualisieren
-  let pixelHeight = 1.0
-  //let cellFrame = tableView.rectForRow(at: indexPath)
-  let cellFrame = cell.convert(cell.bounds, to: tableView)
-
-  staticLine!.frame = CGRect(
-    x: cellFrame.origin.x + defaultM,
-    y: cellFrame.origin.y + cellFrame.height - pixelHeight,
-    width: cellFrame.width - 2 * defaultM,
-    height: pixelHeight
-  )
-  
-  let mask = CAShapeLayer()
-mask.frame = cell.contentView.bounds
-mask.path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: mask.frame.width, height: mask.frame.height - 1.0)).cgPath
-cell.contentView.layer.mask = mask
-}
-
-func tableView(
-  _ tableView: UITableView,
-  didEndDisplaying cell: UITableViewCell,
-  forRowAt indexPath: IndexPath
-) {
-  if let oldLine = objc_getAssociatedObject(
-    cell,
-    &separatorKey
-  ) as? UIView {
-
-    oldLine.removeFromSuperview()
-
-    objc_setAssociatedObject(
-      cell,
-      &separatorKey,
-      nil,
-      .OBJC_ASSOCIATION_RETAIN_NONATOMIC
-    )
-  }
-}*/
-  
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     tableView.frame.size.height = CGFloat(min(array.count * 30, tableMaxLinesPref * 30 + 5))
     
-  let contentHeight = CGFloat(array.count * 30)
-  var leftMask = tableView.viewWithTag(98761)
-  if leftMask == nil {
-    leftMask = UIView()
-    leftMask!.tag = 98761
-    leftMask!.backgroundColor = .systemBackground
-    leftMask!.isUserInteractionEnabled = false
-    tableView.addSubview(leftMask!)
-  }
-  leftMask!.frame = CGRect(x: 0, y: 0, width: defaultM, height: contentHeight)
-  var rightMask = tableView.viewWithTag(98762)
-  if rightMask == nil {
-    rightMask = UIView()
-    rightMask!.tag = 98762
-    rightMask!.backgroundColor = .systemBackground
-    rightMask!.isUserInteractionEnabled = false
-    tableView.addSubview(rightMask!)
-  }
-  rightMask!.frame = CGRect(x: tableView.bounds.width - defaultM, y: 0, width: defaultM, height: contentHeight)
+    let contentHeight = CGFloat(array.count * 30)
+    var leftMask = tableView.viewWithTag(98761)
+    if leftMask == nil {
+      leftMask = UIView()
+      leftMask!.tag = 98761
+      leftMask!.backgroundColor = .systemBackground
+      leftMask!.isUserInteractionEnabled = false
+      tableView.addSubview(leftMask!)
+    }
+    leftMask!.frame = CGRect(x: 0, y: 0, width: defaultM, height: contentHeight)
+    var rightMask = tableView.viewWithTag(98762)
+    if rightMask == nil {
+      rightMask = UIView()
+      rightMask!.tag = 98762
+      rightMask!.backgroundColor = .systemBackground
+      rightMask!.isUserInteractionEnabled = false
+      tableView.addSubview(rightMask!)
+    }
+    rightMask!.frame = CGRect(x: tableView.bounds.width - defaultM, y: 0, width: defaultM, height: contentHeight)
     
     return array.count
   }
