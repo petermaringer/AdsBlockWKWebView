@@ -1443,7 +1443,7 @@ func tableView(
       .OBJC_ASSOCIATION_RETAIN_NONATOMIC
     )
   }
-
+  
   // Position aktualisieren
   let pixelHeight = 1.0
   //let cellFrame = tableView.rectForRow(at: indexPath)
@@ -1455,6 +1455,11 @@ func tableView(
     width: cellFrame.width - 2 * defaultM,
     height: pixelHeight
   )
+  
+  let mask = CAShapeLayer()
+mask.frame = cell.contentView.bounds
+mask.path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: mask.frame.width, height: mask.frame.height - 1.0)).cgPath
+cell.contentView.layer.mask = mask
 }
 
 func tableView(
@@ -1484,6 +1489,14 @@ func tableView(
   }
   
   func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+    tableView.cellForRow(at: indexPath)?.contentView.backgroundColor = .appBgLightColor
+  }
+  
+  func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+    tableView.cellForRow(at: indexPath)?.contentView.backgroundColor = .clear
+  }
+  
+  /*func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
     let cell = tableView.cellForRow(at: indexPath)
     cell?.contentView.backgroundColor = .appBgLightColor
     //cell?.backgroundColor = .gray
@@ -1493,7 +1506,7 @@ func tableView(
     let cell = tableView.cellForRow(at: indexPath)
     cell?.contentView.backgroundColor = .clear
     //cell?.backgroundColor = .clear
-  }
+  }*/
   
   func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
     return .none
