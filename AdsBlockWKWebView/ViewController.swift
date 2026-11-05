@@ -1387,8 +1387,8 @@ version: \(appVersion)
     if staticLine == nil || staticLine?.superview !== tableView {
       staticLine?.removeFromSuperview()
       staticLine = UIView()
-      //staticLine!.backgroundColor = .systemBackground
-      staticLine!.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.3)
+      staticLine!.backgroundColor = .systemBackground
+      //staticLine!.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.3)
       staticLine!.isUserInteractionEnabled = false
       let separatorLayer = CALayer()
       separatorLayer.backgroundColor = UIColor.separator.cgColor
@@ -1424,26 +1424,6 @@ version: \(appVersion)
       }
       mask!.frame = CGRect(x: originX, y: 0, width: defaultM, height: contentHeight)
     }
-    
-    /*let contentHeight = CGFloat(array.count * 30)
-    var leftMask = tableView.viewWithTag(98761)
-    if leftMask == nil {
-      leftMask = UIView()
-      leftMask!.tag = 98761
-      leftMask!.backgroundColor = .systemBackground
-      leftMask!.isUserInteractionEnabled = false
-      tableView.addSubview(leftMask!)
-    }
-    leftMask!.frame = CGRect(x: 0, y: 0, width: defaultM, height: contentHeight)
-    var rightMask = tableView.viewWithTag(98762)
-    if rightMask == nil {
-      rightMask = UIView()
-      rightMask!.tag = 98762
-      rightMask!.backgroundColor = .systemBackground
-      rightMask!.isUserInteractionEnabled = false
-      tableView.addSubview(rightMask!)
-    }
-    rightMask!.frame = CGRect(x: tableView.bounds.width - defaultM, y: 0, width: defaultM, height: contentHeight)*/
     
     return array.count
   }
@@ -1507,23 +1487,6 @@ version: \(appVersion)
     }
   }
   
-  /*func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-    let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
-      self.deleteButtonClicked(url: self.array[indexPath.row])
-    }
-    let edit = UITableViewRowAction(style: .normal, title: "Edit") { (action, indexPath) in
-      self.editButtonClicked(url: self.array[indexPath.row])
-    }
-    //edit.backgroundColor = .appBgColor
-    edit.backgroundColor = editButtonBgColor
-    let dev = UITableViewRowAction(style: .normal, title: "Dev") { (action, indexPath) in
-      self.devButtonClicked(url: self.array[indexPath.row])
-    }
-    dev.backgroundColor = .devBgColor
-    return [delete, edit, dev]
-  }*/
-  
-  @available(iOS 11.0, *)
   func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
     let delete = UIContextualAction(style: .destructive, title: "Delete") { (action, view, bool) in
       self.deleteButtonClicked(url: self.array[indexPath.row])
