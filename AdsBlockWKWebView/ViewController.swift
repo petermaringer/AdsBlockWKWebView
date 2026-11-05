@@ -877,7 +877,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var editButtonBgColor: UIColor = .appBgColor
   var horizontalCellPadding: CGFloat = defaultPadding
   static var separatorKey: UInt8 = 0
-  //static var sideMaskKey: UInt8 = 0
   
   var url: String!
   var currentUserAgent: String = "default"
@@ -1366,11 +1365,8 @@ version: \(appVersion)
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath)
-      cell.selectionStyle = .none
+    cell.selectionStyle = .none
     cell.backgroundColor = .clear
-    /*cell.textLabel!.font = UIFont.systemFont(ofSize: 15)
-    cell.textLabel!.textColor = .appBgColor
-    cell.textLabel!.text = "\(array[indexPath.row])"*/
     var content = cell.defaultContentConfiguration()
     content.text = array[indexPath.row]
     content.textProperties.font = UIFont.systemFont(ofSize: 15)
@@ -1386,39 +1382,13 @@ version: \(appVersion)
     return cell
   }
   
-  /*
-  var sideMasks = objc_getAssociatedObject(cell, &Self.sideMaskKey) as? UIView
-  if sideMasks == nil || sideMasks?.superview !== tableView {
-    sideMasks?.removeFromSuperview()
-    sideMasks = UIView()
-    sideMasks!.backgroundColor = .clear
-    sideMasks!.isUserInteractionEnabled = false
-    let leftMask = UIView()
-    leftMask.backgroundColor = .systemBackground
-    sideMasks!.addSubview(leftMask)
-    let rightMask = UIView()
-    rightMask.backgroundColor = .systemBackground
-    sideMasks!.addSubview(rightMask)
-    tableView.addSubview(sideMasks!)
-    objc_setAssociatedObject(cell, &Self.sideMaskKey, sideMasks!, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-  }
-  sideMasks!.frame = cellFrame
-  sideMasks!.subviews[0].frame = CGRect(x: 0, y: 0, width: defaultM, height: cellFrame.height)
-  sideMasks!.subviews[1].frame = CGRect(x: cellFrame.width - defaultM, y: 0, width: defaultM, height: cellFrame.height)
-  
-  
-  if let oldMasks = objc_getAssociatedObject(cell, &Self.sideMaskKey) as? UIView {
-    oldMasks.removeFromSuperview()
-    objc_setAssociatedObject(cell, &Self.sideMaskKey, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-  }
-  */
-  
   func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
     var staticLine = objc_getAssociatedObject(cell, &Self.separatorKey) as? UIView
     if staticLine == nil || staticLine?.superview !== tableView {
       staticLine?.removeFromSuperview()
       staticLine = UIView()
-      staticLine!.backgroundColor = .systemBackground
+      //staticLine!.backgroundColor = .systemBackground
+      staticLine!.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.3)
       staticLine!.isUserInteractionEnabled = false
       let separatorLayer = CALayer()
       separatorLayer.backgroundColor = UIColor.separator.cgColor
@@ -1427,7 +1397,6 @@ version: \(appVersion)
       objc_setAssociatedObject(cell, &Self.separatorKey, staticLine!, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
     let pixelHeight = 1.0
-    //let cellFrame = tableView.rectForRow(at: indexPath)
     let cellFrame = cell.convert(cell.bounds, to: tableView)
     staticLine!.frame = CGRect(x: cellFrame.origin.x, y: cellFrame.origin.y + cellFrame.height - pixelHeight, width: cellFrame.width, height: pixelHeight)
     staticLine!.layer.sublayers?.first?.frame = CGRect(x: defaultM, y: 0, width: staticLine!.bounds.width - 2 * defaultM, height: pixelHeight)
@@ -1444,6 +1413,19 @@ version: \(appVersion)
     tableView.frame.size.height = CGFloat(min(array.count * 30, tableMaxLinesPref * 30 + 5))
     
     let contentHeight = CGFloat(array.count * 30)
+    for (maskTag, originX) in [(98761, 0), (98762, tableView.bounds.width - defaultM)] {
+      var mask = tableView.viewWithTag(maskTag)
+      if mask == nil {
+        mask = UIView()
+        mask!.tag = maskTag
+        mask!.backgroundColor = .systemBackground
+        mask!.isUserInteractionEnabled = false
+        tableView.addSubview(mask!)
+      }
+      mask!.frame = CGRect(x: originX, y: 0, width: defaultM, height: contentHeight)
+    }
+    
+    /*let contentHeight = CGFloat(array.count * 30)
     var leftMask = tableView.viewWithTag(98761)
     if leftMask == nil {
       leftMask = UIView()
@@ -1461,30 +1443,18 @@ version: \(appVersion)
       rightMask!.isUserInteractionEnabled = false
       tableView.addSubview(rightMask!)
     }
-    rightMask!.frame = CGRect(x: tableView.bounds.width - defaultM, y: 0, width: defaultM, height: contentHeight)
+    rightMask!.frame = CGRect(x: tableView.bounds.width - defaultM, y: 0, width: defaultM, height: contentHeight)*/
     
     return array.count
   }
   
   func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-    tableView.cellForRow(at: indexPath)?.contentView.backgroundColor = .appBgLightColor
+    tableView.cellForRow(at: indexPath)?.contentView.backgroundColor = .appBgLightColor //.gray
   }
   
   func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
     tableView.cellForRow(at: indexPath)?.contentView.backgroundColor = .clear
   }
-  
-  /*func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-    let cell = tableView.cellForRow(at: indexPath)
-    cell?.contentView.backgroundColor = .appBgLightColor
-    //cell?.backgroundColor = .gray
-  }
-  
-  func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
-    let cell = tableView.cellForRow(at: indexPath)
-    cell?.contentView.backgroundColor = .clear
-    //cell?.backgroundColor = .clear
-  }*/
   
   func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
     return .none
@@ -1495,9 +1465,7 @@ version: \(appVersion)
   }
   
   func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-    if indexPath.row == moverIndex {
-      return true
-    }
+    if indexPath.row == moverIndex { return true }
     return false
   }
   
