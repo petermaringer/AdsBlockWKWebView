@@ -878,7 +878,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var editButtonBgColor: UIColor = .appBgColor
   var horizontalCellPadding: CGFloat = defaultPadding
   static var separatorKey: UInt8 = 0
-  static var sideMaskKey: UInt8 = 0
+  //static var sideMaskKey: UInt8 = 0
   
   var url: String!
   var currentUserAgent: String = "default"
@@ -1417,7 +1417,7 @@ version: \(appVersion)
     return cell
   }
   
-  func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+  /*func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
   var staticLine = objc_getAssociatedObject(cell, &Self.separatorKey) as? UIView
   if staticLine == nil || staticLine?.superview !== tableView {
     staticLine?.removeFromSuperview()
@@ -1463,9 +1463,9 @@ func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell,
     oldMasks.removeFromSuperview()
     objc_setAssociatedObject(cell, &Self.sideMaskKey, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
   }
-}
+}*/
   
-  /*func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+  func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
     var staticLine = objc_getAssociatedObject(cell, &Self.separatorKey) as? UIView
     if staticLine == nil || staticLine?.superview !== tableView {
       staticLine?.removeFromSuperview()
@@ -1489,7 +1489,7 @@ func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell,
       oldLine.removeFromSuperview()
       objc_setAssociatedObject(cell, &Self.separatorKey, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
-  }*/
+  }
   
 /*func tableView(
   _ tableView: UITableView,
@@ -1561,6 +1561,27 @@ func tableView(
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     tableView.frame.size.height = CGFloat(min(array.count * 30, tableMaxLinesPref * 30 + 5))
+    
+  let contentHeight = CGFloat(array.count * 30)
+  var leftMask = tableView.viewWithTag(98761)
+  if leftMask == nil {
+    leftMask = UIView()
+    leftMask!.tag = 98761
+    leftMask!.backgroundColor = .systemBackground
+    leftMask!.isUserInteractionEnabled = false
+    tableView.addSubview(leftMask!)
+  }
+  leftMask!.frame = CGRect(x: 0, y: 0, width: defaultM, height: contentHeight)
+  var rightMask = tableView.viewWithTag(98762)
+  if rightMask == nil {
+    rightMask = UIView()
+    rightMask!.tag = 98762
+    rightMask!.backgroundColor = .systemBackground
+    rightMask!.isUserInteractionEnabled = false
+    tableView.addSubview(rightMask!)
+  }
+  rightMask!.frame = CGRect(x: tableView.bounds.width - defaultM, y: 0, width: defaultM, height: contentHeight)
+    
     return array.count
   }
   
