@@ -2521,7 +2521,7 @@ clearButton.backgroundColor = .fieldBgColor
         let updateUI = UIAction { [weak urlField, weak clearButton] _ in
           guard let urlField = urlField, let clearButton = clearButton else { return }
           let show = urlField.isEditing && !(urlField.text?.isEmpty ?? true)
-          //urlField.rightPadding = show ? 34 : 15
+          urlField.rightPadding = show ? 34 : 15
           clearButton.isHidden = !show
           //urlField.setNeedsLayout()
         }
