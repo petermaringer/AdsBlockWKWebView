@@ -550,7 +550,7 @@ class CustomUITextField: UITextField {
   
   override var text: String? {
     didSet {
-      sendActions(for: .editingChanged)
+      //sendActions(for: .editingChanged)
     }
   }
   
