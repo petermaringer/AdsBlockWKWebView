@@ -2525,10 +2525,10 @@ clearButton.backgroundColor = .fieldBgColor
           clearButton.isHidden = !show
           //urlField.setNeedsLayout()
         }
-        urlField.onTextChange = updateUI
+        /*urlField.onTextChange = updateUI
         urlField.addAction(updateUI, for: .editingChanged)
         urlField.addAction(updateUI, for: .editingDidBegin)
-        urlField.addAction(updateUI, for: .editingDidEnd)
+        urlField.addAction(updateUI, for: .editingDidEnd)*/
         
         
         urlField.layer.cornerRadius = defaultCornerRadius
@@ -3896,6 +3896,10 @@ downloadTask.resume()
   func webViewDidFinish() {
     //if webView.url!.absoluteString.hasPrefix("http://localhost:6571/errors/error.html") == false && webView.url!.absoluteString.hasPrefix("internal://local/restore?") == false {
     if webView.url!.absoluteString.hasPrefix("internal://local/restore?") == false {
+      
+      urlField.rightPadding = 34
+      clearButton.isHidden = false
+      
       urlField.text = webView.url!.absoluteString
       setUrlFieldColor()
       //if #available(iOS 15, *) {
