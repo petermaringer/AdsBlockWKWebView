@@ -2464,175 +2464,17 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         //urlField.borderStyle = UITextField.BorderStyle.roundedRect
         //urlField.layer.borderWidth = 1
         
-        /*urlField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 30))
-        urlField.leftViewMode = .always
-        let leftViewGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(leftViewTapped))
-        leftViewGesture.numberOfTapsRequired = 1
-        urlField.leftView?.isUserInteractionEnabled = true
-        urlField.leftView?.addGestureRecognizer(leftViewGesture)*/
         
-        
-        /*let standardRightView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 30))
-let rightViewGesture = UITapGestureRecognizer(target: self, action: #selector(rightViewTapped))
-rightViewGesture.numberOfTapsRequired = 1
-standardRightView.isUserInteractionEnabled = true
-standardRightView.addGestureRecognizer(rightViewGesture)
+        /*
 standardRightView.backgroundColor = .green
-
-// 2. Die View für den Fall: Textfeld WIRD editiert UND hat Text (39x30)
-let editingRightView = UIView(frame: CGRect(x: 0, y: 0, width: 34, height: 30))
-
-// Geste für den 15px-Bereich in der Editing-View spiegeln
-let editingViewGesture = UITapGestureRecognizer(target: self, action: #selector(rightViewTapped))
-editingViewGesture.numberOfTapsRequired = 1
-editingRightView.isUserInteractionEnabled = true
-editingRightView.addGestureRecognizer(editingViewGesture)
 editingRightView.backgroundColor = .yellow
-
-// Den Clear-Button in die Editing-View integrieren
 let clearButton = UIButton(type: .system)
-clearButton.frame = CGRect(x: 15, y: 0, width: 19, height: 30)*/
-/*clearButton.imageView?.contentMode = .center
+clearButton.imageView?.contentMode = .center
 //clearButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
 //clearButton.tintColor = .systemGray3
-let symbolConfig = UIImage.SymbolConfiguration(pointSize: 14, weight: .regular)
-clearButton.setImage(UIImage(systemName: "multiply.circle.fill", withConfiguration: symbolConfig), for: .normal)
-clearButton.tintColor = UIColor.placeholderText*/
-// Inhalt nach links ausrichten, damit das Symbol an Position 15 bleibt
-//clearButton.contentHorizontalAlignment = .left
-/*clearButton.setImage(UIImage(systemName: "multiply.circle.fill"), for: .normal)
-clearButton.tintColor = UIColor.placeholderText
-
-// FIX GEGEN VERZERRUNG: Zwingt das Bild, seine Proportionen (14x14) beizubehalten
 clearButton.imageView?.contentMode = .scaleAspectFit
-
-// Schiebt das Bild an den linken Rand des Buttons, behält es aber perfekt vertikal zentriert
-clearButton.contentHorizontalAlignment = .left
-
 clearButton.backgroundColor = .fieldBgColor
-
-clearButton.addAction(UIAction(handler: { [weak urlField] _ in
-    urlField?.text = ""
-    urlField?.sendActions(for: .editingChanged)
-}), for: .touchUpInside)
-editingRightView.addSubview(clearButton)
-
-
-// ==========================================
-// DIE LOGIK FÜR DEN AUTOMATISCHEN WECHSEL
-// ==========================================
-
-// Initialen Zustand setzen
-urlField.rightView = standardRightView
-urlField.rightViewMode = .always
-
-// Event-Listener registrieren, die die Views hart austauschen
-let updateViews = UIAction { [weak urlField] _ in
-    guard let urlField = urlField else { return }
-    
-    // Bedingung: Wird editiert UND Text ist nicht leer
-    let showClearButton = urlField.isEditing && !(urlField.text?.isEmpty ?? true)
-    
-    // Der harte Tausch ohne Trägheit oder Animation
-    urlField.rightView = showClearButton ? editingRightView : standardRightView*/
-    /*if showClearButton {
-        urlField.rightView = editingRightView
-    } else {
-        // Zwingt das System, das unsichtbare Layout-Fenster auf exakt 15px zu schrumpfen
-        standardRightView.frame = CGRect(x: 0, y: 0, width: 15, height: 30)
-        urlField.rightView = standardRightView
-    }
-    
-    // Das ist der entscheidende Schritt: Zwingt das urlField, die Klick-Zonen 
-    // für den Text links neben der View sofort im selben Frame neu zu berechnen!
-    */
-    /*urlField.setNeedsLayout()
-    //urlField.layoutIfNeeded()
-}
-
-urlField.addAction(updateViews, for: .editingChanged)
-urlField.addAction(updateViews, for: .editingDidBegin)
-urlField.addAction(updateViews, for: .editingDidEnd)*/
-        
-        /*urlField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 34, height: 30))
-urlField.rightViewMode = .always
-
-// Deine Geste auf den linken 15px platzieren
-let rightViewGesture = UITapGestureRecognizer(target: self, action: #selector(rightViewTapped))
-rightViewGesture.numberOfTapsRequired = 1
-urlField.rightView?.isUserInteractionEnabled = true
-urlField.rightView?.addGestureRecognizer(rightViewGesture)
-
-// Den Button fest ab Pixel 15 in den Container setzen
-let clearButton = UIButton(type: .custom)
-clearButton.frame = CGRect(x: 15, y: 0, width: 19, height: 30)
-let config = UIImage.SymbolConfiguration(pointSize: 14, weight: .regular)
-clearButton.setImage(UIImage(systemName: "multiply.circle.fill", withConfiguration: config), for: .normal)
-clearButton.tintColor = UIColor.placeholderText
-clearButton.contentHorizontalAlignment = .left
-
-clearButton.addAction(UIAction(handler: { [weak urlField] _ in
-    urlField?.text = ""
-    urlField?.sendActions(for: .editingChanged)
-}), for: .touchUpInside)
-
-urlField.rightView?.addSubview(clearButton)*/
-
-/*let standardRightView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 30))
-let rightViewGesture = UITapGestureRecognizer(target: self, action: #selector(rightViewTapped))
-rightViewGesture.numberOfTapsRequired = 1
-standardRightView.isUserInteractionEnabled = true
-standardRightView.addGestureRecognizer(rightViewGesture)
-
-// Breite Variante (15px Fläche + 19px für den Button = 34px)
-let editingRightView = UIView(frame: CGRect(x: 0, y: 0, width: 34, height: 30))
-let editingViewGesture = UITapGestureRecognizer(target: self, action: #selector(rightViewTapped))
-editingViewGesture.numberOfTapsRequired = 1
-editingRightView.isUserInteractionEnabled = true
-editingRightView.addGestureRecognizer(editingViewGesture)
-
-// Button exakt rechts in der breiten View platzieren
-let clearButton = UIButton(type: .custom)
-clearButton.frame = CGRect(x: 15, y: 0, width: 19, height: 30)
-let config = UIImage.SymbolConfiguration(pointSize: 14, weight: .regular)
-clearButton.setImage(UIImage(systemName: "multiply.circle.fill", withConfiguration: config), for: .normal)
-clearButton.tintColor = UIColor.placeholderText
-clearButton.contentHorizontalAlignment = .left
-
-clearButton.addAction(UIAction(handler: { [weak urlField] _ in
-    urlField?.text = ""
-    urlField?.sendActions(for: .editingChanged)
-}), for: .touchUpInside)
-editingRightView.addSubview(clearButton)
-
-// 2. Den Startzustand festlegen
-urlField.rightView = standardRightView
-urlField.rightViewMode = .always
-
-// 3. Der entscheidende dynamische Tausch-Mechanismus
-let updateRightViewLayout = UIAction { [weak urlField] _ in
-    guard let urlField = urlField else { return }
-    
-    let shouldShowClear = urlField.isEditing && !(urlField.text?.isEmpty ?? true)
-    let targetView = shouldShowClear ? editingRightView : standardRightView
-    
-    // Nur tauschen, wenn sich die View wirklich ändert, um Flackern zu verhindern
-    if urlField.rightView != targetView {
-        urlField.rightView = targetView
-        
-        // DAS HIER IST DIE LÖSUNG: Zwingt das UITextField, das Textfeld-Layout 
-        // und die Klickbereiche sofort an die neue Breite anzupassen!
-        urlField.invalidateIntrinsicContentSize()
-        urlField.setNeedsLayout()
-        urlField.layoutIfNeeded()
-    }
-}
-
-// Events verknüpfen
-urlField.addAction(updateRightViewLayout, for: .editingChanged)
-urlField.addAction(updateRightViewLayout, for: .editingDidBegin)
-urlField.addAction(updateRightViewLayout, for: .editingDidEnd)*/
-        
+*/
         
         //clearButton = UIButton(type: .custom)
         clearButton = UIButton(frame: CGRect.zero)
