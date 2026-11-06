@@ -551,6 +551,9 @@ class CustomUITextField: UITextField {
   override var text: String? {
     didSet {
       //sendActions(for: .editingChanged)
+      DispatchQueue.main.async {
+        self.sendActions(for: .editingChanged)
+      }
     }
   }
   
