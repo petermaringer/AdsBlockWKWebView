@@ -3900,7 +3900,7 @@ downloadTask.resume()
       urlField.rightPadding = 34
       clearButton.isHidden = false
       DispatchQueue.main.async {
-        urlField.text = webView.url!.absoluteString
+        self.urlField.text = self.webView.url!.absoluteString
       }
       
       //urlField.text = webView.url!.absoluteString
