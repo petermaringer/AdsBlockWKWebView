@@ -551,8 +551,10 @@ class CustomUITextField: UITextField {
   var onTextChange: UIAction?
   override var text: String? {
     didSet {
-      if let action = onTextChange {
-        sendAction(action)
+      guard let action = onTextChange else { return }
+      DispatchQueue.main.async { [weak self] in
+        guard let self = self else { return }
+        self.sendAction(action)
       }
     }
   }
