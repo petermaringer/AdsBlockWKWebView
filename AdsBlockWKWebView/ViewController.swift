@@ -2509,7 +2509,7 @@ clearButton.backgroundColor = .fieldBgColor
           let show = urlField.isEditing && !(urlField.text?.isEmpty ?? true)
           urlField.rightPadding = show ? 34 : 15
           clearButton.isHidden = !show
-          urlField.setNeedsLayout()
+          //urlField.setNeedsLayout()
         }
         urlField.onTextChange = updateUI
         urlField.addAction(updateUI, for: .editingChanged)
