@@ -3897,8 +3897,9 @@ downloadTask.resume()
     //if webView.url!.absoluteString.hasPrefix("http://localhost:6571/errors/error.html") == false && webView.url!.absoluteString.hasPrefix("internal://local/restore?") == false {
     if webView.url!.absoluteString.hasPrefix("internal://local/restore?") == false {
       
-      //urlField.rightPadding = 34
-      //clearButton.isHidden = false
+      urlField.rightPadding = 34
+      clearButton.isHidden = false
+      urlField.layoutIfNeeded()
       
       urlField.text = webView.url!.absoluteString
       setUrlFieldColor()
