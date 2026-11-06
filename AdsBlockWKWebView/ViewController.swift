@@ -951,9 +951,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   func textFieldDidBeginEditing(_ textField: UITextField) {
     switch textField {
       case urlField:
-        //textField.frame.size.width -= 85
-        //textField.frame.size.width -= 45
-        //textField.frame.size.width -= elementW2 + defaultM
         textField.frame.size.width = view.frame.width - insetLM - insetRM - elementW2 - defaultM
         view.addSubview(button)
         //textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
@@ -1816,9 +1813,6 @@ version: \(appVersion)
         }
         textField.selectedTextRange = nil
         button.removeFromSuperview()
-        //textField.frame.size.width += 85
-        //textField.frame.size.width += 45
-        //textField.frame.size.width += elementW2 + defaultM
         textField.frame.size.width = view.frame.width - insetLM - insetRM
         //progressView.frame.size.width += 85
         
@@ -1858,152 +1852,6 @@ version: \(appVersion)
     return true
   }
   
-  
-  /*var messages: [String] = [] //globaleVariable
-  private func showAlertOld(message: String? = nil) {
-    if let message = message {
-      messages.append(message)
-    }
-    guard messages.count > 0 else { return }
-    let message = messages.first
-    let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
-    alert.addAction(UIAlertAction(title: "OK", style: .default) { (action) in
-      messages.removeFirst()
-      self.showAlertOld()
-    })
-    hapticFB.notificationOccurred(.success)
-    present(alert, animated: true, completion: nil)
-    //present(alert, animated: true) { hapticFB.notificationOccurred(.success) }
-  }*/
-  
-  /*private func showAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], defaultButton: Int? = 0, sourceView: UIView? = nil, disableHaptic: Bool? = false, completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
-    if message != "nextAlertObj" {
-      alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, defaultButton: defaultButton, sourceView: sourceView, disableHaptic: disableHaptic, completionHandler: completionHandler))
-    }
-    guard alertObjArray.count > 0 else { return }
-    let alert = UIAlertController(title: alertObjArray.first!.title, message: alertObjArray.first!.message, preferredStyle: alertObjArray.first!.style!)
-    var button1, button2, button3: UIAlertAction
-    if alertObjArray.first!.type == "alert" {
-      button1 = UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { _ in
-        alertObjArray.first!.completionHandler("\(alertObjArray.first!.message ?? "")", nil)
-        alertObjArray.removeFirst()
-        self.showAlert("nextAlertObj")
-      })
-      alert.addAction(button1)
-      alertObjArray[0].defaultButton = nil
-    }
-    if alertObjArray.first!.type == "confirm" {
-      button1 = UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { _ in
-        alertObjArray.first!.completionHandler(true, nil)
-        alertObjArray.removeFirst()
-        self.showAlert("nextAlertObj")
-      })
-      //guard let currentAlert = alertObjArray.first else { return }
-      //button1 = UIAlertAction(title: currentAlert.buttonTitles![0], style: currentAlert.buttonStyles![0], handler: { _ in
-        //alertObjArray.removeFirst()
-        //currentAlert.completionHandler(true, nil)
-        //self.showAlert("nextAlertObj")
-      //})
-      button2 = UIAlertAction(title: alertObjArray.first!.buttonTitles![1], style: alertObjArray.first!.buttonStyles![1], handler: { _ in
-        alertObjArray.first!.completionHandler(false, nil)
-        alertObjArray.removeFirst()
-        self.showAlert("nextAlertObj")
-      })
-      alert.addAction(button2)
-      alert.addAction(button1)
-    }
-    
-    if alertObjArray.first!.type == "select" {
-      button1 = UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { _ in
-        alertObjArray.first!.completionHandler(1, nil)
-        alertObjArray.removeFirst()
-        self.showAlert("nextAlertObj")
-      })
-      button2 = UIAlertAction(title: alertObjArray.first!.buttonTitles![1], style: alertObjArray.first!.buttonStyles![1], handler: { _ in
-        alertObjArray.first!.completionHandler(2, nil)
-        alertObjArray.removeFirst()
-        self.showAlert("nextAlertObj")
-      })
-      button3 = UIAlertAction(title: alertObjArray.first!.buttonTitles![2], style: alertObjArray.first!.buttonStyles![2], handler: { _ in
-        alertObjArray.first!.completionHandler(3, nil)
-        alertObjArray.removeFirst()
-        self.showAlert("nextAlertObj")
-      })
-      alert.addAction(button3)
-      alert.addAction(button2)
-      alert.addAction(button1)
-    }
-    
-    if alertObjArray.first!.type == "prompt" {
-      alert.addTextField { (textField) in
-        textField.text = alertObjArray.first!.input
-      }
-      button1 = UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { _ in
-        if let text = alert.textFields?.first?.text {
-          alertObjArray.first!.completionHandler(text, nil)
-        } else {
-          alertObjArray.first!.completionHandler(input, nil)
-        }
-        alertObjArray.removeFirst()
-        self.showAlert("nextAlertObj")
-      })
-      button2 = UIAlertAction(title: alertObjArray.first!.buttonTitles![1], style: alertObjArray.first!.buttonStyles![1], handler: { _ in
-        alertObjArray.first!.completionHandler(nil, nil)
-        alertObjArray.removeFirst()
-        self.showAlert("nextAlertObj")
-      })
-      alert.addAction(button2)
-      alert.addAction(button1)
-    }
-    if alertObjArray.first!.type == "auth" {
-      alert.addTextField(configurationHandler: { (textField) in
-        textField.placeholder = "USER_ID".localized
-      })
-      alert.addTextField(configurationHandler: { (textField) in
-        textField.placeholder = "PASSWORD".localized
-        textField.isSecureTextEntry = true
-      })
-      //title: "BUTTON_OK".localized
-      button1 = UIAlertAction(title: alertObjArray.first!.buttonTitles![0], style: alertObjArray.first!.buttonStyles![0], handler: { _ in
-        guard let userId = alert.textFields?.first?.text else { return }
-        guard let password = alert.textFields?.last?.text else { return }
-        let credential = URLCredential(user: userId, password: password, persistence: .forSession)
-        alertObjArray.first!.completionHandler(.useCredential as URLSession.AuthChallengeDisposition, credential)
-        alertObjArray.removeFirst()
-        self.showAlert("nextAlertObj")
-      })
-      //title: "BUTTON_CANCEL".localized
-      button2 = UIAlertAction(title: alertObjArray.first!.buttonTitles![1], style: alertObjArray.first!.buttonStyles![1], handler: { _ in
-        alertObjArray.first!.completionHandler(.cancelAuthenticationChallenge as URLSession.AuthChallengeDisposition, nil)
-        alertObjArray.removeFirst()
-        self.showAlert("nextAlertObj")
-      })
-      alert.addAction(button2)
-      alert.addAction(button1)
-    }
-    if alertObjArray.first!.defaultButton != nil {
-      alert.preferredAction = alert.actions[abs(alertObjArray.first!.defaultButton! - alert.actions.count + 1)]
-    }
-    
-    //if alertObjArray.first!.style == .actionSheet, let popover = alert.popoverPresentationController {
-        //popover.sourceView = self.view
-        //popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
-        //popover.permittedArrowDirections = []
-    //}
-    if alertObjArray.first!.style == .actionSheet, let popover = alert.popoverPresentationController, let sourceView = sourceView {
-      popover.sourceView = sourceView
-      popover.sourceRect = sourceView.bounds
-      popover.permittedArrowDirections = []
-    }
-    
-    if alertObjArray.first!.disableHaptic != true {
-      hapticFB.notificationOccurred(.success)
-    }
-    //Dispatch
-    DispatchQueue.main.async { [unowned self] in
-      self.present(alert, animated: true, completion: nil)
-    }
-  }*/
   
   var allowAlertDismiss = true
   
