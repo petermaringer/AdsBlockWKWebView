@@ -262,7 +262,7 @@ class CustomUITextField: UITextField {
   
   var leftPadding: CGFloat = defaultPadding
   var rightPadding: CGFloat = defaultPadding
-  override func textRect(forBounds bounds: CGRect) -> CGRect {
+  /*override func textRect(forBounds bounds: CGRect) -> CGRect {
     return UIEdgeInsetsInsetRect(bounds, UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding))
   }
   override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
@@ -270,7 +270,21 @@ class CustomUITextField: UITextField {
   }
   override func editingRect(forBounds bounds: CGRect) -> CGRect {
     return UIEdgeInsetsInsetRect(bounds, UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding))
-  }
+  }*/
+  override func textRect(forBounds bounds: CGRect) -> CGRect {
+  let rect = super.textRect(forBounds: bounds)
+  return UIEdgeInsetsInsetRect(rect, UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding))
+}
+
+override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+  let rect = super.placeholderRect(forBounds: bounds)
+  return UIEdgeInsetsInsetRect(rect, UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding))
+}
+
+override func editingRect(forBounds bounds: CGRect) -> CGRect {
+  let rect = super.editingRect(forBounds: bounds)
+  return UIEdgeInsetsInsetRect(rect, UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding))
+}
   /*override func editingRect(forBounds bounds: CGRect) -> CGRect {
     var rect = UIEdgeInsetsInsetRect(bounds, UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding))
     if let text = self.text, !text.isEmpty {
