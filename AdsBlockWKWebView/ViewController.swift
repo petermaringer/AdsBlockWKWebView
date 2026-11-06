@@ -548,11 +548,11 @@ class CustomUITextField: UITextField {
     return UIMenu(children: modifiedElements)
   }*/
   
+  var onTextChange: UIAction?
   override var text: String? {
     didSet {
-      //sendActions(for: .editingChanged)
-      DispatchQueue.main.async {
-        self.sendActions(for: .editingChanged)
+      if let action = onTextChange {
+        sendAction(action)
       }
     }
   }
@@ -2509,6 +2509,7 @@ clearButton.backgroundColor = .fieldBgColor
           clearButton.isHidden = !show
           urlField.setNeedsLayout()
         }
+        urlField.onTextChange = updateUI
         urlField.addAction(updateUI, for: .editingChanged)
         urlField.addAction(updateUI, for: .editingDidBegin)
         urlField.addAction(updateUI, for: .editingDidEnd)
