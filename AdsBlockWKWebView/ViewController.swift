@@ -2525,10 +2525,10 @@ clearButton.backgroundColor = .fieldBgColor
           clearButton.isHidden = !show
           //urlField.setNeedsLayout()
         }
-        /*urlField.onTextChange = updateUI
+        //urlField.onTextChange = updateUI
         urlField.addAction(updateUI, for: .editingChanged)
         urlField.addAction(updateUI, for: .editingDidBegin)
-        urlField.addAction(updateUI, for: .editingDidEnd)*/
+        urlField.addAction(updateUI, for: .editingDidEnd)
         
         
         urlField.layer.cornerRadius = defaultCornerRadius
