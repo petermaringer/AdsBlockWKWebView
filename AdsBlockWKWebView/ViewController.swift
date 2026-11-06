@@ -3899,10 +3899,13 @@ downloadTask.resume()
       
       urlField.rightPadding = 34
       clearButton.isHidden = false
-      urlField.layoutIfNeeded()
+      DispatchQueue.main.async {
+        urlField.text = webView.url!.absoluteString
+      }
       
-      urlField.text = webView.url!.absoluteString
-      setUrlFieldColor()
+      //urlField.text = webView.url!.absoluteString
+      //setUrlFieldColor()
+      
       //if #available(iOS 15, *) {
         //lb.text! += " mT:\(webView.mediaType ?? "nil") tC:\(webView.themeColor) uC:\(webView.underPageBackgroundColor)"
       //}
