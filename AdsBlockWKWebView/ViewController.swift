@@ -548,6 +548,12 @@ class CustomUITextField: UITextField {
     return UIMenu(children: modifiedElements)
   }*/
   
+  override var text: String? {
+    didSet {
+      sendActions(for: .editingChanged)
+    }
+  }
+  
 }
 
 
