@@ -573,6 +573,11 @@ override func editingRect(forBounds bounds: CGRect) -> CGRect {
     }
   }*/
   
+  override func replace(_ range: UITextRange, withText text: String) {
+    super.replace(range, withText: text)
+    font = UIFont.systemFont(ofSize: 15)
+  }
+  
 }
 
 
@@ -2484,7 +2489,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         urlField.placeholder = "Type your Address"
         urlField.font = UIFont.systemFont(ofSize: 15)
         
-        urlField.defaultTextAttributes = [NSAttributedStringKey.font.rawValue: UIFont.systemFont(ofSize: 15)]
+        //urlField.defaultTextAttributes = [NSAttributedStringKey.font.rawValue: UIFont.systemFont(ofSize: 15)]
         
         urlField.textColor = .appBgColor
         urlField.tintColor = .appBgColor
