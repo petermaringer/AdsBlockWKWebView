@@ -2483,6 +2483,9 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         urlField = CustomUITextField(frame: CGRect.zero)
         urlField.placeholder = "Type your Address"
         urlField.font = UIFont.systemFont(ofSize: 15)
+        
+        urlField.defaultTextAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15)]
+        
         urlField.textColor = .appBgColor
         urlField.tintColor = .appBgColor
         urlField.backgroundColor = .fieldBgColor
@@ -3907,7 +3910,7 @@ downloadTask.resume()
       if let range = urlField.textRange(from: urlField.beginningOfDocument, to: urlField.endOfDocument) {
         urlField.replace(range, withText: webView.url!.absoluteString)
       }
-      urlField.font = UIFont.systemFont(ofSize: 15)
+      //urlField.font = UIFont.systemFont(ofSize: 15)
       
       //urlField.text = webView.url!.absoluteString
       setUrlFieldColor()
