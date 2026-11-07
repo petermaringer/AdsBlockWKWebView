@@ -3904,10 +3904,10 @@ downloadTask.resume()
         //self.urlField.insertText(self.webView.url!.absoluteString)
       //}
       //urlField.insertText(webView.url!.absoluteString)
-      urlField.typingAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15)]
       if let range = urlField.textRange(from: urlField.beginningOfDocument, to: urlField.endOfDocument) {
         urlField.replace(range, withText: webView.url!.absoluteString)
       }
+      urlField.font = UIFont.systemFont(ofSize: 15)
       
       //urlField.text = webView.url!.absoluteString
       setUrlFieldColor()
