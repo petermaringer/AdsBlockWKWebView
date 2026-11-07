@@ -562,7 +562,7 @@ override func editingRect(forBounds bounds: CGRect) -> CGRect {
     return UIMenu(children: modifiedElements)
   }*/
   
-  var onTextChange: UIAction?
+  /*var onTextChange: UIAction?
   override var text: String? {
     didSet {
       guard let action = onTextChange else { return }
@@ -571,7 +571,7 @@ override func editingRect(forBounds bounds: CGRect) -> CGRect {
         self.sendAction(action)
       }
     }
-  }
+  }*/
   
 }
 
@@ -3903,7 +3903,10 @@ downloadTask.resume()
         //self.urlField.text = self.webView.url!.absoluteString
         //self.urlField.insertText(self.webView.url!.absoluteString)
       //}
-      urlField.insertText(webView.url!.absoluteString)
+      //urlField.insertText(webView.url!.absoluteString)
+      if let range = urlField.textRange(from: urlField.beginningOfDocument, to: urlField.endOfDocument) {
+        urlField.replace(range, withText: webView.url!.absoluteString)
+      }
       
       //urlField.text = webView.url!.absoluteString
       setUrlFieldColor()
