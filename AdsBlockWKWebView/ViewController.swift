@@ -271,20 +271,6 @@ class CustomUITextField: UITextField {
   override func editingRect(forBounds bounds: CGRect) -> CGRect {
     return UIEdgeInsetsInsetRect(bounds, UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding))
   }
-  /*override func textRect(forBounds bounds: CGRect) -> CGRect {
-  let rect = super.textRect(forBounds: bounds)
-  return UIEdgeInsetsInsetRect(rect, UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding))
-}
-
-override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
-  let rect = super.placeholderRect(forBounds: bounds)
-  return UIEdgeInsetsInsetRect(rect, UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding))
-}
-
-override func editingRect(forBounds bounds: CGRect) -> CGRect {
-  let rect = super.editingRect(forBounds: bounds)
-  return UIEdgeInsetsInsetRect(rect, UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding))
-}*/
   /*override func editingRect(forBounds bounds: CGRect) -> CGRect {
     var rect = UIEdgeInsetsInsetRect(bounds, UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding))
     if let text = self.text, !text.isEmpty {
@@ -2488,9 +2474,6 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         urlField = CustomUITextField(frame: CGRect.zero)
         urlField.placeholder = "Type your Address"
         urlField.font = UIFont.systemFont(ofSize: 15)
-        
-        //urlField.defaultTextAttributes = [NSAttributedStringKey.font.rawValue: UIFont.systemFont(ofSize: 15)]
-        
         urlField.textColor = .appBgColor
         urlField.tintColor = .appBgColor
         urlField.backgroundColor = .fieldBgColor
@@ -2531,7 +2514,7 @@ clearButton.backgroundColor = .fieldBgColor
           let show = urlField.isEditing && !(urlField.text?.isEmpty ?? true)
           urlField.rightPadding = show ? 34 : 15
           clearButton.isHidden = !show
-          urlField.setNeedsLayout()
+          //urlField.setNeedsLayout()
         }
         //urlField.onTextChange = updateUI
         urlField.addAction(updateUI, for: .editingChanged)
@@ -3905,21 +3888,12 @@ downloadTask.resume()
     //if webView.url!.absoluteString.hasPrefix("http://localhost:6571/errors/error.html") == false && webView.url!.absoluteString.hasPrefix("internal://local/restore?") == false {
     if webView.url!.absoluteString.hasPrefix("internal://local/restore?") == false {
       
-      //urlField.rightPadding = 34
-      //clearButton.isHidden = false
-      //DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-        //self.urlField.text = self.webView.url!.absoluteString
-        //self.urlField.insertText(self.webView.url!.absoluteString)
-      //}
-      //urlField.insertText(webView.url!.absoluteString)
       if let range = urlField.textRange(from: urlField.beginningOfDocument, to: urlField.endOfDocument) {
         urlField.replace(range, withText: webView.url!.absoluteString)
       }
-      //urlField.font = UIFont.systemFont(ofSize: 15)
       
       //urlField.text = webView.url!.absoluteString
       setUrlFieldColor()
-      
       //if #available(iOS 15, *) {
         //lb.text! += " mT:\(webView.mediaType ?? "nil") tC:\(webView.themeColor) uC:\(webView.underPageBackgroundColor)"
       //}
