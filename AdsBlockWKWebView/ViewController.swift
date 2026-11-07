@@ -262,7 +262,7 @@ class CustomUITextField: UITextField {
   
   var leftPadding: CGFloat = defaultPadding
   var rightPadding: CGFloat = defaultPadding
-  /*override func textRect(forBounds bounds: CGRect) -> CGRect {
+  override func textRect(forBounds bounds: CGRect) -> CGRect {
     return UIEdgeInsetsInsetRect(bounds, UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding))
   }
   override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
@@ -270,8 +270,8 @@ class CustomUITextField: UITextField {
   }
   override func editingRect(forBounds bounds: CGRect) -> CGRect {
     return UIEdgeInsetsInsetRect(bounds, UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding))
-  }*/
-  override func textRect(forBounds bounds: CGRect) -> CGRect {
+  }
+  /*override func textRect(forBounds bounds: CGRect) -> CGRect {
   let rect = super.textRect(forBounds: bounds)
   return UIEdgeInsetsInsetRect(rect, UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding))
 }
@@ -284,7 +284,7 @@ override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
 override func editingRect(forBounds bounds: CGRect) -> CGRect {
   let rect = super.editingRect(forBounds: bounds)
   return UIEdgeInsetsInsetRect(rect, UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding))
-}
+}*/
   /*override func editingRect(forBounds bounds: CGRect) -> CGRect {
     var rect = UIEdgeInsetsInsetRect(bounds, UIEdgeInsets(top: 0, left: leftPadding, bottom: 0, right: rightPadding))
     if let text = self.text, !text.isEmpty {
@@ -2523,7 +2523,7 @@ clearButton.backgroundColor = .fieldBgColor
           let show = urlField.isEditing && !(urlField.text?.isEmpty ?? true)
           urlField.rightPadding = show ? 34 : 15
           clearButton.isHidden = !show
-          //urlField.setNeedsLayout()
+          urlField.setNeedsLayout()
         }
         //urlField.onTextChange = updateUI
         urlField.addAction(updateUI, for: .editingChanged)
@@ -3897,8 +3897,8 @@ downloadTask.resume()
     //if webView.url!.absoluteString.hasPrefix("http://localhost:6571/errors/error.html") == false && webView.url!.absoluteString.hasPrefix("internal://local/restore?") == false {
     if webView.url!.absoluteString.hasPrefix("internal://local/restore?") == false {
       
-      urlField.rightPadding = 34
-      clearButton.isHidden = false
+      //urlField.rightPadding = 34
+      //clearButton.isHidden = false
       //DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
         //self.urlField.text = self.webView.url!.absoluteString
         //self.urlField.insertText(self.webView.url!.absoluteString)
