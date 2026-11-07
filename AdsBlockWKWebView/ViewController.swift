@@ -2484,7 +2484,7 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         urlField.placeholder = "Type your Address"
         urlField.font = UIFont.systemFont(ofSize: 15)
         
-        urlField.defaultTextAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15)]
+        urlField.defaultTextAttributes = [NSAttributedStringKey.font.rawValue: UIFont.systemFont(ofSize: 15)]
         
         urlField.textColor = .appBgColor
         urlField.tintColor = .appBgColor
