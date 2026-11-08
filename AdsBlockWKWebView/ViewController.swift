@@ -993,6 +993,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
                 textField.replace(range, withText: textField.text ?? "")
               }*/
               }
+              lb.text! += " aOA:\(alertObjArray.count)"
               //if alertObjArray.isEmpty {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: restoreCursor)
               //} else {
