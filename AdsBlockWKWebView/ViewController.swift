@@ -978,22 +978,26 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
             if let position = textField.savedCursorPosition {
               textField.savedCursorPosition = nil
               
+              let restoreCursor = {
               //DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-              if let range = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument) {
-                textField.replace(range, withText: textField.text ?? "")
-              }
-              
-              //textField.selectedTextRange = textField.textRange(from: position.start, to: position.end)
-              textField.selectedTextRange = textField.textRange(from: position.start, to: position.start)
-              
-              //textField.tintColor = .appBgColor
-              textField.setNeedsLayout()
-              textField.layoutIfNeeded()
-              //}
-              
               /*if let range = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument) {
                 textField.replace(range, withText: textField.text ?? "")
               }*/
+              //textField.selectedTextRange = textField.textRange(from: position.start, to: position.end)
+              textField.selectedTextRange = textField.textRange(from: position.start, to: position.start)
+              //textField.tintColor = .appBgColor
+              //textField.setNeedsLayout()
+              //textField.layoutIfNeeded()
+              //}
+              /*if let range = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument) {
+                textField.replace(range, withText: textField.text ?? "")
+              }*/
+              }
+              if alertObjArray.isEmpty {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: restoreCursor)
+              } else {
+                restoreCursor()
+              }
               
             }
           }
