@@ -1097,7 +1097,7 @@ let videos = document.querySelectorAll("video");
   }
   
   @objc func kvButton2Clicked() {
-    urlField.savedCursorPosition = urlField.selectedTextRange
+    //urlField.savedCursorPosition = urlField.selectedTextRange
     
     /*if kvButton2.backgroundColor == .appBgColor {
       kvButton2.backgroundColor = .gray
@@ -1282,7 +1282,7 @@ version: \(appVersion)
   @objc func kvButton2Pressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
       //hapticImpactFB.impactOccurred()
-      urlField.savedCursorPosition = urlField.selectedTextRange
+      //urlField.savedCursorPosition = urlField.selectedTextRange
       showAlert(title: "Important", buttonTitles: ["Acknowledge"], defaultButton: 0) { (response, _) in
         self.lb.text! += " RES:\(response!)"
       }
@@ -1903,6 +1903,11 @@ version: \(appVersion)
         return
       }
     }
+    
+    if urlField.isFirstResponder && currentAlert.style != .actionSheet {
+      urlField.savedCursorPosition = urlField.selectedTextRange
+    }
+    
     let alert = UIAlertController(title: currentAlert.title, message: currentAlert.message, preferredStyle: currentAlert.style ?? .alert)
     var button1, button2, button3: UIAlertAction
     func buttonPressed(_ value1: Any?, _ value2: Any?) {
