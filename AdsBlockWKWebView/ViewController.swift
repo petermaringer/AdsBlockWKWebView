@@ -1275,7 +1275,8 @@ version: \(appVersion)
 """
     //showAlert(message)
     //showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceView: kvButton2, sourceRect: CGRect(x: kvButton2.bounds.width, y: 0, width: 0, height: 0), sourceID: "kvButton2Clicked-01")
-    showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceView: self.view, sourceRect: CGRect(x: 0, y: self.urlField.frame.maxY + 5, width: self.view.bounds.width, height: 1), sourceArrow: true, sourceID: "kvButton2Clicked-01")
+    //showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceView: self.view, sourceRect: CGRect(x: 0, y: self.urlField.frame.maxY + 5, width: self.view.bounds.width, height: 1), sourceArrow: true, sourceID: "kvButton2Clicked-01")
+    showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceRect: CGRect(x: 0, y: urlField.frame.maxY + 5, width: view.bounds.width, height: 1), sourceID: "kvButton2Clicked-01")
   }
   
   @objc func kvButton2Pressed(gesture: UILongPressGestureRecognizer) {
@@ -1987,7 +1988,7 @@ version: \(appVersion)
     if currentAlert.defaultButton != nil {
       alert.preferredAction = alert.actions[abs(currentAlert.defaultButton! - alert.actions.count + 1)]
     }
-    if currentAlert.style == .actionSheet, let popover = alert.popoverPresentationController, let sourceView = currentAlert.sourceView {
+    /*if currentAlert.style == .actionSheet, let popover = alert.popoverPresentationController, let sourceView = currentAlert.sourceView {
       //popover.sourceView = self.view
       //popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
       popover.sourceView = sourceView
@@ -1995,7 +1996,19 @@ version: \(appVersion)
       if currentAlert.sourceArrow == false {
         popover.permittedArrowDirections = []
       }
+    }*/
+    
+    if currentAlert.style == .actionSheet, let popover = alert.popoverPresentationController {
+      //popover.sourceView = self.view
+      //popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
+      let sourceView = currentAlert.sourceView ?? view
+      popover.sourceView = sourceView
+      popover.sourceRect = currentAlert.sourceRect ?? sourceView.bounds
+      if currentAlert.sourceArrow == false {
+        popover.permittedArrowDirections = []
+      }
     }
+    
     if currentAlert.disableHaptic != true {
       hapticFB.notificationOccurred(.success)
     }
