@@ -995,6 +995,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
               }
               lb.text! += " aOA:\(alertObjArray.count)"
               if alertObjArray.count == 1 {
+                restoreCursor()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: restoreCursor)
               } else {
                 restoreCursor()
