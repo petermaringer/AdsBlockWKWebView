@@ -2001,9 +2001,8 @@ version: \(appVersion)
     if currentAlert.style == .actionSheet, let popover = alert.popoverPresentationController {
       //popover.sourceView = self.view
       //popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
-      let popoverSourceView = currentAlert.sourceView ?? view
-      popover.sourceView = popoverSourceView
-      popover.sourceRect = currentAlert.sourceRect ?? popoverSourceView.bounds
+      popover.sourceView = currentAlert.sourceView ?? view
+      popover.sourceRect = currentAlert.sourceRect ?? popover.sourceView!.bounds
       if currentAlert.sourceArrow == false {
         popover.permittedArrowDirections = []
       }
