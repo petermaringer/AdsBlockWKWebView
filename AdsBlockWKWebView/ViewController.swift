@@ -977,6 +977,11 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
           if textField.savedCursorPosition != nil {
             if let position = textField.savedCursorPosition {
               textField.savedCursorPosition = nil
+              
+              if let range = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument) {
+                textField.replace(range, withText: textField.text ?? "")
+              }
+              
               //textField.selectedTextRange = textField.textRange(from: position.start, to: position.end)
               textField.selectedTextRange = textField.textRange(from: position.start, to: position.start)
             }
@@ -1276,6 +1281,7 @@ version: \(appVersion)
   @objc func kvButton2Pressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
       //hapticImpactFB.impactOccurred()
+      urlField.savedCursorPosition = urlField.selectedTextRange
       showAlert(title: "Important", buttonTitles: ["Acknowledge"], defaultButton: 0) { (response, _) in
         self.lb.text! += " RES:\(response!)"
       }
