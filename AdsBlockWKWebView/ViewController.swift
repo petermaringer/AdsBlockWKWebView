@@ -986,7 +986,9 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
               //textField.selectedTextRange = textField.textRange(from: position.start, to: position.end)
               textField.selectedTextRange = textField.textRange(from: position.start, to: position.start)
               
-              textField.tintColor = .appBgColor
+              //textField.tintColor = .appBgColor
+              textField.setNeedsLayout()
+              textField.layoutIfNeeded()
               //}
               
               /*if let range = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument) {
