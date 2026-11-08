@@ -994,11 +994,11 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
               }*/
               }
               lb.text! += " aOA:\(alertObjArray.count)"
-              //if alertObjArray.isEmpty {
+              if alertObjArray.count == 1 {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: restoreCursor)
-              //} else {
-                //restoreCursor()
-              //}
+              } else {
+                restoreCursor()
+              }
               
             }
           }
