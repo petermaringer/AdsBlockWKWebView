@@ -994,18 +994,18 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
               }*/
               }
               lb.text! += " aOA:\(alertObjArray.count)"
-              if alertObjArray.count == 1 {
+              //if alertObjArray.count == 1 {
                 restoreCursor()
                 //DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: restoreCursor)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-  if let tempPosition = textField.position(from: position.start, offset: -1) {
-    textField.selectedTextRange = textField.textRange(from: tempPosition, to: tempPosition)
-  }
-  restoreCursor()
-}
-              } else {
-                restoreCursor()
-              }
+                  if let tempPosition = textField.position(from: position.start, offset: -1) {
+                    textField.selectedTextRange = textField.textRange(from: tempPosition, to: tempPosition)
+                  }
+                  restoreCursor()
+                }
+              //} else {
+                //restoreCursor()
+              //}
               
             }
           }
