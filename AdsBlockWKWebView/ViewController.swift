@@ -978,20 +978,20 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
             if let position = textField.savedCursorPosition {
               textField.savedCursorPosition = nil
               
-              let restoreCursor = {
+              /*let restoreCursor = {
               //DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-              /*if let range = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument) {
-                textField.replace(range, withText: textField.text ?? "")
-              }*/
+              //if let range = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument) {
+                //textField.replace(range, withText: textField.text ?? "")
+              //}
               //textField.selectedTextRange = textField.textRange(from: position.start, to: position.end)
               textField.selectedTextRange = textField.textRange(from: position.start, to: position.start)
               //textField.tintColor = .appBgColor
               //textField.setNeedsLayout()
               //textField.layoutIfNeeded()
               //}
-              /*if let range = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument) {
-                textField.replace(range, withText: textField.text ?? "")
-              }*/
+              //if let range = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument) {
+                //textField.replace(range, withText: textField.text ?? "")
+              //}
               }
               lb.text! += " aOA:\(alertObjArray.count)"
               //if alertObjArray.count == 1 {
@@ -1005,7 +1005,13 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
                 }
               //} else {
                 //restoreCursor()
-              //}
+              //}*/
+              let originalText = textField.text ?? ""
+              textField.text = ""
+              DispatchQueue.main.async {
+                textField.text = originalText
+                textField.selectedTextRange = textField.textRange(from: position.start, to: position.start)
+              }
               
             }
           }
