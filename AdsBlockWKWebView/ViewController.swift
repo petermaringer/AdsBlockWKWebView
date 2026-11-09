@@ -1009,8 +1009,9 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
               let originalText = textField.text ?? ""
               textField.text = ""
               DispatchQueue.main.async {
-                textField.text = originalText
+                //textField.text = originalText
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                  textField.text = originalText
                   textField.selectedTextRange = textField.textRange(from: position.start, to: position.start)
                 }
               }
