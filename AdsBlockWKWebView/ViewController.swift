@@ -978,7 +978,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
             if let position = textField.savedCursorPosition {
               textField.savedCursorPosition = nil
               
-              /*let restoreCursor = {
+              let restoreCursor = {
               //DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
               //if let range = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument) {
                 //textField.replace(range, withText: textField.text ?? "")
@@ -997,7 +997,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
               //if alertObjArray.count == 1 {
                 restoreCursor()
                 //DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: restoreCursor)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                   if let tempPosition = textField.position(from: position.start, offset: -1) {
                     textField.selectedTextRange = textField.textRange(from: tempPosition, to: tempPosition)
                   }
@@ -1005,8 +1005,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
                 }
               //} else {
                 //restoreCursor()
-              //}*/
-              let originalText = textField.text ?? ""
+              //}
+              /*let originalText = textField.text ?? ""
               textField.text = ""
               DispatchQueue.main.async {
                 //textField.text = originalText
@@ -1014,7 +1014,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
                   textField.text = originalText
                   //textField.selectedTextRange = textField.textRange(from: position.start, to: position.start)
                 }
-              }
+              }*/
               
             }
           }
