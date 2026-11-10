@@ -994,7 +994,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
               //if alertObjArray.count == 1 {
                 restoreCursor()
                 //DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: restoreCursor)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { //0.2
                   if let tempPosition = textField.position(from: position.start, offset: -1) {
                     textField.selectedTextRange = textField.textRange(from: tempPosition, to: tempPosition)
                   }
