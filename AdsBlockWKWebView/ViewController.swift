@@ -2077,7 +2077,7 @@ version: \(appVersion)
           }
         }
         
-        if alert.preferredStyle == .actionSheet, !alert.actions.contains(where: { $0.style == .cancel }), let backgroundView = self.view.superview?.subviews[0] {
+        if alert.preferredStyle == .actionSheet, !alert.actions.contains(where: { $0.style == .cancel }), let backgroundView = alert.view.superview?.subviews[0] {
           let tapRecognizer = TapRecognizer { [weak self] _ in
             guard let self else { return }
             alertObjArray.safeRemoveFirst()
