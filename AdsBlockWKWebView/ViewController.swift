@@ -567,6 +567,19 @@ class CustomUITextField: UITextField {
 }
 
 
+class TapRecognizer: UITapGestureRecognizer {
+  private let action: ((UITapGestureRecognizer) -> Void)?
+  init(action: @escaping (UITapGestureRecognizer) -> Void) {
+    self.action = action
+    super.init(target: nil, action: nil)
+    self.addTarget(self, action: #selector(executeAction(_:)))
+  }
+  @objc private func executeAction(_ sender: UITapGestureRecognizer) {
+    action?(sender)
+  }
+}
+
+
 /*
 //let phone = request?.url.absoluteString[range.upperBound...].removingPercentEncoding!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
 */
@@ -2063,6 +2076,17 @@ version: \(appVersion)
             }
           }
         }
+        
+        if alert.preferredStyle == .actionSheet, !alert.actions.contains(where: { $0.style == .cancel }), let backgroundView = self.view.superview?.subviews[0] {
+          let tapRecognizer = TapRecognizer { [weak self] _ in
+            guard let self else { return }
+            alertObjArray.safeRemoveFirst()
+            showAlert("nextAlertObj")
+          }
+          tapRecognizer.cancelsTouchesInView = false
+          backgroundView.addGestureRecognizer(tapRecognizer)
+        }
+        
         /*if alert.preferredStyle == .actionSheet, let presentedView = alert.popoverPresentationController?.presentedView {
           let screenWidth = self.view.bounds.width
           let dynamicWidth = screenWidth * 0.85
