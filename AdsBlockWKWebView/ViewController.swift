@@ -999,7 +999,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
                     textField.selectedTextRange = textField.textRange(from: tempPosition, to: tempPosition)
                   }
                   restoreCursor()
-                  lb.text! += " aOA:\(alertObjArray.count)"
+                  self.lb.text! += " aOA:\(alertObjArray.count)"
                 }
               //} else {
                 //restoreCursor()
