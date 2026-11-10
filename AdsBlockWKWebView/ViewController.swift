@@ -985,23 +985,21 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
               //}
               //textField.selectedTextRange = textField.textRange(from: position.start, to: position.end)
               textField.selectedTextRange = textField.textRange(from: position.start, to: position.start)
-              //textField.tintColor = .appBgColor
-              //textField.setNeedsLayout()
-              //textField.layoutIfNeeded()
               //}
               //if let range = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument) {
                 //textField.replace(range, withText: textField.text ?? "")
               //}
               }
-              lb.text! += " aOA:\(alertObjArray.count)"
+              //lb.text! += " aOA:\(alertObjArray.count)"
               //if alertObjArray.count == 1 {
                 restoreCursor()
                 //DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: restoreCursor)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                   if let tempPosition = textField.position(from: position.start, offset: -1) {
                     textField.selectedTextRange = textField.textRange(from: tempPosition, to: tempPosition)
                   }
                   restoreCursor()
+                  lb.text! += " aOA:\(alertObjArray.count)"
                 }
               //} else {
                 //restoreCursor()
