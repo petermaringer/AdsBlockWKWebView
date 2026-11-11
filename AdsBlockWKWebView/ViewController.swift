@@ -1970,10 +1970,10 @@ version: \(appVersion)
     func checkAlertQueueAfterDelay() {
       DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
         if alertObjArray.isEmpty {
-          if let position = urlField.savedCursorPosition {
-            urlField.becomeFirstResponder()
+          if let position = self.urlField.savedCursorPosition {
+            self.urlField.becomeFirstResponder()
             //Hier Cursorposition wiederherstellen
-            urlField.savedCursorPosition = nil
+            self.urlField.savedCursorPosition = nil
           }
         }
       }
