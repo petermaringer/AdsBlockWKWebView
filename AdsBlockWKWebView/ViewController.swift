@@ -987,7 +987,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
         //textField.textColor = .appBgColor
         
         if let textField = textField as? CustomUITextField {
-          if textField.savedCursorPosition != nil {
+          
+          /*if textField.savedCursorPosition != nil {
             if let position = textField.savedCursorPosition {
               textField.savedCursorPosition = nil
               
@@ -1025,10 +1026,11 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
                   textField.text = originalText
                   //textField.selectedTextRange = textField.textRange(from: position.start, to: position.start)
                 }
-              }*/
+              }+/
               
             }
-          }
+          }*/
+          
           DispatchQueue.main.async {
             if textField.isRightPaddingClicked {
               textField.isRightPaddingClicked = false
@@ -1949,6 +1951,9 @@ version: \(appVersion)
     
     if urlField.isFirstResponder && currentAlert.style != .actionSheet {
       urlField.savedCursorPosition = urlField.selectedTextRange
+      
+      urlField.endEditing(true)
+      
     }
     
     let alert = UIAlertController(title: currentAlert.title, message: currentAlert.message, preferredStyle: currentAlert.style ?? .alert)
@@ -1956,7 +1961,22 @@ version: \(appVersion)
     func buttonPressed(_ value1: Any?, _ value2: Any?) {
       alertObjArray.safeRemoveFirst()
       currentAlert.completionHandler(value1, value2)
+      
+      checkAlertQueueAfterDelay()
+      
       showAlert("nextAlertObj")
+    }
+    
+    func checkAlertQueueAfterDelay() {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        if alertObjArray.isEmpty {
+          if let position = urlField.savedCursorPosition {
+            urlField.becomeFirstResponder()
+            //Hier Cursorposition wiederherstellen
+            urlField.savedCursorPosition = nil
+          }
+        }
+      }
     }
     
     if currentAlert.type == "alert" {
