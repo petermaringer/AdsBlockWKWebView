@@ -1018,7 +1018,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
               //} else {
                 //restoreCursor()
               //}
-              /*let originalText = textField.text ?? ""
+              /+let originalText = textField.text ?? ""
               textField.text = ""
               DispatchQueue.main.async {
                 //textField.text = originalText
