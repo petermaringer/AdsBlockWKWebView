@@ -1969,7 +1969,7 @@ version: \(appVersion)
     
     func checkAlertQueueAfterDelay() {
       //DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {}
-      DispatchQueue.main.async {
+      //DispatchQueue.main.async {
         if alertObjArray.isEmpty {
           if let position = self.urlField.savedCursorPosition {
             self.urlField.becomeFirstResponder()
@@ -1977,7 +1977,7 @@ version: \(appVersion)
             self.urlField.savedCursorPosition = nil
           }
         }
-      }
+      //}
     }
     
     if currentAlert.type == "alert" {
