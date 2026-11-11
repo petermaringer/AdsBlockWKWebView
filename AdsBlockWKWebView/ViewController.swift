@@ -567,7 +567,7 @@ class CustomUITextField: UITextField {
 }
 
 
-class TapRecognizer: UITapGestureRecognizer {
+/*class TapRecognizer: UITapGestureRecognizer {
   private let action: ((UITapGestureRecognizer) -> Void)?
   init(action: @escaping (UITapGestureRecognizer) -> Void) {
     self.action = action
@@ -577,7 +577,7 @@ class TapRecognizer: UITapGestureRecognizer {
   @objc private func executeAction(_ sender: UITapGestureRecognizer) {
     action?(sender)
   }
-}
+}*/
 
 
 /*
@@ -2047,6 +2047,11 @@ version: \(appVersion)
     }*/
     
     if currentAlert.style == .actionSheet, let popover = alert.popoverPresentationController {
+      
+      if !alert.actions.contains(where: { $0.style == .cancel }) {
+        alert.message = (alert.message ?? "") + "\n\n⚠️ Missing Cancel action – alert queue will stop!"
+      }
+      
       //popover.sourceView = self.view
       //popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
       popover.sourceView = currentAlert.sourceView ?? view
@@ -2077,7 +2082,7 @@ version: \(appVersion)
           }
         }
         
-        if alert.preferredStyle == .actionSheet, !alert.actions.contains(where: { $0.style == .cancel }), let backgroundView = alert.view.superview?.subviews[0] {
+        /*if alert.preferredStyle == .actionSheet, !alert.actions.contains(where: { $0.style == .cancel }), let backgroundView = alert.view.superview?.subviews[0] {
           let tapRecognizer = TapRecognizer { [weak self] _ in
             guard let self else { return }
             alertObjArray.safeRemoveFirst()
@@ -2085,7 +2090,7 @@ version: \(appVersion)
           }
           tapRecognizer.cancelsTouchesInView = false
           backgroundView.addGestureRecognizer(tapRecognizer)
-        }
+        }*/
         
         /*if alert.preferredStyle == .actionSheet, let presentedView = alert.popoverPresentationController?.presentedView {
           let screenWidth = self.view.bounds.width
