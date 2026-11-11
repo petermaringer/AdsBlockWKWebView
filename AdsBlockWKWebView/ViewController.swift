@@ -1968,7 +1968,8 @@ version: \(appVersion)
     }
     
     func checkAlertQueueAfterDelay() {
-      DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+      //DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {}
+      DispatchQueue.main.async {
         if alertObjArray.isEmpty {
           if let position = self.urlField.savedCursorPosition {
             self.urlField.becomeFirstResponder()
