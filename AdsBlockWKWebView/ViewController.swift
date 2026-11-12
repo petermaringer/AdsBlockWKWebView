@@ -968,6 +968,11 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   
   var counter: Int = 0
   
+  var shouldHideStatusBar = false
+  override var prefersStatusBarHidden: Bool {
+    return shouldHideStatusBar
+  }
+  
   var shouldHideHomeIndicator = false
   override func prefersHomeIndicatorAutoHidden() -> Bool {
     return shouldHideHomeIndicator
@@ -1380,8 +1385,9 @@ version: \(appVersion)
   
   @objc func kvButton3Pressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
-      //hapticImpactFB.impactOccurred()
+      hapticImpactFB.impactOccurred()
       
+      urlField.endEditing(true)
       let blackView = UIView(frame: view.bounds)
       blackView.backgroundColor = .black
       blackView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -1390,14 +1396,14 @@ version: \(appVersion)
         guard let self = self else { return }
         if gesture.state == .began {
           blackView.removeFromSuperview()
-          //shouldHideStatusBar = false
-          //setNeedsStatusBarAppearanceUpdate()
+          shouldHideStatusBar = false
+          setNeedsStatusBarAppearanceUpdate()
         }
       }
       blackView.addGestureRecognizer(longPress)
       view.addSubview(blackView)
-      //shouldHideStatusBar = true
-      //setNeedsStatusBarAppearanceUpdate()
+      shouldHideStatusBar = true
+      setNeedsStatusBarAppearanceUpdate()
       
     }
   }
