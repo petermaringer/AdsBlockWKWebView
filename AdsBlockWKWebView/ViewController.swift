@@ -1962,22 +1962,19 @@ version: \(appVersion)
       alertObjArray.safeRemoveFirst()
       currentAlert.completionHandler(value1, value2)
       
-      checkAlertQueueAfterDelay()
+      restoreEditingState()
       
       showAlert("nextAlertObj")
     }
     
-    func checkAlertQueueAfterDelay() {
-      //DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {}
-      //DispatchQueue.main.async {
-        if alertObjArray.isEmpty {
-          if let position = self.urlField.savedCursorPosition {
-            self.urlField.becomeFirstResponder()
-            //Hier Cursorposition wiederherstellen
-            self.urlField.savedCursorPosition = nil
-          }
+    func restoreEditingState() {
+      if alertObjArray.isEmpty {
+        if let position = urlField.savedCursorPosition {
+          urlField.savedCursorPosition = nil
+          urlField.becomeFirstResponder()
+          //Hier Cursorposition wiederherstellen
         }
-      //}
+      }
     }
     
     if currentAlert.type == "alert" {
