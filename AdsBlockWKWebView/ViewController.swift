@@ -578,6 +578,23 @@ class CustomUITextField: UITextField {
     action?(sender)
   }
 }*/
+private var gestureActionKey: UInt8 = 0
+final class GestureActionTarget: NSObject {
+  private let action: (UIGestureRecognizer) -> Void
+  init(action: @escaping (UIGestureRecognizer) -> Void) {
+    self.action = action
+  }
+  @objc func handle(_ gesture: UIGestureRecognizer) {
+    action(gesture)
+  }
+}
+extension UIGestureRecognizer {
+  func addAction(_ action: @escaping (UIGestureRecognizer) -> Void) {
+    let target = GestureActionTarget(action: action)
+    addTarget(target, action: #selector(GestureActionTarget.handle(_:)))
+    objc_setAssociatedObject(self, &gestureActionKey, target, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+  }
+}
 
 
 /*
@@ -1364,6 +1381,23 @@ version: \(appVersion)
   @objc func kvButton3Pressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
       //hapticImpactFB.impactOccurred()
+      
+      let blackView = UIView(frame: view.bounds)
+      blackView.backgroundColor = .black
+      blackView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+      let longPress = UILongPressGestureRecognizer()
+      longPress.addAction { [weak self] gesture in
+        guard let self = self else { return }
+        if gesture.state == .began {
+          blackView.removeFromSuperview()
+          //shouldHideStatusBar = false
+          //setNeedsStatusBarAppearanceUpdate()
+        }
+      }
+      blackView.addGestureRecognizer(longPress)
+      view.addSubview(blackView)
+      //shouldHideStatusBar = true
+      //setNeedsStatusBarAppearanceUpdate()
       
     }
   }
