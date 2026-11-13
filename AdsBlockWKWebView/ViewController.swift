@@ -1391,12 +1391,14 @@ version: \(appVersion)
       let blackView = UIView(frame: view.bounds)
       blackView.backgroundColor = .black
       blackView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+      let previousStatusBarState = shouldHideStatusBar
       let longPress = UILongPressGestureRecognizer()
-      longPress.addAction { [weak self] gesture in
+      longPress.addAction { [weak self, weak blackView] gesture in
         guard let self = self else { return }
         if gesture.state == .began {
-          blackView.removeFromSuperview()
-          shouldHideStatusBar = false
+          hapticImpactFB.impactOccurred()
+          blackView?.removeFromSuperview()
+          shouldHideStatusBar = previousStatusBarState
           setNeedsStatusBarAppearanceUpdate()
         }
       }
