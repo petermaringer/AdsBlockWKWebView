@@ -927,7 +927,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var url: String!
   var currentUserAgent: String = "default"
   var defaultUserAgent: String = "default"
-  let desktopUserAgent: String = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.1 Safari/605.1.15"
+  //let desktopUserAgent: String = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.1 Safari/605.1.15"
+  let desktopUserAgent: String = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6.1 Safari/605.1.15"
   
   var newNav: Bool = true
   
@@ -1121,8 +1122,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   
   @objc func kvButtonPressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
-      urlField.endEditing(true)
       //hapticImpactFB.impactOccurred()
+      urlField.endEditing(true)
       var autoRotateInfo: String = "Enabled"
       if allowedOrientations == .all {
         if lastDeviceOrientation == "ls" {
