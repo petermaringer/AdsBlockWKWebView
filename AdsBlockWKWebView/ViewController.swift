@@ -567,17 +567,6 @@ class CustomUITextField: UITextField {
 }
 
 
-/*class TapRecognizer: UITapGestureRecognizer {
-  private let action: ((UITapGestureRecognizer) -> Void)?
-  init(action: @escaping (UITapGestureRecognizer) -> Void) {
-    self.action = action
-    super.init(target: nil, action: nil)
-    self.addTarget(self, action: #selector(executeAction(_:)))
-  }
-  @objc private func executeAction(_ sender: UITapGestureRecognizer) {
-    action?(sender)
-  }
-}*/
 private var gestureActionKey: UInt8 = 0
 final class GestureActionTarget: NSObject {
   private let action: (UIGestureRecognizer) -> Void
@@ -1010,50 +999,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
         //textField.textColor = .appBgColor
         
         if let textField = textField as? CustomUITextField {
-          
-          /*if textField.savedCursorPosition != nil {
-            if let position = textField.savedCursorPosition {
-              textField.savedCursorPosition = nil
-              
-              let restoreCursor = {
-              //DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-              //if let range = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument) {
-                //textField.replace(range, withText: textField.text ?? "")
-              //}
-              //textField.selectedTextRange = textField.textRange(from: position.start, to: position.end)
-              textField.selectedTextRange = textField.textRange(from: position.start, to: position.start)
-              //}
-              //if let range = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument) {
-                //textField.replace(range, withText: textField.text ?? "")
-              //}
-              }
-              //lb.text! += " aOA:\(alertObjArray.count)"
-              //if alertObjArray.count == 1 {
-                restoreCursor()
-                //DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: restoreCursor)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { //0.2
-                  if let tempPosition = textField.position(from: position.start, offset: -1) {
-                    textField.selectedTextRange = textField.textRange(from: tempPosition, to: tempPosition)
-                  }
-                  restoreCursor()
-                  self.lb.text! += " aOA:\(alertObjArray.count)"
-                }
-              //} else {
-                //restoreCursor()
-              //}
-              /+let originalText = textField.text ?? ""
-              textField.text = ""
-              DispatchQueue.main.async {
-                //textField.text = originalText
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                  textField.text = originalText
-                  //textField.selectedTextRange = textField.textRange(from: position.start, to: position.start)
-                }
-              }+/
-              
-            }
-          }*/
-          
           DispatchQueue.main.async {
             if textField.isRightPaddingClicked {
               textField.isRightPaddingClicked = false
@@ -1969,8 +1914,6 @@ version: \(appVersion)
   private func showAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], defaultButton: Int? = nil, disableHaptic: Bool? = false, sourceView: UIView? = nil, sourceRect: CGRect? = nil, sourceArrow: Bool? = nil, sourceID: String? = nil, autoDismissAfter: Double? = nil, custom: Any? = nil, completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
     if message != "nextAlertObj" {
       alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, defaultButton: defaultButton, disableHaptic: disableHaptic, sourceView: sourceView, sourceRect: sourceRect, sourceArrow: sourceArrow, sourceID: sourceID, autoDismissAfter: autoDismissAfter, custom: custom, completionHandler: completionHandler))
-      /*let addNextToQueue = { alertObjArray.append(alertObj(blabla)) }
-      addNextToQueue()*/
     }
     guard let currentAlert = alertObjArray.first else { return }
     if let presentedAlert = self.presentedViewController as? UIAlertController, presentedAlert.preferredStyle == .actionSheet {
@@ -1991,31 +1934,49 @@ version: \(appVersion)
         return
       }
     }
-    
     if urlField.isFirstResponder && currentAlert.style != .actionSheet {
       urlField.savedCursorPosition = urlField.selectedTextRange
-      
       urlField.endEditing(true)
-      
     }
-    
     let alert = UIAlertController(title: currentAlert.title, message: currentAlert.message, preferredStyle: currentAlert.style ?? .alert)
     var button1, button2, button3: UIAlertAction
     func buttonPressed(_ value1: Any?, _ value2: Any?) {
       alertObjArray.safeRemoveFirst()
       currentAlert.completionHandler(value1, value2)
-      
       restoreEditingState()
-      
       showAlert("nextAlertObj")
     }
-    
     func restoreEditingState() {
       if alertObjArray.isEmpty {
         if let position = urlField.savedCursorPosition {
           urlField.savedCursorPosition = nil
           urlField.becomeFirstResponder()
-          //Hier Cursorposition wiederherstellen
+          let restoreCursor = { [weak self] in
+            guard let urlField = self?.urlField else { return }
+            //if let range = urlField.textRange(from: urlField.beginningOfDocument, to: urlField.endOfDocument) {
+              //urlField.replace(range, withText: urlField.text ?? "")
+            //}
+            //urlField.selectedTextRange = urlField.textRange(from: position.start, to: position.end)
+            urlField.selectedTextRange = urlField.textRange(from: position.start, to: position.start)
+            //if let range = urlField.textRange(from: urlField.beginningOfDocument, to: urlField.endOfDocument) {
+              //urlField.replace(range, withText: urlField.text ?? "")
+            //}
+          }
+          restoreCursor()
+          DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+            guard let urlField = self?.urlField else { return }
+            if let tempPosition = urlField.position(from: position.start, offset: -1) {
+              urlField.selectedTextRange = urlField.textRange(from: tempPosition, to: tempPosition)
+            }
+            restoreCursor()
+          }
+          /*let originalText = urlField.text ?? ""
+          urlField.text = ""
+          DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+            guard let urlField = self?.urlField else { return }
+            urlField.text = originalText
+            //urlField.selectedTextRange = urlField.textRange(from: position.start, to: position.start)
+          }*/
         }
       }
     }
@@ -2097,31 +2058,21 @@ version: \(appVersion)
     if currentAlert.defaultButton != nil {
       alert.preferredAction = alert.actions[abs(currentAlert.defaultButton! - alert.actions.count + 1)]
     }
-    /*if currentAlert.style == .actionSheet, let popover = alert.popoverPresentationController, let sourceView = currentAlert.sourceView {
-      //popover.sourceView = self.view
-      //popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
-      popover.sourceView = sourceView
-      popover.sourceRect = currentAlert.sourceRect ?? sourceView.bounds
-      if currentAlert.sourceArrow == false {
-        popover.permittedArrowDirections = []
-      }
-    }*/
-    
+    //if currentAlert.style == .actionSheet, let popover = alert.popoverPresentationController, let sourceView = currentAlert.sourceView {}
     if currentAlert.style == .actionSheet, let popover = alert.popoverPresentationController {
-      
       if !alert.actions.contains(where: { $0.style == .cancel }) {
         alert.message = (alert.message ?? "") + "\n\n⚠️ Missing Cancel action – alert queue will stop!"
       }
-      
-      //popover.sourceView = self.view
-      //popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
+      /*popover.sourceView = self.view
+      popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)*/
+      /*popover.sourceView = sourceView
+      popover.sourceRect = currentAlert.sourceRect ?? sourceView.bounds*/
       popover.sourceView = currentAlert.sourceView ?? view
       popover.sourceRect = currentAlert.sourceRect ?? popover.sourceView!.bounds
       if currentAlert.sourceArrow == false {
         popover.permittedArrowDirections = []
       }
     }
-    
     if currentAlert.disableHaptic != true {
       hapticFB.notificationOccurred(.success)
     }
@@ -2142,17 +2093,6 @@ version: \(appVersion)
             }
           }
         }
-        
-        /*if alert.preferredStyle == .actionSheet, !alert.actions.contains(where: { $0.style == .cancel }), let backgroundView = alert.view.superview?.subviews[0] {
-          let tapRecognizer = TapRecognizer { [weak self] _ in
-            guard let self else { return }
-            alertObjArray.safeRemoveFirst()
-            showAlert("nextAlertObj")
-          }
-          tapRecognizer.cancelsTouchesInView = false
-          backgroundView.addGestureRecognizer(tapRecognizer)
-        }*/
-        
         /*if alert.preferredStyle == .actionSheet, let presentedView = alert.popoverPresentationController?.presentedView {
           let screenWidth = self.view.bounds.width
           let dynamicWidth = screenWidth * 0.85
