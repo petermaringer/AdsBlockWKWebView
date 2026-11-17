@@ -1308,11 +1308,13 @@ version: \(appVersion)
               player?.replaceCurrentItem(with: item)
               player?.play()
               updateNowPlayingInfo()
-              self.showAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident or \(streams[currentStreamIndex].name)", defaultButton: 0) { (response, _) in
+              //self.showAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident or \(streams[currentStreamIndex].name)", defaultButton: 0) { (response, _) in }
+              self.showAlert(type: "prompt", title: "Alert4", "How do you want to die?", input: "accident or \(streams[currentStreamIndex].name)", defaultButton: 0) { (response, _) in
                 self.lb.text! += " RES:\(response ?? "nil")"
                 if response != nil {
                   self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive], defaultButton: 0)
-                  self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], disableHaptic: true, sourceView: self.view)
+                  //self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], disableHaptic: true, sourceView: self.view)
+                  self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], defaultButton: 0, disableHaptic: true, autoDismissAfter: 5)
                 }
               }
             }
