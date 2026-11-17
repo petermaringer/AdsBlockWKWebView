@@ -1286,7 +1286,6 @@ version: \(appVersion)
 """
     //showAlert(message)
     //showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceView: kvButton2, sourceRect: CGRect(x: kvButton2.bounds.width, y: 0, width: 0, height: 0), sourceID: "kvButton2Clicked-01")
-    //showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceView: self.view, sourceRect: CGRect(x: 0, y: self.urlField.frame.maxY + 5, width: self.view.bounds.width, height: 1), sourceArrow: true, sourceID: "kvButton2Clicked-01")
     showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceRect: CGRect(x: 0, y: urlField.frame.maxY + 5, width: view.bounds.width, height: 1), sourceID: "kvButton2Clicked-01")
   }
   
@@ -1299,7 +1298,8 @@ version: \(appVersion)
       showAlert(type: "confirm", title: "Alert2", "Want to die?", defaultButton: 1) { (response, _) in
         self.lb.text! += " RES:\(response!)"
         if response as? Bool == true {
-          self.showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default], defaultButton: 0) { (response, _) in
+          //self.showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default], defaultButton: 0) { (response, _) in }
+          self.showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], defaultButton: 0) { (response, _) in
             self.lb.text! += " RES:\(response!)"
             if let selected = response as? Int, (1...3).contains(selected) {
               setAudioSession()
@@ -1308,12 +1308,10 @@ version: \(appVersion)
               player?.replaceCurrentItem(with: item)
               player?.play()
               updateNowPlayingInfo()
-              //self.showAlert(type: "prompt", style: .alert, title: "Alert4", "How do you want to die?", input: "accident or \(streams[currentStreamIndex].name)", defaultButton: 0) { (response, _) in }
               self.showAlert(type: "prompt", title: "Alert4", "How do you want to die?", input: "accident or \(streams[currentStreamIndex].name)", defaultButton: 0) { (response, _) in
                 self.lb.text! += " RES:\(response ?? "nil")"
                 if response != nil {
                   self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive], defaultButton: 0)
-                  //self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], disableHaptic: true, sourceView: self.view)
                   self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], defaultButton: 0, disableHaptic: true, autoDismissAfter: 5)
                 }
               }
@@ -2085,6 +2083,7 @@ version: \(appVersion)
                 self.allowAlertDismiss = false
                 alertObjArray.safeRemoveFirst()
                 alert.dismiss(animated: true) {
+                  restoreEditingState()
                   self.allowAlertDismiss = true
                   self.showAlert("nextAlertObj")
                 }
