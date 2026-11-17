@@ -1110,8 +1110,6 @@ let videos = document.querySelectorAll("video");
   }
   
   @objc func kvButton2Clicked() {
-    //urlField.savedCursorPosition = urlField.selectedTextRange
-    
     /*if kvButton2.backgroundColor == .appBgColor {
       kvButton2.backgroundColor = .gray
     } else {
@@ -1295,7 +1293,6 @@ version: \(appVersion)
   @objc func kvButton2Pressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
       //hapticImpactFB.impactOccurred()
-      //urlField.savedCursorPosition = urlField.selectedTextRange
       showAlert(title: "Important", buttonTitles: ["Acknowledge"], defaultButton: 0) { (response, _) in
         self.lb.text! += " RES:\(response!)"
       }
