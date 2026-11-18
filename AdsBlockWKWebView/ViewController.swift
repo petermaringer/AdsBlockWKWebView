@@ -1252,7 +1252,7 @@ player.play()*/
     let shortVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? ""
     let buildVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? ""
     let appVersion = "\(shortVersion) Build \(buildVersion)"
-    //userDefaults.set(appVersion, forKey: "versionInfo")
+    //userDefaults.set(appVersion, forKey: "appVersionAndBuildString")
     
     var text = "error"
     if let path = Bundle.main.path(forResource: "Info", ofType: "plist") {
@@ -1298,8 +1298,7 @@ version: \(appVersion)
       showAlert(type: "confirm", title: "Alert2", "Want to die?", defaultButton: 1) { (response, _) in
         self.lb.text! += " RES:\(response!)"
         if response as? Bool == true {
-          //self.showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default], defaultButton: 0) { (response, _) in }
-          self.showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], defaultButton: 0) { (response, _) in
+          self.showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default], defaultButton: 0) { (response, _) in
             self.lb.text! += " RES:\(response!)"
             if let selected = response as? Int, (1...3).contains(selected) {
               setAudioSession()
