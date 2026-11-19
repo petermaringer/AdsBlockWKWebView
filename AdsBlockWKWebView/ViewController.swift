@@ -894,7 +894,7 @@ extension ViewController: WKDownloadDelegate {
     //showAlert(title: "Download Complete", "File downloaded to:\n\(wkdownloadPath)")
     
     let supportedMimeTypes = ["text/html", "text/plain", "text/csv", "application/pdf", "application/json", "image/*", "audio/*", "video/*"]
-    let isSupported = wkdownloadMimeType?.lowercased().map { mime in supportedMimeTypes.contains { $0.hasSuffix("/*") ? mime.hasPrefix(String($0.dropLast())) : mime == $0 } } ?? false
+    let isSupported = (wkdownloadMimeType?.lowercased()).map { mime in supportedMimeTypes.contains { $0.hasSuffix("/*") ? mime.hasPrefix(String($0.dropLast())) : mime == $0 } } ?? false
     if isSupported {
       /*message: "Would you like to view this file in the app?"
       title: "No", "Yes"
