@@ -258,7 +258,8 @@ func initPool() -> WKProcessPool {
 let processPool: WKProcessPool = initPool()
 
 
-class CustomUITextField: UITextField {
+//class CustomUITextField: UITextField {}
+class CustomUITextField: UITextField, UITextDropDelegate {
   
   var leftPadding: CGFloat = defaultPadding
   var rightPadding: CGFloat = defaultPadding
@@ -562,6 +563,12 @@ class CustomUITextField: UITextField {
   override func replace(_ range: UITextRange, withText text: String) {
     super.replace(range, withText: text)
     font = UIFont.systemFont(ofSize: 15)
+  }
+  
+  func textDroppableView(_ textDroppableView: UIView & UITextDroppable, proposalForDrop drop: UITextDropRequest) -> UITextDropProposal {
+    let proposal = UITextDropProposal(operation: .copy)
+    proposal.dropAction = .replaceAll
+    return proposal
   }
   
 }
@@ -1210,6 +1217,10 @@ player.play()*/
     isPlaying = true
   }
   
+  if navUrlArray.count > 20 {
+    navUrlArray.removeFirst(navUrlArray.count - 20)
+  }
+  
   var navlist = ""
   navUrlArray.forEach { url in
     //navlist = navlist + "\n\n" + url
@@ -1275,14 +1286,14 @@ player.play()*/
     
     //\ntemp: \(urlField.savedCursorPosition.map { "\($0)" } ?? "nil")
     let message = """
-navlist(last20): \(navlist)\n
 stream: \(streams[currentStreamIndex].name)
 player: \(isPlaying ? "isPlaying" : "isPaused")\n
 httpserver: \(HttpServer.instance.server.isRunning ? "isRunning" : "isNotRunning")\n
 filecontent: \(text)\n
 prefs: \(webViewStartPagePref), \(webViewRestorePref), \(webViewSearchUrlPref), \(goBackOnEditPref), \(autoVideoDownloadPref)\n
 wkpool: \(wkpool)\n
-version: \(appVersion)
+version: \(appVersion)\n
+navlist(last20): \(navlist)
 """
     //showAlert(message)
     //showAlert(type: "confirm", style: .actionSheet, message, disableHaptic: true, sourceView: kvButton2, sourceRect: CGRect(x: kvButton2.bounds.width, y: 0, width: 0, height: 0), sourceID: "kvButton2Clicked-01")
@@ -1959,7 +1970,7 @@ version: \(appVersion)
             //}
           }
           restoreCursor()
-          DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+          DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
             guard let urlField = self?.urlField else { return }
             if let tempPosition = urlField.position(from: position.start, offset: -1) {
               urlField.selectedTextRange = urlField.textRange(from: tempPosition, to: tempPosition)
@@ -2654,6 +2665,9 @@ clearButton.backgroundColor = .fieldBgColor
         //urlField.clearButtonMode = UITextField.ViewMode.whileEditing
         urlField.clearButtonMode = .never
         urlField.contentVerticalAlignment = UIControl.ContentVerticalAlignment.center
+        
+        urlField.textDropDelegate = urlField
+        
         urlField.delegate = self
         view.addSubview(urlField)
         
@@ -3416,7 +3430,6 @@ downloadTask.resume()
     if let urlStr = navigationAction.request.url?.absoluteString {
       navUrl = urlStr
       /*
-      //Full path self.webView.url
       navUrlArray.insert(navUrl, at: 0)
       if navUrl == "about:blank" {
         navUrlArray.insert("AB:" + self.webView.url!.absoluteString, at: 0)
@@ -3426,9 +3439,9 @@ downloadTask.resume()
       if urlStr == "about:blank" {
         navUrlArray.append("AB:\(webView.url!.absoluteString)")
       }
-      if navUrlArray.count > 20 {
+      /*if navUrlArray.count > 20 {
         navUrlArray.removeFirst(navUrlArray.count - 20)
-      }
+      }*/
     }
     
     if currentUserAgent == "default" {
