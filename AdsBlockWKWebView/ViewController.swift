@@ -565,10 +565,14 @@ class CustomUITextField: UITextField, UITextDropDelegate {
     font = UIFont.systemFont(ofSize: 15)
   }
   
-  func textDroppableView(_ textDroppableView: UIView & UITextDroppable, proposalForDrop drop: UITextDropRequest) -> UITextDropProposal {
+  /*func textDroppableView(_ textDroppableView: UIView & UITextDroppable, proposalForDrop drop: UITextDropRequest) -> UITextDropProposal {
     let proposal = UITextDropProposal(operation: .copy)
     proposal.dropAction = .replaceAll
     return proposal
+  }*/
+  func textDroppableView(_ textDroppableView: UIView & UITextDroppable, proposalForDrop drop: UITextDropRequest) -> UITextDropProposal {
+    drop.suggestedProposal.dropAction = .replaceAll
+    return drop.suggestedProposal
   }
   
 }
@@ -1217,15 +1221,20 @@ player.play()*/
     isPlaying = true
   }
   
-  if navUrlArray.count > 20 {
+  /*if navUrlArray.count > 20 {
     navUrlArray.removeFirst(navUrlArray.count - 20)
   }
-  
   var navlist = ""
   navUrlArray.forEach { url in
     //navlist = navlist + "\n\n" + url
     navlist = "\n\n" + url + navlist
   }
+  if navlist == "" {
+    navlist = "isEmpty"
+  }*/
+  navUrlArray = Array(navUrlArray.suffix(20))
+  navUrlArray = navUrlArray.map { String($0.prefix(200)) }
+  let navlist = navUrlArray.isEmpty ? "isEmpty" : navUrlArray.reversed().joined(separator: "\n\n")
     
     /*var viewlist = "list:"
     func findViewWithAVPlayerLayer(view: UIView) -> UIView? {
@@ -1265,7 +1274,7 @@ player.play()*/
     let appVersion = "\(shortVersion) Build \(buildVersion)"
     //userDefaults.set(appVersion, forKey: "appVersionAndBuildString")
     
-    var text = "error"
+    /*var text = "error"
     if let path = Bundle.main.path(forResource: "Info", ofType: "plist") {
       do {
         //text = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
@@ -1273,7 +1282,11 @@ player.play()*/
         text = try String(contentsOf: URL(fileURLWithPath: path))
       } catch {}
     }
-    //if let dic = NSDictionary(contentsOfFile: path) as? [String: Any] {}
+    //if let dic = NSDictionary(contentsOfFile: path) as? [String: Any] {}*/
+    var fileContent = "error"
+    if let info = Bundle.main.infoDictionary, let data = try? PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0) {
+      fileContent = String(decoding: data, as: UTF8.self)
+    }
     
     /*VerursachtError
     //let blitem = webView2.backForwardList.item(at: 0)!.url.absoluteString
@@ -1289,7 +1302,7 @@ player.play()*/
 stream: \(streams[currentStreamIndex].name)
 player: \(isPlaying ? "isPlaying" : "isPaused")\n
 httpserver: \(HttpServer.instance.server.isRunning ? "isRunning" : "isNotRunning")\n
-filecontent: \(text)\n
+filecontent: \(fileContent)\n
 prefs: \(webViewStartPagePref), \(webViewRestorePref), \(webViewSearchUrlPref), \(goBackOnEditPref), \(autoVideoDownloadPref)\n
 wkpool: \(wkpool)\n
 version: \(appVersion)\n
@@ -1970,7 +1983,7 @@ navlist(last20): \(navlist)
             //}
           }
           restoreCursor()
-          DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+          DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
             guard let urlField = self?.urlField else { return }
             if let tempPosition = urlField.position(from: position.start, offset: -1) {
               urlField.selectedTextRange = urlField.textRange(from: tempPosition, to: tempPosition)
