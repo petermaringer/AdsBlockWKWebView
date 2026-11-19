@@ -570,9 +570,16 @@ class CustomUITextField: UITextField, UITextDropDelegate {
     proposal.dropAction = .replaceAll
     return proposal
   }*/
-  func textDroppableView(_ textDroppableView: UIView & UITextDroppable, proposalForDrop drop: UITextDropRequest) -> UITextDropProposal {
+  /*func textDroppableView(_ textDroppableView: UIView & UITextDroppable, proposalForDrop drop: UITextDropRequest) -> UITextDropProposal {
     drop.suggestedProposal.dropAction = .replaceAll
     return drop.suggestedProposal
+  }*/
+  func textDroppableView(_ textDroppableView: UIView & UITextDroppable, proposalForDrop drop: UITextDropRequest) -> UITextDropProposal {
+    let proposal = drop.suggestedProposal
+    proposal.operation = .copy
+    proposal.dropAction = .replaceAll
+    proposal.isPrecise = false
+    return proposal
   }
   
 }
@@ -1233,7 +1240,7 @@ player.play()*/
     navlist = "isEmpty"
   }*/
   navUrlArray = Array(navUrlArray.suffix(20))
-  navUrlArray = navUrlArray.map { String($0.prefix(200)) }
+  navUrlArray = navUrlArray.map { String($0.prefix(120)) }
   let navlist = navUrlArray.isEmpty ? "isEmpty" : navUrlArray.reversed().joined(separator: "\n\n")
     
     /*var viewlist = "list:"
@@ -1274,17 +1281,9 @@ player.play()*/
     let appVersion = "\(shortVersion) Build \(buildVersion)"
     //userDefaults.set(appVersion, forKey: "appVersionAndBuildString")
     
-    /*var text = "error"
-    if let path = Bundle.main.path(forResource: "Info", ofType: "plist") {
-      do {
-        //text = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
-        //text = try String(contentsOfFile: path)
-        text = try String(contentsOf: URL(fileURLWithPath: path))
-      } catch {}
-    }
-    //if let dic = NSDictionary(contentsOfFile: path) as? [String: Any] {}*/
-    var fileContent = "error"
-    if let info = Bundle.main.infoDictionary, let data = try? PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0) {
+    let showFileContent = false
+    var fileContent = showFileContent ? "readError" : "isNotEnabled"
+    if showFileContent, let info = Bundle.main.infoDictionary, let data = try? PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0) {
       fileContent = String(decoding: data, as: UTF8.self)
     }
     
@@ -1983,7 +1982,7 @@ navlist(last20): \(navlist)
             //}
           }
           restoreCursor()
-          DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
+          DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
             guard let urlField = self?.urlField else { return }
             if let tempPosition = urlField.position(from: position.start, offset: -1) {
               urlField.selectedTextRange = urlField.textRange(from: tempPosition, to: tempPosition)
