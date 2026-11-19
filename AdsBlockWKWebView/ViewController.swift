@@ -565,22 +565,23 @@ class CustomUITextField: UITextField, UITextDropDelegate {
     font = UIFont.systemFont(ofSize: 15)
   }
   
-  /*func textDroppableView(_ textDroppableView: UIView & UITextDroppable, proposalForDrop drop: UITextDropRequest) -> UITextDropProposal {
+  func textDroppableView(_ textDroppableView: UIView & UITextDroppable, proposalForDrop drop: UITextDropRequest) -> UITextDropProposal {
     let proposal = UITextDropProposal(operation: .copy)
     proposal.dropAction = .replaceAll
+    proposal.isPrecise = false
     return proposal
-  }*/
+  }
   /*func textDroppableView(_ textDroppableView: UIView & UITextDroppable, proposalForDrop drop: UITextDropRequest) -> UITextDropProposal {
     drop.suggestedProposal.dropAction = .replaceAll
     return drop.suggestedProposal
   }*/
-  func textDroppableView(_ textDroppableView: UIView & UITextDroppable, proposalForDrop drop: UITextDropRequest) -> UITextDropProposal {
+  /*func textDroppableView(_ textDroppableView: UIView & UITextDroppable, proposalForDrop drop: UITextDropRequest) -> UITextDropProposal {
     let proposal = drop.suggestedProposal
     proposal.operation = .copy
     proposal.dropAction = .replaceAll
     proposal.isPrecise = false
     return proposal
-  }
+  }*/
   
 }
 
