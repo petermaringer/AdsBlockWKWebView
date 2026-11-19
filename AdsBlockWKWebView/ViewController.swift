@@ -571,17 +571,6 @@ class CustomUITextField: UITextField, UITextDropDelegate {
     proposal.isPrecise = false
     return proposal
   }
-  /*func textDroppableView(_ textDroppableView: UIView & UITextDroppable, proposalForDrop drop: UITextDropRequest) -> UITextDropProposal {
-    drop.suggestedProposal.dropAction = .replaceAll
-    return drop.suggestedProposal
-  }*/
-  /*func textDroppableView(_ textDroppableView: UIView & UITextDroppable, proposalForDrop drop: UITextDropRequest) -> UITextDropProposal {
-    let proposal = drop.suggestedProposal
-    proposal.operation = .copy
-    proposal.dropAction = .replaceAll
-    proposal.isPrecise = false
-    return proposal
-  }*/
   
 }
 
@@ -873,7 +862,8 @@ class WebView2: WKWebView {
 
 
 var wkdownloadPath = ""
-@available(iOS 14.5, *)
+var wkdownloadMimeType: String? = nil
+//@available(iOS 14.5, *)
 extension ViewController: WKDownloadDelegate {
   func download(_ download: WKDownload, decideDestinationUsing response: URLResponse, suggestedFilename: String, completionHandler: @escaping (URL?) -> Void) {
     var url = URL.docDir.appending("Downloads/\(suggestedFilename)")
@@ -887,6 +877,7 @@ extension ViewController: WKDownloadDelegate {
       counter += 1
     }
     wkdownloadPath = "Downloads/\(url.lastPathComponent)"
+    wkdownloadMimeType = response.mimeType
     let sourceURL = download.originalRequest?.url?.absoluteString ?? response.url?.absoluteString ?? ""
     lb.text! += " wkD:\(sourceURL)"
     showAlert(title: "Download Started", "Downloading file from:\n\(sourceURL)")
@@ -900,7 +891,24 @@ extension ViewController: WKDownloadDelegate {
     lb.text! += " STOP err:\(err.code)"
   }
   func downloadDidFinish(_ download: WKDownload) {
-    showAlert(title: "Download Complete", "File downloaded to:\n\(wkdownloadPath)")
+    //showAlert(title: "Download Complete", "File downloaded to:\n\(wkdownloadPath)")
+    
+    let supportedMimeTypes = ["text/html", "text/plain", "text/csv", "application/pdf", "application/json", "image/*", "audio/*", "video/*"]
+    let isSupported = wkdownloadMimeType?.lowercased().map { mime in supportedMimeTypes.contains { $0.hasSuffix("/*") ? mime.hasPrefix(String($0.dropLast())) : mime == $0 } } ?? false
+    if isSupported {
+      /*message: "Would you like to view this file in the app?"
+      title: "No", "Yes"
+      */
+      showAlert(type: "confirm", title: "Download Complete", "File downloaded to:\n\(wkdownloadPath)\n\nWould you like to view the file now?") { (response, _) in
+        if response as? Bool == true {
+          self.url = "file:///" + wkdownloadPath
+          self.startLoading()
+        }
+      }
+    } else {
+      showAlert(title: "Download Complete", "File downloaded to:\n\(wkdownloadPath)")
+    }
+    
   }
 }
 
@@ -1241,8 +1249,8 @@ player.play()*/
     navlist = "isEmpty"
   }*/
   navUrlArray = Array(navUrlArray.suffix(20))
-  navUrlArray = navUrlArray.map { String($0.prefix(120)) }
-  let navlist = navUrlArray.isEmpty ? "isEmpty" : navUrlArray.reversed().joined(separator: "\n\n")
+  navUrlArray = navUrlArray.map { String($0.prefix(60)) }
+  let navlist = navUrlArray.isEmpty ? "isEmpty" : "\n\n" + navUrlArray.reversed().joined(separator: "\n\n")
     
     /*var viewlist = "list:"
     func findViewWithAVPlayerLayer(view: UIView) -> UIView? {
@@ -1282,7 +1290,7 @@ player.play()*/
     let appVersion = "\(shortVersion) Build \(buildVersion)"
     //userDefaults.set(appVersion, forKey: "appVersionAndBuildString")
     
-    let showFileContent = false
+    var showFileContent = false
     var fileContent = showFileContent ? "readError" : "isNotEnabled"
     if showFileContent, let info = Bundle.main.infoDictionary, let data = try? PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0) {
       fileContent = String(decoding: data, as: UTF8.self)
@@ -1983,7 +1991,7 @@ navlist(last20): \(navlist)
             //}
           }
           restoreCursor()
-          DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+          DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
             guard let urlField = self?.urlField else { return }
             if let tempPosition = urlField.position(from: position.start, offset: -1) {
               urlField.selectedTextRange = urlField.textRange(from: tempPosition, to: tempPosition)
