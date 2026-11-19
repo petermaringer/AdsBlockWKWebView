@@ -1290,7 +1290,9 @@ player.play()*/
     let appVersion = "\(shortVersion) Build \(buildVersion)"
     //userDefaults.set(appVersion, forKey: "appVersionAndBuildString")
     
-    var showFileContent = false
+    //var showFileContent = false
+    func isFileContentEnabled() -> Bool { false }
+    let showFileContent = isFileContentEnabled()
     var fileContent = showFileContent ? "readError" : "isNotEnabled"
     if showFileContent, let info = Bundle.main.infoDictionary, let data = try? PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0) {
       fileContent = String(decoding: data, as: UTF8.self)
@@ -1984,14 +1986,14 @@ navlist(last20): \(navlist)
             //if let range = urlField.textRange(from: urlField.beginningOfDocument, to: urlField.endOfDocument) {
               //urlField.replace(range, withText: urlField.text ?? "")
             //}
-            //urlField.selectedTextRange = urlField.textRange(from: position.start, to: position.end)
-            urlField.selectedTextRange = urlField.textRange(from: position.start, to: position.start)
+            urlField.selectedTextRange = urlField.textRange(from: position.start, to: position.end)
+            //urlField.selectedTextRange = urlField.textRange(from: position.start, to: position.start)
             //if let range = urlField.textRange(from: urlField.beginningOfDocument, to: urlField.endOfDocument) {
               //urlField.replace(range, withText: urlField.text ?? "")
             //}
           }
           restoreCursor()
-          DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
+          DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
             guard let urlField = self?.urlField else { return }
             if let tempPosition = urlField.position(from: position.start, offset: -1) {
               urlField.selectedTextRange = urlField.textRange(from: tempPosition, to: tempPosition)
@@ -3367,6 +3369,7 @@ downloadTask.resume()
             return
           }
           url = webViewSearchUrlPref + url
+          lb.text! += " sL:search"
         }
       }
     }
