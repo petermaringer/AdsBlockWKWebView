@@ -320,7 +320,7 @@ class CustomUITextField: UITextField, UITextDropDelegate {
   
   var savedCursorPosition: UITextRange?
   
-  @available(iOS 16.0, *)
+  @available(iOS 16, *)
   override func editMenu(for textRange: UITextRange, suggestedActions: [UIMenuElement]) -> UIMenu? {
     let clearAction = UIAction(title: "Clear", subtitle: "Clear Clipboard", image: UIImage(systemName: "xmark.circle")) { [weak self] _ in
       guard let self = self else { return }
@@ -700,7 +700,7 @@ class HTTPAuthHandler: HTTPRequestHandler {
 
 
 var wkscheme = "wks"
-@available(iOS 11.0, *)
+//@available(iOS 11.0, *)
 extension ViewController: WKURLSchemeHandler {
   enum schemeError: CustomNSError {
     case general
@@ -1607,7 +1607,7 @@ navlist(last20): \(navlist)
     }
     webView.go(to: webView.backForwardList.item(at: goBackBy * -1)!)*/
     
-    if #available(iOS 11, *) {
+    //if #available(iOS 11, *) {
       if editButtonBgColor == .appBgColor {
         resetContentRuleList()
         editButtonBgColor = .gray
@@ -1616,7 +1616,7 @@ navlist(last20): \(navlist)
         setupContentBlockFromFile() { }
         editButtonBgColor = .appBgColor
       }
-    }
+    //}
     //showAlert("E:\(url)")
   }
   
@@ -2197,7 +2197,7 @@ navlist(last20): \(navlist)
   }
   
   
-  @available(iOS 11, *)
+  //@available(iOS 11, *)
   override func viewSafeAreaInsetsDidChange() {
     super.viewSafeAreaInsetsDidChange()
     insetT = self.view.safeAreaInsets.top
@@ -2318,9 +2318,9 @@ navlist(last20): \(navlist)
         } else {
           shouldHideHomeIndicator = true
         }
-        if #available(iOS 11, *) {
+        //if #available(iOS 11, *) {
           setNeedsUpdateOfHomeIndicatorAutoHidden()
-        }
+        //}
       }
       
       lastDeviceOrientation = deviceOrientation
@@ -2508,9 +2508,9 @@ postToListener("dF2");
         //webViewConfig.userContentController.addUserScript(WKUserScript(source: "document.addEventListener('click', function() { window.webkit.messageHandlers.iosListener.postMessage('c'); })", injectionTime: .atDocumentEnd, forMainFrameOnly: false))
         webViewConfig.userContentController.add(self, name: "iosListener")
         
-        if #available(iOS 11.0, *) {
+        //if #available(iOS 11.0, *) {
           webViewConfig.setURLSchemeHandler(self, forURLScheme: "internal")
-        }
+        //}
         
         webView = WKWebView(frame: view.bounds, configuration: webViewConfig)
         webView.navigationDelegate = self
@@ -2544,9 +2544,9 @@ webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
         
         webView.addObserver(self, forKeyPath: "title", options: .new, context: nil)
         webView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
-        if #available(iOS 15, *) {
+        //if #available(iOS 15, *) {
           webView.addObserver(self, forKeyPath: "themeColor", options: .new, context: nil)
-        }
+        //}
         
         counter += 1
         
@@ -2700,7 +2700,7 @@ clearButton.backgroundColor = .fieldBgColor
     //urlField.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 5.0).isActive = true
     //urlField.bottomAnchor.constraint(equalTo: urlField.topAnchor, constant: 30.0).isActive = true
         
-        if #unavailable(iOS 16.0) {
+        if #unavailable(iOS 16) {
           let menuController: UIMenuController = UIMenuController.shared
           menuController.isMenuVisible = true
           menuController.arrowDirection = UIMenuControllerArrowDirection.down
@@ -2920,7 +2920,7 @@ clearButton.backgroundColor = .fieldBgColor
     
         url = "https://www.google.com/"
         
-        if #available(iOS 11, *) {
+        //if #available(iOS 11, *) {
             let group = DispatchGroup()
             group.enter()
             setupContentBlockFromStringLiteral {
@@ -2934,11 +2934,11 @@ clearButton.backgroundColor = .fieldBgColor
                 //self?.startLoading()
                 self?.askRestore()
             })
-        } else {
-            //alertToUseIOS11()
+        //} else {
+            /*//alertToUseIOS11()
             //startLoading()
-            askRestore()
-        }
+            askRestore()*/
+        //}
     }
   
   
@@ -3040,7 +3040,7 @@ downloadTask.resume()
       }
       
       if keyPath == "themeColor" {
-        if #available(iOS 15, *) {
+        //if #available(iOS 15, *) {
           
           if webView.themeColor != nil {
             let rgbaArray = webView.themeColor!.cgColor.components
@@ -3062,7 +3062,7 @@ downloadTask.resume()
           }
           
           lb.text! += " otC:\(key)"
-        }
+        //}
       }
       
     }
@@ -3087,7 +3087,7 @@ downloadTask.resume()
     //avPVC.player = nil
     lb.text! += " eBg"
     
-    if #available(iOS 11, *) {
+    //if #available(iOS 11, *) {
       webView.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
         var sessionCookies: [HTTPCookie] = []
         for cookie in cookies {
@@ -3102,7 +3102,7 @@ downloadTask.resume()
         //self.lb.text! += " c:\(cookies.count)"
         self.lb.text! += " cS:\(sessionCookies.count)/\(cookies.count)"
       }
-    }
+    //}
     
   }
   
@@ -3163,7 +3163,7 @@ downloadTask.resume()
   
   @objc private func becomeActive() {
     
-        if #available(iOS 11, *) {
+        //if #available(iOS 11, *) {
         if let cookies: [HTTPCookie] = userDefGroup.getData(key: "cookies") {
         for (index, cookie) in cookies.enumerated() {
         webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie) {
@@ -3175,7 +3175,7 @@ downloadTask.resume()
         }
         }
         }
-        }
+        //}
         
         if let incomingUrl = userDefGroup.value(forKey: "incomingUrl") as? String {
           urlField.text = incomingUrl
@@ -3190,11 +3190,11 @@ downloadTask.resume()
   }
   
   @objc private func willTerminate() {
-    if #available(iOS 11, *) {
+    //if #available(iOS 11, *) {
       let sessionCookies: [HTTPCookie] = []
       userDefGroup.setData(sessionCookies, key: "cookies")
       NSLog("cS:X")
-    }
+    //}
     NSLog("wTe")
   }
   
@@ -3362,14 +3362,14 @@ downloadTask.resume()
   private func startLoading() {
     
     if url.contains(" ") || !url.contains(".") {
-      if !["tel://", "internal://"].contains(where: url.hasPrefix) {
+      if !["tel://", "internal://", "file://"].contains(where: url.hasPrefix) {
         if !["http://localhost", "https://localhost"].contains(where: url.hasPrefix) {
           if webViewSearchUrlPref.contains("openai.com") {
             searchWithChatGPT()
             return
           }
           url = webViewSearchUrlPref + url
-          lb.text! += " sL:search"
+          //lb.text! += " sL:search"
         }
       }
     }
@@ -3439,12 +3439,12 @@ downloadTask.resume()
   }
   
   
-  @available(iOS 14.5, *)
+  //@available(iOS 14.5, *)
   func webView(_ webView: WKWebView, navigationAction: WKNavigationAction, didBecome download: WKDownload) {
     download.delegate = self
   }
   
-  @available(iOS 14.5, *)
+  //@available(iOS 14.5, *)
   func webView(_ webView: WKWebView, navigationResponse: WKNavigationResponse, didBecome download: WKDownload) {
     download.delegate = self
   }
@@ -3639,20 +3639,20 @@ downloadTask.resume()
       return
     }
     
-    if #available(iOS 14.5, *) {
+    //if #available(iOS 14.5, *) {
       if navigationAction.shouldPerformDownload {
         lb.text! += " nAsPD"
         decisionHandler(.download)
         return
       }
-    }
+    //}
     if navTypeDownload {
       navTypeDownload = false
-      if #available(iOS 14.5, *) {
+      //if #available(iOS 14.5, *) {
         lb.text! += " nTD"
         decisionHandler(.download)
         return
-      }
+      //}
     }
     
     decisionHandler(.allow)
@@ -3696,12 +3696,12 @@ downloadTask.resume()
     
     showFrameLoadError = true
     if !navigationResponse.canShowMIMEType {
-      if #available(iOS 14.5, *) {
+      //if #available(iOS 14.5, *) {
         showFrameLoadError = false
         lb.text! += " nRcSMT"
         decisionHandler(.download)
         return
-      }
+      //}
     }
     
     decisionHandler(.allow)
@@ -4273,7 +4273,7 @@ let logoContainer = document.querySelector("[aria-label='Google']");
   }
   
   
-    @available(iOS 11.0, *)
+    //@available(iOS 11.0, *)
     private func setupContentBlockFromStringLiteral(_ completion: (() -> Void)?) {
         // Swift 4  Multi-line string literals
         let jsonString = """
@@ -4316,7 +4316,7 @@ let logoContainer = document.querySelector("[aria-label='Google']");
         }
     }
     
-    @available(iOS 11.0, *)
+    //@available(iOS 11.0, *)
     private func setupContentBlockFromFile(_ completion: (() -> Void)?) {
         if UserDefaults.standard.bool(forKey: ruleId2) {
             WKContentRuleListStore.default().lookUpContentRuleList(forIdentifier: ruleId2) { [weak self] (contentRuleList, error) in
@@ -4382,13 +4382,13 @@ let logoContainer = document.querySelector("[aria-label='Google']");
         }
     }
     
-    @available(iOS 11.0, *)
+    //@available(iOS 11.0, *)
     private func resetContentRuleList() {
         let config = webView.configuration
         config.userContentController.removeAllContentRuleLists()
     }
     
-    private func alertToUseIOS11() {
+    /*private func alertToUseIOS11() {
         let title: String? = "Use iOS 11 and above for ads-blocking."
         let message: String? = nil
         let alertController = UIAlertController.init(title: title, message: message, preferredStyle: .alert)
@@ -4400,10 +4400,10 @@ let logoContainer = document.querySelector("[aria-label='Google']");
                 
             })
         }
-    }
+    }*/
     
     
-    @available(iOS 11.0, *)
+    //@available(iOS 11.0, *)
     private func printRuleListError(_ error: Error, text: String = "") {
         guard let wkerror = error as? WKError else {
             print("\(text) \(type(of: self)) \(#function): \(error)")
