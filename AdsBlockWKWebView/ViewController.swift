@@ -2027,11 +2027,12 @@ navlist(last20): \(navlist)
       alert.addAction(button2)
       alert.addAction(button1)*/
       
-      while currentAlert.buttonStyles!.count < currentAlert.buttonTitles!.count {
-        currentAlert.buttonStyles!.append(.default)
+      var selectButtonStyles = currentAlert.buttonStyles!
+      while selectButtonStyles.count < currentAlert.buttonTitles!.count {
+        selectButtonStyles.append(.default)
       }
       for buttonIndex in currentAlert.buttonTitles!.indices.reversed() {
-        let button = UIAlertAction(title: currentAlert.buttonTitles![buttonIndex], style: currentAlert.buttonStyles![buttonIndex], handler: { _ in
+        let button = UIAlertAction(title: currentAlert.buttonTitles![buttonIndex], style: selectButtonStyles[buttonIndex], handler: { _ in
           buttonPressed(buttonIndex + 1, nil)
         })
         alert.addAction(button)
