@@ -1314,7 +1314,7 @@ navlist(last20): \(navlist)
       showAlert(type: "confirm", title: "Alert2", "Want to die?", defaultButton: 1) { (response, _) in
         self.lb.text! += " RES:\(response!)"
         if response as? Bool == true {
-          self.showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default], defaultButton: 0) { (response, _) in
+          self.showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default], defaultButton: 0) { (response, _) in
             self.lb.text! += " RES:\(response!)"
             if let selected = response as? Int, (1...3).contains(selected) {
               setAudioSession()
@@ -1338,9 +1338,15 @@ navlist(last20): \(navlist)
   }
   
   @objc func kvButton3Clicked() {
-    showAlert(type: "select", style: .actionSheet, title: "Select", "How do you want to die?", buttonTitles: ["hi1", "empty2", "empty3"], buttonStyles: [.default, .default, .cancel], disableHaptic: true, sourceID: "kvButton3Clicked-01") { (response, _) in
+    showAlert(type: "select", style: .actionSheet, title: "Select", "How do you want to die?", buttonTitles: ["hi1", "hi2", "hi3", "Cancel"], buttonStyles: [.default, .default, .default, .cancel], disableHaptic: true, sourceID: "kvButton3Clicked-01") { (response, _) in
       if response as? Int == 1 {
         self.showAlert("hi1")
+      }
+      if response as? Int == 2 {
+        self.showAlert("hi2")
+      }
+      if response as? Int == 3 {
+        self.showAlert("hi3")
       }
     }
   }
@@ -1918,7 +1924,7 @@ navlist(last20): \(navlist)
   
   var allowAlertDismiss = true
   
-  private func showAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel", "3rd"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel, .default], defaultButton: Int? = nil, disableHaptic: Bool? = false, sourceView: UIView? = nil, sourceRect: CGRect? = nil, sourceArrow: Bool? = nil, sourceID: String? = nil, autoDismissAfter: Double? = nil, custom: Any? = nil, completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
+  private func showAlert(type: String? = "alert", style: UIAlertController.Style? = .alert, title: String? = "Alert", _ message: String? = nil, input: String? = nil, buttonTitles: [String]? = ["OK", "Cancel"], buttonStyles: [UIAlertAction.Style]? = [.default, .cancel], defaultButton: Int? = nil, disableHaptic: Bool? = false, sourceView: UIView? = nil, sourceRect: CGRect? = nil, sourceArrow: Bool? = nil, sourceID: String? = nil, autoDismissAfter: Double? = nil, custom: Any? = nil, completionHandler: @escaping (Any?, Any?) -> Void = { _, _ in }) {
     if message != "nextAlertObj" {
       alertObjArray.append(alertObj(type: type, style: style, title: title, message: message, input: input, buttonTitles: buttonTitles, buttonStyles: buttonStyles, defaultButton: defaultButton, disableHaptic: disableHaptic, sourceView: sourceView, sourceRect: sourceRect, sourceArrow: sourceArrow, sourceID: sourceID, autoDismissAfter: autoDismissAfter, custom: custom, completionHandler: completionHandler))
     }
@@ -1946,7 +1952,8 @@ navlist(last20): \(navlist)
       urlField.endEditing(true)
     }
     let alert = UIAlertController(title: currentAlert.title, message: currentAlert.message, preferredStyle: currentAlert.style ?? .alert)
-    var button1, button2, button3: UIAlertAction
+    //var button1, button2, button3: UIAlertAction
+    var button1, button2: UIAlertAction
     func buttonPressed(_ value1: Any?, _ value2: Any?) {
       alertObjArray.safeRemoveFirst()
       currentAlert.completionHandler(value1, value2)
@@ -2007,7 +2014,7 @@ navlist(last20): \(navlist)
     }
     
     if currentAlert.type == "select" {
-      button1 = UIAlertAction(title: currentAlert.buttonTitles![0], style: currentAlert.buttonStyles![0], handler: { _ in
+      /*button1 = UIAlertAction(title: currentAlert.buttonTitles![0], style: currentAlert.buttonStyles![0], handler: { _ in
         buttonPressed(1, nil)
       })
       button2 = UIAlertAction(title: currentAlert.buttonTitles![1], style: currentAlert.buttonStyles![1], handler: { _ in
@@ -2018,7 +2025,18 @@ navlist(last20): \(navlist)
       })
       alert.addAction(button3)
       alert.addAction(button2)
-      alert.addAction(button1)
+      alert.addAction(button1)*/
+      
+      while currentAlert.buttonStyles!.count < currentAlert.buttonTitles!.count {
+        currentAlert.buttonStyles!.append(.default)
+      }
+      for buttonIndex in currentAlert.buttonTitles!.indices.reversed() {
+        let button = UIAlertAction(title: currentAlert.buttonTitles![buttonIndex], style: currentAlert.buttonStyles![buttonIndex], handler: { _ in
+          buttonPressed(buttonIndex + 1, nil)
+        })
+        alert.addAction(button)
+      }
+      
     }
     
     if currentAlert.type == "prompt" {
