@@ -1326,7 +1326,7 @@ navlist(last20): \(navlist)
               self.showAlert(type: "prompt", title: "Alert4", "How do you want to die?", input: "accident or \(streams[currentStreamIndex].name)", defaultButton: 0) { (response, _) in
                 self.lb.text! += " RES:\(response ?? "nil")"
                 if response != nil {
-                  self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive], defaultButton: 0)
+                  //self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive], defaultButton: 0)
                   self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], defaultButton: 0, disableHaptic: true, autoDismissAfter: 5)
                 }
               }
@@ -1338,7 +1338,7 @@ navlist(last20): \(navlist)
   }
   
   @objc func kvButton3Clicked() {
-    showAlert(type: "select", style: .actionSheet, title: "Select", "How do you want to die?", buttonTitles: ["hi1", "empty2", "empty3"], buttonStyles: [.default, .default, .default], disableHaptic: true, sourceID: "kvButton3Clicked-01") { (response, _) in
+    showAlert(type: "select", style: .actionSheet, title: "Select", "How do you want to die?", buttonTitles: ["hi1", "empty2", "empty3"], buttonStyles: [.default, .default, .cancel], disableHaptic: true, sourceID: "kvButton3Clicked-01") { (response, _) in
       if response as? Int == 1 {
         self.showAlert("hi1")
       }
@@ -1584,13 +1584,6 @@ navlist(last20): \(navlist)
     moverIndex = array.firstIndex(of: url)!
     tableView.reloadData()
     tableView.isEditing = true
-    
-    /*var goBackBy = goBackOnEditPref
-    if goBackBy > webView.backForwardList.backList.count {
-      goBackBy = webView.backForwardList.backList.count
-    }
-    webView.go(to: webView.backForwardList.item(at: goBackBy * -1)!)*/
-    
     //if #available(iOS 11, *) {
       if editButtonBgColor == .appBgColor {
         resetContentRuleList()
@@ -2074,7 +2067,6 @@ navlist(last20): \(navlist)
     }
     if currentAlert.style == .actionSheet, let popover = alert.popoverPresentationController {
       if !alert.actions.contains(where: { $0.style == .cancel }) {
-        //alert.message = (alert.message ?? "") + "\n\n⚠️ Missing Cancel action – alert queue will stop!"
         alert.message = (alert.message ?? "") + "\n\nMissing Cancel Button – Alert queue will stop!"
       }
       /*popover.sourceView = self.view
