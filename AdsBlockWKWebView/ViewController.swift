@@ -258,7 +258,6 @@ func initPool() -> WKProcessPool {
 let processPool: WKProcessPool = initPool()
 
 
-//class CustomUITextField: UITextField {}
 class CustomUITextField: UITextField, UITextDropDelegate {
   
   var leftPadding: CGFloat = defaultPadding
@@ -891,14 +890,10 @@ extension ViewController: WKDownloadDelegate {
     lb.text! += " STOP err:\(err.code)"
   }
   func downloadDidFinish(_ download: WKDownload) {
-    //showAlert(title: "Download Complete", "File downloaded to:\n\(wkdownloadPath)")
-    
     let supportedMimeTypes = ["text/html", "text/plain", "text/csv", "application/pdf", "application/json", "image/*", "audio/*", "video/*"]
     let isSupported = (wkdownloadMimeType?.lowercased()).map { mime in supportedMimeTypes.contains { $0.hasSuffix("/*") ? mime.hasPrefix(String($0.dropLast())) : mime == $0 } } ?? false
     if isSupported {
-      /*message: "Would you like to view this file in the app?"
-      title: "No", "Yes"
-      */
+      //message: "Would you like to view this file in the app?", buttonTitles: "No", "Yes"
       showAlert(type: "confirm", title: "Download Complete", "File downloaded to:\n\(wkdownloadPath)\n\nWould you like to view the file now?") { (response, _) in
         if response as? Bool == true {
           self.url = "file:///" + wkdownloadPath
@@ -908,7 +903,6 @@ extension ViewController: WKDownloadDelegate {
     } else {
       showAlert(title: "Download Complete", "File downloaded to:\n\(wkdownloadPath)")
     }
-    
   }
 }
 
@@ -1237,17 +1231,6 @@ player.play()*/
     isPlaying = true
   }
   
-  /*if navUrlArray.count > 20 {
-    navUrlArray.removeFirst(navUrlArray.count - 20)
-  }
-  var navlist = ""
-  navUrlArray.forEach { url in
-    //navlist = navlist + "\n\n" + url
-    navlist = "\n\n" + url + navlist
-  }
-  if navlist == "" {
-    navlist = "isEmpty"
-  }*/
   navUrlArray = Array(navUrlArray.suffix(20))
   navUrlArray = navUrlArray.map { String($0.prefix(60)) }
   let navlist = navUrlArray.isEmpty ? "isEmpty" : "\n\n" + navUrlArray.reversed().joined(separator: "\n\n")
@@ -1290,7 +1273,6 @@ player.play()*/
     let appVersion = "\(shortVersion) Build \(buildVersion)"
     //userDefaults.set(appVersion, forKey: "appVersionAndBuildString")
     
-    //var showFileContent = false
     func isFileContentEnabled() -> Bool { false }
     let showFileContent = isFileContentEnabled()
     var fileContent = showFileContent ? "readError" : "isNotEnabled"
@@ -1356,13 +1338,16 @@ navlist(last20): \(navlist)
   }
   
   @objc func kvButton3Clicked() {
-    
+    showAlert(type: "select", style: .actionSheet, title: "Select", "How do you want to die?", buttonTitles: ["hi1", "empty2", "empty3"], buttonStyles: [.default, .default, .default], disableHaptic: true, sourceID: "kvButton3Clicked-01") { (response, _) in
+      if response as? Int == 1 {
+        self.showAlert("hi1")
+      }
+    }
   }
   
   @objc func kvButton3Pressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
       hapticImpactFB.impactOccurred()
-      
       urlField.endEditing(true)
       let blackView = UIView(frame: view.bounds)
       blackView.backgroundColor = .black
@@ -1382,7 +1367,6 @@ navlist(last20): \(navlist)
       view.addSubview(blackView)
       shouldHideStatusBar = true
       setNeedsStatusBarAppearanceUpdate()
-      
     }
   }
   
@@ -2088,15 +2072,13 @@ navlist(last20): \(navlist)
     if currentAlert.defaultButton != nil {
       alert.preferredAction = alert.actions[abs(currentAlert.defaultButton! - alert.actions.count + 1)]
     }
-    //if currentAlert.style == .actionSheet, let popover = alert.popoverPresentationController, let sourceView = currentAlert.sourceView {}
     if currentAlert.style == .actionSheet, let popover = alert.popoverPresentationController {
       if !alert.actions.contains(where: { $0.style == .cancel }) {
-        alert.message = (alert.message ?? "") + "\n\n⚠️ Missing Cancel action – alert queue will stop!"
+        //alert.message = (alert.message ?? "") + "\n\n⚠️ Missing Cancel action – alert queue will stop!"
+        alert.message = (alert.message ?? "") + "\n\nMissing Cancel Button – Alert queue will stop!"
       }
       /*popover.sourceView = self.view
       popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)*/
-      /*popover.sourceView = sourceView
-      popover.sourceRect = currentAlert.sourceRect ?? sourceView.bounds*/
       popover.sourceView = currentAlert.sourceView ?? view
       popover.sourceRect = currentAlert.sourceRect ?? popover.sourceView!.bounds
       if currentAlert.sourceArrow == false {
@@ -2605,7 +2587,6 @@ clearButton.imageView?.contentMode = .center
 clearButton.imageView?.contentMode = .scaleAspectFit
 clearButton.backgroundColor = .fieldBgColor
 */
-        
         //clearButton = UIButton(type: .custom)
         clearButton = UIButton(frame: CGRect.zero)
         let config = UIImage.SymbolConfiguration(pointSize: 14, weight: .regular)
@@ -2613,22 +2594,18 @@ clearButton.backgroundColor = .fieldBgColor
         clearButton.tintColor = UIColor.placeholderText
         clearButton.contentHorizontalAlignment = .left
         clearButton.isHidden = true
-        
         clearButton.addAction(UIAction(handler: { [weak urlField] _ in
           if urlField?.delegate?.textFieldShouldClear?(urlField!) ?? true {
             urlField?.text = ""
             urlField?.sendActions(for: .editingChanged)
           }
         }), for: .touchUpInside)
-        
         urlField.addSubview(clearButton)
-        
         let updateUI = UIAction { [weak urlField, weak clearButton] _ in
           guard let urlField = urlField, let clearButton = clearButton else { return }
           let show = urlField.isEditing && !(urlField.text?.isEmpty ?? true)
           urlField.rightPadding = show ? 34 : 15
           clearButton.isHidden = !show
-          //urlField.setNeedsLayout()
         }
         //urlField.onTextChange = updateUI
         urlField.addAction(updateUI, for: .editingChanged)
@@ -2688,9 +2665,7 @@ clearButton.backgroundColor = .fieldBgColor
         //urlField.clearButtonMode = UITextField.ViewMode.whileEditing
         urlField.clearButtonMode = .never
         urlField.contentVerticalAlignment = UIControl.ContentVerticalAlignment.center
-        
         urlField.textDropDelegate = urlField
-        
         urlField.delegate = self
         view.addSubview(urlField)
         
@@ -4004,11 +3979,9 @@ downloadTask.resume()
   func webViewDidFinish() {
     //if webView.url!.absoluteString.hasPrefix("http://localhost:6571/errors/error.html") == false && webView.url!.absoluteString.hasPrefix("internal://local/restore?") == false {
     if webView.url!.absoluteString.hasPrefix("internal://local/restore?") == false {
-      
       if let range = urlField.textRange(from: urlField.beginningOfDocument, to: urlField.endOfDocument) {
         urlField.replace(range, withText: webView.url!.absoluteString)
       }
-      
       //urlField.text = webView.url!.absoluteString
       setUrlFieldColor()
       //if #available(iOS 15, *) {
@@ -4392,16 +4365,11 @@ let logoContainer = document.querySelector("[aria-label='Google']");
         let title: String? = "Use iOS 11 and above for ads-blocking."
         let message: String? = nil
         let alertController = UIAlertController.init(title: title, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction.init(title: "OK", style: .cancel, handler: { (action) in
-            
-        }))
+        alertController.addAction(UIAlertAction.init(title: "OK", style: .cancel, handler: { (action) in }))
         DispatchQueue.main.async { [unowned self] in
-            self.view.window?.rootViewController?.present(alertController, animated: true, completion: {
-                
-            })
+          self.view.window?.rootViewController?.present(alertController, animated: true, completion: {})
         }
     }*/
-    
     
     //@available(iOS 11.0, *)
     private func printRuleListError(_ error: Error, text: String = "") {
@@ -4424,22 +4392,16 @@ let logoContainer = document.querySelector("[aria-label='Google']");
         }
     }
     
-    //Just for invalidating target="_blank"
+    //For invalidating target="_blank"
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
-        
-        lb.text! += " cwv"
-        
-        guard let url = navigationAction.request.url else { return nil }
-        guard let targetFrame = navigationAction.targetFrame, targetFrame.isMainFrame else {
-            
-            //navUrlArray.insert("NW:" + url.absoluteString, at: 0)
-            navUrlArray.append("NW:\(url.absoluteString)")
-            
-            webView.load(URLRequest(url: url))
-            return nil
-        }
+      lb.text! += " cwv"
+      guard let url = navigationAction.request.url else { return nil }
+      guard let targetFrame = navigationAction.targetFrame, targetFrame.isMainFrame else {
+        navUrlArray.append("NW:\(url.absoluteString)")
+        webView.load(URLRequest(url: url))
         return nil
+      }
+      return nil
     }
-    
     
 }
