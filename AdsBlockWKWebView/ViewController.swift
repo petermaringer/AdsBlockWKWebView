@@ -1314,7 +1314,7 @@ navlist(last20): \(navlist)
       showAlert(type: "confirm", title: "Alert2", "Want to die?", defaultButton: 1) { (response, _) in
         self.lb.text! += " RES:\(response!)"
         if response as? Bool == true {
-          self.showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default], defaultButton: 0) { (response, _) in
+          self.showAlert(type: "select", title: "Select", "How do you want to die?", buttonTitles: ["natural death", "suicide", "heart attack"], buttonStyles: [.default, .default, .default], defaultButton: 0) { (response, _) in
             self.lb.text! += " RES:\(response!)"
             if let selected = response as? Int, (1...3).contains(selected) {
               setAudioSession()
@@ -1339,17 +1339,24 @@ navlist(last20): \(navlist)
   
   var kvButton3Select1Toggle = "Off"
   @objc func kvButton3Clicked() {
-    //showAlert(type: "select", style: .actionSheet, title: "Select", "How do you want to die?", buttonTitles: ["hi1", "hi2", "hi3", "Cancel"], buttonStyles: [.default, .default, .default, .cancel], disableHaptic: true, sourceID: "kvButton3Clicked-01") { (response, _) in }
-    showAlert(type: "select", style: .actionSheet, title: "Select", "How do you want to die?", buttonTitles: ["Turn Adblocker \(kvButton3Select1Toggle)", "hi2", "hi3", "Cancel"], disableHaptic: true, sourceID: "kvButton3Clicked-01") { (response, _) in
+    showAlert(type: "select", style: .actionSheet, title: "Select", "How do you want to die?", buttonTitles: ["Turn Adblocker \(kvButton3Select1Toggle)", "Change UserAgent", "hi3", "Cancel"], disableHaptic: true, sourceID: "kvButton3Clicked-01") { (response, _) in
+      guard let self = self else { return }
       if response as? Int == 1 {
-        self.kvButton3Select1Toggle = "On"
-        self.showAlert("hi1")
+        if kvButton3Select1Toggle == "Off" {
+          resetContentRuleList()
+          kvButton3Select1Toggle = "On"
+        } else {
+          setupContentBlockFromStringLiteral() { }
+          setupContentBlockFromFile() { }
+          kvButton3Select1Toggle = "Off"
+        }
       }
       if response as? Int == 2 {
-        self.showAlert("hi2")
+        changeUserAgent()
+        //showAlert("hi2")
       }
       if response as? Int == 3 {
-        self.showAlert("hi3")
+        showAlert("hi3")
       }
     }
   }
