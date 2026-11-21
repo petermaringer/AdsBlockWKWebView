@@ -1339,7 +1339,7 @@ navlist(last20): \(navlist)
   
   var kvButton3Select1Toggle = "Off"
   @objc func kvButton3Clicked() {
-    showAlert(type: "select", style: .actionSheet, title: "Select", "How do you want to die?", buttonTitles: ["Turn Adblocker \(kvButton3Select1Toggle)", "Change UserAgent", "hi3", "Cancel"], disableHaptic: true, sourceID: "kvButton3Clicked-01") { (response, _) in
+    showAlert(type: "select", style: .actionSheet, title: "Select", "How do you want to die?", buttonTitles: ["Turn Adblocker \(kvButton3Select1Toggle)", "Change UserAgent", "hi3", "Cancel"], disableHaptic: true, sourceID: "kvButton3Clicked-01") { [weak self] (response, _) in
       guard let self = self else { return }
       if response as? Int == 1 {
         if kvButton3Select1Toggle == "Off" {
