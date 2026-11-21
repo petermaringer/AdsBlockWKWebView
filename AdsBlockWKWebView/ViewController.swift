@@ -1337,9 +1337,12 @@ navlist(last20): \(navlist)
     }
   }
   
+  var kvButton3Select1Toggle = "Off"
   @objc func kvButton3Clicked() {
-    showAlert(type: "select", style: .actionSheet, title: "Select", "How do you want to die?", buttonTitles: ["hi1", "hi2", "hi3", "Cancel"], buttonStyles: [.default, .default, .default, .cancel], disableHaptic: true, sourceID: "kvButton3Clicked-01") { (response, _) in
+    //showAlert(type: "select", style: .actionSheet, title: "Select", "How do you want to die?", buttonTitles: ["hi1", "hi2", "hi3", "Cancel"], buttonStyles: [.default, .default, .default, .cancel], disableHaptic: true, sourceID: "kvButton3Clicked-01") { (response, _) in }
+    showAlert(type: "select", style: .actionSheet, title: "Select", "How do you want to die?", buttonTitles: ["Turn Adblocker \(kvButton3Select1Toggle)", "hi2", "hi3", "Cancel"], disableHaptic: true, sourceID: "kvButton3Clicked-01") { (response, _) in
       if response as? Int == 1 {
+        self.kvButton3Select1Toggle = "On"
         self.showAlert("hi1")
       }
       if response as? Int == 2 {
@@ -2014,22 +2017,15 @@ navlist(last20): \(navlist)
     }
     
     if currentAlert.type == "select" {
-      /*button1 = UIAlertAction(title: currentAlert.buttonTitles![0], style: currentAlert.buttonStyles![0], handler: { _ in
-        buttonPressed(1, nil)
-      })
-      button2 = UIAlertAction(title: currentAlert.buttonTitles![1], style: currentAlert.buttonStyles![1], handler: { _ in
-        buttonPressed(2, nil)
-      })
-      button3 = UIAlertAction(title: currentAlert.buttonTitles![2], style: currentAlert.buttonStyles![2], handler: { _ in
-        buttonPressed(3, nil)
-      })
-      alert.addAction(button3)
-      alert.addAction(button2)
-      alert.addAction(button1)*/
-      
       var selectButtonStyles = currentAlert.buttonStyles!
+      if currentAlert.buttonTitles!.count > 2 && selectButtonStyles[1] == .cancel {
+        selectButtonStyles[1] = .default
+      }
       while selectButtonStyles.count < currentAlert.buttonTitles!.count {
         selectButtonStyles.append(.default)
+      }
+      if selectButtonStyles.count > currentAlert.buttonStyles!.count && !selectButtonStyles.contains(.cancel) {
+        selectButtonStyles[selectButtonStyles.count - 1] = .cancel
       }
       for buttonIndex in currentAlert.buttonTitles!.indices.reversed() {
         let button = UIAlertAction(title: currentAlert.buttonTitles![buttonIndex], style: selectButtonStyles[buttonIndex], handler: { _ in
@@ -2037,7 +2033,6 @@ navlist(last20): \(navlist)
         })
         alert.addAction(button)
       }
-      
     }
     
     if currentAlert.type == "prompt" {
