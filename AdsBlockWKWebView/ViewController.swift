@@ -930,7 +930,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var origArray: Array<String> = ["https://www.google.com/"]
   var array: Array<String> = []
   var moverIndex: Int = -1
-  var editButtonBgColor: UIColor = .appBgColor
+  //var editButtonBgColor: UIColor = .appBgColor
   var horizontalCellPadding: CGFloat = defaultPadding
   static var separatorKey: UInt8 = 0
   
@@ -1063,7 +1063,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     if gesture.state == .began {
       hapticImpactFB.impactOccurred()
       urlField.endEditing(true)
-      changeUserAgent()
+      //changeUserAgent()
     }
   }
   
@@ -1339,8 +1339,8 @@ navlist(last20): \(navlist)
   
   var kvButton3Select1Toggle = "Off"
   @objc func kvButton3Clicked() {
-    showAlert(type: "select", style: .actionSheet, title: "Select", "How do you want to die?", buttonTitles: ["Turn Adblocker \(kvButton3Select1Toggle)", "Change UserAgent", "hi3", "Cancel"], disableHaptic: true, sourceID: "kvButton3Clicked-01") { [weak self] (response, _) in
-      guard let self = self else { return }
+    showAlert(type: "select", style: .actionSheet, title: "Select", "How do you want to die?", buttonTitles: ["Turn Adblocker \(kvButton3Select1Toggle)", "Change UserAgent", "hi3", "Cancel"], disableHaptic: true, sourceID: "kvButton3Clicked-01") { [unowned self] (response, _) in
+      //guard let self = self else { return }
       if response as? Int == 1 {
         if kvButton3Select1Toggle == "Off" {
           resetContentRuleList()
@@ -1577,8 +1577,8 @@ navlist(last20): \(navlist)
     let edit = UIContextualAction(style: .normal, title: "Edit") { (action, view, bool) in
       self.editButtonClicked(url: self.array[indexPath.row])
     }
-    //edit.backgroundColor = .appBgColor
-    edit.backgroundColor = editButtonBgColor
+    edit.backgroundColor = .appBgColor
+    //edit.backgroundColor = editButtonBgColor
     let dev = UIContextualAction(style: .normal, title: "Dev") { (action, view, bool) in
       self.devButtonClicked(url: self.array[indexPath.row])
     }
@@ -1601,14 +1601,14 @@ navlist(last20): \(navlist)
     tableView.reloadData()
     tableView.isEditing = true
     //if #available(iOS 11, *) {
-      if editButtonBgColor == .appBgColor {
+      /*if editButtonBgColor == .appBgColor {
         resetContentRuleList()
         editButtonBgColor = .gray
       } else {
         setupContentBlockFromStringLiteral() { }
         setupContentBlockFromFile() { }
         editButtonBgColor = .appBgColor
-      }
+      }*/
     //}
     //showAlert("E:\(url)")
   }
@@ -1962,7 +1962,6 @@ navlist(last20): \(navlist)
       urlField.endEditing(true)
     }
     let alert = UIAlertController(title: currentAlert.title, message: currentAlert.message, preferredStyle: currentAlert.style ?? .alert)
-    //var button1, button2, button3: UIAlertAction
     var button1, button2: UIAlertAction
     func buttonPressed(_ value1: Any?, _ value2: Any?) {
       alertObjArray.safeRemoveFirst()
@@ -2103,7 +2102,7 @@ navlist(last20): \(navlist)
     }
     //Dispatch
     DispatchQueue.main.async { [unowned self] in
-      self.present(alert, animated: true) {
+      present(alert, animated: true) {
         if currentAlert.autoDismissAfter != nil {
           DispatchQueue.main.asyncAfter(deadline: .now() + currentAlert.autoDismissAfter!) {
             if let presentedAlert = self.presentedViewController as? UIAlertController, presentedAlert == alert {
