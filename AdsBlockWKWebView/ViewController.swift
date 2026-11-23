@@ -1060,7 +1060,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
       hapticImpactFB.impactOccurred()
       
       //urlField.endEditing(true)
-      showAlert(type: "select", style: .actionSheet, title: nil, "Additional Actions:", buttonTitles: ["hi1", "hi2", "hi3", "Cancel"], disableHaptic: true, sourceView: button, sourceRect: CGRect(x: button.bounds.midX, y: button.bounds.maxY, width: 0, height: 0)) { [unowned self] (response, _) in
+      showAlert(type: "select", style: .actionSheet, title: nil, "Additional Actions:", buttonTitles: ["hi1", "hi2", "hi3", "Cancel"], disableHaptic: true, sourceView: button, sourceRect: CGRect(x: button.bounds.midX, y: button.bounds.maxY, width: 50, height: 30)) { [unowned self] (response, _) in
         
       }
       
@@ -1113,7 +1113,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
       //HttpServer().start()
       //HttpServer.instance.start()*/
       
-      let videoScript: String = """
+      /*let videoScript: String = """
 let videos = document.querySelectorAll("video");
 			  if (videos.length === 0) alert("No videos found on this page.");
 				for (let i = 0; i < videos.length && i < 3; i++) {
@@ -1124,6 +1124,31 @@ let videos = document.querySelectorAll("video");
 			    let userChoice = confirm(`Video ${i + 1} of ${videos.length}\nSource: ${videos[i].currentSrc}\n\nAttributes:\n${attributes}\nDo you want to download it?`);
 			    if (userChoice) postToListener(`vs${videos[i].currentSrc}`);
 			  }
+"""
+      webView.evaluateJavaScript(videoScript, completionHandler: nil)*/
+      let videoScript: String = """
+        function getStream(mimeType, quality) {
+          const data = window.ytInitialPlayerResponse?.streamingData;
+          if (!mimeType) return data?.formats?.[0]?.url || null;
+          return [...(data?.formats || []), ...(data?.adaptiveFormats || [])]
+            .find(f => f.mimeType?.startsWith(mimeType) && f.url && (!quality || f.quality === quality || f.audioQuality === quality))?.url || null;
+        }
+        let videos = document.querySelectorAll("video");
+        if (videos.length === 0) alert("No videos found on this page.");
+        let isYouTube = location.hostname === "youtube.com" || location.hostname.endsWith(".youtube.com");
+        for (let i = 0; i < videos.length && i < (isYouTube ? 1 : 3); i++) {
+          let videoURL = isYouTube ? getStream() : videos[i].currentSrc;
+          //let videoURL = isYouTube ? getStream("audio/mp4", "tiny") : videos[i].currentSrc;
+          let attributes = "";
+          for (let attr of videos[i].attributes) {
+            attributes += `${attr.name}: ${attr.value}\\n`;
+          }
+          let userChoice = confirm(`Video ${i + 1} of ${videos.length}\\nSource: ${videoURL}\\n\\nAttributes:\\n${attributes}\\nDo you want to download it?`);
+          if (userChoice) {
+            if (videoURL && !videoURL.startsWith("blob:")) postToListener(`vs${videoURL}`);
+            else alert(isYouTube ? "No YouTube stream URL found." : "Blob URLs cannot be downloaded.");
+          }
+        }
 """
       webView.evaluateJavaScript(videoScript, completionHandler: nil)
       
@@ -1500,7 +1525,6 @@ navlist(last20): \(navlist)
   }
   
   @objc func editButtonClicked(url: String) {
-    urlField.endEditing(true) //?
     moverIndex = array.firstIndex(of: url)!
     tableView.reloadData()
     tableView.isEditing = true
