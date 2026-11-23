@@ -1062,8 +1062,14 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   @objc func buttonPressed(gesture: UILongPressGestureRecognizer) {
     if gesture.state == .began {
       hapticImpactFB.impactOccurred()
+      
       urlField.endEditing(true)
       //changeUserAgent()
+      
+      showAlert(type: "select", style: .actionSheet, title: nil, "Additional Actions:", buttonTitles: ["hi1", "hi2", "hi3", "Cancel"], disableHaptic: true, sourceView: button, sourceRect: CGRect(x: button.bounds.midX, y: button.bounds.maxY, width: 0, height: 0)) { [unowned self] (response, _) in
+        
+      }
+      
     }
   }
   
@@ -1340,7 +1346,6 @@ navlist(last20): \(navlist)
   var kvButton3Select1Toggle = "Off"
   @objc func kvButton3Clicked() {
     showAlert(type: "select", style: .actionSheet, title: "Select", "How do you want to die?", buttonTitles: ["Turn Adblocker \(kvButton3Select1Toggle)", "Change UserAgent", "hi3", "Cancel"], disableHaptic: true, sourceID: "kvButton3Clicked-01") { [unowned self] (response, _) in
-      //guard let self = self else { return }
       if response as? Int == 1 {
         if kvButton3Select1Toggle == "Off" {
           resetContentRuleList()
@@ -2089,8 +2094,6 @@ navlist(last20): \(navlist)
       if !alert.actions.contains(where: { $0.style == .cancel }) {
         alert.message = (alert.message ?? "") + "\n\nMissing Cancel Button – Alert queue will stop!"
       }
-      /*popover.sourceView = self.view
-      popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)*/
       popover.sourceView = currentAlert.sourceView ?? view
       popover.sourceRect = currentAlert.sourceRect ?? popover.sourceView!.bounds
       if currentAlert.sourceArrow == false {
@@ -2100,7 +2103,6 @@ navlist(last20): \(navlist)
     if currentAlert.disableHaptic != true {
       hapticFB.notificationOccurred(.success)
     }
-    //Dispatch
     DispatchQueue.main.async { [unowned self] in
       present(alert, animated: true) {
         if currentAlert.autoDismissAfter != nil {
