@@ -174,6 +174,7 @@ func setAudioSession(category: String = AVAudioSessionCategoryPlayback, options:
     try session.setActive(true)
   } catch {
     print("Error: \(error)")
+    //print(error.localizedDescription)
   }
 }
 struct Stream { let name: String; let url: URL }
@@ -930,7 +931,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
   var origArray: Array<String> = ["https://www.google.com/"]
   var array: Array<String> = []
   var moverIndex: Int = -1
-  //var editButtonBgColor: UIColor = .appBgColor
   var horizontalCellPadding: CGFloat = defaultPadding
   static var separatorKey: UInt8 = 0
   
@@ -993,17 +993,13 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     return allowedOrientations
   }
   
-  //override func canPerformAction(_ action: Selector, withSender sender: Any!) -> Bool {}
   override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-    //if [#selector(onMenu1(sender:)), #selector(onMenu2(sender:)), #selector(onMenu3(sender:))].contains(action) {}
-    //if [#selector(onMenu1(sender:))].contains(action) && UIPasteboard.general.numberOfItems > 0 { return true } else { return false }
     if action == #selector(onMenu1(sender:)) {
       return UIPasteboard.general.numberOfItems > 0
     }
     return super.canPerformAction(action, withSender: sender)
   }
   
-  //@objc internal func onMenu1(sender: UIMenuItem) {}
   @objc internal func onMenu1(sender: Any) {
     //HttpServer.instance.server.stop()
     UIPasteboard.general.items = []
@@ -1063,9 +1059,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKSc
     if gesture.state == .began {
       hapticImpactFB.impactOccurred()
       
-      urlField.endEditing(true)
-      //changeUserAgent()
-      
+      //urlField.endEditing(true)
       showAlert(type: "select", style: .actionSheet, title: nil, "Additional Actions:", buttonTitles: ["hi1", "hi2", "hi3", "Cancel"], disableHaptic: true, sourceView: button, sourceRect: CGRect(x: button.bounds.midX, y: button.bounds.maxY, width: 0, height: 0)) { [unowned self] (response, _) in
         
       }
@@ -1157,119 +1151,26 @@ player.play()*/
     }*/
     
     //lb.text! += " \(UIApplication.shared.windows.count)"
-    /*//func findAVPlayerViewController(controller: UIViewController) -> AVPlayerViewController? {}
-    func findAVPlayerViewController(controller: UIViewController) {
-  if controller is AVPlayerViewController {
-    lb.text! += " a2"
-    //return controller as? AVPlayerViewController
-  } else {
-    //lb.text! += " a3"
-    for subcontroller in controller.childViewControllers {
-      lb.text! += " a4 \(subcontroller)"
-      //if subcontroller is AVPlayerViewController {
-      //return subcontroller as? AVPlayerViewController
-      //}
-      
-      //if let result = findAVPlayerViewController(controller: subcontroller) {
-        //lb.text! += " a5"
-        //return result
-      //}
-    }
-  }
-  //return nil
-}
-    if UIApplication.shared.windows.count > 99 {
-    //if let rootController = UIApplication.shared.keyWindow?.rootViewController {}
-    if let rootController = UIApplication.shared.windows[4].rootViewController {
-    //lb.text! += " a1 \((UIApplication.shared.keyWindow?.rootViewController)!)"
-    lb.text! += " a1 \((UIApplication.shared.windows[4].rootViewController)!)"
-    findAVPlayerViewController(controller: rootController)
-    //if let avPlayerViewController = findAVPlayerViewController(controller: rootController) {
-      //lb.text! += " aX \(avPlayerViewController.player!)"
-    //}
-  }
-  }
-  //if UIApplication.shared.windows.count > 4 {
-  //lb.text! += " a1 \((UIApplication.shared.windows[4].rootViewController)!)"
-  //}
-  if UIApplication.shared.windows.count >= 3 {
-  if let targetSC = UIApplication.shared.windows[2].rootViewController!.childViewControllers.first(where: { $0 is AVPlayerViewController }) as? AVPlayerViewController {
-  avPVC = targetSC
-  lb.text! += " VC:\(avPVC!)"
-  //lb.text! += " VCP:\(avPVC!.player)"
-  if avPVC.player != nil {
-  lb.text! += " VCP:\(avPVC!.player!)"
-  }
-  }
-  }*/
-  
-  /*//BackgroundAudioBegin
-  let session = AVAudioSession.sharedInstance()
-  let desiredCategory = AVAudioSessionCategoryPlayback
-  let desiredOptions: AVAudioSessionCategoryOptions = [.mixWithOthers]
-  if session.category != desiredCategory || session.categoryOptions != desiredOptions {
-    do {
-      try session.setActive(false, with: .notifyOthersOnDeactivation)
-      try session.setCategory(desiredCategory, with: desiredOptions)
-      try session.setActive(true)
-    } catch {
-      print(error.localizedDescription)
-    }
-    lb.text! += " \(session.category)"
-  }
-  //try session.setCategory(AVAudioSessionCategoryPlayAndRecord, with: [.mixWithOthers, .allowBluetooth, .defaultToSpeaker])
-  //try session.setActive(true, with: .notifyOthersOnDeactivation)
-  //BackgroundAudioEnd*/
-  
-  //setAudioSession(options: [.mixWithOthers])
-  setAudioSession()
-  let isPlaying: Bool
-  if player?.timeControlStatus == .playing {
-    player?.pause()
-    isPlaying = false
-  } else {
-    if player?.currentItem == nil || player?.currentItem?.status == .failed || player?.currentItem?.error != nil {
-      let item = AVPlayerItem(url: streams[currentStreamIndex].url)
-      player?.replaceCurrentItem(with: item)
-    }
-    player?.play()
-    updateNowPlayingInfo()
-    isPlaying = true
-  }
-  
-  navUrlArray = Array(navUrlArray.suffix(20))
-  navUrlArray = navUrlArray.map { String($0.prefix(60)) }
-  let navlist = navUrlArray.isEmpty ? "isEmpty" : "\n\n" + navUrlArray.reversed().joined(separator: "\n\n")
     
-    /*var viewlist = "list:"
-    func findViewWithAVPlayerLayer(view: UIView) -> UIView? {
-    //if view.layer is AVPlayerLayer {}
-    if view.layer.isKind(of:AVPlayerLayer.self) {
-        lb.text! += " a1"
-        return view
+    //setAudioSession(options: [.mixWithOthers])
+    setAudioSession()
+    let isPlaying: Bool
+    if player?.timeControlStatus == .playing {
+      player?.pause()
+      isPlaying = false
+    } else {
+      if player?.currentItem == nil || player?.currentItem?.status == .failed || player?.currentItem?.error != nil {
+        let item = AVPlayerItem(url: streams[currentStreamIndex].url)
+        player?.replaceCurrentItem(with: item)
+      }
+      player?.play()
+      updateNowPlayingInfo()
+      isPlaying = true
     }
-    if let sublayers = view.layer.sublayers {
-    for layer in sublayers {
-    if !(layer is CALayer) {
-        viewlist = viewlist + " a2:\(layer)"
-        }
-    }
-}
-    for v in view.subviews {
-    if !(v.layer is CALayer) {
-        viewlist = viewlist + " a3:\(v.layer)"
-        }
-        if let found = findViewWithAVPlayerLayer(view: v) {
-            lb.text! += " a4"
-            return found
-        }
-    }
-    return nil
-}
-    if let viewWithAVPlayerLayer = findViewWithAVPlayerLayer(view: self.view) {
-      lb.text! += " aX"
-    }
-    showAlert(viewlist)*/
+    
+    navUrlArray = Array(navUrlArray.suffix(20))
+    navUrlArray = navUrlArray.map { String($0.prefix(60)) }
+    let navlist = navUrlArray.isEmpty ? "isEmpty" : "\n\n" + navUrlArray.reversed().joined(separator: "\n\n")
     
     let deviceToken = delegate.sesscat
     lb.text! += " \(deviceToken)"
@@ -1332,7 +1233,6 @@ navlist(last20): \(navlist)
               self.showAlert(type: "prompt", title: "Alert4", "How do you want to die?", input: "accident or \(streams[currentStreamIndex].name)", defaultButton: 0) { (response, _) in
                 self.lb.text! += " RES:\(response ?? "nil")"
                 if response != nil {
-                  //self.showAlert(style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive], defaultButton: 0)
                   self.showAlert(type: "confirm", style: .actionSheet, title: nil, "2nd", buttonStyles: [.destructive, .cancel], defaultButton: 0, disableHaptic: true, autoDismissAfter: 5)
                 }
               }
@@ -1583,7 +1483,6 @@ navlist(last20): \(navlist)
       self.editButtonClicked(url: self.array[indexPath.row])
     }
     edit.backgroundColor = .appBgColor
-    //edit.backgroundColor = editButtonBgColor
     let dev = UIContextualAction(style: .normal, title: "Dev") { (action, view, bool) in
       self.devButtonClicked(url: self.array[indexPath.row])
     }
@@ -1601,21 +1500,10 @@ navlist(last20): \(navlist)
   }
   
   @objc func editButtonClicked(url: String) {
-    //urlField.endEditing(true)
+    urlField.endEditing(true) //?
     moverIndex = array.firstIndex(of: url)!
     tableView.reloadData()
     tableView.isEditing = true
-    //if #available(iOS 11, *) {
-      /*if editButtonBgColor == .appBgColor {
-        resetContentRuleList()
-        editButtonBgColor = .gray
-      } else {
-        setupContentBlockFromStringLiteral() { }
-        setupContentBlockFromFile() { }
-        editButtonBgColor = .appBgColor
-      }*/
-    //}
-    //showAlert("E:\(url)")
   }
   
   @objc func devButtonClicked(url: String) {
@@ -1898,8 +1786,6 @@ navlist(last20): \(navlist)
         textField.selectedTextRange = nil
         button.removeFromSuperview()
         textField.frame.size.width = view.frame.width - insetLM - insetRM
-        //progressView.frame.size.width += 85
-        
         if textField.text == webView.url!.absoluteString {
           setUrlFieldColor()
         }
@@ -2120,15 +2006,6 @@ navlist(last20): \(navlist)
             }
           }
         }
-        /*if alert.preferredStyle == .actionSheet, let presentedView = alert.popoverPresentationController?.presentedView {
-          let screenWidth = self.view.bounds.width
-          let dynamicWidth = screenWidth * 0.85
-          let finalWidth = min(max(dynamicWidth, 300), 450)
-          let widthConstraint = presentedView.widthAnchor.constraint(equalToConstant: finalWidth)
-          widthConstraint.priority = UILayoutPriority(999)
-          widthConstraint.isActive = true
-          presentedView.superview?.layoutIfNeeded()
-        }*/
       }
     }
   }
@@ -2207,43 +2084,12 @@ navlist(last20): \(navlist)
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     
-    
-    /*if let alert = presentedViewController as? UIAlertController,
-       alert.preferredStyle == .actionSheet,
-       let presentedView = alert.popoverPresentationController?.presentedView {
-        let targetWidth = min(max(view.bounds.width * 0.85, 300), 450)
-        if !presentedView.constraints.contains(where: { $0.firstAttribute == .width }) {
-            let constraint = presentedView.widthAnchor.constraint(equalToConstant: targetWidth)
-            constraint.priority = UILayoutPriority(999)
-            constraint.isActive = true
-        }
-    }*/
-    
-    
     var deviceOrientation = "pt"
     if (view.frame.width > view.frame.height) {
       deviceOrientation = "ls"
     }
     
     if !(deviceOrientation == lastDeviceOrientation) {
-      
-      /*let defaultM: CGFloat = 5
-      let elementH: CGFloat = 30
-      let elementW: CGFloat = 80
-      let elementW2: CGFloat = 40
-      var insetTM: CGFloat = insetT
-      //var insetBM: CGFloat = insetB
-      var insetLM: CGFloat = insetL
-      var insetRM: CGFloat = insetR*/
-      
-      /*insetTM = insetT
-      //insetBM = insetB
-      insetLM = insetL
-      insetRM = insetR
-      if insetTM == 0 { insetTM = defaultM }
-      //if insetBM == 0 { insetBM = defaultM }
-      if insetLM == 0 { insetLM = defaultM }
-      if insetRM == 0 { insetRM = defaultM }*/
       
       insetTM = (insetT == 0) ? defaultM : insetT
       //insetBM = (insetB == 0) ? defaultM : insetB
