@@ -1270,7 +1270,7 @@ navlist(last20): \(navlist)
   
   var kvButton3Select1Toggle = "Off"
   @objc func kvButton3Clicked() {
-    showAlert(type: "select", style: .actionSheet, title: "Select", "How do you want to die?", buttonTitles: ["Turn Adblocker \(kvButton3Select1Toggle)", "Change UserAgent", "hi3", "Cancel"], disableHaptic: true, sourceID: "kvButton3Clicked-01") { [unowned self] (response, _) in
+    showAlert(type: "select", style: .actionSheet, title: "Select", "How do you want to die?", buttonTitles: ["Turn Adblocker \(kvButton3Select1Toggle)", "Change UserAgent", "YouTube", "Cancel"], disableHaptic: true, sourceID: "kvButton3Clicked-01") { [unowned self] (response, _) in
       if response as? Int == 1 {
         if kvButton3Select1Toggle == "Off" {
           resetContentRuleList()
@@ -1286,7 +1286,23 @@ navlist(last20): \(navlist)
         //showAlert("hi2")
       }
       if response as? Int == 3 {
-        showAlert("hi3")
+        webView.callAsyncJavaScript(JSInjections.UserActions.youtubeClearBuffer, arguments: [:], in: nil, contentWorld: .page) { [unowned self] result in
+          if case .failure(let error) = result {
+            let message = (error as NSError).userInfo["WKJavaScriptExceptionMessage"] as? String ?? error.localizedDescription
+            showAlert("Failed to clear YouTube buffer: \(message)")
+            return
+          }
+          webView.callAsyncJavaScript(JSInjections.UserActions.youtubeCaptureStream, arguments: [:], in: nil, contentWorld: .page) { [unowned self] result in
+            if case .failure(let error) = result {
+              let message = (error as NSError).userInfo["WKJavaScriptExceptionMessage"] as? String ?? error.localizedDescription
+              showAlert("YouTube stream capture failed: \(message)")
+              return
+            }
+            showAlert("YouTube stream captured successfully!")
+            //Successful capture: further processing follows here.
+          }
+        }
+        //showAlert("hi3")
       }
     }
   }
