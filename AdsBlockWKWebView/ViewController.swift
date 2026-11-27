@@ -1292,7 +1292,7 @@ navlist(last20): \(navlist)
             showAlert("Failed to clear YouTube buffer:\n\(message)")
             return
           }
-          DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [unowned self] in
+          DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [unowned self] in
             webView.callAsyncJavaScript(JSInjections.UserActions.youtubeCaptureStream, arguments: [:], in: nil, in: .page) { [unowned self] result in
               if case .failure(let error) = result {
                 let message = (error as NSError).userInfo["WKJavaScriptExceptionMessage"] as? String ?? error.localizedDescription
