@@ -22,7 +22,7 @@ enum JSInjections {
   }
   
   enum UserActions {
-    static let youtubeClearBuffer = """
+    /*static let youtubeClearBuffer = """
       let p = document.getElementById("movie_player"), v = p?.querySelector("video");
       if (!p || !v) throw Error("YouTube player not found");
       let tracks = [...(v.audioTracks || []), ...(v.videoTracks || [])], buffers = [...new Set(tracks.map(q => q.sourceBuffer).filter(Boolean))];
@@ -40,6 +40,31 @@ enum JSInjections {
             s.addEventListener("error", () => j(Error("remove error")), { once: true });
           });
           s.remove(...ranges[n]);
+          await done;
+        }
+      }
+    """*/
+    static let youtubeClearBuffer = """
+      let p = document.getElementById("movie_player"), v = p?.querySelector("video");
+      if (!p || !v) throw Error("YouTube player not found");
+      let currentTime = v.currentTime, cutoff = currentTime - 2;
+      if (!Number.isFinite(cutoff) || cutoff <= 0) throw Error("Playback position too close to the beginning");
+      let tracks = [...(v.audioTracks || []), ...(v.videoTracks || [])], buffers = [...new Set(tracks.map(q => q.sourceBuffer).filter(Boolean))];
+      if (!buffers.length) throw Error("No ManagedSourceBuffer found");
+      for (let s of buffers) {
+        if (s.updating) await new Promise((r, j) => {
+          s.addEventListener("updateend", r, { once: true });
+          s.addEventListener("error", () => j(Error("updateend error")), { once: true });
+        });
+        let ranges = Array.from({ length: s.buffered.length }, (_, n) => [s.buffered.start(n), s.buffered.end(n)]);
+        for (let n = ranges.length - 1; n >= 0; n--) {
+          let [start, end] = ranges[n], removeEnd = Math.min(end, cutoff);
+          if (start >= removeEnd) continue;
+          let done = new Promise((r, j) => {
+            s.addEventListener("updateend", r, { once: true });
+            s.addEventListener("error", () => j(Error("remove error")), { once: true });
+          });
+          s.remove(start, removeEnd);
           await done;
         }
       }
@@ -151,9 +176,9 @@ enum JSInjections {
         let player = document.getElementById("movie_player");
         if (!player) throw Error("YouTube player not found");
         
-        let videoElement = player.querySelector("video");
+        /*let videoElement = player.querySelector("video");
         videoElement.currentTime = videoElement.currentTime < videoElement.duration - 4 ? videoElement.currentTime + 1 : Math.max(0, videoElement.currentTime - 1);
-        await new Promise(r => setTimeout(r, 500));
+        await new Promise(r => setTimeout(r, 500));*/
         
         player.seekTo(0, true);
         player.playVideo();
