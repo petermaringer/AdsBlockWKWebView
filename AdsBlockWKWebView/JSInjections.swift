@@ -44,11 +44,44 @@ enum JSInjections {
         }
       }
     """*/
-    static let youtubeClearBuffer = """
+    /*static let youtubeClearBuffer = """
       let p = document.getElementById("movie_player"), v = p?.querySelector("video");
       if (!p || !v) throw Error("YouTube player not found");
       let currentTime = v.currentTime, cutoff = currentTime - 2;
       if (!Number.isFinite(cutoff) || cutoff <= 0) throw Error("Playback position too close to the beginning");
+      let tracks = [...(v.audioTracks || []), ...(v.videoTracks || [])], buffers = [...new Set(tracks.map(q => q.sourceBuffer).filter(Boolean))];
+      if (!buffers.length) throw Error("No ManagedSourceBuffer found");
+      for (let s of buffers) {
+        if (s.updating) await new Promise((r, j) => {
+          s.addEventListener("updateend", r, { once: true });
+          s.addEventListener("error", () => j(Error("updateend error")), { once: true });
+        });
+        let ranges = Array.from({ length: s.buffered.length }, (_, n) => [s.buffered.start(n), s.buffered.end(n)]);
+        for (let n = ranges.length - 1; n >= 0; n--) {
+          let [start, end] = ranges[n], removeEnd = Math.min(end, cutoff);
+          if (start >= removeEnd) continue;
+          let done = new Promise((r, j) => {
+            s.addEventListener("updateend", r, { once: true });
+            s.addEventListener("error", () => j(Error("remove error")), { once: true });
+          });
+          s.remove(start, removeEnd);
+          await done;
+        }
+      }
+    """*/
+    static let youtubeClearBuffer = """
+      let p = document.getElementById("movie_player"), v = p?.querySelector("video");
+      if (!p || !v) throw Error("YouTube player not found");
+      if (!Number.isFinite(v.currentTime)) throw Error("Invalid playback position");
+      if (v.currentTime <= 2) {
+        if (v.paused) p.playVideo();
+        let start = Date.now();
+        while (v.currentTime <= 2) {
+          if (Date.now() - start >= 15000) throw Error("Playback did not reach 2 seconds within 15 seconds");
+          await new Promise(r => setTimeout(r, 100));
+        }
+      }
+      let cutoff = v.currentTime - 2;
       let tracks = [...(v.audioTracks || []), ...(v.videoTracks || [])], buffers = [...new Set(tracks.map(q => q.sourceBuffer).filter(Boolean))];
       if (!buffers.length) throw Error("No ManagedSourceBuffer found");
       for (let s of buffers) {
