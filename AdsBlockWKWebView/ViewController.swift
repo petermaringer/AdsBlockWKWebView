@@ -1289,6 +1289,27 @@ navlist(last20): \(navlist)
         webView.callAsyncJavaScript(JSInjections.UserActions.youtubeClearBuffer, arguments: [:], in: nil, in: .page) { [unowned self] result in
           if case .failure(let error) = result {
             let message = (error as NSError).userInfo["WKJavaScriptExceptionMessage"] as? String ?? error.localizedDescription
+            showAlert("Failed to clear YouTube buffer:\n\(message)")
+            return
+          }
+          DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [unowned self] in
+            webView.callAsyncJavaScript(JSInjections.UserActions.youtubeCaptureStream, arguments: [:], in: nil, in: .page) { [unowned self] result in
+              if case .failure(let error) = result {
+                let message = (error as NSError).userInfo["WKJavaScriptExceptionMessage"] as? String ?? error.localizedDescription
+                showAlert("YouTube stream capture failed:\n\(message)")
+                return
+              }
+              showAlert("YouTube stream captured successfully!")
+              //Successful capture: further processing follows here.
+            }
+          }
+        }
+        //showAlert("hi3")
+      }
+      /*if response as? Int == 3 {
+        webView.callAsyncJavaScript(JSInjections.UserActions.youtubeClearBuffer, arguments: [:], in: nil, in: .page) { [unowned self] result in
+          if case .failure(let error) = result {
+            let message = (error as NSError).userInfo["WKJavaScriptExceptionMessage"] as? String ?? error.localizedDescription
             showAlert("Failed to clear YouTube buffer: \(message)")
             return
           }
@@ -1303,7 +1324,7 @@ navlist(last20): \(navlist)
           }
         }
         //showAlert("hi3")
-      }
+      }*/
     }
   }
   
