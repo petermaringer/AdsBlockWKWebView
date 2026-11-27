@@ -150,6 +150,11 @@ enum JSInjections {
         };
         let player = document.getElementById("movie_player");
         if (!player) throw Error("YouTube player not found");
+        
+        let video = player.querySelector("video");
+        video.currentTime = video.currentTime < video.duration - 4 ? video.currentTime + 1 : Math.max(0, video.currentTime - 1);
+        await new Promise(r => setTimeout(r, 500));
+        
         player.seekTo(0, true);
         player.playVideo();
         let fresh;
